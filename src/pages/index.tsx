@@ -230,7 +230,7 @@ const Home = ({ posts }: HomeProps) => {
                           [
                             <>
                               Improved the desktop search experience by
-                              developing the new typeahead search component
+                              developing a new typeahead search component
                               written in Vue.js and TypeScript. Increased the
                               component's robustness by implementing synthetic
                               test telemetry to automatically measure the search
@@ -250,12 +250,15 @@ const Home = ({ posts }: HomeProps) => {
                           [
                             <>
                               Optimized article readability, accessibility, and
-                              perceived performance by developing a new layout
+                              perceived performance by developing a{" "}
+                              <a href="https://www.mediawiki.org/wiki/Reading/Web/Desktop_Improvements/Features/Limiting_content_width">
+                                new layout
+                              </a>
                               for the desktop site which heavily refactored the
-                              DOM and featured a narrower and optimal line
-                              length for reading. The new layout was one of the
-                              most dramatic visual changes to the desktop site
-                              in over a decade!
+                              DOM and featured an optimal line length for
+                              reading. The new layout was one of the most
+                              dramatic visual changes to the desktop site in
+                              over a decade!
                             </>,
 
                             <Image
