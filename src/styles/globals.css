@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --header-height: 7.5rem; /* 120px */
+  --round-section-divider-height: 2vw;
+}
+
+#__next {
+  height: 100vh;
+}
+
+.prose {
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply -ml-8 pl-8;
+
+    &:hover .heading-link {
+      @apply opacity-100;
+    }
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-purple-500 to-pink-400 bg-clip-text text-transparent;
+  }
+
+  .link-underline {
+    position: relative;
+    text-decoration: none !important;
+    white-space: nowrap;
+  }
+
+  .link-underline::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    height: 2px;
+    width: 100%;
+    transform: scaleX(0);
+    transition: transform 250ms ease-out;
+    transform-origin: left;
+  }
+
+  .link-underline:hover::after {
+    background-color: currentColor;
+    transform: scalex(1);
+  }
+}
