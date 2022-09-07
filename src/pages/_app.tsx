@@ -21,7 +21,7 @@ function App({ Component, pageProps }: AppProps) {
           site_name: title,
         }}
       />
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </>
   );
 }
