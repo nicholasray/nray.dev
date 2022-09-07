@@ -51,7 +51,7 @@ const HamburgerMenu = ({ items, className }: HamburgerMenuProps) => {
                 leaveFrom="translate-x-0"
                 leaveTo="translate-x-full"
               >
-                <Dialog.Panel className="h-full w-80 rounded bg-gray-800 p-3 shadow-lg">
+                <Dialog.Panel className="h-full w-80 max-w-[calc(100vw-56px)] rounded bg-gray-800 p-3 shadow-lg">
                   <ul>
                     {items.map(([component, url]) => (
                       <li key={url}>
