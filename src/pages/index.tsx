@@ -134,8 +134,8 @@ const Home = ({ posts }: HomeProps) => {
                     <Paragraph className="text-center">
                       Specializing in frontend web development, I use
                       JavaScript, Node.js, TypeScript, HTML, CSS, and React to
-                      make websites and apps that are performant, accessible,
-                      visually pleasing, and delightful to use.
+                      make websites and apps focused on performance,
+                      accessibility, and a delightful user experience.
                     </Paragraph>
                   </div>
                   <ul className="mt-12 grid grid-cols-2 justify-items-center gap-10 sm:mt-20 md:grid-cols-3 lg:flex lg:justify-between">
@@ -191,10 +191,10 @@ const Home = ({ posts }: HomeProps) => {
                             <span className="text-gradient">Wikipedia</span>
                           </H2>
                           <Paragraph color="lightGray">
-                            Since 2018, I’ve developed features for Wikipedia's
-                            desktop and mobile sites that are used by millions
-                            of users every day across the world in over 300
-                            different languages.
+                            Since 2018, I’ve had the privilege of developing
+                            features for Wikipedia's desktop and mobile sites
+                            which are used by millions of users every day across
+                            the world in over 300 different languages.
                           </Paragraph>
                           <a
                             className="group mt-8 inline-flex h-9 items-center rounded-full bg-gray-700 px-3 text-gray-200 hover:text-gray-100"
