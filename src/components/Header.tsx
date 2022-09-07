@@ -7,6 +7,7 @@ import HamburgerMenu from "./HamburgerMenu";
 const Header = () => {
   const items: [string | JSX.Element, string][] = [
     ["Blog", "/#blog"],
+    ["Resume", "/resume.pdf"],
     ["Contact", "/contact"],
     [
       <div key="github">
