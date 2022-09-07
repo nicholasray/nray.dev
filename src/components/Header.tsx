@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <ViewportPadding
       as="header"
-      className="relative z-10 flex h-[var(--header-height)] items-center justify-between font-semibold text-gray-200"
+      className="z-100 relative flex h-[var(--header-height)] items-center justify-between font-semibold text-gray-200"
     >
       <div>
         <Link href="/">
@@ -46,7 +46,7 @@ const Header = () => {
             ))}
           </ul>
         </nav>
-        <HamburgerMenu items={items} />
+        <HamburgerMenu className="md:hidden" items={items} />
       </div>
     </ViewportPadding>
   );

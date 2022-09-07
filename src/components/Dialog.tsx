@@ -1,7 +1,6 @@
 import { createContext, useContext } from "react";
 import { useMemo } from "react";
 import { ComponentPropsWithoutRef, useEffect, useRef } from "react";
-import { createPortal } from "react-dom";
 
 interface PanelContextInterface {
   onClose: () => void;
@@ -21,11 +20,10 @@ const DialogRoot = ({ onClose, ...props }: DialogProps) => {
     [onClose]
   );
 
-  return createPortal(
+  return (
     <PanelContext.Provider value={value}>
       <div {...props} />
-    </PanelContext.Provider>,
-    document.body
+    </PanelContext.Provider>
   );
 };
 
