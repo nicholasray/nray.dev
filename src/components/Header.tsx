@@ -32,8 +32,8 @@ const Header = () => {
         </Link>
       </div>
       <div className="flex items-center">
-        <nav>
-          <ul className="hidden items-center gap-x-8 md:flex">
+        <nav className="hidden md:block">
+          <ul className="flex items-center gap-x-8">
             {items.map(([component, url]) => (
               <li key={url}>
                 <a
