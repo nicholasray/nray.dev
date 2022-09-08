@@ -39,7 +39,7 @@ const Home = ({ posts }: HomeProps) => {
       <NextSeo canonical={url} />
       <Layout>
         <main className="bg-white">
-          <section className="relative overflow-hidden bg-gray-900 pt-10 md:h-[calc(100vh-var(--header-height)-48px)] md:min-h-[45rem] lg:pt-0">
+          <section className="relative -mt-px overflow-hidden bg-gray-900 pt-10 md:h-[calc(100vh-var(--header-height)-48px)] md:min-h-[45rem] lg:pt-0">
             <ViewportPadding className="h-full lg:pb-[calc(var(--header-height)+var(--round-section-divider-height))]">
               <Container className="flex h-full flex-col lg:grid lg:grid-cols-2 lg:items-center lg:gap-14">
                 <div className="relative z-10 text-center md:text-left">
