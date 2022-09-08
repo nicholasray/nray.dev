@@ -21,7 +21,7 @@ const Header = () => {
   return (
     <ViewportPadding
       as="header"
-      className="z-100 relative flex h-[var(--header-height)] items-center justify-between font-semibold text-gray-200"
+      className="z-100 relative flex h-[var(--header-height)] items-center justify-between bg-gray-900 font-semibold text-gray-200"
     >
       <div>
         <Link href="/">
