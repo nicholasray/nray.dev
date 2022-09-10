@@ -1,7 +1,6 @@
 import Image from "next/future/image";
 import Layout from "../components/Layout";
-import { compareDesc } from "date-fns";
-import { allPosts, Post } from "contentlayer/generated";
+import { Post } from "contentlayer/generated";
 import rocket from "../../public/rocket.png";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
 import { LockClosedIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
@@ -26,6 +25,7 @@ import Link from "next/link";
 import Cta from "src/components/Cta";
 import constants, { screens } from "../lib/constants";
 import { NextSeo } from "next-seo";
+import { allPosts } from "src/lib/api";
 
 interface HomeProps {
   posts: Post[];
@@ -381,15 +381,16 @@ const Home = ({ posts }: HomeProps) => {
                                 >
                                   {post.title}
                                 </h3>
-                                <p
+                                <div
                                   className={clsx([
                                     "mb-4",
                                     "font-medium",
                                     { "md:mb-8 md:text-lg": idx === 0 },
                                   ])}
-                                >
-                                  {post.description}
-                                </p>
+                                  dangerouslySetInnerHTML={{
+                                    __html: post.description.html,
+                                  }}
+                                />
                                 <footer>
                                   <time
                                     dateTime={post.publishedAt}
@@ -417,25 +418,9 @@ const Home = ({ posts }: HomeProps) => {
 };
 
 export async function getStaticProps() {
-  const posts = allPosts
-    .filter((post) => post.status === "published")
-    .sort((a, b) => {
-      return compareDesc(new Date(a.publishedAt), new Date(b.publishedAt));
-    })
-    .slice(0, 4)
-    // Only pass data that the client actually uses.
-    .map((post) => ({
-      description: post.description,
-      publishedAt: post.publishedAt,
-      publishedAtFormatted: post.publishedAtFormatted,
-      cover: post.cover,
-      url: post.url,
-      title: post.title,
-    }));
-
   return {
     props: {
-      posts,
+      posts: allPosts(['description', 'publishedAt', 'publishedAtFormatted', 'cover', 'url', 'title'], 3)
     },
   };
 }

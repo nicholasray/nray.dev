@@ -27,22 +27,21 @@ export const Post = defineDocumentType(() => ({
     },
     publishedAt: {
       type: "date",
-      required: true,
     },
     description: {
-      type: "string",
+      type: "markdown",
       required: true,
-    },
+    }
+  },
+  computedFields: {
     status: {
       type: "enum",
       options: ["draft", "published"],
-      required: true,
+      resolve: (post) => post.publishedAt ? "published" : "draft"
     },
-  },
-  computedFields: {
     publishedAtFormatted: {
       type: "string",
-      resolve: (post) => format(parseISO(post.publishedAt), "LLLL d, yyyy"),
+      resolve: (post) => post.publishedAt ? format(parseISO(post.publishedAt), "LLLL d, yyyy") : "",
     },
     url: {
       type: "string",

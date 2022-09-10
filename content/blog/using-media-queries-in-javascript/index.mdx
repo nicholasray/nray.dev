@@ -1,0 +1,28 @@
+---
+title: Using Media Queries in JavaScript
+coverFile: "cover.svg"
+description:
+  "Using media queries is very popular in CSS, but did you know they can also be
+  used in JavaScript? Instead of using `window.addEventListener('resize', ...)`,
+  consider using the `matchMedia` API."
+---
+
+Using media queries is very popular in CSS, but did you know they can also be
+used in JavaScript? Instead of attaching a resize event listener to `window`,
+consider using the more performant `matchMedia` API.
+
+```js
+// Set a media query in JavaScript.
+const mediaQuery = matchMedia('(min-width: 1000px)');
+// Listen to viewport width changes involving the above media query.
+mediaQuery.addEventListener('change', (e) => {
+  // Using `e.matches` is not prone to expensive style recalcs/layout that
+  // checking properties like `window.innerWidth`` might cause.
+  if (e.matches) {
+    // The viewport is >= 1000px wide.
+  } else {
+    // The viewport is < 1000px wide.
+  }
+
+}
+```

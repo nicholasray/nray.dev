@@ -1,6 +1,6 @@
 import Layout from "../../components/Layout";
 import React from "react";
-import { allPosts, Post } from "contentlayer/generated";
+import { Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import avatar from "../../../public/avatar.jpeg";
 import NextImage from "next/image";
@@ -10,6 +10,7 @@ import ViewportPadding from "src/components/ViewportPadding";
 import Cta from "src/components/Cta";
 import { NextSeo } from "next-seo";
 import constants from "src/lib/constants";
+import { allPosts } from "src/lib/api";
 
 interface PostProps {
   post: Post;
@@ -23,12 +24,12 @@ export default function PostLayout({ post }: PostProps) {
     <>
       <NextSeo
         title={post.title}
-        description={post.description}
+        description={post.description.raw}
         canonical={url}
         openGraph={{
           url,
           title: post.title,
-          description: post.description,
+          description: post.description.raw,
         }}
       />
       <Layout>
@@ -91,8 +92,7 @@ interface Params {
 }
 
 export async function getStaticPaths() {
-  const paths = allPosts
-    .filter((post) => post.status === "published")
+  const paths = allPosts(['status', 'url'])
     .map((post) => post.url);
 
   return {
@@ -102,28 +102,22 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: Params) {
-  const post = allPosts.find(
+  const post = allPosts(['title', 'description', 'publishedAt', 'publishedAtFormatted', 'readTime', 'url', 'body', '_raw']).find(
     (post) => post._raw.flattenedPath.split("/").pop() === params.slug
   );
+
 
   if (!post) {
     return;
   }
 
+  // Prevent `body.raw` from increasing the client JS payload.
+  post.body.raw = '';
+
   // Only pass data that the client actually uses.
   return {
     props: {
-      post: {
-        title: post.title,
-        description: post.description,
-        publishedAt: post.publishedAt,
-        publishedAtFormatted: post.publishedAtFormatted,
-        readTime: post.readTime,
-        url: post.url,
-        body: {
-          code: post.body.code,
-        },
-      },
+      post
     },
   };
 }

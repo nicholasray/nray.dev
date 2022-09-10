@@ -2,7 +2,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { DefaultSeo } from "next-seo";
 import constants from "src/lib/constants";
-const title = "Nick Ray - Frontend Developer";
+const title = "Nick Ray - Software Engineer";
 const description =
   "Learn Javascript, React, CSS and more frontend development from the portfolio site of Nick Ray.";
 
