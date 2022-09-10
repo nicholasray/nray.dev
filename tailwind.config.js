@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const defaultTheme = require("tailwindcss/defaultTheme");
-const constants = require("./src/lib/constants");
+const constants = require("./src/constants");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {

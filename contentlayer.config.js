@@ -1,13 +1,14 @@
+// eslint-disable-next-line import/no-unresolved
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import readingTime from "reading-time";
-import theme from "./src/lib/overnight.json";
+import theme from "./src/pages/blog/overnight.json";
 import rehypePrettyCode from "rehype-pretty-code";
-import remarkImages from "./src/lib/remarkImages";
-import remarkCoverImage from "./src/lib/remarkCoverImage";
+import remarkImages from "./src/remarkImages";
+import remarkCoverImage from "./src/remarkCoverImage";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import { getDestPath, getImageUrl, getSrcPath } from "./src/lib/imageUtils";
+import { getDestPath, getImageUrl, getSrcPath } from "./src/imageUtils";
 import { format, parseISO } from "date-fns";
 
 const CONTENT_DIR = "content";

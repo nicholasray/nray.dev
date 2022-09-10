@@ -9,8 +9,8 @@ import BlogImage from "src/components/BlogImage";
 import ViewportPadding from "src/components/ViewportPadding";
 import Cta from "src/components/Cta";
 import { NextSeo } from "next-seo";
-import constants from "src/lib/constants";
-import { allPosts } from "src/lib/api";
+import constants from "src/constants";
+import { allPosts } from "src/api";
 
 interface PostProps {
   post: Post;

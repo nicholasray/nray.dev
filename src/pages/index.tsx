@@ -23,9 +23,9 @@ import Container from "src/components/Container";
 import ViewportPadding, { Breakpoint } from "src/components/ViewportPadding";
 import Link from "next/link";
 import Cta from "src/components/Cta";
-import constants, { screens } from "../lib/constants";
+import constants, { screens } from "../constants";
 import { NextSeo } from "next-seo";
-import { allPosts } from "src/lib/api";
+import { allPosts } from "src/api";
 
 interface HomeProps {
   posts: Post[];
@@ -420,7 +420,17 @@ const Home = ({ posts }: HomeProps) => {
 export async function getStaticProps() {
   return {
     props: {
-      posts: allPosts(['description', 'publishedAt', 'publishedAtFormatted', 'cover', 'url', 'title'], 3)
+      posts: allPosts(
+        [
+          "description",
+          "publishedAt",
+          "publishedAtFormatted",
+          "cover",
+          "url",
+          "title",
+        ],
+        3
+      ),
     },
   };
 }
