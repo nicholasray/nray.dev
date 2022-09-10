@@ -92,8 +92,7 @@ interface Params {
 }
 
 export async function getStaticPaths() {
-  const paths = allPosts(['status', 'url'])
-    .map((post) => post.url);
+  const paths = allPosts(["status", "url"]).map((post) => post.url);
 
   return {
     paths,
@@ -102,22 +101,28 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }: Params) {
-  const post = allPosts(['title', 'description', 'publishedAt', 'publishedAtFormatted', 'readTime', 'url', 'body', '_raw']).find(
-    (post) => post._raw.flattenedPath.split("/").pop() === params.slug
-  );
-
+  const post = allPosts([
+    "title",
+    "description",
+    "publishedAt",
+    "publishedAtFormatted",
+    "readTime",
+    "url",
+    "body",
+    "_raw",
+  ]).find((post) => post._raw.flattenedPath.split("/").pop() === params.slug);
 
   if (!post) {
     return;
   }
 
   // Prevent `body.raw` from increasing the client JS payload.
-  post.body.raw = '';
+  post.body.raw = "";
 
   // Only pass data that the client actually uses.
   return {
     props: {
-      post
+      post,
     },
   };
 }
