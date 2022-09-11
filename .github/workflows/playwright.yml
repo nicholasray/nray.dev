@@ -15,8 +15,10 @@ jobs:
           node-version: "14.x"
       - name: Run docker
         run: docker run --rm --network host -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.25.0-focal /bin/bash -c "npm ci"
-      - name: Run docker
+      - name: Build
         run: docker run --rm --network host -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.25.0-focal /bin/bash -c "npm run build"
+      - name: Server
+        run: docker run --rm --network host -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.25.0-focal /bin/bash -c "npm run start -- -p 3000"
       - name: Run Playwright tests
         run: docker run --rm --network host -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.25.0-focal /bin/bash -c "npx playwright test"
       - name: Upload results
