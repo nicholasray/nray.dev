@@ -14,17 +14,10 @@ const scenarios = [
 ];
 
 for (const scenario of scenarios) {
-  test(scenario.label, async ({ page }, testInfo) => {
+  test(scenario.label, async ({ page }) => {
     await page.goto(scenario.path);
 
     await page.waitForLoadState("networkidle");
-    await page.screenshot({
-      fullPage: true,
-      path: `./tests/${scenario.label}-${testInfo.project.name.replace(
-        ":",
-        "-"
-      )}.png`,
-    });
     await expect(page).toHaveScreenshot({
       // fullPage: true,
     });
