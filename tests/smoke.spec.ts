@@ -17,6 +17,8 @@ for (const scenario of scenarios) {
   test(scenario.label, async ({ page }) => {
     await page.goto(scenario.path);
 
-    await expect(page).toHaveScreenshot();
+    await expect(page).toHaveScreenshot({
+      fullPage: true,
+    });
   });
 }
