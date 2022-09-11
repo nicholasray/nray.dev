@@ -54,74 +54,23 @@ const config: PlaywrightTestConfig = {
   /* Configure projects for major browsers */
   projects: [
     {
-      name: "2xl:Chrome",
+      name: "chromium",
       use: {
         ...devices["Desktop Chrome"],
-        viewport: {
-          width: 1536,
-          height: 900,
-        },
-      },
-    },
-    {
-      name: "xl:Chrome",
-      use: {
-        ...devices["Desktop Chrome"],
-        viewport: {
-          width: 1280,
-          height: 900,
-        },
-      },
-    },
-    {
-      name: "lg:Chrome",
-      use: {
-        ...devices["Desktop Chrome"],
-        viewport: {
-          width: 1024,
-          height: 900,
-        },
-      },
-    },
-    {
-      name: "md:Chrome",
-      use: {
-        ...devices["Desktop Chrome"],
-        viewport: {
-          width: 768,
-          height: 900,
-        },
-      },
-    },
-    {
-      name: "sm:Chrome",
-      use: {
-        ...devices["Desktop Chrome"],
-        viewport: {
-          width: 640,
-          height: 900,
-        },
-      },
-    },
-    {
-      name: "2xl:firefox",
-      use: {
-        ...devices["Desktop Firefox"],
-        viewport: {
-          width: 1536,
-          height: 900,
-        },
       },
     },
 
     {
-      name: "2xl:webkit",
+      name: "firefox",
+      use: {
+        ...devices["Desktop Firefox"],
+      },
+    },
+
+    {
+      name: "webkit",
       use: {
         ...devices["Desktop Safari"],
-        viewport: {
-          width: 1536,
-          height: 900,
-        },
       },
     },
   ],
