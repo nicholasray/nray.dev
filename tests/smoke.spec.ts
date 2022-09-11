@@ -21,7 +21,7 @@ for (const scenario of scenarios) {
     console.log("**************AFTER TIMEOUT");
     await page.screenshot({
       fullPage: true,
-      path: `./test-results/${scenario.label}-${testInfo.project.name}.png`,
+      path: `./tests/${scenario.label}-${testInfo.project.name}.png`,
     });
     await expect(page).toHaveScreenshot({
       fullPage: true,
