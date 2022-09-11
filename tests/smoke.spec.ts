@@ -17,9 +17,6 @@ for (const scenario of scenarios) {
   test(scenario.label, async ({ page }) => {
     await page.goto(scenario.path);
 
-    await page.waitForLoadState("networkidle");
-    await expect(page).toHaveScreenshot({
-      // fullPage: true,
-    });
+    await expect(page).toHaveScreenshot();
   });
 }
