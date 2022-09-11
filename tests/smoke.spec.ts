@@ -14,12 +14,15 @@ const scenarios = [
 ];
 
 for (const scenario of scenarios) {
-  test(scenario.label, async ({ page }) => {
+  test(scenario.label, async ({ page }, testInfo) => {
     await page.goto(scenario.path);
 
     await page.waitForLoadState("networkidle");
-    await page.waitForTimeout(10000);
     console.log("**************AFTER TIMEOUT");
+    await page.screenshot({
+      fullPage: true,
+      path: `./test-results/${scenario.label}-${testInfo.project.name}.png`,
+    });
     await expect(page).toHaveScreenshot({
       fullPage: true,
     });
