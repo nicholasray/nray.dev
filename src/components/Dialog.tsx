@@ -1,6 +1,11 @@
-import { createContext, useContext } from "react";
-import { useMemo } from "react";
-import { ComponentPropsWithoutRef, useEffect, useRef } from "react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  ComponentPropsWithoutRef,
+  useEffect,
+  useRef,
+} from "react";
 
 interface PanelContextInterface {
   onClose: () => void;

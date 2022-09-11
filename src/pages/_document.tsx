@@ -7,7 +7,9 @@ export default function Document() {
         <link rel="shortcut icon" href="/favicon.png" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=optional"
+          href={`https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=${
+            process.env.UI_TEST ? "block" : "optional"
+          }`}
         />
       </Head>
 

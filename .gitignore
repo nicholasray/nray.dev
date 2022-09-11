@@ -38,3 +38,6 @@ yarn-error.log*
 .contentlayer
 
 public/content
+/test-results/
+/playwright-report/
+/playwright/.cache/
