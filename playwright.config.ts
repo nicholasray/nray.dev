@@ -45,7 +45,7 @@ const config: PlaywrightTestConfig = {
     baseURL: BASE_URL,
   },
   webServer: {
-    command: `UI_TEST=true npm run build && npm run start -- -p ${PORT}`,
+    command: `UI_TEST=true npm run start -- -p ${PORT}`,
     url: BASE_URL,
     timeout: 120 * 1000,
     reuseExistingServer: !process.env.CI,
