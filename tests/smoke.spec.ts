@@ -18,10 +18,12 @@ for (const scenario of scenarios) {
     await page.goto(scenario.path);
 
     await page.waitForLoadState("networkidle");
-    console.log("**************AFTER TIMEOUT");
     await page.screenshot({
       fullPage: true,
-      path: `./tests/${scenario.label}-${testInfo.project.name}.png`,
+      path: `./tests/${scenario.label}-${testInfo.project.name.replace(
+        ":",
+        "-"
+      )}.png`,
     });
     await expect(page).toHaveScreenshot({
       fullPage: true,
