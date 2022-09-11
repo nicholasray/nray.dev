@@ -3,6 +3,11 @@ const { withContentlayer } = require("next-contentlayer");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withContentlayer({
+  experimental: {
+    images: {
+      allowFutureImage: true,
+    },
+  },
   reactStrictMode: false,
   swcMinify: true,
   webpack(config) {
