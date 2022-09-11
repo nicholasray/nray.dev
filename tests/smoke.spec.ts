@@ -26,7 +26,7 @@ for (const scenario of scenarios) {
       )}.png`,
     });
     await expect(page).toHaveScreenshot({
-      fullPage: true,
+      // fullPage: true,
     });
   });
 }
