@@ -1,4 +1,4 @@
-name: Blah
+name: Push
 
 on:
   push:
