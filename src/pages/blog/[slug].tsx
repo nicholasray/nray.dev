@@ -3,7 +3,7 @@ import React from "react";
 import { Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import avatar from "../../../public/avatar.jpeg";
-import NextImage from "next/image";
+import NextImage from "next/future/image";
 import styles from "./blog.module.css";
 import BlogImage from "src/components/BlogImage";
 import ViewportPadding from "src/components/ViewportPadding";
