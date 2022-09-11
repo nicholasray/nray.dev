@@ -14,17 +14,9 @@ jobs:
         with:
           node-version: "14.x"
       - name: Run docker
-        run: docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.25.0-focal
-        with:
-          args: npm ci
-      - name: Install Playwright Browsers
-        run: docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.25.0-focal
-        with:
-          args: npm run test:ui
+        run: docker run --rm --network host -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.25.0-focal /bin/bash -c "npm ci"
       - name: Run Playwright tests
-        run: docker run --rm --network host -v $(pwd):/work/ -w /work/ -it mcr.microsoft.com/playwright:v1.25.0-focal
-        with:
-          args: npm run test:ui
+        run: docker run --rm --network host -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.25.0-focal /bin/bash -c "npm run test:ui"
       - uses: actions/upload-artifact@v2
         if: always()
         with:
