@@ -9,7 +9,7 @@ jobs:
     name: "Playwright Tests"
     runs-on: ubuntu-latest
     container:
-      image: mcr.microsoft.com/playwright:v1.25.0-focal
+      image: mcr.microsoft.com/playwright:v1.25.2-focal
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v2
