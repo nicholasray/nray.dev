@@ -14,7 +14,13 @@ const Image = ({ src, caption, ...props }: ImageProps) => {
   return (
     <figure>
       <a href={src}>
-        <NextImage className="w-full" sizes="(min-width: 48rem) 48rem, 100vw" src={src} {...props} />
+        <NextImage
+          alt=""
+          className="w-full"
+          sizes="(min-width: 48rem) 48rem, 100vw"
+          src={src}
+          {...props}
+        />
       </a>
       {caption && <figcaption>{caption}</figcaption>}
     </figure>

@@ -14,7 +14,7 @@ jobs:
         with:
           node-version: "14.x"
       - name: Run docker
-        run: docker run --rm --network host -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.25.0-focal /bin/bash -c "npm ci && npx playwright test"
+        run: docker run --rm -it --network host -v $(pwd):/work/ -w /work/ mcr.microsoft.com/playwright:v1.25.0-focal /bin/bash -c "npm ci && npx playwright test"
       - name: Upload results
         uses: actions/upload-artifact@v2
         if: always()
