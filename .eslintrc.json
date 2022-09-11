@@ -19,8 +19,9 @@
   "rules": {
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "error",
+    "react/jsx-no-constructed-context-values": "error",
     "react/no-unescaped-entities": "off",
     "@next/next/no-img-element": "off",
-    "react/jsx-no-constructed-context-values": "error"
+    "import/no-named-as-default": "off"
   }
 }
