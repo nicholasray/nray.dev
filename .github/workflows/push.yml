@@ -1,4 +1,4 @@
-name: Push
+name: Push or PR workflow
 
 on:
   push:
