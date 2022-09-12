@@ -45,10 +45,11 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium, firefox, webkit]
-        os: [ubuntu-latest]
+        os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
     container:
       image: mcr.microsoft.com/playwright:v1.25.2-focal
+      options: --user 1001
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
