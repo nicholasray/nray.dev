@@ -2,6 +2,8 @@ import { test, expect } from "@playwright/test";
 
 test.describe.configure({ mode: "parallel" });
 
+const viewports = [640, 768, 1024, 1280, 1536];
+
 const scenarios = [
   {
     label: "Home Page",
@@ -14,12 +16,19 @@ const scenarios = [
 ];
 
 for (const scenario of scenarios) {
-  test(scenario.label, async ({ page }) => {
-    await page.goto(scenario.path);
-
-    await page.waitForLoadState("networkidle");
-    await expect(page).toHaveScreenshot({
-      fullPage: true,
+  for (const vw of viewports) {
+    test.use({
+      viewport: {
+        width: vw,
+        height: 1000,
+      },
     });
-  });
+
+    test(`${scenario.label}-${vw}`, async ({ page }) => {
+      await page.goto(scenario.path);
+
+      await page.waitForLoadState("networkidle");
+      await expect(page).toHaveScreenshot();
+    });
+  }
 }
