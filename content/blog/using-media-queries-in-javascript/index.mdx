@@ -1,28 +1,222 @@
 ---
 title: Using Media Queries in JavaScript
 coverFile: "cover.svg"
+publishedAt: "2022-09-12"
 description:
   "Using media queries is very popular in CSS, but did you know they can also be
   used in JavaScript? Instead of using `window.addEventListener('resize', ...)`,
-  consider using the `matchMedia` API."
+  consider using the more performant `matchMedia` API."
 ---
 
-Using media queries is very popular in CSS, but did you know they can also be
-used in JavaScript? Instead of attaching a resize event listener to `window`,
-consider using the more performant `matchMedia` API.
+Media queries in CSS are often used to change the styling or visibility of
+elements when the website is accessed with a particular device/environment or
+when the browser's viewport size or orientation changes. They are a vital part
+of any responsive web design.
+
+You may sometimes want to execute JavaScript code when a media query condition
+has been met. For example, maybe you want to run code when the viewport width is
+greater or equal to 1000px. The `resize` event is often used in this situation:
+
+```js
+window.addEventListener("resize", (e) => {
+  if (window.innerWidth >= 1000) {
+    // The viewport is greater or equal to 1000px.
+  }
+});
+```
+
+There are multiple problems with this approach, however:
+
+- It can be expensive. The event listener callback will be called **each time**
+  the browser's window is resized. As a result, it can fire at an extremely high
+  rate and make your website feel sluggish if your callback has expensive
+  operations.
+- It can become complex. To mitigate performance issues and reduce the frequency
+  that the code inside the event listener callback executes, a developer may use
+  debouncing or throttling. In addition, if you only want the code in the
+  callback to run when it **crosses** the breakpoint, you may have to introduce
+  some state that tracks if the viewport has already crossed a particular
+  breakpoint so that it doesn't fire multiple times.
+
+There must be a better way to execute some JavaScript code when the viewport
+crosses a particular breakpoint or meets a media query condition. Luckily,
+JavaScript has your back!
+
+## Using matchMedia() in JavaScript
+
+The `matchMedia` API is a performant and simple solution that should be
+considered when you want JavaScript code to execute when a media query status
+has changed.
 
 ```js
 // Set a media query in JavaScript.
-const mediaQuery = matchMedia('(min-width: 1000px)');
-// Listen to viewport width changes involving the above media query.
-mediaQuery.addEventListener('change', (e) => {
+const mediaQuery = matchMedia("(min-width: 1000px)");
+// Listen to viewport width changes involving the media query above.
+mediaQuery.addEventListener("change", (e) => {
   // Using `e.matches` is not prone to expensive style recalcs/layout that
-  // checking properties like `window.innerWidth`` might cause.
+  // checking properties like `window.innerWidth` might cause.
   if (e.matches) {
     // The viewport is >= 1000px wide.
   } else {
     // The viewport is < 1000px wide.
   }
+});
+```
 
+Unlike the `resize` event handler callback, the callback passed to
+`mediaQuery.addEventListener()` in the example above will only fire when a
+**change** in media query status has occurred. Because of this, we don't have to
+worry about using throttling or debouncing or keeping track of whether the code
+has already been executed for a given viewport state.
+
+## Using addListener to support older browsers.
+
+There is a caveat with this approach, though. Older browsers such as versions of
+Safari before version 14 implement an
+[older and now deprecated API](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList/addListener).
+They don't support `mediaQuery.addEventListener()` and will throw an error if
+used. Instead, they use `mediaQuery.addListener()` which has a slightly
+different call signature.
+
+Because of the differences in browser support, it is imperative to use
+[feature detection](https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Cross_browser_testing/Feature_detection)
+so that the widest range of browsers are supported:
+
+```js
+const mediaQuery = matchMedia("(min-width: 1000px)");
+
+const handler = (e) => {
+  // Using `e.matches` is not prone to expensive style recalcs/layout that
+  // checking properties like `window.innerWidth` might cause.
+  if (e.matches) {
+    // The viewport is >= 1000px wide.
+  } else {
+    // The viewport is < 1000px wide.
+  }
+};
+
+// If the browser supports the `addEventListener` API, the following line will
+// be truthy, so we use it. If not, it will be falsy, and we use the deprecated
+// `addListener` API.
+mediaQuery.addEventListener
+  ? mediaQuery.addEventListener("change", handler)
+  : mediaQuery.addListener(handler);
+```
+
+## Running code on page load
+
+The `matchMedia` API also supports querying the media query status. This can be
+important when setting up the page's initial state during page load, for
+example:
+
+```js
+// Set a media query in JavaScript.
+const mediaQuery = matchMedia("(min-width: 1000px)");
+// Check media query status.
+if (mediaQuery.matches) {
+  // The viewport is >= 1000px wide.
+} else {
+  // The viewport is < 1000px wide.
 }
 ```
+
+## Full solution
+
+The full native JavaScript solution will often look something like the
+following:
+
+```js
+// Set a media query in JavaScript.
+const mediaQuery = matchMedia("(min-width: 1000px)");
+
+// Listen to viewport width changes involving the media query above.
+const handler = (e) => {
+  // Using `e.matches` is not prone to expensive style recalcs/layout that
+  // checking properties like `window.innerWidth` might cause.
+  if (e.matches) {
+    // The viewport is >= 1000px wide.
+  } else {
+    // The viewport is < 1000px wide.
+  }
+};
+
+// If the browser supports the `addEventListener` API, the following line will
+// be truthy, so we use it. If not, it will be falsy, and we use the deprecated
+// `addListener` API.
+mediaQuery.addEventListener
+  ? mediaQuery.addEventListener("change", handler)
+  : mediaQuery.addListener(handler);
+
+// Check during page load.
+handler(mediaQuery);
+```
+
+## Using media queries in React
+
+The `matchMedia` API can also be a useful hook in React:
+
+```js
+import { useState, useEffect } from "react";
+
+function useMatchMedia(mediaQueryString) {
+  // Support isomorphic rendering by checking if `window` (clientside) exists.
+  // If not, then this code is probably being executed on the backend.
+  const mediaQuery =
+    typeof window !== "undefined" ? matchMedia(mediaQueryString) : false;
+  const [matches, setMatches] = useState(mediaQuery && mediaQuery.matches);
+
+  useEffect(() => {
+    if (!mediaQuery) {
+      return;
+    }
+
+    const handler = (e) => {
+      // Using `e.matches` is not prone to expensive style recalcs/layout that
+      // checking properties like `window.innerWidth` might cause.
+      if (e.matches) {
+        // The viewport is >= 1000px wide.
+        setMatches(true);
+      } else {
+        // The viewport is < 1000px wide.
+        setMatches(false);
+      }
+    };
+
+    // If the browser supports the `addEventListener` API, the following line will
+    // be truthy so we use it. If not, it will be falsy and we use the deprecated
+    // `addListener` API.
+    mediaQuery.addEventListener
+      ? mediaQuery.addEventListener("change", handler)
+      : mediaQuery.addListener(handler);
+
+    // Clean up event listener after this effect is no longer needed.
+    return () =>
+      mediaQuery.removeEventListener
+        ? mediaQuery.removeEventListener("change", handler)
+        : mediaQuery.removeListener(handler);
+  }, [mediaQueryString]);
+
+  return matches;
+}
+```
+
+Using the hook is then as simple as passing in the media query:
+
+```js
+function Box() {
+  const matches = useMatchMedia("(min-width: 1000px)");
+
+  return (
+    <div className="box">
+      {matches && ">= 1000px"}
+      {!matches && "< 1000px"}
+    </div>
+  );
+}
+```
+
+## Conclusion
+
+JavaScript's `matchMedia` API is a simple and performant way of detecting when a
+media query status change has occurred. Use it without the performance penalty
+of alternative solutions like listening to the `resize` event.
