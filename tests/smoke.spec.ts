@@ -3,7 +3,6 @@ import { test, expect } from "@playwright/test";
 test.describe.configure({ mode: "parallel" });
 
 const viewports = [640, 768, 1024, 1280, 1536];
-
 const scenarios = [
   {
     label: "Home Page",
