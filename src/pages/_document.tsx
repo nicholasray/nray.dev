@@ -5,12 +5,12 @@ export default function Document() {
     <Html lang="en">
       <Head>
         <link rel="shortcut icon" href="/favicon.png" />
-        {!process.env.UI_TEST && (
-          <link
-            rel="stylesheet"
-            href={`https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=optional`}
-          />
-        )}
+        <link
+          rel="stylesheet"
+          href={`https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=${
+            process.env.UI_TEST ? "swap" : "optional"
+          }`}
+        />
       </Head>
 
       <body className="bg-gray-900 text-gray-400 antialiased">
