@@ -67,6 +67,8 @@ jobs:
         browser: [chromium, firefox, webkit]
         os: [ubuntu-20.04]
     runs-on: ${{ matrix.os }}
+    container:
+      image: mcr.microsoft.com/playwright:v1.25.2-focal
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
