@@ -1,6 +1,6 @@
 import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
-const PORT = 3000;
+const PORT = 3001;
 const BASE_URL = `http://localhost:${PORT}`;
 
 /**
@@ -48,7 +48,7 @@ const config: PlaywrightTestConfig = {
     command: `UI_TEST=true npm run start -- -p ${PORT}`,
     url: BASE_URL,
     timeout: 120 * 1000,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
   },
 
   /* Configure projects for major browsers */
