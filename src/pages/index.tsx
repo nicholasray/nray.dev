@@ -52,14 +52,15 @@ const Home = ({ posts }: HomeProps) => {
                     I'm a senior software engineer living in Salt Lake City,
                     Utah.
                   </p>
-                  <Link href={posts[0].url}>
-                    <a
-                      className="
+                  <div className="relative inline-block">
+                    <div className="absolute inset-0 h-full w-full rounded-full border-[8px] border-transparent before:absolute before:inset-0 before:bg-gradient-to-r before:from-purple-600 before:to-[#c235ff] before:bg-clip-padding before:blur-[16px]"></div>
+                    <Link href={posts[0].url}>
+                      <a
+                        className="
                   relative 
                   z-10
                   inline-flex 
                   w-full 
-                  max-w-xl
                   items-center
                   justify-center
                   rounded-full 
@@ -69,28 +70,14 @@ const Home = ({ posts }: HomeProps) => {
                   text-lg 
                   font-semibold 
                   text-white 
-                  transition-transform 
-                  duration-300 
-                  before:absolute
-                  before:inset-0
-                  before:-z-10
-                  before:block
-                  before:border-[10px]
-                  before:border-transparent
-                  before:bg-gradient-to-r
-                  before:from-purple-600
-                  before:to-[#c235ff]
-                  before:bg-clip-padding
-                  before:blur-xl
-                  before:filter
-                  hover:-translate-y-[3px]
                   md:w-auto 
                   "
-                    >
-                      <BookOpenIcon className="mr-2 h-6 w-6" />
-                      Read latest blog post
-                    </a>
-                  </Link>
+                      >
+                        <BookOpenIcon className="mr-2 h-6 w-6" />
+                        Read latest blog post
+                      </a>
+                    </Link>
+                  </div>
                 </div>
                 <div className="relative z-10 mt-auto flex translate-y-[10%] justify-center pt-16 md:pt-20 lg:-mt-11 lg:translate-y-0 lg:pt-0">
                   <div className="max-w-[18rem] flex-grow md:max-w-[20rem] lg:block lg:max-w-[22rem]">
