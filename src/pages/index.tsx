@@ -196,8 +196,9 @@ const Home = ({ posts }: HomeProps) => {
                         {[
                           [
                             <>
-                              Reduced visual regressions and increased
-                              confidence in production releases by building a{" "}
+                              Working on reducing visual regressions and
+                              increasing confidence in production releases by
+                              building a{" "}
                               <a
                                 className="font-semibold text-purple-400"
                                 href="https://github.com/wikimedia/pixel"
