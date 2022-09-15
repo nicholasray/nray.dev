@@ -196,16 +196,16 @@ const Home = ({ posts }: HomeProps) => {
                         {[
                           [
                             <>
-                              Working on reducing visual regressions and
-                              increasing confidence in production releases by
-                              building a{" "}
+                              Building a{" "}
                               <a
                                 className="font-semibold text-purple-400"
                                 href="https://github.com/wikimedia/pixel"
                               >
                                 visual regression tool
                               </a>{" "}
-                              used to catch UI bugs before end users see them.
+                              used to catch UI bugs before end users see them
+                              and increase confidence during code review and in
+                              production releases.
                             </>,
                             <img
                               className="w-full"
