@@ -7,7 +7,8 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint --max-warnings 0",
-    "test": "npm -s run lint && tsc && UI_TEST=true npm run build && npm run test:ui",
+    "test": "npm run test:unit",
+    "test:unit": "jest --passWithNoTests",
     "test:ui": "npx playwright test",
     "test:ui:update": "npx playwright test --update-snapshots"
   },
@@ -46,11 +47,14 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^3.5.1",
     "eslint-plugin-import": "^2.26.0",
+    "jest": "^29.0.3",
+    "jest-environment-jsdom": "^29.0.3",
     "postcss": "^8.4.16",
     "pre-commit": "^1.2.2",
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
     "tailwindcss": "^3.1.8",
+    "ts-node": "^10.9.1",
     "typescript": "4.8.3",
     "vfile": "^5.3.4"
   }

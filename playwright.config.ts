@@ -13,7 +13,7 @@ const BASE_URL = `http://localhost:${PORT}`;
  * See https://playwright.dev/docs/test-configuration.
  */
 const config: PlaywrightTestConfig = {
-  testDir: "./tests",
+  testDir: "./tests/ui",
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
@@ -45,7 +45,7 @@ const config: PlaywrightTestConfig = {
     baseURL: BASE_URL,
   },
   webServer: {
-    command: `UI_TEST=true npm run start -- -p ${PORT}`,
+    command: `UI_TEST=true npm run build && UI_TEST=true npm run start -- -p ${PORT}`,
     url: BASE_URL,
     timeout: 120 * 1000,
     reuseExistingServer: false,
