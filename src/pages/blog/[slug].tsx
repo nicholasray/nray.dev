@@ -4,7 +4,7 @@ import { Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import avatar from "../../../public/avatar.jpeg";
 import NextImage from "next/future/image";
-import styles from "./blog.module.css";
+import styles from "../../styles/blog/blog.module.css";
 import BlogImage from "src/components/BlogImage";
 import ViewportPadding from "src/components/ViewportPadding";
 import Cta from "src/components/Cta";
