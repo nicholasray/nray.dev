@@ -13,7 +13,7 @@ interface HeadingProps {
   children: React.ReactNode;
 }
 
-function H2({
+function Heading({
   as: Component = "h2",
   className = "",
   color = "darkGray",
@@ -31,4 +31,4 @@ function H2({
   );
 }
 
-export default H2;
+export default Heading;

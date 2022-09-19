@@ -2,7 +2,7 @@ import Container from "./Container";
 import ViewportPadding from "./ViewportPadding";
 import RoundDivider from "../../public/round-divider.svg";
 import stackCloudImage from "../../public/stack-cloud.svg?url";
-import H2 from "./H2";
+import Heading from "./Heading";
 import Paragraph from "./Paragraph";
 import ButtonIconImage from "../../public/button-icon.svg";
 
@@ -36,10 +36,10 @@ const Cta = ({
               />
             </div>
             <div className="lg:col-start-1">
-              <H2 color="white">
+              <Heading color="white">
                 Become a better{" "}
                 <span className="text-gradient">frontend developer</span>
-              </H2>
+              </Heading>
               <Paragraph className="whitespace-pre-line" color="lightGray">
                 {description}
               </Paragraph>

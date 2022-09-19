@@ -18,7 +18,7 @@ import visualRegressionArtImage from "../../public/visual-regression-art.svg?url
 import gridImage from "../../public/grid.svg?url";
 import clsx from "clsx";
 import Paragraph from "src/components/Paragraph";
-import H2 from "src/components/H2";
+import Heading from "src/components/Heading";
 import Container from "src/components/Container";
 import ViewportPadding, { Breakpoint } from "src/components/ViewportPadding";
 import Link from "next/link";
