@@ -13,8 +13,7 @@
     "test:ui:update": "npx playwright test --update-snapshots"
   },
   "pre-commit": [
-    "test",
-    "test:ui"
+    "test"
   ],
   "dependencies": {
     "@heroicons/react": "^2.0.8",
