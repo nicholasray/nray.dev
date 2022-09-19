@@ -2,6 +2,23 @@ import { useState, useEffect } from "react";
 
 /**
  * @param query The media query to match against.
+ *
+ * @example
+ * ```jsx
+ * import React from 'react';
+ * import useMediaQuery from 'src/hooks/useMediaQuery';
+ *
+ * function Component() {
+ *   const matches = useMatchMedia("(min-width: 1000px)");
+ *
+ *   return (
+ *     <div>
+ *       {matches && ">= 1000px"}
+ *       {!matches && "< 1000px"}
+ *     </div>
+ *   );
+ * }
+ * ```
  */
 function useMediaQuery(query: string) {
   // Support isomorphic rendering by checking if `window` (clientside) exists.

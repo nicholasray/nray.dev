@@ -153,16 +153,19 @@ handler(mediaQuery);
 
 ## Using media queries in React
 
-The `matchMedia` API can also be a useful hook in React:
+The `matchMedia` API can also be a useful hook in React. Here it is with
+typescript:
 
-```js
+```ts
 import { useState, useEffect } from "react";
 
-function useMatchMedia(mediaQueryString) {
+/**
+ * @param query The media query to match against.
+ */
+function useMediaQuery(query: string) {
   // Support isomorphic rendering by checking if `window` (clientside) exists.
   // If not, then this code is probably being executed on the backend.
-  const mediaQuery =
-    typeof window !== "undefined" ? matchMedia(mediaQueryString) : false;
+  const mediaQuery = typeof window !== "undefined" ? matchMedia(query) : false;
   const [matches, setMatches] = useState(mediaQuery && mediaQuery.matches);
 
   useEffect(() => {
@@ -170,9 +173,14 @@ function useMatchMedia(mediaQueryString) {
       return;
     }
 
-    const handler = (e) => {
-      // Using `e.matches` is not prone to expensive style recalcs/layout that
-      // checking properties like `window.innerWidth` might cause.
+    const handler = (e: MediaQueryListEvent) => {
+      /**
+       * Using `e.matches` is more performant than checking properties like
+       * `window.innerWidth` which are prone to causing expensive style
+       * recalcs/layout operations.
+       *
+       * @see https://gist.github.com/paulirish/5d52fb081b3570c81e3a
+       */
       if (e.matches) {
         // The viewport is >= 1000px wide.
         setMatches(true);
@@ -194,20 +202,25 @@ function useMatchMedia(mediaQueryString) {
       mediaQuery.removeEventListener
         ? mediaQuery.removeEventListener("change", handler)
         : mediaQuery.removeListener(handler);
-  }, [mediaQueryString]);
+    // Don't change when the mediaQuery reference changes as we only use that on
+    // the first render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query]);
 
   return matches;
 }
+
+export default useMediaQuery;
 ```
 
 Using the hook is then as simple as passing in the media query:
 
 ```js
-function Box() {
+function Component() {
   const matches = useMatchMedia("(min-width: 1000px)");
 
   return (
-    <div className="box">
+    <div>
       {matches && ">= 1000px"}
       {!matches && "< 1000px"}
     </div>
