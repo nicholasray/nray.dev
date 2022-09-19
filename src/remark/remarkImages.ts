@@ -1,6 +1,6 @@
 import { visit } from "unist-util-visit";
 import sizeOf from "image-size";
-import { copyIfUpdated, getDestPath, getSrcPath } from "./imageUtils";
+import { copyIfUpdated, getDestPath, getSrcPath } from "../imageUtils";
 
 const PUBLIC_DIR = "public";
 const ROOT_PATH = process.cwd();

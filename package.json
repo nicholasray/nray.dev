@@ -7,14 +7,11 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "next lint --max-warnings 0",
-    "test": "npm run test:unit",
+    "test": "npm run lint && npm run test:unit",
     "test:unit": "jest --passWithNoTests",
     "test:ui": "npx playwright test",
     "test:ui:update": "npx playwright test --update-snapshots"
   },
-  "pre-commit": [
-    "test"
-  ],
   "dependencies": {
     "@heroicons/react": "^2.0.8",
     "clsx": "^1.2.1",
