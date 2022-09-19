@@ -1,10 +1,9 @@
 // eslint-disable-next-line import/no-unresolved
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import readingTime from "reading-time";
-import theme from "./src/pages/blog/overnight.json";
+import theme from "./src/syntax/overnight.json";
 import rehypePrettyCode from "rehype-pretty-code";
-import remarkImages from "./src/remarkImages";
-import remarkCoverImage from "./src/remarkCoverImage";
+import { remarkImages, remarkCoverImage } from "./src/remark";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -32,17 +31,20 @@ export const Post = defineDocumentType(() => ({
     description: {
       type: "markdown",
       required: true,
-    }
+    },
   },
   computedFields: {
     status: {
       type: "enum",
       options: ["draft", "published"],
-      resolve: (post) => post.publishedAt ? "published" : "draft"
+      resolve: (post) => (post.publishedAt ? "published" : "draft"),
     },
     publishedAtFormatted: {
       type: "string",
-      resolve: (post) => post.publishedAt ? format(parseISO(post.publishedAt), "LLLL d, yyyy") : "",
+      resolve: (post) =>
+        post.publishedAt
+          ? format(parseISO(post.publishedAt), "LLLL d, yyyy")
+          : "",
     },
     url: {
       type: "string",
