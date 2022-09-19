@@ -12,6 +12,9 @@ module.exports = {
   theme: {
     screens: constants.screens,
     extend: {
+      transitionProperty: {
+        performant: "opacity, transform",
+      },
       keyframes: {
         "transform-zero": {
           "100%": { transform: "translate(0)", opacity: 1 },

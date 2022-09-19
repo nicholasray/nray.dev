@@ -26,10 +26,56 @@ import Cta from "src/components/Cta";
 import constants, { screens } from "../constants";
 import { NextSeo } from "next-seo";
 import { allPosts } from "src/api";
+import useIntersectionObserver from "src/hooks/useIntersectionObserver";
 
 interface HomeProps {
   posts: Post[];
 }
+
+interface TimelinePointProps {
+  image: React.ReactNode;
+  description: React.ReactNode;
+  hasFade: boolean;
+}
+
+const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
+  const [ref, entry] = useIntersectionObserver({ threshold: 0.35 });
+
+  const shouldTransform: boolean =
+    !entry || (!entry.isIntersecting && !!(entry.boundingClientRect?.top > 0));
+
+  return (
+    <div ref={ref} className="md:grid md:grid-cols-2 md:items-center md:gap-16">
+      <div className="relative">
+        <div className="absolute left-0 top-0 -my-px ml-px -translate-x-1/2 bg-gray-900 p-2">
+          <div className="h-3 w-3 rounded-full border-2 border-gray-400"></div>
+        </div>
+        <p
+          className={clsx("max-w-xl px-6 transition-performant duration-500", {
+            "motion-safe:-translate-x-4 motion-safe:opacity-0": shouldTransform,
+          })}
+        >
+          {description}
+        </p>
+      </div>
+      <div
+        className={clsx(
+          "relative mx-6 mt-8 flex max-w-xl justify-center overflow-hidden rounded-2xl bg-white px-4 pt-6 shadow-xl transition-performant duration-500 md:mx-0 md:mt-0 md:w-[117%]",
+          { "pb-6": !hasFade },
+          {
+            "motion-safe:translate-x-1/3 motion-safe:scale-90 motion-safe:opacity-60":
+              shouldTransform,
+          }
+        )}
+      >
+        {image}
+        {hasFade && (
+          <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent pb-[15%]"></div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Home = ({ posts }: HomeProps) => {
@@ -115,9 +161,9 @@ const Home = ({ posts }: HomeProps) => {
                         ></Image>
                       </div>
                     </div>
-                    <H2 className="text-center">
+                    <Heading className="text-center">
                       8+ years of web development experience
-                    </H2>
+                    </Heading>
                     <Paragraph className="text-center">
                       Specializing in frontend web development, I use
                       JavaScript, Node.js, TypeScript, HTML, CSS, and React to
@@ -148,7 +194,7 @@ const Home = ({ posts }: HomeProps) => {
                 </Container>
               </ViewportPadding>
             </section>
-            <section className="text-gray-700">
+            <section className="overflow-hidden pt-3 text-gray-700">
               <ViewportPadding breakpoint={Breakpoint.md}>
                 <Container>
                   <div className="grid grid-cols-12">
@@ -173,10 +219,10 @@ const Home = ({ posts }: HomeProps) => {
                       </div>
                       <div className="col-span-9 col-start-2 mb-20 flex justify-center pl-1">
                         <div className="max-w-xl text-center">
-                          <H2 color="white">
+                          <Heading color="white">
                             Currently working at{" "}
                             <span className="text-gradient">Wikipedia</span>
-                          </H2>
+                          </Heading>
                           <Paragraph color="lightGray">
                             Since 2018, I’ve had the privilege of developing
                             features for Wikipedia's desktop and mobile sites
@@ -194,93 +240,89 @@ const Home = ({ posts }: HomeProps) => {
                       </div>
                       <ul className="col-span-10 col-start-2 space-y-20 md:space-y-32">
                         {[
-                          [
-                            <>
-                              Building a{" "}
-                              <a
-                                className="font-semibold text-purple-400"
-                                href="https://github.com/wikimedia/pixel"
-                              >
-                                visual regression tool
-                              </a>{" "}
-                              used to catch UI bugs before end users see them
-                              and increase confidence during code review and in
-                              production releases.
-                            </>,
-                            <img
-                              className="w-full"
-                              src={visualRegressionArtImage}
-                              alt="visual regression testing abstract art"
-                              key="visual-regression"
-                            />,
-                            false,
-                          ],
-                          [
-                            <>
-                              Improved the desktop search experience by
-                              developing a new typeahead search component
-                              written in Vue.js and TypeScript. Increased the
-                              component's robustness by implementing synthetic
-                              test telemetry to automatically measure the search
-                              component’s rendering performance.
-                            </>,
-                            <Image
-                              key="typeahead-search"
-                              className="w-full"
-                              sizes={`(min-width: ${screens.md}) ${
-                                545 / 16
-                              }rem, 75vw`}
-                              src={typeaheadImage}
-                              alt="Wikipedia's typeahead search component"
-                            />,
-                            true,
-                          ],
-                          [
-                            <>
-                              Optimized article readability, accessibility, and
-                              perceived performance by developing a{" "}
-                              <a href="https://www.mediawiki.org/wiki/Reading/Web/Desktop_Improvements/Features/Limiting_content_width">
-                                new layout
-                              </a>
-                              for the desktop site which heavily refactored the
-                              DOM and featured an optimal line length for
-                              reading. The new layout was one of the most
-                              dramatic visual changes to the desktop site in
-                              over a decade!
-                            </>,
-
-                            <Image
-                              key="wikipedia-layout"
-                              className="w-full"
-                              sizes={`(min-width: ${screens.md}) ${
-                                545 / 16
-                              }rem, 75vw`}
-                              src={layoutImage}
-                              alt="Wikipedia's new site max-width site layout"
-                            />,
-                            true,
-                          ],
-                        ].map(([description, component, hasFade], idx) => (
+                          <TimelinePoint
+                            key="visual-regression"
+                            description={
+                              <>
+                                Building a{" "}
+                                <a
+                                  className="font-semibold text-purple-400"
+                                  href="https://github.com/wikimedia/pixel"
+                                >
+                                  visual regression tool
+                                </a>{" "}
+                                used to catch UI bugs before end users see them
+                                and increase confidence during code review and
+                                in production releases.
+                              </>
+                            }
+                            image={
+                              <img
+                                className="w-full"
+                                src={visualRegressionArtImage}
+                                alt="visual regression testing abstract art"
+                                key="visual-regression"
+                              />
+                            }
+                            hasFade={false}
+                          />,
+                          <TimelinePoint
+                            key="search"
+                            description={
+                              <>
+                                Improved the desktop search experience by
+                                developing a new typeahead search component
+                                written in Vue.js and TypeScript. Increased the
+                                component's robustness by implementing synthetic
+                                test telemetry to automatically measure the
+                                search component’s rendering performance.
+                              </>
+                            }
+                            image={
+                              <Image
+                                key="typeahead-search"
+                                className="w-full"
+                                sizes={`(min-width: ${screens.md}) ${
+                                  545 / 16
+                                }rem, 75vw`}
+                                src={typeaheadImage}
+                                alt="Wikipedia's typeahead search component"
+                              />
+                            }
+                            hasFade={true}
+                          />,
+                          <TimelinePoint
+                            key="layout"
+                            description={
+                              <>
+                                Optimized article readability, accessibility,
+                                and perceived performance by developing a{" "}
+                                <a href="https://www.mediawiki.org/wiki/Reading/Web/Desktop_Improvements/Features/Limiting_content_width">
+                                  new layout
+                                </a>
+                                for the desktop site which heavily refactored
+                                the DOM and featured an optimal line length for
+                                reading. The new layout was one of the most
+                                dramatic visual changes to the desktop site in
+                                over a decade!
+                              </>
+                            }
+                            image={
+                              <Image
+                                key="wikipedia-layout"
+                                className="w-full"
+                                sizes={`(min-width: ${screens.md}) ${
+                                  545 / 16
+                                }rem, 75vw`}
+                                src={layoutImage}
+                                alt="Wikipedia's new site max-width site layout"
+                              />
+                            }
+                            hasFade={true}
+                          />,
+                        ].map((component, idx) => (
                           <li key={idx} className="text-lg">
-                            <div className="md:grid md:grid-cols-2 md:items-center md:gap-16">
-                              <div className="relative ">
-                                <div className="absolute left-0 top-0 -my-px ml-px -translate-x-1/2 bg-gray-900 p-2">
-                                  <div className="h-3 w-3 rounded-full border-2 border-gray-400"></div>
-                                </div>
-                                <p className="max-w-xl px-6">{description}</p>
-                              </div>
-                              <div
-                                className={clsx(
-                                  "relative mx-6 mt-8 flex max-w-xl justify-center overflow-hidden rounded-2xl bg-white px-4 pt-6 shadow-xl md:mx-0 md:mt-0 md:w-[117%]",
-                                  { "pb-6": !hasFade }
-                                )}
-                              >
-                                {component}
-                                {hasFade && (
-                                  <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-white to-transparent pb-[15%]"></div>
-                                )}
-                              </div>
-                            </div>
+                            {component}
                           </li>
                         ))}
                       </ul>
@@ -292,10 +334,10 @@ const Home = ({ posts }: HomeProps) => {
             <section id="blog" className="text-gray-700">
               <ViewportPadding>
                 <Container>
-                  <H2 color="darkGray">
+                  <Heading color="darkGray">
                     Want to improve your{" "}
                     <span className="text-gradient">frontend skills?</span>
-                  </H2>
+                  </Heading>
                   <Paragraph>
                     I recently started a blog where I share what I’ve learned
                     about JavaScript, CSS, and the rest of the frontend
