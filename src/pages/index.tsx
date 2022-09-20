@@ -343,7 +343,7 @@ const Home = ({ posts }: HomeProps) => {
                     about JavaScript, CSS, and the rest of the frontend
                     development world.
                   </Paragraph>
-                  <ul className="mt-12 grid gap-x-12 sm:grid-cols-2 sm:gap-y-6 md:grid-rows-3">
+                  <ul className="mt-12 grid gap-x-12 sm:grid-cols-2 sm:gap-y-6 md:grid-rows-[repeat(3,auto)]">
                     {posts.map((post, idx) => (
                       <li
                         className={clsx([
@@ -363,7 +363,7 @@ const Home = ({ posts }: HomeProps) => {
                                 "gap-x-6",
                                 "md:h-full",
                                 "overflow-hidden",
-                                { "items-center": idx !== 0 },
+                                { "items-start": idx !== 0 },
                                 { "md:rounded-2xl md:shadow-xl": idx === 0 },
                                 { "grid-rows-[auto_1fr]": idx === 0 },
                               ])}
