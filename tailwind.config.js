@@ -43,37 +43,58 @@ module.exports = {
                 display: "block",
               },
             },
-            "[data-rehype-pretty-code-fragment] pre": {
-              background: theme("colors.gray.800"),
+            "[data-rehype-pretty-code-fragment]": {
+              marginTop: theme("margin.8"),
+              marginBottom: theme("margin.8"),
 
-              ".line": {
-                paddingLeft: theme("padding.4"),
-                borderLeftWidth: theme("borderWidth.4"),
-                borderLeftColor: "transparent",
-              },
-              ".line--highlighted": {
-                background: "rgba(200,200,255,0.1)",
-                borderLeftColor: theme("colors.purple.400"),
-              },
-
-              "code[data-line-numbers]": {
-                counterReset: "line",
+              "[data-rehype-pretty-code-title]": {
+                backgroundColor: '#2a1c40',
+                fontFamily: `${theme("fontFamily.mono").join(',')}`,
+                color: theme('colors.gray.400'),
+                fontSize: theme('fontSize.sm')[0],
+                padding: `${theme('padding[0.5]')} ${theme('padding.2')}`,
+                borderRadius: `${theme('borderRadius.DEFAULT')} ${theme('borderRadius.DEFAULT')} 0 0`
               },
 
-              "code[data-line-numbers] > .line::before": {
-                counterIncrement: "line",
-                content: "counter(line)",
-
-                /* Other styling */
-                display: "inline-block",
-                width: theme("width.4"),
-                marginRight: theme("margin.6"),
-                textAlign: "right",
-                color: theme("colors.gray.400"),
+              "[data-rehype-pretty-code-title] ~ pre": {
+                borderTopLeftRadius: 0,
+                borderTopRightRadius: 0,
               },
 
-              "code[data-line-numbers] > .line--highlighted::before": {
-                color: theme("colors.gray.100"),
+              pre: {
+                background: theme("colors.gray.800"),
+                marginTop: 0,
+                marginBottom: 0,
+
+                ".line": {
+                  paddingLeft: theme("padding.4"),
+                  borderLeftWidth: theme("borderWidth.4"),
+                  borderLeftColor: "transparent",
+                },
+                ".line--highlighted": {
+                  background: "rgba(200,200,255,0.1)",
+                  borderLeftColor: theme("colors.purple.400"),
+                },
+
+                "code[data-line-numbers]": {
+                  counterReset: "line",
+                },
+
+                "code[data-line-numbers] > .line::before": {
+                  counterIncrement: "line",
+                  content: "counter(line)",
+
+                  /* Other styling */
+                  display: "inline-block",
+                  width: theme("width.4"),
+                  marginRight: theme("margin.6"),
+                  textAlign: "right",
+                  color: theme("colors.gray.400"),
+                },
+
+                "code[data-line-numbers] > .line--highlighted::before": {
+                  color: theme("colors.gray.100"),
+                },
               },
             },
           },
