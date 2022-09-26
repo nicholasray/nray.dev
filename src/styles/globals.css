@@ -11,20 +11,6 @@
   height: 100vh;
 }
 
-.prose {
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply -ml-8 pl-8;
-
-    &:hover .heading-link {
-      @apply opacity-100;
-    }
-  }
-}
-
 @layer utilities {
   .text-gradient {
     @apply bg-gradient-to-r from-purple-500 to-pink-400 bg-clip-text text-transparent;

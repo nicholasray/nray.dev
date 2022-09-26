@@ -61,7 +61,7 @@ export default function PostLayout({ post }: PostProps) {
                 </div>
 
                 <div
-                  className={`${styles.prose} prose-pre:shadow-inner-10 prose !prose-invert prose-slate max-w-none prose-pre:bg-gray-800 prose-pre:!text-sm lg:prose-xl`}
+                  className={`${styles.prose} prose-pre:shadow-inner-10 prose !prose-invert prose-slate max-w-none prose-pre:px-0 prose-pre:!text-sm lg:prose-xl lg:prose-pre:px-0`}
                 >
                   <MDXContent components={{ Image: BlogImage }} />
                 </div>

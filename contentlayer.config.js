@@ -100,7 +100,7 @@ const options = {
   },
   // Feel free to add classNames that suit your docs
   onVisitHighlightedLine(node) {
-    node.properties.className.push("highlighted");
+    node.properties.className.push("line--highlighted");
   },
   onVisitHighlightedWord(node) {
     node.properties.className = ["word"];

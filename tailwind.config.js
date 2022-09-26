@@ -29,10 +29,51 @@ module.exports = {
       typography: (theme) => ({
         DEFAULT: {
           css: {
+            "h2,h3,h4,h5,h6": {
+              "margin-left": `-${theme("margin.8")}`,
+              "padding-left": theme("padding.8"),
+
+              "&:hover .heading-link": {
+                opacity: theme("opacity.100"),
+              },
+            },
             color: theme("colors.slate.400"),
             h2: {
               "&:hover .heading-link": {
                 display: "block",
+              },
+            },
+            "[data-rehype-pretty-code-fragment] pre": {
+              background: theme("colors.gray.800"),
+
+              ".line": {
+                paddingLeft: theme("padding.4"),
+                borderLeftWidth: theme("borderWidth.4"),
+                borderLeftColor: "transparent",
+              },
+              ".line--highlighted": {
+                background: "rgba(200,200,255,0.1)",
+                borderLeftColor: theme("colors.purple.400"),
+              },
+
+              "code[data-line-numbers]": {
+                counterReset: "line",
+              },
+
+              "code[data-line-numbers] > .line::before": {
+                counterIncrement: "line",
+                content: "counter(line)",
+
+                /* Other styling */
+                display: "inline-block",
+                width: theme("width.4"),
+                marginRight: theme("margin.6"),
+                textAlign: "right",
+                color: theme("colors.gray.400"),
+              },
+
+              "code[data-line-numbers] > .line--highlighted::before": {
+                color: theme("colors.gray.100"),
               },
             },
           },

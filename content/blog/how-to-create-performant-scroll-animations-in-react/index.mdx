@@ -1,0 +1,206 @@
+---
+title: How to Create Performant Scroll Animations
+coverFile: "cover.svg"
+description: Scroll animation description
+---
+
+There are a handful of websites out in the wild that are so good they could be
+considered works of art. [Github's](https://www.github.com) homepage with its
+beautiful design, 3d interactive globe and scroll-triggered animations is one
+example of that. Several of the design elements found on my
+[homepage](https://www.nray.dev) are inspired by their work. Wanting to add some
+visual spice to my homepage, I decided to add several scroll-triggered
+animations in React modeled by some of the animations found their page.
+
+Performant web animations can be tricky to get right though. Coupling these
+animations with a high-frequency critical event like scrolling makes the stakes
+even higher. If done inefficiently, it can cause lead to a frustrating and janky
+user experience that does more harm than good.
+
+In this post, I will show you how to avoid the common pitfalls and incorporate
+performant animations that can delight your users. Let's get started!
+
+## Staying off the main thread
+
+If you want your web animations to have the best chance of looking smooth to
+your users, you have to make them run on somewhere that is free from
+interference. Interference can cause the browser to not produce frames as fast
+as the screen's refresh rate. For example, if the screen refreshes at a rate of
+60 times a second (a typical rate), the browser must produce a frame within
+16.667 milliseconds in order for the animation to look smooth. If it doesn't
+meet this deadline, the animation will look slow and sluggish.
+
+To make matters worse, there are many potential sources of interference. The
+browser's parsing of HTML sent from the server when the page is loading can
+cause interference. The execution of JavaScript can interfere. The browser's
+[rendering steps](https://developer.chrome.com/blog/inside-browser-part3/) like
+when it computes the styles of elements, determines an element's geometry and
+position, or creating paint records is another big source. And that's not
+everything!
+
+All of the sources of jank mentioned previously run on the main thread of the
+browser's renderer process. The main thread is a dangerous place. We want to
+avoid running our animations here as the competition is just too fierce.
+
+The best place to run animations is where none of these competing events happen.
+Luckily, there is another thread, the compositor thread, which has a lot less
+stuff going on in it. As a result, it is much less prone to jank! There is a
+slight catch though - the only compositor thread friendly css properties are
+`opacity` and `transform`. Attempting to animate any other property will make
+your animation run on the main thread. Still, you might be surprised just how
+much you can achieve just using these two properties. Whats more, limiting your
+animations to these two properties will give you the best shot at achieving
+performant animations.
+
+## Detecting when an element has entered the viewport
+
+To trigger animations when a user scrolls, we need to somehow detect when the
+element we'd like to animate has entered the viewport. Once it has sufficiently
+entered the viewport, we want the animation to begin. In the past, we might have
+achieved this with a scroll event listener:
+
+```js
+const element = document.querySelector(".element");
+
+const handler = () => {
+  // Check the position of the element relative to the viewport.
+  const position = element.getBoundingClientRect();
+
+  // Check if the top of the element has crossed the bottom of the viewport.
+  if (position.top >= 0 && position.top < window.innerHeight) {
+    // Element's top has crossed the bottom of the viewport so start animation.
+    element.classList.add("element--transition");
+    // Remove event listener once the animation has started since we don't need
+    // it anymore.
+    window.removeEventListener("scroll", handler);
+  }
+};
+
+window.addEventListener("scroll", handler);
+```
+
+However, this approach can cause a couple problems:
+
+- We have to check the element's position relative to the viewport on each
+  scroll event. This occurs on the main thread which has potential to cause jank
+  to other areas of the user experience (e.g. scrolling).
+
+- Relatedly, calling `element.getBoundingClientRect()` can be an expensive call.
+  It can cause the browser to perform
+  [expensive style recalc and layout operations](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)
+  which ties up the main thread even more.
+
+It would be much better if the browser could just fire our callback when it has
+detected our element of interest entering the viewport instead of us querying
+this information on every scroll event. Fortunately, there is a way with the
+Intersection Observer API.
+
+## Using Intersection Observer to trigger scroll down animations
+
+The Intersection Observer API can be used to detect when an element enters or
+leaves the viewport without using a scroll event listener that queries the
+position of an element each scroll event. The best part is that this detection
+stays off the main thread!
+
+The callback passed to Intersection Observer will be called whenever there are
+intersection changes associated with the element being observed. It's important
+to note that the execution of this callback _will_ take place on the main thread
+so we shouldn't do anything very expensive while we're in there. This is pretty
+easy to do, however, because the information that the callback's param contains
+is usually all we need to determine whether we should trigger the animation.
+Using Intersection Observer instead of a scroll event listener in our previous
+example would look like this:
+
+```js showLineNumbers
+const element = document.querySelector(".element");
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    // Only start animation when the top of the element intersects with the
+    // bottom of the viewport. Note that `entry.boundingClientRect.top` will be
+    // negative when the top of the element is above the viewport.
+    if (entry.isIntersecting && entry.boundingClientRect.top > 0) {
+      // Element's top has crossed the bottom of the viewport so start animation.
+      element.classList.add("element--transition");
+      // Stop observing intersection changes once the animation has started
+      // since we only want to run the animation once.
+      observer.disconnect();
+    }
+  });
+});
+
+// Start observing element.
+observer.observe(element);
+```
+
+You may have noticed that on line 122 we check the `boundingClientRect` property
+of the elment and wonder how this is any different than the call to
+`getBoundingClientRect()` that was cited as potentially problematic and
+expensive in the previous example. Although the calls look similar, there are a
+couple of important differences:
+
+- Unlike `getBoundingClientRect()`, calling `boundingClientRect` returns a
+  cached value. This value will always be the element's position when the
+  intersection change occurred which may in fact be different than the element's
+  current position. This could happen, for example, if you call
+  `boundingClientRect` in a `setTimeout`, scroll, and then wait for the
+  `setTimeout` callback to fire. The position reported by `boundingClientRect`
+  will be the same as before the scroll took place. Because this call is cached
+  and is not actually doing a live computation of the element's position, it is
+  faster.
+- The second reason it is more efficient is because it does not cause the
+  browser to perform
+  [expensive style recalc and layout operations](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)
+  that calling `element.getBoundingClientRect()` might incur. Instead, the
+  browser queries this information at a time that is most efficient.
+
+## Creating scroll animations in React with Intersection Observer
+
+Now with all the theory out of the way, let's see how we could build
+scroll-triggered animations using Intersection Observer in React. Let's take
+advantage of React Hooks to build something that is reusable.
+
+### Step 1: Create a new hook
+
+First, following conventions of React Hooks, let's create a new file with the
+following boilerplate.
+
+```js showLineNumbers title="useIntersectionObserver.js"
+/**
+ * A react hook used to observe intersection changes with elements.
+ *
+ * @param options Options passed to the IntersectionObserver constructor.
+ */
+function useIntersectionObserver(options) {}
+
+export default useIntersectionObserver;
+```
+
+### Step 2: Add state
+
+We need to add two bits of state to our hook. First, we need to store a
+reference to the element we want to observe. We take advantage of React's
+support for
+[callback refs](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs) by
+passing the `setRef` callback to the client of the hook. We also store the
+intersection observer entry which will be null when the component first renders.
+
+```js showLineNumbers title="useIntersectionObserver.js" {7-8}
+/**
+ * A react hook used to observe intersection changes with elements.
+ *
+ * @param options Options passed to the IntersectionObserver constructor.
+ */
+function useIntersectionObserver(options) {
+  const [ref, setRef] = useState(null);
+  const [entry, setEntry] = useState(null);
+}
+
+export default useIntersectionObserver;
+```
+
+### Step 3. Use prefers-reduced-motion
+
+## Performance difference of using many instances vs one shared instance
+
+## Resources

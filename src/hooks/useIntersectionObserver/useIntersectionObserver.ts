@@ -131,7 +131,7 @@ type IntersectionObserverHookReturn = [
 /**
  * A react hook used to observe intersection changes with elements.
  *
- * @param options Options passed to IntersectionObserver constructor.
+ * @param options Options passed to the IntersectionObserver constructor.
  *
  * @example
  * ```jsx
