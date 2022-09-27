@@ -23,9 +23,6 @@ module.exports = {
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
@@ -43,23 +40,28 @@ module.exports = {
                 display: "block",
               },
             },
+
+            "[data-rehype-pretty-code-title]": {
+              backgroundColor: "#2a1c40",
+              fontFamily: `${theme("fontFamily.mono").join(",")}`,
+              fontSize: theme("fontSize.sm")[0],
+              color: theme("colors.gray.400"),
+              paddingTop: theme("padding[0.5]"),
+              paddingRight: theme("padding[0.5]"),
+              paddingBottom: theme("padding[0.5]"),
+              paddingLeft: "calc(1rem + 4px)",
+              borderTopLeftRadius: theme("borderRadius.DEFAULT"),
+              borderTopRightRadius: theme("borderRadius.DEFAULT"),
+            },
+
+            "[data-rehype-pretty-code-title] ~ pre": {
+              borderTopLeftRadius: 0,
+              borderTopRightRadius: 0,
+            },
+
             "[data-rehype-pretty-code-fragment]": {
               marginTop: theme("margin.8"),
               marginBottom: theme("margin.8"),
-
-              "[data-rehype-pretty-code-title]": {
-                backgroundColor: '#2a1c40',
-                fontFamily: `${theme("fontFamily.mono").join(',')}`,
-                color: theme('colors.gray.400'),
-                fontSize: theme('fontSize.sm')[0],
-                padding: `${theme('padding[0.5]')} ${theme('padding.2')}`,
-                borderRadius: `${theme('borderRadius.DEFAULT')} ${theme('borderRadius.DEFAULT')} 0 0`
-              },
-
-              "[data-rehype-pretty-code-title] ~ pre": {
-                borderTopLeftRadius: 0,
-                borderTopRightRadius: 0,
-              },
 
               pre: {
                 background: theme("colors.gray.800"),
@@ -72,7 +74,7 @@ module.exports = {
                   borderLeftColor: "transparent",
                 },
                 ".line--highlighted": {
-                  background: "rgba(200,200,255,0.1)",
+                  background: "#26173b",
                   borderLeftColor: theme("colors.purple.400"),
                 },
 

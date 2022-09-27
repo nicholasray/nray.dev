@@ -194,13 +194,137 @@ intersection observer entry which will be null when the component first renders.
 function useIntersectionObserver(options) {
   const [ref, setRef] = useState(null);
   const [entry, setEntry] = useState(null);
+
+  return [setRef, entry];
 }
 
 export default useIntersectionObserver;
 ```
 
-### Step 3. Use prefers-reduced-motion
+### Step 3: Add effect
+
+In order to create our instance of Intersection Observer and start observing our
+element, we need to add a `useEffect` hook. In the callback passed to the
+`IntersectionObserver` constructor, we'll set the entry state.
+
+```js showLineNumbers title="useIntersectionObserver.js" {15-40}
+/**
+ * A react hook used to observe intersection changes with elements.
+ *
+ * @param options Options passed to the IntersectionObserver constructor.
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver#properties
+ */
+function useIntersectionObserver({
+  root = null,
+  rootMargin = "0%",
+  threshold = 0,
+}) {
+  const [ref, setRef] = useState(null);
+  const [entry, setEntry] = useState(null);
+
+  useEffect(
+    () => {
+      // Return early if we don't have a reference to the element yet or the
+      // browser doesn't support IntersectionObserver.
+      if (!ref || !window.IntersectionObserver) {
+        return;
+      }
+
+      // Create new Intersection Observer instance where we'll set they entry
+      // state when intersection changes are detected.
+      const observer = new IntersectionObserver(([entry]) => {
+        setEntry(entry);
+      }, options);
+
+      // Start observing element.
+      observer.observe(ref);
+
+      // Cleanup function;
+      return () => {
+        observer.disconnect();
+      };
+    },
+    // Avoid excessive re-renders by converting threshold to a string if it is
+    // an array.
+    [root, rootMargin, JSON.stringify(threshold), ref]
+  );
+
+  return [
+    (element) => {
+      setRef(element);
+      setEntry(null);
+    },
+    entry,
+  ];
+}
+
+export default useIntersectionObserver;
+```
+
+Clients can then use this hook like the following example:
+
+```js showLineNumbers title="useIntersectionObserver.js"
+import React from "react";
+import useIntersectionObserver from "src/hooks/useIntersectionObserver";
+
+function Component() {
+  const [ref, entry] = useIntersectionObserver({
+    threshold: 0.5,
+  });
+  const shouldTransform =
+    !entry || (!entry.isIntersecting && entry.boundingClientRect.top > 0);
+
+  return (
+    <div
+      ref={ref}
+      className={shouldTransform ? "block" : "block--initial block"}
+    />
+  );
+}
+```
+
+The css for this example would then look like:
+
+```css showLineNumbers title="block.css"
+.block {
+  /** Limit transitions to compositor thread friendly properties for the best performance. */
+  transition-property: opacity, transform;
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
+}
+
+.block--initial {
+  opacity: 0.5;
+  transform: translateX(33%);
+}
+```
+
+## Animate responsibly
+
+When adding any feature to a website, it's important to consider its
+accessibility implications. Not everyone likes animations and many people have
+vestibular motion disorders where animations can actually cause harm. Therefore,
+we should allow users to opt-out of animations.
+
+One relatively easy way we can achieve this is to use the the
+`prefers-reduced-motion` media query to disable the animation. This will only
+set the starting state of the animation if users have not configured their OS to
+reduce animations.
+
+```css showLineNumbers title="block.css"
+.block {
+  /** Limit transitions to compositor thread friendly properties for the best performance. */
+  transition-property: opacity, transform;
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .block--initial {
+    opacity: 0.5;
+    transform: translateX(33%);
+  }
+}
+```
 
 ## Performance difference of using many instances vs one shared instance
-
-## Resources
