@@ -309,7 +309,9 @@ we should allow users to opt-out of animations.
 One relatively easy way we can achieve this is to use the the
 `prefers-reduced-motion` media query to disable the animation. This will only
 set the starting state of the animation if users have not configured their OS to
-reduce animations.
+reduce animations. If they prefer reduced motion, the ending point of the
+animation will be rendered which effectively prevents the animation from
+running.
 
 ```css showLineNumbers title="block.css" {8-12}
 .block {
