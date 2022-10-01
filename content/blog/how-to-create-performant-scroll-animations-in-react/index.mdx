@@ -4,18 +4,18 @@ coverFile: "cover.svg"
 description: Scroll animation description
 ---
 
-There are a handful of websites out in the wild that are so good they could be
-considered works of art. [Github's](https://www.github.com) homepage with its
+There are a number of webpages out in the wild with designs and functionality
+that leave me in awe. [Github's](https://www.github.com) homepage with its
 beautiful design, 3d interactive globe and scroll-triggered animations is one
 example of that. Several of the design elements found on my
-[homepage](https://www.nray.dev) are inspired by their work. Wanting to add some
-visual spice to my homepage, I decided to add several scroll-triggered
-animations in React modeled by some of the animations found their page.
+[homepage](https://www.nray.dev) are inspired by their work including their
+scroll-triggered animations that fade-in and translate several of their
+elements.
 
 Performant web animations can be tricky to get right though. Coupling these
 animations with a high-frequency critical event like scrolling makes the stakes
 even higher. If done inefficiently, it can cause lead to a frustrating and janky
-user experience that does more harm than good.
+user experience.
 
 In this post, I will show you how to avoid the common pitfalls and incorporate
 performant animations that can delight your users. Let's get started!
@@ -23,12 +23,15 @@ performant animations that can delight your users. Let's get started!
 ## Staying off the main thread
 
 If you want your web animations to have the best chance of looking smooth to
-your users, you have to make them run on somewhere that is free from
-interference. Interference can cause the browser to not produce frames as fast
-as the screen's refresh rate. For example, if the screen refreshes at a rate of
-60 times a second (a typical rate), the browser must produce a frame within
-16.667 milliseconds in order for the animation to look smooth. If it doesn't
-meet this deadline, the animation will look slow and sluggish.
+your users, you have to make them run somewhere that is free from interference.
+Smooth animations achieve consistent and rapid frame production. Interference
+can make the browser not produce frames as fast as the screen's refresh rate
+which leads to janky animations. For example, if the screen refreshes at a rate
+of 60 times a second, the browser must produce a frame within 16.667
+milliseconds in order for the animation to look smooth. Higher-end 120Hz
+monitors can cut this budget in half and require frames produced in 8.333
+milliseconds. If the browser doesn't meet this deadline, the animation will look
+slow and sluggish.
 
 To make matters worse, there are many potential sources of interference. The
 browser's parsing of HTML sent from the server when the page is loading can
@@ -44,12 +47,12 @@ avoid running our animations here as the competition is just too fierce.
 
 The best place to run animations is where none of these competing events happen.
 Luckily, there is another thread, the compositor thread, which has a lot less
-stuff going on in it. As a result, it is much less prone to jank! There is a
+stuff going on in it. As a result, it is much less prone to jank. There is a
 slight catch though - the only compositor thread friendly css properties are
 `opacity` and `transform`. Attempting to animate any other property will make
 your animation run on the main thread. Still, you might be surprised just how
-much you can achieve just using these two properties. Whats more, limiting your
-animations to these two properties will give you the best shot at achieving
+much you can achieve only using these two properties. Whats more, limiting your
+animations to these properties will give you the best shot at achieving
 performant animations.
 
 ## Detecting when an element has entered the viewport
@@ -60,7 +63,7 @@ entered the viewport, we want the animation to begin. In the past, we might have
 achieved this with a scroll event listener:
 
 ```js
-const element = document.querySelector(".element");
+const animatable = document.querySelector(".animatable");
 
 const handler = () => {
   // Check the position of the element relative to the viewport.
@@ -69,7 +72,7 @@ const handler = () => {
   // Check if the top of the element has crossed the bottom of the viewport.
   if (position.top >= 0 && position.top < window.innerHeight) {
     // Element's top has crossed the bottom of the viewport so start animation.
-    element.classList.add("element--transition");
+    animatable.classList.remove("animatable--initial");
     // Remove event listener once the animation has started since we don't need
     // it anymore.
     window.removeEventListener("scroll", handler);
@@ -321,12 +324,10 @@ running.
   transition-timing-function: ease-out;
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: no-preference) and (min-width: ) {
   .block--initial {
     opacity: 0.5;
     transform: translateX(33%);
   }
 }
 ```
-
-## Performance difference of using many instances vs one shared instance

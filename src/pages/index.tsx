@@ -99,7 +99,7 @@ const Home = ({ posts }: HomeProps) => {
                     Utah.
                   </p>
                   <div className="relative inline-block">
-                    <div className="absolute inset-0 h-full w-full rounded-full border-[8px] border-transparent before:absolute before:inset-0 before:bg-gradient-to-r before:from-purple-600 before:to-[#c235ff] before:bg-clip-padding before:blur-[16px]"></div>
+                    <div className="absolute inset-0 h-full w-full rounded-full border-[8px] border-transparent"></div>
                     <Link href={posts[0].url}>
                       <a
                         className="
