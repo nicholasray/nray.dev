@@ -109,6 +109,9 @@ const options = {
 
 export default makeSource({
   contentDirPath: CONTENT_DIR,
+  contentDirExclude: [
+    "blog/how-to-create-performant-scroll-animations-in-react/demos",
+  ],
   documentTypes: [Post, Page],
   mdx: {
     remarkPlugins: [

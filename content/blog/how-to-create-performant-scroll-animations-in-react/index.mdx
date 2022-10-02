@@ -71,7 +71,8 @@ const handler = () => {
 
   // Check if the top of the element has crossed the bottom of the viewport.
   if (position.top >= 0 && position.top < window.innerHeight) {
-    // Element's top has crossed the bottom of the viewport so start animation.
+    // Element's top has crossed the bottom of the viewport so start the
+    // animation by removing the class that controls its starting position.
     animatable.classList.remove("animatable--initial");
     // Remove event listener once the animation has started since we don't need
     // it anymore.
@@ -85,8 +86,9 @@ window.addEventListener("scroll", handler);
 However, this approach can cause a couple problems:
 
 - We have to check the element's position relative to the viewport on each
-  scroll event. This occurs on the main thread which has potential to cause jank
-  to other areas of the user experience (e.g. scrolling).
+  scroll event. This frequent querying occurs on the main thread which has
+  potential to cause jank to other areas of the user experience (e.g.
+  scrolling).
 
 - Relatedly, calling `element.getBoundingClientRect()` can be an expensive call.
   It can cause the browser to perform
@@ -94,9 +96,9 @@ However, this approach can cause a couple problems:
   which ties up the main thread even more.
 
 It would be much better if the browser could just fire our callback when it has
-detected our element of interest entering the viewport instead of us querying
-this information on every scroll event. Fortunately, there is a way with the
-Intersection Observer API.
+detected that our element of interest has entered the viewport instead of us
+querying this information on every scroll event. Fortunately, there is a way
+with the Intersection Observer API.
 
 ## Using Intersection Observer to trigger scroll down animations
 
@@ -105,17 +107,33 @@ leaves the viewport without using a scroll event listener that queries the
 position of an element each scroll event. The best part is that this detection
 stays off the main thread!
 
+```js
+const animatable = document.querySelector(".animatable");
+
+const options = {
+  // Fire callback as soon as little as one pixel is visible in the viewport.
+  threshold: 0,
+};
+const callback = () => {
+  // Change in the intersection of one or more observed elements.
+};
+
+const observer = new IntersectionObserver(callback, options);
+
+observer.observe(animatable);
+```
+
 The callback passed to Intersection Observer will be called whenever there are
 intersection changes associated with the element being observed. It's important
-to note that the execution of this callback _will_ take place on the main thread
-so we shouldn't do anything very expensive while we're in there. This is pretty
-easy to do, however, because the information that the callback's param contains
-is usually all we need to determine whether we should trigger the animation.
-Using Intersection Observer instead of a scroll event listener in our previous
-example would look like this:
+to note that the code in this callback _will_ take place on the main thread so
+we shouldn't do anything very expensive while we're in there. This is fairly
+easy to do, however, because the information that the callback's `entries` param
+contains is usually all we need to determine whether we should trigger the
+animation. Using Intersection Observer instead of a scroll event listener in our
+previous example would look like this:
 
 ```js showLineNumbers
-const element = document.querySelector(".element");
+const element = document.querySelector(".animatable");
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
@@ -124,7 +142,7 @@ const observer = new IntersectionObserver((entries) => {
     // negative when the top of the element is above the viewport.
     if (entry.isIntersecting && entry.boundingClientRect.top > 0) {
       // Element's top has crossed the bottom of the viewport so start animation.
-      element.classList.add("element--transition");
+      element.classList.remove("animatable--initial");
       // Stop observing intersection changes once the animation has started
       // since we only want to run the animation once.
       observer.disconnect();
@@ -136,11 +154,11 @@ const observer = new IntersectionObserver((entries) => {
 observer.observe(element);
 ```
 
-You may have noticed that on line 122 we check the `boundingClientRect` property
+You may have noticed that on line 8 we check the `boundingClientRect` property
 of the elment and wonder how this is any different than the call to
 `getBoundingClientRect()` that was cited as potentially problematic and
-expensive in the previous example. Although the calls look similar, there are a
-couple of important differences:
+expensive in the previous example that used a scroll event listener. Although
+the calls look similar, there are a couple of important differences:
 
 - Unlike `getBoundingClientRect()`, calling `boundingClientRect` returns a
   cached value. This value will always be the element's position when the
@@ -150,25 +168,27 @@ couple of important differences:
   `setTimeout` callback to fire. The position reported by `boundingClientRect`
   will be the same as before the scroll took place. Because this call is cached
   and is not actually doing a live computation of the element's position, it is
-  faster.
+  fast.
 - The second reason it is more efficient is because it does not cause the
   browser to perform
   [expensive style recalc and layout operations](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)
   that calling `element.getBoundingClientRect()` might incur. Instead, the
-  browser queries this information at a time that is most efficient.
+  browser queries this information at a time that is most efficient within the
+  rendering pipeline.
 
 ## Creating scroll animations in React with Intersection Observer
 
 Now with all the theory out of the way, let's see how we could build
-scroll-triggered animations using Intersection Observer in React. Let's take
-advantage of React Hooks to build something that is reusable.
+scroll-triggered animations using Intersection Observer in React and Typescript.
+Let's take advantage of React Hooks to build something that is simple and
+reusable.
 
 ### Step 1: Create a new hook
 
 First, following conventions of React Hooks, let's create a new file with the
 following boilerplate.
 
-```js showLineNumbers title="useIntersectionObserver.js"
+```js showLineNumbers title="useIntersectionObserver.ts"
 /**
  * A react hook used to observe intersection changes with elements.
  *
@@ -280,7 +300,9 @@ function Component() {
   return (
     <div
       ref={ref}
-      className={shouldTransform ? "block" : "block--initial block"}
+      className={`animatable ${
+        shouldTransform ? "animatable--initial" : ""
+      }`.trim()}
     />
   );
 }

@@ -6,7 +6,7 @@ const constants = require("./src/constants");
 module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
-    "./content/**/*.mdx",
+    "./content/contact.mdx",
     "./contentlayer.config.js",
   ],
   theme: {
