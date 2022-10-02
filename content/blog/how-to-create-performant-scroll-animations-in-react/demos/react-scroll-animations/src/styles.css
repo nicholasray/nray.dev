@@ -43,7 +43,7 @@ section {
  * have higher power and for users haven't set the "prefers reduced motion" on
  * their OS 
  */
-@media (prefers-reduced-motion: no-preference) and (min-width: 800px) {
+@media (prefers-reduced-motion: no-preference) and (min-width: 640px) {
   .animatable--initial {
     transform: translateX(33%);
     opacity: 0.6;
