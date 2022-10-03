@@ -27,6 +27,7 @@ import constants, { screens } from "../constants";
 import { NextSeo } from "next-seo";
 import { allPosts } from "src/api";
 import useIntersectionObserver from "src/hooks/useIntersectionObserver";
+import { useEffect, useState } from "react";
 
 interface HomeProps {
   posts: Post[];
@@ -39,21 +40,36 @@ interface TimelinePointProps {
 }
 
 const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
+  const [isDisabled, setIsDisabled] = useState(false);
   const [ref, entry] = useIntersectionObserver({ threshold: 0.35 });
 
   const shouldTransform: boolean =
     !entry || (!entry.isIntersecting && !!(entry.boundingClientRect?.top > 0));
 
+  // Only trigger the animation once.
+  useEffect(() => {
+    if (entry && !shouldTransform) {
+      setIsDisabled(true);
+    }
+  }, [entry, shouldTransform]);
+
   return (
-    <div ref={ref} className="md:grid md:grid-cols-2 md:items-center md:gap-16">
+    <div
+      ref={!isDisabled ? ref : undefined}
+      className="md:grid md:grid-cols-2 md:items-center md:gap-16"
+    >
       <div className="relative">
         <div className="absolute left-0 top-0 -my-px ml-px -translate-x-1/2 bg-gray-900 p-2">
           <div className="h-3 w-3 rounded-full border-2 border-gray-400"></div>
         </div>
         <p
-          className={clsx("max-w-xl px-6 transition-performant duration-500", {
-            "motion-safe:-translate-x-4 motion-safe:opacity-0": shouldTransform,
-          })}
+          className={clsx(
+            "max-w-xl px-6 motion-safe:transition-performant motion-safe:duration-500",
+            {
+              "motion-safe:-translate-x-4 motion-safe:opacity-0":
+                shouldTransform,
+            }
+          )}
         >
           {description}
         </p>
