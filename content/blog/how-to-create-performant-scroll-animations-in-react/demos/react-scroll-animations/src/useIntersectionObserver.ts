@@ -7,12 +7,17 @@ type ReturnType = [
 
 interface Options extends IntersectionObserverInit {
   /**
-   * Disable detecting intersection changes. Use this if the user has enabled
-   * the "prefer-reduced-motion" setting on their OS, for example.
+   * Disable detecting intersection changes. Use this if you only want an
+   * animation to run once, for example.
    */
   isDisabled?: boolean;
 }
 
+/**
+ * A React Hook used to observe intersection changes with elements.
+ *
+ * @param options
+ */
 function useIntersectionObserver({
   root = null,
   rootMargin = "0%",
@@ -25,7 +30,7 @@ function useIntersectionObserver({
   useEffect(
     () => {
       // Return early if isDisabled is `true`, if we don't have a reference to
-      // the element yet, or the browser doesn't support IntersectionObserver.
+      // the element yet, or if the browser doesn't support IntersectionObserver.
       if (isDisabled || !ref || !window.IntersectionObserver) {
         return;
       }
