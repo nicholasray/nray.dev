@@ -351,8 +351,8 @@ const Home = ({ posts }: HomeProps) => {
               <ViewportPadding>
                 <Container>
                   <Heading color="darkGray">
-                    My latest{" "}
-                    <span className="text-gradient">blog articles</span>
+                    Recently published{" "}
+                    <span className="text-gradient">articles</span>
                   </Heading>
                   <Paragraph>
                     I recently started a blog where I share what I’ve learned
