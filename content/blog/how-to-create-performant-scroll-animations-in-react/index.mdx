@@ -377,7 +377,7 @@ media query, if the user prefers reduced motion, the ending point of the
 animation is rendered and the transition will be inert.
 
 I also like to disable scroll-triggered animations on mobile devices since they
-are much more prone to jank due to generally having less powerful hardware.
+are much more prone to jank due to having less powerful hardware in general.
 Unfortunately, there aren't media queries that explicitly target mobile devices,
 but we can use the viewport's width as a sufficient proxy. Therefore, we will
 only enable the animation if the viewport exceeds a minimum width.
