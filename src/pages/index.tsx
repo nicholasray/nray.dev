@@ -351,8 +351,8 @@ const Home = ({ posts }: HomeProps) => {
               <ViewportPadding>
                 <Container>
                   <Heading color="darkGray">
-                    Want to improve your{" "}
-                    <span className="text-gradient">frontend skills?</span>
+                    My latest{" "}
+                    <span className="text-gradient">blog articles</span>
                   </Heading>
                   <Paragraph>
                     I recently started a blog where I share what I’ve learned
