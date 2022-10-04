@@ -64,9 +64,9 @@ const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
         </div>
         <p
           className={clsx(
-            "max-w-xl px-6 motion-safe:transition-performant motion-safe:duration-500",
+            "max-w-xl px-6 animation-safe:transition-performant animation-safe:duration-500",
             {
-              "motion-safe:-translate-x-4 motion-safe:opacity-0":
+              "animation-safe-safe:opacity-0 animation-safe:-translate-x-4":
                 shouldTransform,
             }
           )}
@@ -79,7 +79,7 @@ const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
           "relative mx-6 mt-8 flex max-w-xl justify-center overflow-hidden rounded-2xl bg-white px-4 pt-6 shadow-xl transition-performant duration-500 md:mx-0 md:mt-0 md:w-[117%]",
           { "pb-6": !hasFade },
           {
-            "motion-safe:translate-x-1/3 motion-safe:scale-90 motion-safe:opacity-60":
+            "animation-safe:translate-x-1/3 animation-safe:scale-90 animation-safe:opacity-60":
               shouldTransform,
           }
         )}

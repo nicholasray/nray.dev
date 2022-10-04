@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+const plugin = require("tailwindcss/plugin");
 const defaultTheme = require("tailwindcss/defaultTheme");
 const constants = require("./src/constants");
 
@@ -134,6 +135,13 @@ module.exports = {
     },
   },
   plugins: [
+    plugin(function ({ addVariant }) {
+      // Add your custom styles here
+      addVariant(
+        "animation-safe",
+        "@media (prefers-reduced-motion: no-preference) and (min-width: 40rem)"
+      );
+    }),
     require("@tailwindcss/typography"),
     // ...
   ],
