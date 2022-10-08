@@ -11,6 +11,7 @@ import Cta from "src/components/Cta";
 import { NextSeo } from "next-seo";
 import constants from "src/constants";
 import { allPosts } from "src/api";
+import CodeEditor from "src/components/CodeEditor";
 
 interface PostProps {
   post: Post;
@@ -63,7 +64,9 @@ export default function PostLayout({ post }: PostProps) {
                 <div
                   className={`${styles.prose} prose-pre:shadow-inner-10 prose !prose-invert prose-slate max-w-none prose-pre:mt-0 prose-pre:px-0 prose-pre:!text-sm lg:prose-xl lg:prose-pre:mt-0 lg:prose-pre:px-0`}
                 >
-                  <MDXContent components={{ Image: BlogImage }} />
+                  <MDXContent
+                    components={{ Image: BlogImage, CodeEditor: CodeEditor }}
+                  />
                 </div>
               </article>
               <div className="mx-auto mt-10 max-w-3xl text-xl">

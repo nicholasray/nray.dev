@@ -3,7 +3,7 @@ import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import readingTime from "reading-time";
 import theme from "./src/syntax/overnight.json";
 import rehypePrettyCode from "rehype-pretty-code";
-import { remarkImages, remarkCoverImage } from "./src/remark";
+import { remarkImages, remarkCoverImage, remarkCodeEditor } from "./src/remark";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
@@ -116,10 +116,12 @@ export default makeSource({
   mdx: {
     remarkPlugins: [
       remarkGfm,
+      [remarkCodeEditor, { contentDir: CONTENT_DIR }],
       [remarkImages, { contentDir: CONTENT_DIR }],
       [remarkCoverImage, { contentDir: CONTENT_DIR }],
     ],
     rehypePlugins: [
+      [rehypePrettyCode, options],
       rehypeSlug,
       [
         rehypeAutolinkHeadings,
@@ -131,7 +133,6 @@ export default makeSource({
           content: { type: "text", value: "" },
         },
       ],
-      [rehypePrettyCode, options],
     ],
   },
 });
