@@ -10,7 +10,7 @@ function CodeEditor(props: CodeEditorProps) {
       theme={nightOwl}
       options={{
         classes: {
-          "sp-layout": "flex-col",
+          "sp-layout": "flex-col h-[700px]",
           "sp-preview-iframe": "!min-h-[350px]",
         },
         editorHeight: 350,
