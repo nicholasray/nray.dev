@@ -8,13 +8,12 @@ function CodeEditor(props: CodeEditorProps) {
     <Sandpack
       template="react-ts"
       theme={nightOwl}
-      // options={{
-      //   classes: {
-      //     "sp-layout": "flex-col h-[700px]",
-      //     "sp-preview-iframe": "!min-h-[350px]",
-      //   },
-      //   editorHeight: 350,
-      // }}
+      options={{
+        classes: {
+          "sp-layout": "!block",
+        },
+        editorHeight: 350,
+      }}
       {...props}
     />
   );
