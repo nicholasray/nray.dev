@@ -35,7 +35,7 @@ function useIntersectionObserver({
         return;
       }
 
-      // Create new Intersection Observer instance where we'll set they entry
+      // Create new Intersection Observer instance where we'll set the entry
       // state when intersection changes are detected.
       const observer = new IntersectionObserver(
         ([entry]) => {
