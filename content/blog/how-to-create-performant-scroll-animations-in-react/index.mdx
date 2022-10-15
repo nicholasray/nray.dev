@@ -141,7 +141,7 @@ const observer = new IntersectionObserver((entries) => {
     // negative when the top of the element is above the viewport.
     if (entry.isIntersecting && entry.boundingClientRect.top > 0) {
       // Element's top has crossed the bottom of the viewport and is within the
-      // viewport so start animation by removing it's the class that sets its
+      // viewport so start animation by removing the class that sets its
       // starting position.
       element.classList.remove("animatable--initial");
       // Stop observing intersection changes once the animation has started
