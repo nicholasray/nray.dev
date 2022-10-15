@@ -137,10 +137,7 @@ module.exports = {
   plugins: [
     plugin(function ({ addVariant }) {
       // Add your custom styles here
-      addVariant(
-        "animation-safe",
-        "@media (prefers-reduced-motion: no-preference) and (min-width: 40rem)"
-      );
+      addVariant("animation-safe", `@media ${constants.animations}`);
     }),
     require("@tailwindcss/typography"),
     // ...

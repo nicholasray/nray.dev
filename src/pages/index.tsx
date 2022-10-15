@@ -28,6 +28,7 @@ import { NextSeo } from "next-seo";
 import { allPosts } from "src/api";
 import useIntersectionObserver from "src/hooks/useIntersectionObserver";
 import { useEffect, useState } from "react";
+import useMediaQuery from "src/hooks/useMediaQuery";
 
 interface HomeProps {
   posts: Post[];
@@ -40,11 +41,17 @@ interface TimelinePointProps {
 }
 
 const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [ref, entry] = useIntersectionObserver({ threshold: 0.35 });
+  const matches = useMediaQuery(constants.animations);
+  const [isDisabled, setIsDisabled] = useState(!matches);
+  const [ref, entry] = useIntersectionObserver({ threshold: 0.35, isDisabled });
 
   const shouldTransform: boolean =
     !entry || (!entry.isIntersecting && !!(entry.boundingClientRect?.top > 0));
+
+  // Disable if the animation media query doesn't match.
+  useEffect(() => {
+    setIsDisabled(!matches);
+  }, [matches]);
 
   // Only trigger the animation once.
   useEffect(() => {
@@ -54,10 +61,7 @@ const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
   }, [entry, shouldTransform]);
 
   return (
-    <div
-      ref={!isDisabled ? ref : undefined}
-      className="md:grid md:grid-cols-2 md:items-center md:gap-16"
-    >
+    <div ref={ref} className="md:grid md:grid-cols-2 md:items-center md:gap-16">
       <div className="relative">
         <div className="absolute left-0 top-0 -my-px ml-px -translate-x-1/2 bg-gray-900 p-2">
           <div className="h-3 w-3 rounded-full border-2 border-gray-400"></div>
