@@ -157,9 +157,9 @@ observer.observe(element);
 
 You may have noticed that on line 8 we check the `boundingClientRect` property
 of the element and wonder how this is any different than the call to
-`getBoundingClientRect()` that was cited as potentially problematic and
-expensive in the previous example that used a scroll event listener. Although
-the calls look similar, there are a couple of important differences:
+`getBoundingClientRect()` that we cited as potentially problematic and expensive
+in the previous example that used a scroll event listener. Although the calls
+look similar, there are a couple of important differences:
 
 - Unlike `getBoundingClientRect()`, calling `boundingClientRect` returns a
   cached value. This value will always be the element's position when the
