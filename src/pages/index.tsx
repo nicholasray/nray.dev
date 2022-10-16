@@ -49,7 +49,8 @@ const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
     executeOnce: true,
   });
 
-  const addInitial: boolean = !entry || !entry.isIntersecting;
+  // Add initial transform/opacity classes if the entry is not intersecting.
+  const addInitial = !entry?.isIntersecting;
 
   // Disable IntersectionObserver logic if the animation media query doesn't match.
   useEffect(() => {
