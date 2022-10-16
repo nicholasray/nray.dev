@@ -232,7 +232,7 @@ intersection observer entry which will be `null` when the component first
 renders. Finally, we store whether the callback has executed while the element
 was intersected in a `ref`.
 
-```ts showLineNumbers title="useIntersectionObserver.js" {8-12}
+```ts showLineNumbers title="useIntersectionObserver.js" {7-11}
 function useIntersectionObserver({
   root = null,
   rootMargin = "0%",
@@ -258,7 +258,7 @@ be triggered upon intersection changes. We return a cleanup function from the
 effect which will run when any of the dependencies passed as a second argument
 to `useEffect` changes or if the component unmounts.
 
-```ts showLineNumbers title="useIntersectionObserver.js" {12-57}
+```ts showLineNumbers title="useIntersectionObserver.js" {11-51}
 function useIntersectionObserver({
   root = null,
   rootMargin = "0%",
