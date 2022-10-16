@@ -6,8 +6,8 @@ description: Learn how to create scroll-triggered animations without jank.
 ---
 
 There are some websites out in the wild with delightful designs and
-functionality. One example of this is [Github's](https://www.github.com)
-logged-out homepage which has a beautiful design, 3d interactive globe, and
+functionality. One example is [Github's](https://www.github.com) logged-out
+homepage, which has a beautiful design, a 3d interactive globe, and
 scroll-triggered animations. In fact, their work inspired several of the design
 elements found on my [homepage](https://www.nray.dev), including their
 scroll-triggered animations that beautifully fade in and translate.
@@ -36,9 +36,9 @@ deadline.
 To make matters worse, there are many potential sources of interference. The
 browser's parsing of HTML sent from the server when the page is loading can
 cause interference. The execution of JavaScript can interfere. The browser's
-[rendering steps](https://developer.chrome.com/blog/inside-browser-part3/) like
+[rendering steps](https://developer.chrome.com/blog/inside-browser-part3/), like
 when it computes the styles of elements, determines an element's geometry and
-position, or creates paint records are all sources of jank. And that's not
+position, or creates paint records, are all sources of jank. And that's not
 everything!
 
 All the sources of interference mentioned previously run on the main thread of
@@ -48,13 +48,12 @@ one thing can execute on the main thread at a time, and the risk is too high
 that it will be something other than our animation.
 
 The best place to run animations is where none of these competing events happen.
-Luckily, another thread, the compositor thread, has much less stuff happening.
-As a result, it is much less prone to jank. There is a slight catch, though. The
-CSS properties `opacity` and `transform` are the only properties that are
-compositor thread-friendly. Consequently, attempting to animate any other
-property will make your animation run on the main thread where it will be prone
-to jank. Still, you might be surprised how much you can achieve with only these
-properties.
+Luckily, another thread, the compositor thread, has much less stuff. As a
+result, it is much less prone to jank. There is a slight catch, though. The CSS
+properties `opacity` and `transform` are the only compositor thread-friendly
+properties. Consequently, attempting to animate any other property will make
+your animation run on the main thread, where it will be prone to jank. Still,
+you might be surprised how much you can achieve with only these properties.
 
 ## Detecting when an element has entered the viewport
 
@@ -90,7 +89,7 @@ window.addEventListener("scroll", handler);
 However, this approach can cause a couple of problems:
 
 - We have to check the element's position relative to the viewport on each
-  scroll event. This frequent querying occurs on the main thread which has
+  scroll event. This frequent querying occurs on the main thread, which has
   potential to cause jank to other areas of the user experience (e.g.
   scrolling).
 
@@ -129,12 +128,12 @@ observer.observe(animatable);
 
 The callback passed to Intersection Observer will be called whenever
 intersection changes are associated with the observed element. It's important to
-note that the code in this callback _will_ take place on the main thread so we
-shouldn't do anything costly while we're in there. Writing efficient code in
-this callback is fairly easy to do, however, because the information that the
-callback's `entries` param contains is usually all we need to determine whether
-we should trigger the animation. Using Intersection Observer instead of a scroll
-event listener in our the previous example would look like this:
+note that the code in this callback _will_ take place on the main thread, so we
+shouldn't do anything costly there. Writing efficient code in this callback is
+fairly easy, however, because the information that the callback's `entries`
+param contains is usually all we need to determine whether we should trigger the
+animation. Using an Intersection Observer instead of a scroll event listener in
+the previous example would look like this:
 
 ```js showLineNumbers
 const animatable = document.querySelector(".animatable");
@@ -157,21 +156,20 @@ const observer = new IntersectionObserver((entries) => {
 observer.observe(animatable);
 ```
 
-You may have noticed that on line 8 we check the `boundingClientRect` property
+You may have noticed that on line 8, we check the `boundingClientRect` property
 of the element and wonder how this is any different than the call to
 `getBoundingClientRect()` that we cited as potentially problematic and expensive
 in the previous example that used a scroll event listener. Although the calls
-look similar, there are a couple of important differences:
+look similar, there are a couple of significant differences:
 
 - Unlike `getBoundingClientRect()`, calling `boundingClientRect` returns a
-  cached value. This value will always be the element's position when the
-  intersection change occurred, which may be different from the element's
-  current position. This could happen, for example, if you call
-  `boundingClientRect` in a `setTimeout`, scroll, and then wait for the
-  `setTimeout` callback to fire. The position reported by `boundingClientRect`
-  will be the same as before the scroll took place. Because this call is cached
-  and is not doing a live computation of the element's position, it is
-  relatively fast.
+  cached value. When the intersection change occurs, this value will always be
+  the element's position, which may differ from the element's current position.
+  For example, if you call `boundingClientRect` in a `setTimeout`, scroll, and
+  then wait for the `setTimeout` callback to fire, the position reported by
+  `boundingClientRect` will be the same as before the scroll took place. Because
+  this call is cached and is not doing a live computation of the element's
+  position, it is relatively fast.
 - It does not cause the browser to perform
   [expensive style recalc and layout operations](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)
   that calling `element.getBoundingClientRect()` might incur. Instead, the
@@ -182,7 +180,7 @@ look similar, there are a couple of important differences:
 
 Now with all the theory out of the way, let's see how we could build
 scroll-triggered animations using Intersection Observer in React and Typescript.
-Let's take advantage of React Hooks to create something simple and reusable.
+We'll take advantage of React Hooks to create something simple and reusable.
 
 ### Step 1: Create a new hook
 
@@ -229,8 +227,8 @@ support for
 [callback refs](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs) by
 passing the `setRef` callback to the client of the hook. We also store the
 intersection observer entry which will be `null` when the component first
-renders. Finally, we store whether the callback has executed while the element
-was intersected in a `ref`.
+renders. Finally, a `ref` stores whether the callback has already been triggered
+while the element intersected.
 
 ```ts showLineNumbers title="useIntersectionObserver.js" {7-11}
 function useIntersectionObserver({
@@ -253,10 +251,10 @@ export default useIntersectionObserver;
 
 To create our instance of `IntersectionObserver` and start observing our
 element, we need to add a `useEffect` hook. In the callback passed to the
-`IntersectionObserver` constructor we'll set the entry state. This callback will
-be triggered upon intersection changes. We return a cleanup function from the
-effect which will run when any of the dependencies passed as a second argument
-to `useEffect` changes or if the component unmounts.
+`IntersectionObserver` constructor, we'll set the entry state. Intersection
+changes will trigger the callback. We return a cleanup function from the effect
+that will run when any of the dependencies passed as a second argument to
+`useEffect` changes or if the component unmounts.
 
 ```ts showLineNumbers title="useIntersectionObserver.js" {11-51}
 function useIntersectionObserver({
@@ -271,7 +269,7 @@ function useIntersectionObserver({
 
   useEffect(
     () => {
-      // Return early if the callback has already executed while the element was
+      // Return early if the callback has already been executed while the element was
       // intersected, if we don't have a reference to the element yet, if the
       // browser doesn't support IntersectionObserver or if the callback has
       // already executed while the element was intersected.
@@ -371,19 +369,19 @@ export default function App() {
 
 When adding any feature to a website, it's essential to consider its
 accessibility implications. For example, not everyone likes animations, and many
-people have vestibular motion disorders where animations can actually cause
-harm. Therefore, we should allow users to opt out of any animation we add to a
+people have vestibular motion disorders where animations can cause harm.
+Therefore, users should be allowed to opt out of any animation we add to a
 website.
 
 One relatively easy way we can achieve this is to use the
 `prefers-reduced-motion` media query to only enable the animation when the user
-has enabled the "reduce motion" setting in their operating system. Using the
-media query, if the user prefers reduced motion, the ending point of the
-animation is rendered and the transition will be inert.
+has enabled the "reduce motion" setting in their operating system. By using the
+media query, the ending point of the animation renders, and the transition will
+be inert when the user has enabled the setting.
 
 I also like to disable scroll-triggered animations on mobile devices since they
 are much more prone to jank due to generally having less powerful hardware.
-Unfortunately, there aren't media queries that explicitly target mobile devices,
+Unfortunately, there isn't a media query explicitly targeting mobile devices,
 but we can use the viewport's width as a sufficient proxy. Therefore, we will
 only enable the animation if the viewport exceeds a minimum width.
 

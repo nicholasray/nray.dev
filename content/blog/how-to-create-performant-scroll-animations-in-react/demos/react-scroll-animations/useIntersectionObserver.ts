@@ -31,7 +31,7 @@ function useIntersectionObserver({
 
   useEffect(
     () => {
-      // Return early if the callback has already executed while the element was
+      // Return early if the callback has already been executed while the element was
       // intersected, if we don't have a reference to the element yet, if the
       // browser doesn't support IntersectionObserver or if the callback has
       // already executed while the element was intersected.
