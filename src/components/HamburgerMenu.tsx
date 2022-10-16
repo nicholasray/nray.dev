@@ -38,10 +38,7 @@ const HamburgerMenu = ({ items, className }: HamburgerMenuProps) => {
         </button>
         <Transition show={isOpen}>
           <Dialog className="relative z-50" onClose={() => setIsOpen(false)}>
-            {/* <div
-              className="fixed inset-0 bg-black/30 backdrop-blur-sm"
-              aria-hidden="true"
-            /> */}
+            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
             <div className="fixed top-0 bottom-0 right-0 flex">
               <Transition.Child
                 enter="duration-200 transition-transform ease-out"
