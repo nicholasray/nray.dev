@@ -7,8 +7,7 @@ type ReturnType = [
 
 interface Options extends IntersectionObserverInit {
   /**
-   * Disable detecting intersection changes. Use this if you only want an
-   * animation to run once, for example.
+   * Disable detecting intersection changes.
    */
   skip?: boolean;
   /**
