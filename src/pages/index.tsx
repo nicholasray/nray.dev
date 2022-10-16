@@ -28,6 +28,7 @@ import { NextSeo } from "next-seo";
 import { allPosts } from "src/api";
 import useIntersectionObserver from "src/hooks/useIntersectionObserver";
 import { useEffect, useState } from "react";
+import useMediaQuery from "src/hooks/useMediaQuery";
 
 interface HomeProps {
   posts: Post[];
@@ -40,24 +41,24 @@ interface TimelinePointProps {
 }
 
 const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [ref, entry] = useIntersectionObserver({ threshold: 0.35 });
+  const matches = useMediaQuery(constants.animations);
+  const [skip, setSkip] = useState(!matches);
+  const [ref, entry] = useIntersectionObserver({
+    threshold: 0.35,
+    skip,
+    executeOnce: true,
+  });
 
-  const shouldTransform: boolean =
-    !entry || (!entry.isIntersecting && !!(entry.boundingClientRect?.top > 0));
+  // Add initial transform/opacity classes if the entry is not intersecting.
+  const addInitial = !entry?.isIntersecting;
 
-  // Only trigger the animation once.
+  // Disable IntersectionObserver logic if the animation media query doesn't match.
   useEffect(() => {
-    if (entry && !shouldTransform) {
-      setIsDisabled(true);
-    }
-  }, [entry, shouldTransform]);
+    setSkip(!matches);
+  }, [matches]);
 
   return (
-    <div
-      ref={!isDisabled ? ref : undefined}
-      className="md:grid md:grid-cols-2 md:items-center md:gap-16"
-    >
+    <div ref={ref} className="md:grid md:grid-cols-2 md:items-center md:gap-16">
       <div className="relative">
         <div className="absolute left-0 top-0 -my-px ml-px -translate-x-1/2 bg-gray-900 p-2">
           <div className="h-3 w-3 rounded-full border-2 border-gray-400"></div>
@@ -67,7 +68,7 @@ const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
             "max-w-xl px-6 animation-safe:transition-performant animation-safe:duration-500",
             {
               "animation-safe-safe:opacity-0 animation-safe:-translate-x-4":
-                shouldTransform,
+                addInitial,
             }
           )}
         >
@@ -80,7 +81,7 @@ const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
           { "pb-6": !hasFade },
           {
             "animation-safe:translate-x-1/3 animation-safe:scale-90 animation-safe:opacity-60":
-              shouldTransform,
+              addInitial,
           }
         )}
       >
