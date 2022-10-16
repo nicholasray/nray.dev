@@ -42,23 +42,19 @@ interface TimelinePointProps {
 
 const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
   const matches = useMediaQuery(constants.animations);
-  const [isDisabled, setIsDisabled] = useState(!matches);
-  const [ref, entry] = useIntersectionObserver({ threshold: 0.35, isDisabled });
+  const [skip, setSkip] = useState(!matches);
+  const [ref, entry] = useIntersectionObserver({
+    threshold: 0.35,
+    skip,
+    executeOnce: true,
+  });
 
-  const shouldTransform: boolean =
-    !entry || (!entry.isIntersecting && !!(entry.boundingClientRect?.top > 0));
+  const shouldTransform: boolean = !entry || !entry.isIntersecting;
 
-  // Disable if the animation media query doesn't match.
+  // Disable IntersectionObserver logic if the animation media query doesn't match.
   useEffect(() => {
-    setIsDisabled(!matches);
+    setSkip(!matches);
   }, [matches]);
-
-  // Only trigger the animation once.
-  useEffect(() => {
-    if (entry && !shouldTransform) {
-      setIsDisabled(true);
-    }
-  }, [entry, shouldTransform]);
 
   return (
     <div ref={ref} className="md:grid md:grid-cols-2 md:items-center md:gap-16">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ReturnType = [
   (element: Element | null) => void,
@@ -10,7 +10,13 @@ interface Options extends IntersectionObserverInit {
    * Disable detecting intersection changes. Use this if you only want an
    * animation to run once, for example.
    */
-  isDisabled?: boolean;
+  skip?: boolean;
+  /**
+   * Only execute Intersection Observer callback once while the element is
+   * intersected. Use this if you only want to run an animation once, for
+   * example.
+   */
+  executeOnce?: boolean;
 }
 
 /**
@@ -22,16 +28,24 @@ function useIntersectionObserver({
   root = null,
   rootMargin = "0%",
   threshold = 0,
-  isDisabled = false,
+  skip = false,
+  executeOnce = false,
 }: Options): ReturnType {
   const [ref, setRef] = useState<Element | null>(null);
   const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null);
+  const hasExecuted = useRef(false);
 
   useEffect(
     () => {
-      // Return early if isDisabled is `true`, if we don't have a reference to
-      // the element yet, or if the browser doesn't support IntersectionObserver.
-      if (isDisabled || !ref || !window.IntersectionObserver) {
+      // Return early if skip is `true`, if the callback has already executed
+      // while the element was intersected, if we don't have a reference to the
+      // element yet, or if the browser doesn't support IntersectionObserver.
+      if (
+        skip ||
+        !ref ||
+        !window.IntersectionObserver ||
+        (executeOnce && hasExecuted.current)
+      ) {
         return;
       }
 
@@ -40,6 +54,11 @@ function useIntersectionObserver({
       const observer = new IntersectionObserver(
         ([entry]) => {
           setEntry(entry);
+
+          if (entry.isIntersecting && executeOnce) {
+            observer.disconnect();
+            hasExecuted.current = true;
+          }
         },
         { root, rootMargin, threshold }
       );
@@ -55,7 +74,7 @@ function useIntersectionObserver({
     // Avoid excessive re-renders by converting threshold to a string if it is
     // an array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [root, rootMargin, JSON.stringify(threshold), ref, isDisabled]
+    [root, rootMargin, JSON.stringify(threshold), ref, skip, executeOnce]
   );
 
   return [setRef, entry];
