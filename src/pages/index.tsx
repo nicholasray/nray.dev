@@ -49,7 +49,7 @@ const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
     executeOnce: true,
   });
 
-  const shouldTransform: boolean = !entry || !entry.isIntersecting;
+  const addInitial: boolean = !entry || !entry.isIntersecting;
 
   // Disable IntersectionObserver logic if the animation media query doesn't match.
   useEffect(() => {
@@ -67,7 +67,7 @@ const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
             "max-w-xl px-6 animation-safe:transition-performant animation-safe:duration-500",
             {
               "animation-safe-safe:opacity-0 animation-safe:-translate-x-4":
-                shouldTransform,
+                addInitial,
             }
           )}
         >
@@ -80,7 +80,7 @@ const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
           { "pb-6": !hasFade },
           {
             "animation-safe:translate-x-1/3 animation-safe:scale-90 animation-safe:opacity-60":
-              shouldTransform,
+              addInitial,
           }
         )}
       >
