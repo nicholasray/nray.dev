@@ -23,7 +23,6 @@ function useIntersectionObserver({
   root = null,
   rootMargin = "0%",
   threshold = 0,
-  skip = false,
   executeOnce = false,
 }: Options): ReturnType {
   const [ref, setRef] = useState<Element | null>(null);
