@@ -49,7 +49,7 @@ that it will be something other than our animation.
 
 The best place to run animations is where none of these competing events happen.
 Luckily, another thread, the compositor thread, has much less stuff. As a
-result, it is much less prone to jank. There is a slight catch, though. The CSS
+result, it is not as prone to jank. There is a slight catch, though. The CSS
 properties `opacity` and `transform` are the only compositor thread-friendly
 properties. Consequently, attempting to animate any other property will make
 your animation run on the main thread, where it will be prone to jank. Still,
