@@ -43,11 +43,14 @@ interface TimelinePointProps {
 const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
   const matches = useMediaQuery(constants.animations);
   const [skip, setSkip] = useState(!matches);
-  const [ref] = useIntersectionObserver({
+  const [ref, entry] = useIntersectionObserver({
     threshold: 0.35,
     skip,
     executeOnce: true,
   });
+
+  // Add initial transform/opacity classes if the entry is not intersecting.
+  const addInitial = !entry?.isIntersecting;
 
   // Disable IntersectionObserver logic if the animation media query doesn't match.
   useEffect(() => {
@@ -65,7 +68,7 @@ const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
             "max-w-xl px-6 animation-safe:transition-performant animation-safe:duration-500",
             {
               "animation-safe-safe:opacity-0 animation-safe:-translate-x-4":
-                false,
+                addInitial,
             }
           )}
         >
@@ -78,7 +81,7 @@ const TimelinePoint = ({ image, description, hasFade }: TimelinePointProps) => {
           { "pb-6": !hasFade },
           {
             "animation-safe:translate-x-1/3 animation-safe:scale-90 animation-safe:opacity-60":
-              false,
+              addInitial,
           }
         )}
       >
