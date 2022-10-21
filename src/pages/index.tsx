@@ -157,7 +157,7 @@ const Home = ({ posts }: HomeProps) => {
             </ViewportPadding>
             <img
               src={gridImage}
-              alt="Perspective grid"
+              alt=""
               className="width-full pointer-events-none absolute bottom-0 left-0"
             />
             <RoundDivider className="absolute bottom-0 z-20 w-full" />
