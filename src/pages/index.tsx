@@ -261,16 +261,16 @@ const Home = ({ posts }: HomeProps) => {
                             key="visual-regression"
                             description={
                               <>
-                                Building a{" "}
+                                Developed a{" "}
                                 <a
                                   className="font-semibold text-purple-400"
                                   href="https://github.com/wikimedia/pixel"
                                 >
                                   visual regression tool
                                 </a>{" "}
-                                used to catch UI bugs before end users see them
-                                and increase confidence during code review and
-                                in production releases.
+                                used each week to catch UI bugs before end users
+                                see them and increase confidence during code
+                                review and in production releases.
                               </>
                             }
                             image={
