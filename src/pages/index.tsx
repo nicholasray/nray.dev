@@ -268,9 +268,9 @@ const Home = ({ posts }: HomeProps) => {
                                 >
                                   visual regression tool
                                 </a>{" "}
-                                used each week to catch UI bugs before end users
-                                see them and increase confidence during code
-                                review and in production releases.
+                                used each week to catch UI bugs before users see
+                                them and increase confidence in releases to
+                                production.
                               </>
                             }
                             image={
