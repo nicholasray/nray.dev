@@ -361,7 +361,7 @@ const Home = ({ posts }: HomeProps) => {
                     about JavaScript, CSS, and the rest of the frontend
                     development world.
                   </Paragraph>
-                  <ul className="mt-12 grid grid-cols-[repeat(auto-fill,minmax(350px,1fr))] gap-4 md:gap-6 lg:gap-8">
+                  <ul className="mt-12 grid gap-4 sm:grid-cols-[repeat(auto-fill,minmax(350px,1fr))] md:gap-6 lg:gap-8">
                     {posts.map((post, idx) => (
                       <li key={idx}>
                         <Link href={post.url}>
