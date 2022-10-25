@@ -15,7 +15,7 @@
   "dependencies": {
     "@codesandbox/sandpack-react": "^1.14.2",
     "@codesandbox/sandpack-themes": "^1.13.0",
-    "@heroicons/react": "^2.0.8",
+    "@heroicons/react": "^2.0.12",
     "acorn": "^8.8.0",
     "clsx": "^1.2.1",
     "contentlayer": "^0.2.8",

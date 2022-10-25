@@ -3,11 +3,10 @@ import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import readingTime from "reading-time";
 import theme from "./src/syntax/overnight.json";
 import rehypePrettyCode from "rehype-pretty-code";
-import { remarkImages, remarkCoverImage, remarkCodeDemo } from "./src/remark";
+import { remarkImages, remarkCodeDemo } from "./src/remark";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import { getDestPath, getPublicUrl, getSrcPath } from "./src/fileUtils";
 import { format, parseISO } from "date-fns";
 
 const CONTENT_DIR = "content";
@@ -18,10 +17,6 @@ export const Post = defineDocumentType(() => ({
   contentType: "mdx",
   fields: {
     title: {
-      type: "string",
-      required: true,
-    },
-    coverFile: {
       type: "string",
       required: true,
     },
@@ -53,19 +48,6 @@ export const Post = defineDocumentType(() => ({
     readTime: {
       type: "string",
       resolve: (post) => readingTime(post.body.raw).text,
-    },
-    cover: {
-      type: "string",
-      resolve: (post) => {
-        const srcPath = getSrcPath(
-          CONTENT_DIR,
-          post._raw.sourceFileDir,
-          post.coverFile
-        );
-        const destPath = getDestPath(CONTENT_DIR, srcPath);
-
-        return getPublicUrl(destPath);
-      },
     },
   },
 }));
@@ -118,7 +100,6 @@ export default makeSource({
       remarkGfm,
       [remarkCodeDemo, { contentDir: CONTENT_DIR }],
       [remarkImages, { contentDir: CONTENT_DIR }],
-      [remarkCoverImage, { contentDir: CONTENT_DIR }],
     ],
     rehypePlugins: [
       [rehypePrettyCode, options],

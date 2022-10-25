@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import { Post } from "contentlayer/generated";
 import rocket from "../../public/rocket.png";
 import { BookOpenIcon } from "@heroicons/react/24/outline";
+import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { LockClosedIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import RoundDivider from "../../public/round-divider.svg";
 import avatar from "../../public/avatar.jpeg";
@@ -360,93 +361,48 @@ const Home = ({ posts }: HomeProps) => {
                     about JavaScript, CSS, and the rest of the frontend
                     development world.
                   </Paragraph>
-                  <ul className="mt-12 grid gap-x-12 sm:grid-cols-2 sm:gap-y-6 md:grid-rows-[repeat(3,auto)]">
+                  <ul className="mt-12 grid grid-cols-[repeat(auto-fill,minmax(350px,1fr))] gap-4 md:gap-6 lg:gap-8">
                     {posts.map((post, idx) => (
-                      <li
-                        className={clsx([
-                          { "pt-7": idx !== 0 },
-                          { "sm:pt-0": idx !== 0 },
-                          { "md:row-span-3": idx === 0 },
-                          { "md:col-start-2": idx !== 0 },
-                        ])}
-                        key={idx}
-                      >
+                      <li key={idx}>
                         <Link href={post.url}>
-                          <a>
-                            <article
-                              className={clsx([
-                                "grid",
-                                "grid-cols-12",
-                                "gap-x-6",
-                                "md:h-full",
-                                "overflow-hidden",
-                                { "items-start": idx !== 0 },
-                                { "md:rounded-2xl md:shadow-xl": idx === 0 },
-                                { "grid-rows-[auto_1fr]": idx === 0 },
-                              ])}
-                            >
-                              <div
+                          <a className="block h-full">
+                            <article className="relative flex h-full min-h-[17rem] flex-col rounded-lg bg-white py-10 px-6 shadow-md">
+                              <ArrowTopRightOnSquareIcon className="absolute right-3 top-3 h-5 w-5 text-blue-600" />
+                              <h3
                                 className={clsx([
-                                  "block",
-                                  "relative",
-                                  "col-span-12",
-                                  "pb-[57%]",
-                                  { "md:col-span-5": idx !== 0 },
-                                  { "md:pb-[100%] lg:pb-[75%]": idx !== 0 },
+                                  "mb-3",
+                                  "text-xl",
+                                  "font-bold",
+                                  "text-gray-100",
+                                  "md:mb-4 md:text-2xl",
+                                  "bg-clip-text",
+                                  "text-transparent",
+                                  "bg-gradient-to-r",
+                                  "from-cyan-500",
+                                  "to-blue-700",
                                 ])}
                               >
-                                <img
-                                  src={post.cover}
-                                  className={clsx([
-                                    "absolute",
-                                    "h-full",
-                                    "w-full",
-                                    "rounded-xl",
-                                    { "md:rounded-b-none": idx === 0 },
-                                    "object-cover",
-                                  ])}
-                                  alt=""
-                                />
-                              </div>
+                                {post.title}
+                              </h3>
                               <div
                                 className={clsx([
-                                  "py-4",
-                                  "col-span-12",
-                                  { "md:py-10 md:px-6": idx === 0 },
-                                  { "md:py-0": idx !== 0 },
-                                  { "md:col-span-7": idx !== 0 },
+                                  "mb-6",
+                                  "font-medium",
+                                  "text-gray-700",
+                                  "md:mb-10 md:text-lg",
                                 ])}
-                              >
-                                <h3
-                                  className={clsx([
-                                    "mb-1",
-                                    "text-lg",
-                                    "font-bold",
-                                    "text-gray-900",
-                                    { "md:mb-4 md:text-2xl": idx === 0 },
-                                  ])}
+                                dangerouslySetInnerHTML={{
+                                  __html: post.description.html,
+                                }}
+                              />
+                              <footer className="mt-auto font-mono">
+                                <time
+                                  dateTime={post.publishedAt}
+                                  className="text-gray-600"
                                 >
-                                  {post.title}
-                                </h3>
-                                <div
-                                  className={clsx([
-                                    "mb-4",
-                                    "font-medium",
-                                    { "md:mb-8 md:text-lg": idx === 0 },
-                                  ])}
-                                  dangerouslySetInnerHTML={{
-                                    __html: post.description.html,
-                                  }}
-                                />
-                                <footer>
-                                  <time
-                                    dateTime={post.publishedAt}
-                                    className="text-gray-600"
-                                  >
-                                    {post.publishedAtFormatted}
-                                  </time>
-                                </footer>
-                              </div>
+                                  {post.publishedAtFormatted}
+                                </time>
+                              </footer>
                             </article>
                           </a>
                         </Link>
@@ -468,14 +424,7 @@ export async function getStaticProps() {
   return {
     props: {
       posts: allPosts(
-        [
-          "description",
-          "publishedAt",
-          "publishedAtFormatted",
-          "cover",
-          "url",
-          "title",
-        ],
+        ["description", "publishedAt", "publishedAtFormatted", "url", "title"],
         3
       ),
     },
