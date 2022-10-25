@@ -1,9 +1,11 @@
 import { visit } from "unist-util-visit";
 import sizeOf from "image-size";
-import { copyIfUpdated, getDestPath, getSrcPath } from "../imageUtils";
-
-const PUBLIC_DIR = "public";
-const ROOT_PATH = process.cwd();
+import {
+  copyIfUpdated,
+  getDestPath,
+  getSrcPath,
+  getPublicUrl,
+} from "../fileUtils";
 
 interface ImagePath {
   srcPath: string;
@@ -50,7 +52,7 @@ const remarkImages = ({ contentDir }: RemarkImagesOptions) => {
       );
       const destPath = getDestPath(contentDir, srcPath);
 
-      srcAttribute.value = destPath.replace(`${ROOT_PATH}/${PUBLIC_DIR}`, "");
+      srcAttribute.value = getPublicUrl(destPath);
 
       const dimensions = sizeOf(srcPath);
 

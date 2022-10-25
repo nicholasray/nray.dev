@@ -1,5 +1,5 @@
 import { visit } from "unist-util-visit";
-import { copyIfUpdated, getDestPath, getSrcPath } from "../imageUtils";
+import { copyIfUpdated, getDestPath, getSrcPath } from "../fileUtils";
 
 interface ImagePath {
   srcPath: string;

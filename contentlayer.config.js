@@ -3,11 +3,11 @@ import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import readingTime from "reading-time";
 import theme from "./src/syntax/overnight.json";
 import rehypePrettyCode from "rehype-pretty-code";
-import { remarkImages, remarkCoverImage, remarkCodeEditor } from "./src/remark";
+import { remarkImages, remarkCoverImage, remarkCodeDemo } from "./src/remark";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import { getDestPath, getImageUrl, getSrcPath } from "./src/imageUtils";
+import { getDestPath, getPublicUrl, getSrcPath } from "./src/fileUtils";
 import { format, parseISO } from "date-fns";
 
 const CONTENT_DIR = "content";
@@ -64,7 +64,7 @@ export const Post = defineDocumentType(() => ({
         );
         const destPath = getDestPath(CONTENT_DIR, srcPath);
 
-        return getImageUrl(destPath);
+        return getPublicUrl(destPath);
       },
     },
   },
@@ -116,7 +116,7 @@ export default makeSource({
   mdx: {
     remarkPlugins: [
       remarkGfm,
-      [remarkCodeEditor, { contentDir: CONTENT_DIR }],
+      [remarkCodeDemo, { contentDir: CONTENT_DIR }],
       [remarkImages, { contentDir: CONTENT_DIR }],
       [remarkCoverImage, { contentDir: CONTENT_DIR }],
     ],
