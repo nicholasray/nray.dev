@@ -1,10 +1,10 @@
 import Container from "./Container";
 import ViewportPadding from "./ViewportPadding";
-import RoundDivider from "../../public/round-divider.svg";
-import stackCloudImage from "../../public/stack-cloud.svg?url";
+import RoundDivider from "@public/round-divider.svg";
+import stackCloudImage from "@public/stack-cloud.svg?url";
 import Heading from "./Heading";
 import Paragraph from "./Paragraph";
-import ButtonIconImage from "../../public/button-icon.svg";
+import ButtonIconImage from "@public/button-icon.svg";
 
 const CONVERTKIT_FORM_URL =
   "https://app.convertkit.com/forms/3512386/subscriptions";

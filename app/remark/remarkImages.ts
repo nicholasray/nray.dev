@@ -5,7 +5,7 @@ import {
   getDestPath,
   getSrcPath,
   getPublicUrl,
-} from "../fileUtils";
+} from "./fileUtils";
 
 interface ImagePath {
   srcPath: string;

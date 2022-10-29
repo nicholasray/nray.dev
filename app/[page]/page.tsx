@@ -1,8 +1,7 @@
 import { allPages, Page } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import Head from "next/head";
-import Layout from "src/components/Layout";
-import ViewportPadding from "src/components/ViewportPadding";
+import ViewportPadding from "@app/components/ViewportPadding";
 
 interface PageProps {
   page: Page;
@@ -16,15 +15,13 @@ const PageLayout = ({ page }: PageProps) => {
       <Head>
         <title>{page.title}</title>
       </Head>
-      <Layout>
-        <ViewportPadding>
-          <article className="mx-auto mt-10 mb-20 max-w-3xl sm:mb-32 md:mb-40">
-            <div className="prose !prose-invert prose-slate max-w-none prose-pre:bg-gray-800 lg:prose-xl">
-              <MDXContent />
-            </div>
-          </article>{" "}
-        </ViewportPadding>
-      </Layout>
+      <ViewportPadding>
+        <article className="mx-auto mt-10 mb-20 max-w-3xl sm:mb-32 md:mb-40">
+          <div className="prose !prose-invert prose-slate max-w-none prose-pre:bg-gray-800 lg:prose-xl">
+            <MDXContent />
+          </div>
+        </article>{" "}
+      </ViewportPadding>
     </>
   );
 };

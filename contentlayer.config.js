@@ -1,9 +1,9 @@
 // eslint-disable-next-line import/no-unresolved
 import { defineDocumentType, makeSource } from "contentlayer/source-files";
 import readingTime from "reading-time";
-import theme from "./src/syntax/overnight.json";
+import theme from "./app/syntax/overnight.json";
 import rehypePrettyCode from "rehype-pretty-code";
-import { remarkImages, remarkCodeDemo } from "./src/remark";
+import { remarkImages, remarkCodeDemo } from "./app/remark";
 import remarkGfm from "remark-gfm";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";

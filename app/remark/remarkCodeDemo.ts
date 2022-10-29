@@ -16,7 +16,7 @@ import {
   getDestPath,
   getPublicUrl,
   getSrcPath,
-} from "../fileUtils";
+} from "./fileUtils";
 
 interface RemarkCodeDemoOptions {
   /**

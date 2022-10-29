@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Logo from "../../public/logo.svg";
-import Github from "../../public/github.svg";
+import Logo from "@public/logo.svg";
+import Github from "@public/github.svg";
 import ViewportPadding from "./ViewportPadding";
 import HamburgerMenu from "./HamburgerMenu";
 
@@ -25,10 +25,8 @@ const Header = () => {
     >
       <div>
         <Link href="/">
-          <a>
-            <span className="sr-only">nray.dev home page</span>
-            <Logo className="h-8 w-auto" />
-          </a>
+          <span className="sr-only">nray.dev home page</span>
+          <Logo className="h-8 w-auto" />
         </Link>
       </div>
       <div className="flex items-center">

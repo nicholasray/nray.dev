@@ -42,3 +42,5 @@ public/content
 /tests/ui/*-snapshots
 /playwright-report/
 /playwright/.cache/
+
+.vscode

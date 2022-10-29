@@ -3,6 +3,12 @@ const { withContentlayer } = require("next-contentlayer");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withContentlayer({
+  experimental: {
+    appDir: true,
+    fontLoaders: [
+      { loader: "@next/font/google", options: { subsets: ["latin"] } },
+    ],
+  },
   reactStrictMode: false,
   swcMinify: true,
   webpack(config) {
