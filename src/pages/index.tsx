@@ -269,8 +269,8 @@ const Home = ({ posts }: HomeProps) => {
                                 >
                                   visual regression tool
                                 </a>{" "}
-                                that is used each week to catch UI bugs before
-                                users see them and increase confidence in
+                                that was used each week to catch UI bugs before
+                                users saw them and increased confidence in
                                 releases to production.
                               </>
                             }
@@ -314,15 +314,15 @@ const Home = ({ posts }: HomeProps) => {
                             description={
                               <>
                                 Optimized article readability, accessibility,
-                                and perceived performance by developing a{" "}
+                                and performance of the desktop site by
+                                developing a{" "}
                                 <a href="https://www.mediawiki.org/wiki/Reading/Web/Desktop_Improvements/Features/Limiting_content_width">
                                   new layout
-                                </a>
-                                for the desktop site which heavily refactored
-                                the DOM and featured an optimal line length for
-                                reading. The new layout was one of the most
+                                </a>{" "}
+                                to support a line length that made reading
+                                easier. The new layout was one of the most
                                 dramatic visual changes to the desktop site in
-                                over a decade!
+                                over a decade.
                               </>
                             }
                             image={
