@@ -169,7 +169,7 @@ const Home = ({ posts }: HomeProps) => {
                 <Container>
                   <div className="flex flex-col items-center">
                     <div className="mb-5 flex items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-pink-400 p-1">
-                      <div className="h-16 w-16 rounded-full border-[3px] border-white lg:h-20 lg:w-20">
+                      <div className="h-[6rem] w-[6rem] rounded-full border-[3px] border-white lg:h-20 lg:w-20">
                         <Image
                           className="rounded-full"
                           sizes={`(min-width: ${screens.lg}) 5rem, 4rem`}
