@@ -27,7 +27,7 @@
       }
 
       header {
-        padding: 16px;
+        padding: 1rem;
         background: white;
         box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
           0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -41,17 +41,20 @@
         }
       }
 
+      .padded {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
       main {
-        margin-top: 48px;
-        padding-left: 16px;
-        padding-right: 16px;
+        padding-top: 1rem;
       }
 
       .buttons > * + * {
         margin-top: 0.5rem;
       }
 
-      @media screen and (min-width: 768px) {
+      @media screen and (min-width: 48rem) {
         .buttons {
           display: flex;
           justify-content: center;
@@ -63,78 +66,124 @@
         }
       }
 
-      button {
+      .button {
         background: #64748b;
         border-radius: 0.5rem;
         border: none;
         display: block;
         height: 3rem;
         color: white;
-        padding-left: 8px;
-        padding-right: 8px;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
         cursor: pointer;
         font-weight: bold;
         box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1),
           0 2px 4px -2px rgb(0 0 0 / 0.1);
       }
 
-      button:hover {
+      .button--unrounded-top {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+
+      .button:hover {
         background: #475569;
       }
 
-      button:active {
+      .button:active {
         background: #334155;
         box-shadow: none;
+      }
+
+      .button--recalc {
+        width: 100%;
+      }
+
+      .button--efficient {
+        width: 100%;
       }
 
       .stats {
         display: flex;
         justify-content: center;
-        gap: 16px;
+        gap: 1rem;
       }
 
       .stat {
         background: white;
         border-radius: 8px;
-        padding: 16px;
+        padding: 1rem;
         box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1),
           0 1px 2px -1px rgb(0 0 0 / 0.1);
         width: 250px;
-        padding-top: 24px;
-        padding-bottom: 24px;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
         font-size: 0.875rem;
         color: #64748b;
       }
 
+      .outputs {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      @media screen and (min-width: 48rem) {
+        .outputs {
+          flex-direction: row;
+          justify-content: center;
+          margin-top: 4rem;
+        }
+      }
+
       .output {
-        max-width: 50rem;
-        margin-top: 64px;
-        margin-left: auto;
-        margin-right: auto;
+        display: flex;
+        flex-direction: column;
+        max-width: 35rem;
         border-radius: 0.5rem;
         overflow: hidden;
       }
 
+      .output__title {
+        padding: 0.5rem 0.75rem;
+        background: #cbd5e1;
+      }
+
       .shiki {
-        padding: 12px;
+        padding: 0.75rem;
         margin: 0;
         overflow: auto;
+        flex-grow: 1;
       }
 
       .stat-value {
         color: #000;
-        margin-top: 4px;
+        margin-top: 0.25rem;
         font-weight: bold;
         font-size: 2rem;
+      }
+
+      .grid-section {
+        margin-top: 4rem;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+        background: #e2e8f0;
       }
 
       .grid {
         position: relative;
         width: 100%;
-        margin-top: 64px;
         display: grid;
         grid-template-columns: repeat(auto-fill, 250px);
         gap: 24px;
+        padding-top: 2.5rem;
+      }
+
+      .grid-section-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
       }
 
       .card {
@@ -145,81 +194,116 @@
         justify-content: center;
         box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1),
           0 1px 2px -1px rgb(0 0 0 / 0.1);
-        height: 250px;
+        height: 15rem;
         border-radius: 24px;
         font-size: 1.5rem;
       }
     </style>
   </head>
   <body>
-    <header>
-      <div class="buttons">
-        <button class="recalc-button">
-          Increase height and offsetTop (unbatched)
-        </button>
-        <button class="efficient-button">
-          Increase height and offsetTop (batched)
-        </button>
-        <button class="clone-thousand-button">Add 1,000 cloned nodes</button>
-        <button class="clone-fifty-thousand-button">
-          Add 50,000 cloned nodes
-        </button>
-      </div>
-    </header>
     <main>
-      <div class="stats">
-        <div class="stat">
-          Last Operation Time (ms):
-          <div class="stat-value operation-time">0ms</div>
-        </div>
-        <div class="stat">
-          Number of Nodes:
-          <div class="stat-value node-count">1 node</div>
-        </div>
-      </div>
-      <div class="output">
-        <pre class="shiki" style="background-color: #272822"><code>
-<span class="line"><span style="color: #66D9EF; font-style: italic">const</span><span style="color: #F8F8F2"> cards </span><span style="color: #F92672">=</span><span style="color: #F8F8F2"> document.</span><span style="color: #A6E22E">querySelectorAll</span><span style="color: #F8F8F2">(</span><span style="color: #E6DB74">".card"</span><span style="color: #F8F8F2">);</span></span>
-<span class="line"><span style="color: #66D9EF; font-style: italic">const</span><span style="color: #F8F8F2"> writes </span><span style="color: #F92672">=</span><span style="color: #F8F8F2"> [];</span></span>
-<span class="line"></span>
-<span class="line"><span style="color: #F8F8F2">cards.</span><span style="color: #A6E22E">forEach</span><span style="color: #F8F8F2">((</span><span style="color: #FD971F; font-style: italic">card</span><span style="color: #F8F8F2">) </span><span style="color: #66D9EF; font-style: italic">=&gt;</span><span style="color: #F8F8F2"> {</span></span>
-<span class="line"><span style="color: #F8F8F2">  </span><span style="color: #88846F">// Read the current height.</span></span>
-<span class="line"><span style="color: #F8F8F2">  </span><span style="color: #66D9EF; font-style: italic">const</span><span style="color: #F8F8F2"> height </span><span style="color: #F92672">=</span><span style="color: #F8F8F2"> </span><span style="color: #E6DB74">`260px`</span><span style="color: #F8F8F2">;</span></span>
-<span class="line"><span style="color: #F8F8F2">  </span><span style="color: #88846F">// Read the current offsetTop.</span></span>
-<span class="line"><span style="color: #F8F8F2">  </span><span style="color: #66D9EF; font-style: italic">const</span><span style="color: #F8F8F2"> offsetTop </span><span style="color: #F92672">=</span><span style="color: #F8F8F2"> </span><span style="color: #E6DB74">`10px`</span><span style="color: #F8F8F2">;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color: #F8F8F2">  writes.</span><span style="color: #A6E22E">push</span><span style="color: #F8F8F2">(() </span><span style="color: #66D9EF; font-style: italic">=&gt;</span><span style="color: #F8F8F2"> {</span></span>
-<span class="line"><span style="color: #F8F8F2">    </span><span style="color: #88846F">// Write new height.</span></span>
-<span class="line"><span style="color: #F8F8F2">    card.style.height </span><span style="color: #F92672">=</span><span style="color: #F8F8F2"> height;</span></span>
-<span class="line"><span style="color: #F8F8F2">    </span><span style="color: #88846F">// Write value in DOM.</span></span>
-<span class="line"><span style="color: #F8F8F2">    card.</span><span style="color: #A6E22E">querySelector</span><span style="color: #F8F8F2">(</span><span style="color: #E6DB74">".height-value"</span><span style="color: #F8F8F2">).innerText </span><span style="color: #F92672">=</span><span style="color: #F8F8F2"> height;</span></span>
-<span class="line"></span>
-<span class="line"><span style="color: #F8F8F2">    </span><span style="color: #88846F">// Write new offsetTop.</span></span>
-<span class="line"><span style="color: #F8F8F2">    card.style.top </span><span style="color: #F92672">=</span><span style="color: #F8F8F2"> offsetTop;</span></span>
-<span class="line"><span style="color: #F8F8F2">    </span><span style="color: #88846F">// Write new value in DOM.</span></span>
-<span class="line"><span style="color: #F8F8F2">    card.</span><span style="color: #A6E22E">querySelector</span><span style="color: #F8F8F2">(</span><span style="color: #E6DB74">".top-value"</span><span style="color: #F8F8F2">).innerText </span><span style="color: #F92672">=</span><span style="color: #F8F8F2"> offsetTop;</span></span>
-<span class="line"><span style="color: #F8F8F2">  });</span></span>
-<span class="line"><span style="color: #F8F8F2">});</span></span>
-<span class="line"></span>
-<span class="line"><span style="color: #A6E22E">requestAnimationFrame</span><span style="color: #F8F8F2">(() </span><span style="color: #66D9EF; font-style: italic">=&gt;</span><span style="color: #F8F8F2"> {</span></span>
-<span class="line"><span style="color: #F8F8F2">  </span><span style="color: #A6E22E">requestAnimationFrame</span><span style="color: #F8F8F2">(() </span><span style="color: #66D9EF; font-style: italic">=&gt;</span><span style="color: #F8F8F2"> {</span></span>
-<span class="line"><span style="color: #F8F8F2">    writes.</span><span style="color: #A6E22E">forEach</span><span style="color: #F8F8F2">((</span><span style="color: #FD971F; font-style: italic">write</span><span style="color: #F8F8F2">) </span><span style="color: #66D9EF; font-style: italic">=&gt;</span><span style="color: #F8F8F2"> </span><span style="color: #A6E22E">write</span><span style="color: #F8F8F2">());</span></span>
-<span class="line"><span style="color: #F8F8F2">  });</span></span>
-<span class="line"><span style="color: #F8F8F2">});</span></span>
-<span class="line"><span style="color: #F8F8F2">      </span></span></code></pre>
-      </div>
-      <div class="grid">
-        <div class="card">
-          <div>
-            <div><span class="height-value">250px</span> height</div>
-            <div><span class="top-value">0px</span> offsetTop</div>
+      <section class="padded">
+        <div class="stats">
+          <div class="stat">
+            Last Operation Time (ms):
+            <div class="stat-value operation-time">0ms</div>
+          </div>
+          <div class="stat">
+            Number of Nodes:
+            <div class="stat-value node-count">1 node</div>
           </div>
         </div>
-      </div>
+        <div class="outputs">
+          <div class="output output-recalc">
+            <div class="output__title">Unbatched reads/writes</div>
+            <pre
+              class="shiki"
+              style="background-color: #ffffff"
+            ><code><span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">cards</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> document.</span><span style="color: #8250DF">querySelectorAll</span><span style="color: #24292F">(</span><span style="color: #0A3069">".card"</span><span style="color: #24292F">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">cards.</span><span style="color: #8250DF">forEach</span><span style="color: #24292F">((</span><span style="color: #953800">card</span><span style="color: #24292F">) </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #6E7781">// Read the current height.</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">height</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0A3069">`${</span><span style="color: #24292F">card</span><span style="color: #0A3069">.</span><span style="color: #8250DF">getBoundingClientRect</span><span style="color: #0A3069">().</span><span style="color: #24292F">height</span><span style="color: #0A3069"> </span><span style="color: #CF222E">+</span><span style="color: #0A3069"> </span><span style="color: #0550AE">10</span><span style="color: #0A3069">}px`</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #6E7781">// Write new height.</span></span>
+<span class="line"><span style="color: #24292F">  card.style.height </span><span style="color: #CF222E">=</span><span style="color: #24292F"> height;</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #6E7781">// Write value in DOM.</span></span>
+<span class="line"><span style="color: #24292F">  card.</span><span style="color: #8250DF">querySelector</span><span style="color: #24292F">(</span><span style="color: #0A3069">".height-value"</span><span style="color: #24292F">).innerText </span><span style="color: #CF222E">=</span><span style="color: #24292F"> height;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #6E7781">// Read the current offsetTop.</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">left</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0A3069">`${</span><span style="color: #24292F">card</span><span style="color: #0A3069">.</span><span style="color: #24292F">offsetLeft</span><span style="color: #0A3069">}px`</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #6E7781">// Write new value in DOM.</span></span>
+<span class="line"><span style="color: #24292F">  card.</span><span style="color: #8250DF">querySelector</span><span style="color: #24292F">(</span><span style="color: #0A3069">".left-value"</span><span style="color: #24292F">).innerText </span><span style="color: #CF222E">=</span><span style="color: #24292F"> left;</span></span>
+<span class="line"><span style="color: #24292F">});</span></span>
+<span class="line"></span></code></pre>
+            <button class="button button--recalc button--unrounded-top">
+              Execute
+            </button>
+          </div>
+
+          <div class="output output-efficient">
+            <div class="output__title">Batched reads/writes</div>
+            <pre
+              class="shiki"
+              style="background-color: #ffffff"
+            ><code><span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">cards</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> document.</span><span style="color: #8250DF">querySelectorAll</span><span style="color: #24292F">(</span><span style="color: #0A3069">".card"</span><span style="color: #24292F">);</span></span>
+<span class="line"><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">writes</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> [];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">cards.</span><span style="color: #8250DF">forEach</span><span style="color: #24292F">((</span><span style="color: #953800">card</span><span style="color: #24292F">) </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #6E7781">// Read the current height.</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">height</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0A3069">`${</span><span style="color: #24292F">card</span><span style="color: #0A3069">.</span><span style="color: #8250DF">getBoundingClientRect</span><span style="color: #0A3069">().</span><span style="color: #24292F">height</span><span style="color: #0A3069"> </span><span style="color: #CF222E">+</span><span style="color: #0A3069"> </span><span style="color: #0550AE">10</span><span style="color: #0A3069">}px`</span><span style="color: #24292F">;</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #6E7781">// Read the current offsetLeft</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">left</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> </span><span style="color: #0A3069">`${</span><span style="color: #24292F">card</span><span style="color: #0A3069">.</span><span style="color: #24292F">offsetLeft</span><span style="color: #0A3069">}px`</span><span style="color: #24292F">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">  writes.</span><span style="color: #8250DF">push</span><span style="color: #24292F">(() </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">// Write new height.</span></span>
+<span class="line"><span style="color: #24292F">    card.style.height </span><span style="color: #CF222E">=</span><span style="color: #24292F"> height;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">// Write height value in DOM.</span></span>
+<span class="line"><span style="color: #24292F">    card.</span><span style="color: #8250DF">querySelector</span><span style="color: #24292F">(</span><span style="color: #0A3069">".height-value"</span><span style="color: #24292F">).innerText </span><span style="color: #CF222E">=</span><span style="color: #24292F"> height;</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #6E7781">// Write left value in DOM.</span></span>
+<span class="line"><span style="color: #24292F">    card.</span><span style="color: #8250DF">querySelector</span><span style="color: #24292F">(</span><span style="color: #0A3069">".left-value"</span><span style="color: #24292F">).innerText </span><span style="color: #CF222E">=</span><span style="color: #24292F"> left;</span></span>
+<span class="line"><span style="color: #24292F">  });</span></span>
+<span class="line"><span style="color: #24292F">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #6E7781">// Wait until the next frame to begin executing the batch of writes.</span></span>
+<span class="line"><span style="color: #8250DF">requestAnimationFrame</span><span style="color: #24292F">(() </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">  </span><span style="color: #8250DF">requestAnimationFrame</span><span style="color: #24292F">(() </span><span style="color: #CF222E">=&gt;</span><span style="color: #24292F"> {</span></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #CF222E">while</span><span style="color: #24292F"> (writes.</span><span style="color: #0550AE">length</span><span style="color: #24292F">) {</span></span>
+<span class="line"><span style="color: #24292F">      </span><span style="color: #CF222E">const</span><span style="color: #24292F"> </span><span style="color: #0550AE">write</span><span style="color: #24292F"> </span><span style="color: #CF222E">=</span><span style="color: #24292F"> writes.</span><span style="color: #8250DF">shift</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">      </span><span style="color: #8250DF">write</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">    }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color: #24292F">    </span><span style="color: #8250DF">done</span><span style="color: #24292F">();</span></span>
+<span class="line"><span style="color: #24292F">  });</span></span>
+<span class="line"><span style="color: #24292F">});</span></span>
+<span class="line"></span></code></pre>
+            <button class="button button--efficient button--unrounded-top">
+              Execute
+            </button>
+          </div>
+        </div>
+      </section>
+      <section class="padded grid-section">
+        <div class="grid-section-buttons">
+          <button class="button clone-thousand-button">
+            Add 1,000 cloned nodes
+          </button>
+          <button class="button clone-fifty-thousand-button">
+            Add 50,000 cloned nodes
+          </button>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <div>
+              <div><span class="height-value">250px</span> height</div>
+              <div><span class="left-value">0px</span> offsetLeft</div>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
     <script>
-      const recalcButton = document.querySelector(".recalc-button");
-      const efficientButton = document.querySelector(".efficient-button");
+      const recalcButton = document.querySelector(".button--recalc");
+      const efficientButton = document.querySelector(".button--efficient");
       const cloneThousandButton = document.querySelector(
         ".clone-thousand-button"
       );
@@ -234,24 +318,29 @@
       function timer(fn) {
         return () => {
           const t0 = performance.now();
-          fn();
-          requestAnimationFrame(() => {
+
+          fn(() => {
             requestAnimationFrame(() => {
-              const t1 = performance.now();
-              operationTime.innerText = `${Math.round(t1 - t0)}ms`;
+              requestAnimationFrame(() => {
+                const t1 = performance.now();
+                operationTime.innerText = `${Math.round(
+                  t1 - t0
+                ).toLocaleString()} ms`;
+              });
             });
           });
         };
       }
 
       function cloneNodes(number) {
-        return timer(() => {
+        return timer((done) => {
           for (let i = 0; i < number; i++) {
             let cloned = firstCard.cloneNode(true);
             grid.appendChild(cloned);
           }
 
           nodeCount.innerText = `${grid.children.length.toLocaleString()} nodes`;
+          done();
         });
       }
 
@@ -261,7 +350,7 @@
 
       recalcButton.addEventListener(
         "click",
-        timer(() => {
+        timer((done) => {
           const cards = document.querySelectorAll(".card");
 
           cards.forEach((card) => {
@@ -273,43 +362,46 @@
             card.querySelector(".height-value").innerText = height;
 
             // Read the current offsetTop.
-            const offsetTop = `${card.offsetTop + 10}px`;
-            // Write new offsetTop.
-            card.style.top = offsetTop;
+            const left = `${card.offsetLeft}px`;
             // Write new value in DOM.
-            card.querySelector(".top-value").innerText = offsetTop;
+            card.querySelector(".left-value").innerText = left;
           });
+
+          done();
         })
       );
 
       efficientButton.addEventListener(
         "click",
-        timer(() => {
+        timer((done) => {
           const cards = document.querySelectorAll(".card");
           const writes = [];
 
           cards.forEach((card) => {
             // Read the current height.
             const height = `${card.getBoundingClientRect().height + 10}px`;
-            // Read the current offsetTop.
-            const offsetTop = `${card.offsetTop + 10}px`;
+            // Read the current offsetLeft
+            const left = `${card.offsetLeft}px`;
 
             writes.push(() => {
               // Write new height.
               card.style.height = height;
-              // Write value in DOM.
+              // Write height value in DOM.
               card.querySelector(".height-value").innerText = height;
-
-              // Write new offsetTop.
-              card.style.top = offsetTop;
-              // Write new value in DOM.
-              card.querySelector(".top-value").innerText = offsetTop;
+              // Write left value in DOM.
+              card.querySelector(".left-value").innerText = left;
             });
           });
 
+          // Wait until the next frame to begin executing the batch of writes.
           requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-              writes.forEach((write) => write());
+              while (writes.length) {
+                const write = writes.shift();
+                write();
+              }
+
+              done();
             });
           });
         })
