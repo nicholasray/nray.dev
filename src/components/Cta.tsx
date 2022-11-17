@@ -8,7 +8,7 @@ import ButtonIconImage from "../../public/button-icon.svg";
 
 const CONVERTKIT_FORM_URL =
   "https://app.convertkit.com/forms/3512386/subscriptions";
-const DEFAULT_DESCRIPTION = `Subscribe to my newsletter and I'll let you know when new posts are released and share additional insights that can help your frontend development career.
+const DEFAULT_DESCRIPTION = `Subscribe to my newsletter and I'll let you know when new posts are released and share additional insights that can help your front-end development career.
 `;
 
 interface CtaProps {
@@ -38,7 +38,7 @@ const Cta = ({
             <div className="lg:col-start-1">
               <Heading color="white">
                 Become a better{" "}
-                <span className="text-gradient">frontend developer</span>
+                <span className="text-gradient">front-end developer</span>
               </Heading>
               <Paragraph className="whitespace-pre-line" color="lightGray">
                 {description}

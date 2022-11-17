@@ -1,5 +1,4 @@
 import Layout from "../../components/Layout";
-import React from "react";
 import { Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
 import avatar from "../../../public/avatar.jpeg";
@@ -77,7 +76,7 @@ export default function PostLayout({ post }: PostProps) {
             </ViewportPadding>
           </section>
           <Cta
-            description={`If you liked this post, consider subscribing to my newsletter. I'll let you know when new posts are released and share additional insights that can help your frontend development career.
+            description={`If you liked this post, consider subscribing to my newsletter. I'll let you know when new posts are released and share additional insights that can help your front-end development career.
             
             No spam. Unsubscribe at any time.
             `}

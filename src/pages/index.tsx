@@ -183,7 +183,7 @@ const Home = ({ posts }: HomeProps) => {
                       8+ years of web development experience
                     </Heading>
                     <Paragraph className="text-center">
-                      Specializing in frontend web development, I use
+                      Specializing in front-end web development, I use
                       JavaScript, Node.js, TypeScript, HTML, CSS, and React to
                       make websites and apps focused on performance,
                       accessibility, and a delightful user experience.
@@ -358,7 +358,7 @@ const Home = ({ posts }: HomeProps) => {
                   </Heading>
                   <Paragraph>
                     I recently started a blog where I share what I’ve learned
-                    about JavaScript, CSS, and the rest of the frontend
+                    about JavaScript, CSS, and the rest of the front-end
                     development world.
                   </Paragraph>
                   <ul className="mt-12 grid gap-4 sm:grid-cols-[repeat(auto-fill,minmax(350px,1fr))] md:gap-6 lg:gap-8">

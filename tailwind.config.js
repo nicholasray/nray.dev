@@ -7,6 +7,7 @@ const constants = require("./src/constants");
 module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./content/blog/**/*.{js,ts,jsx,tsx,mdx}",
     "./content/contact.mdx",
     "./contentlayer.config.js",
   ],
@@ -19,6 +20,14 @@ module.exports = {
       keyframes: {
         "transform-zero": {
           "100%": { transform: "translate(0)", opacity: 1 },
+        },
+        "vertical-bounce-inefficient": {
+          "0%, 100%": { top: 0 },
+          "50%": { top: "286px" },
+        },
+        "vertical-bounce-efficient": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(286px)" },
         },
       },
       fontFamily: {

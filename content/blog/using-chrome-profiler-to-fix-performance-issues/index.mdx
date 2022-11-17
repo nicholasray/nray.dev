@@ -5,28 +5,39 @@ description:
   performance problems. Learn how in this article!
 ---
 
-## CSS properties that are GPU intensive
+import JankAnimation from "./using-chrome-profiler-to-fix-performance-issues/JankAnimation.tsx";
+
+When you go to a doctor for pain, they might take an x-ray, CT scan, or MRI of
+you to help with the diagnosis. Doctors then look at the results of the imaging
+and map certain characteristics to a diagnosis. Similar to how the medical world
+has these tests for humans, web developers have diagnostic tests to help them
+determine issues with websites. One of the most popular ones, Chrome DevTools,
+contains a plethora of helpful tools to help diagnose problems including the
+ability to profile the runtime performance of websites.
+
+In this post, we'll use the performance panel of Chrome DevTools to diagnose
+several common performance issues that websites can experience. In doing so,
+we'll learn the characteristics of each performance problem so that you can
+recognize them in the future. Let's get started!
 
 ## Animations That Run On the Main Thread
 
 - Compositor thread-friendly properties: Opacity and Transform
 - Flip Technique
 
-## Forced Synchronous Layout
+<JankAnimation />
+
+## Forced Synchronous Layouts
 
 [Forced Synchronous Layout](demos/performance/index.html)
 
 ## Layout Thrashing
-
-## Long Tasks
 
 ## Excessive DOM Size
 
 - Responsible for slow recalc style and layouts
 
 [Large DOM Size](demos/performance/index.html)
-
-## CSS properties that are GPU intensive
 
 ## Conclusion
 

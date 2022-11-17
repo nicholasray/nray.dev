@@ -16,6 +16,7 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
+      "@components/*": ["src/components/*"],
       "contentlayer/generated": ["./.contentlayer/generated"]
     }
   },

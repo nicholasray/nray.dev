@@ -4,7 +4,7 @@ import { DefaultSeo } from "next-seo";
 import constants from "src/constants";
 const title = "Nick Ray - Senior Software Engineer";
 const description =
-  "Learn Javascript, React, CSS and more frontend development from the portfolio site of Nick Ray.";
+  "Learn JavaScript, React, CSS and more front-end development from the portfolio site of Nick Ray.";
 
 function App({ Component, pageProps }: AppProps) {
   return (

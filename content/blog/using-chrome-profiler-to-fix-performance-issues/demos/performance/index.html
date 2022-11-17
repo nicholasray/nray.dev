@@ -294,8 +294,8 @@
         <div class="grid">
           <div class="card">
             <div>
-              <div><span class="height-value">250px</span> height</div>
-              <div><span class="left-value">0px</span> offsetLeft</div>
+              <div class="height-value">250px height</div>
+              <div class="left-value">0px offsetLeft</div>
             </div>
           </div>
         </div>
@@ -336,6 +336,8 @@
         return timer((done) => {
           for (let i = 0; i < number; i++) {
             let cloned = firstCard.cloneNode(true);
+            cloned.querySelector(".height-value").innerText = "";
+            cloned.querySelector(".left-value").innerText = "";
             grid.appendChild(cloned);
           }
 
@@ -359,12 +361,12 @@
             // Write new height.
             card.style.height = height;
             // Write value in DOM.
-            card.querySelector(".height-value").innerText = height;
+            card.querySelector(".height-value").innerText = `${height} height`;
 
             // Read the current offsetTop.
             const left = `${card.offsetLeft}px`;
             // Write new value in DOM.
-            card.querySelector(".left-value").innerText = left;
+            card.querySelector(".left-value").innerText = `${left} offsetLeft`;
           });
 
           done();
@@ -387,9 +389,13 @@
               // Write new height.
               card.style.height = height;
               // Write height value in DOM.
-              card.querySelector(".height-value").innerText = height;
+              card.querySelector(
+                ".height-value"
+              ).innerText = `${height} height`;
               // Write left value in DOM.
-              card.querySelector(".left-value").innerText = left;
+              card.querySelector(
+                ".left-value"
+              ).innerText = `${left} offsetLeft`;
             });
           });
 
