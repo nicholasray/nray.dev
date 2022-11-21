@@ -6,7 +6,7 @@ import { BookOpenIcon } from "@heroicons/react/24/outline";
 import { ArrowTopRightOnSquareIcon } from "@heroicons/react/20/solid";
 import { LockClosedIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import RoundDivider from "../../public/round-divider.svg";
-import avatar from "../../public/avatar.jpeg";
+import avatar from "../../public/avatar.jpg";
 import JsLogo from "../../public/third-party-logos/js.svg";
 import NodeLogo from "../../public/third-party-logos/node.svg";
 import TypescriptLogo from "../../public/third-party-logos/typescript.svg";

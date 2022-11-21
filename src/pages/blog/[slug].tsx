@@ -1,7 +1,7 @@
 import Layout from "../../components/Layout";
 import { Post } from "contentlayer/generated";
 import { useMDXComponent } from "next-contentlayer/hooks";
-import avatar from "../../../public/avatar.jpeg";
+import avatar from "../../../public/avatar.jpg";
 import NextImage from "next/future/image";
 import styles from "../../styles/blog/blog.module.css";
 import BlogImage from "src/components/BlogImage";
