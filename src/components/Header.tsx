@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Logo from "../../public/logo.svg";
 import Github from "../../public/github.svg";
+import LinkedIn from "../../public/linkedin.svg";
 import ViewportPadding from "./ViewportPadding";
 import HamburgerMenu from "./HamburgerMenu";
 
@@ -9,6 +10,13 @@ const Header = () => {
     ["Blog", "/#blog"],
     ["Resume", "/resume.pdf"],
     ["Contact", "/contact"],
+    [
+      <div key="linkedin">
+        <span className="sr-only">LinkedIn profile</span>
+        <LinkedIn className="h-6 w-6" />
+      </div>,
+      "https://www.linkedin.com/in/nicholas-ray/",
+    ],
     [
       <div key="github">
         <span className="sr-only">Github profile</span>
