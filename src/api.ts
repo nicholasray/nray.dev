@@ -7,7 +7,7 @@ import { compareDesc } from "date-fns";
  */
 const pick = <Obj, Keys extends keyof Obj>(obj: Obj, keys: Keys[]) => {
   return keys.reduce((newObj, key) => {
-    if (key in obj) {
+    if (obj && typeof obj === "object" && key in obj) {
       newObj[key] = obj[key];
     }
     return newObj;

@@ -3,8 +3,6 @@ import NextImage from "next/image";
 interface ImageProps {
   src: string;
   caption?: string;
-  width: string;
-  height: string;
 }
 
 /**
