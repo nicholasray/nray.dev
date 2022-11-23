@@ -5,10 +5,15 @@ import constants from "src/constants";
 const title = "Nick Ray - Senior Software Engineer";
 const description =
   "Learn JavaScript, React, CSS and more front-end development from the portfolio site of Nick Ray.";
+import { Inter } from "@next/font/google";
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <div className={`${inter.variable} font-sans`}>
       <DefaultSeo
         defaultTitle={title}
         titleTemplate="%s | Nick Ray"
@@ -22,7 +27,7 @@ function App({ Component, pageProps }: AppProps) {
         }}
       />
       <Component {...pageProps} />
-    </>
+    </div>
   );
 }
 

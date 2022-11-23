@@ -16,6 +16,7 @@
     "@codesandbox/sandpack-react": "^1.17.0",
     "@codesandbox/sandpack-themes": "^1.17.0",
     "@heroicons/react": "^2.0.13",
+    "@next/font": "^13.0.4",
     "acorn": "^8.8.1",
     "clsx": "^1.2.1",
     "contentlayer": "^0.2.9",
