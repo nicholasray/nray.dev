@@ -118,28 +118,27 @@ const Home = ({ posts }: HomeProps) => {
                   </p>
                   <div className="relative inline-block">
                     <div className="absolute inset-0 h-full w-full rounded-full border-[8px] border-transparent"></div>
-                    <Link href={posts[0].url}>
-                      <a
-                        className="
-                  relative 
-                  z-10
-                  inline-flex 
-                  w-full 
-                  items-center
-                  justify-center
-                  rounded-full 
-                  bg-purple-600 
-                  py-5 
-                  px-6 
-                  text-lg 
-                  font-semibold 
-                  text-white 
-                  md:w-auto 
-                  "
-                      >
-                        <BookOpenIcon className="mr-2 h-6 w-6" />
-                        Read latest blog post
-                      </a>
+                    <Link
+                      href={posts[0].url}
+                      className="
+              relative 
+              z-10
+              inline-flex 
+              w-full 
+              items-center
+              justify-center
+              rounded-full 
+              bg-purple-600 
+              py-5 
+              px-6 
+              text-lg 
+              font-semibold 
+              text-white 
+              md:w-auto 
+              "
+                    >
+                      <BookOpenIcon className="mr-2 h-6 w-6" />
+                      Read latest blog post
                     </Link>
                   </div>
                 </div>
@@ -364,47 +363,45 @@ const Home = ({ posts }: HomeProps) => {
                   <ul className="mt-12 grid gap-4 sm:grid-cols-[repeat(auto-fill,minmax(350px,1fr))] md:gap-6 lg:gap-8">
                     {posts.map((post, idx) => (
                       <li key={idx}>
-                        <Link href={post.url}>
-                          <a className="block h-full">
-                            <article className="relative flex h-full min-h-[17rem] flex-col rounded-lg bg-white py-10 px-6 shadow-md">
-                              <ArrowTopRightOnSquareIcon className="absolute right-3 top-3 h-5 w-5 text-blue-600" />
-                              <h3
-                                className={clsx([
-                                  "mb-3",
-                                  "text-xl",
-                                  "font-bold",
-                                  "text-gray-100",
-                                  "md:mb-4 md:text-2xl",
-                                  "bg-clip-text",
-                                  "text-transparent",
-                                  "bg-gradient-to-r",
-                                  "from-cyan-500",
-                                  "to-blue-700",
-                                ])}
+                        <Link href={post.url} className="block h-full">
+                          <article className="relative flex h-full min-h-[17rem] flex-col rounded-lg bg-white py-10 px-6 shadow-md">
+                            <ArrowTopRightOnSquareIcon className="absolute right-3 top-3 h-5 w-5 text-blue-600" />
+                            <h3
+                              className={clsx([
+                                "mb-3",
+                                "text-xl",
+                                "font-bold",
+                                "text-gray-100",
+                                "md:mb-4 md:text-2xl",
+                                "bg-clip-text",
+                                "text-transparent",
+                                "bg-gradient-to-r",
+                                "from-cyan-500",
+                                "to-blue-700",
+                              ])}
+                            >
+                              {post.title}
+                            </h3>
+                            <div
+                              className={clsx([
+                                "mb-6",
+                                "font-medium",
+                                "text-gray-700",
+                                "md:mb-10 md:text-lg",
+                              ])}
+                              dangerouslySetInnerHTML={{
+                                __html: post.description.html,
+                              }}
+                            />
+                            <footer className="mt-auto font-mono">
+                              <time
+                                dateTime={post.publishedAt}
+                                className="text-gray-600"
                               >
-                                {post.title}
-                              </h3>
-                              <div
-                                className={clsx([
-                                  "mb-6",
-                                  "font-medium",
-                                  "text-gray-700",
-                                  "md:mb-10 md:text-lg",
-                                ])}
-                                dangerouslySetInnerHTML={{
-                                  __html: post.description.html,
-                                }}
-                              />
-                              <footer className="mt-auto font-mono">
-                                <time
-                                  dateTime={post.publishedAt}
-                                  className="text-gray-600"
-                                >
-                                  {post.publishedAtFormatted}
-                                </time>
-                              </footer>
-                            </article>
-                          </a>
+                                {post.publishedAtFormatted}
+                              </time>
+                            </footer>
+                          </article>
                         </Link>
                       </li>
                     ))}
