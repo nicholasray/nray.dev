@@ -33,10 +33,10 @@ const Header = () => {
     >
       <div>
         <Link href="/">
-          <a>
-            <span className="sr-only">nray.dev home page</span>
-            <Logo className="h-8 w-auto" />
-          </a>
+
+          <span className="sr-only">nray.dev home page</span>
+          <Logo className="h-8 w-auto" />
+
         </Link>
       </div>
       <div className="flex items-center">
