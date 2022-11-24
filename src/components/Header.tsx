@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Logo from "../../public/logo.svg";
-import Github from "../../public/github.svg";
-import LinkedIn from "../../public/linkedin.svg";
+import Logo from "@public/logo.svg";
+import Github from "@public/github.svg";
+import LinkedIn from "@public/linkedin.svg";
 import ViewportPadding from "./ViewportPadding";
 import HamburgerMenu from "./HamburgerMenu";
 

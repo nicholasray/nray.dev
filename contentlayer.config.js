@@ -41,6 +41,10 @@ export const Post = defineDocumentType(() => ({
           ? format(parseISO(post.publishedAt), "LLLL d, yyyy")
           : "",
     },
+    slug: {
+      type: "string",
+      resolve: (page) => page._raw.flattenedPath.split("/").pop(),
+    },
     url: {
       type: "string",
       resolve: (post) => `/${post._raw.flattenedPath}`,
@@ -64,9 +68,13 @@ const Page = defineDocumentType(() => ({
     },
   },
   computedFields: {
+    slug: {
+      type: "string",
+      resolve: (page) => `${page._raw.flattenedPath}`,
+    },
     url: {
       type: "string",
-      resolve: (page) => `/${page._raw.flattenedPath}`,
+      resolve: (post) => `/${post._raw.flattenedPath}`,
     },
   },
 }));

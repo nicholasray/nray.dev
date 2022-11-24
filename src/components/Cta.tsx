@@ -1,10 +1,9 @@
 import Container from "./Container";
 import ViewportPadding from "./ViewportPadding";
-import RoundDivider from "../../public/round-divider.svg";
-import stackCloudImage from "../../public/stack-cloud.svg?url";
+import RoundDivider from "@public/round-divider.svg";
 import Heading from "./Heading";
 import Paragraph from "./Paragraph";
-import ButtonIconImage from "../../public/button-icon.svg";
+import ButtonIconImage from "@public/button-icon.svg";
 
 const CONVERTKIT_FORM_URL =
   "https://app.convertkit.com/forms/3512386/subscriptions";
@@ -30,9 +29,9 @@ const Cta = ({
           <div className="grid grid-cols-1 justify-items-center text-center lg:grid-cols-2 lg:gap-x-8 lg:text-left">
             <div className="flex justify-center lg:col-start-2">
               <img
-                src={stackCloudImage}
-                alt="Stack cloud image"
+                src="/stack-cloud.svg"
                 className="absolute top-0 w-64 -translate-y-[28%] md:w-72 lg:w-80"
+                alt="Front-end development languages"
               />
             </div>
             <div className="lg:col-start-1">

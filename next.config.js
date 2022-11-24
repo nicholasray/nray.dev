@@ -4,6 +4,7 @@ const { withContentlayer } = require("next-contentlayer");
 /** @type {import('next').NextConfig} */
 const nextConfig = withContentlayer({
   experimental: {
+    appDir: true,
     fontLoaders: [
       { loader: "@next/font/google", options: { subsets: ["latin"] } },
     ],
@@ -14,14 +15,8 @@ const nextConfig = withContentlayer({
     config.module.rules.push(
       ...[
         {
-          test: /\.svg$/i,
-          type: "asset",
-          resourceQuery: /url/, // *.svg?url
-        },
-        {
           test: /\.svg$/,
           issuer: /\.[jt]sx?$/,
-          resourceQuery: { not: [/url/] }, // exclude react component if *.svg?url
           use: ["@svgr/webpack"],
         },
       ]

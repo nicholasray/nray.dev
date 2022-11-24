@@ -28,7 +28,6 @@
     "micromark-extension-mdx-jsx": "^1.0.3",
     "next": "13.0.4",
     "next-contentlayer": "^0.2.9",
-    "next-seo": "^5.14.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "reading-time": "^1.5.0",

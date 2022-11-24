@@ -4,5 +4,7 @@
     "**/bower_components": true,
     "**/*.code-search": true,
     "content/blog/**/demos": true
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }
