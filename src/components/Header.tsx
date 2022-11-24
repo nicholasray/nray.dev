@@ -1,14 +1,14 @@
 import Link from "next/link";
-import Logo from "../../public/logo.svg";
-import Github from "../../public/github.svg";
-import LinkedIn from "../../public/linkedin.svg";
+import Logo from "@public/logo.svg";
+import Github from "@public/github.svg";
+import LinkedIn from "@public/linkedin.svg";
 import ViewportPadding from "./ViewportPadding";
 import HamburgerMenu from "./HamburgerMenu";
 
 const Header = () => {
   const items: [string | JSX.Element, string][] = [
     ["Blog", "/#blog"],
-    ["Resume", "/resume.pdf"],
+    ["Resume", "/nicholas-ray-resume.pdf"],
     ["Contact", "/contact"],
     [
       <div key="linkedin">
@@ -33,10 +33,8 @@ const Header = () => {
     >
       <div>
         <Link href="/">
-
           <span className="sr-only">nray.dev home page</span>
           <Logo className="h-8 w-auto" />
-
         </Link>
       </div>
       <div className="flex items-center">
