@@ -18,7 +18,6 @@ import Paragraph from "@components/Paragraph";
 import Heading from "@components/Heading";
 import Container from "@components/Container";
 import ViewportPadding, { Breakpoint } from "@components/ViewportPadding";
-import Link from "next/link";
 import Cta from "@components/Cta";
 import { screens } from "../constants";
 import { allPosts } from "src/api";
@@ -48,8 +47,7 @@ const Home = () => {
                 </p>
                 <div className="relative inline-block">
                   <div className="absolute inset-0 h-full w-full rounded-full border-[8px] border-transparent"></div>
-                  <Link
-                    prefetch={false}
+                  <a
                     href={posts[0].url}
                     className="
               relative 
@@ -70,7 +68,7 @@ const Home = () => {
                   >
                     <BookOpenIcon className="mr-2 h-6 w-6" />
                     Read latest blog post
-                  </Link>
+                  </a>
                 </div>
               </div>
               <div className="relative z-10 mt-auto flex translate-y-[10%] justify-center pt-16 md:pt-20 lg:-mt-11 lg:translate-y-0 lg:pt-0">
@@ -292,11 +290,7 @@ const Home = () => {
                 <ul className="mt-12 grid gap-4 sm:grid-cols-[repeat(auto-fill,minmax(350px,1fr))] md:gap-6 lg:gap-8">
                   {posts.map((post, idx) => (
                     <li key={idx}>
-                      <Link
-                        prefetch={false}
-                        href={post.url}
-                        className="block h-full"
-                      >
+                      <a href={post.url} className="block h-full">
                         <article className="relative flex h-full min-h-[17rem] flex-col rounded-lg bg-white py-10 px-6 shadow-md">
                           <ArrowTopRightOnSquareIcon className="absolute right-3 top-3 h-5 w-5 text-blue-600" />
                           <h3
@@ -335,7 +329,7 @@ const Home = () => {
                             </time>
                           </footer>
                         </article>
-                      </Link>
+                      </a>
                     </li>
                   ))}
                 </ul>
