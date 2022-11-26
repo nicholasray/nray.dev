@@ -6,7 +6,8 @@ import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import remarkReadingTime from "remark-reading-time";
-import readingMdxTime from "remark-reading-time/mdx.js";
+import remarkComputedFrontmatter from "./src/remark/remarkComputedFrontmatter.mjs";
+import { format, parseISO } from "date-fns";
 
 function addRawSourceSupport(config) {
   const queue = [...config.module.rules];
@@ -60,15 +61,32 @@ const nextConfig = {
         {
           loader: "@mdx-js/loader",
           options: {
-            // If you use remark-gfm, you'll need to use next.config.mjs
-            // as the package is ESM only
-            // https://github.com/remarkjs/remark-gfm#install
             remarkPlugins: [
               remarkFrontmatter,
+              remarkReadingTime,
+              [
+                remarkComputedFrontmatter,
+                (data, file) => {
+                  const properties = ["publishedAt"];
+                  for (const property of properties) {
+                    if (!(property in data)) {
+                      throw new Error(
+                        `Expected frontmatter in file ${file.path} to contain ${property}`
+                      );
+                    }
+                  }
+
+                  return {
+                    ...data,
+                    readingTime: file.data.readingTime.text,
+                    publishedAtFormatted: data.publishedAt
+                      ? format(parseISO(data.publishedAt), "LLLL d, yyyy")
+                      : "",
+                  };
+                },
+              ],
               remarkMdxFrontmatter,
               remarkGfm,
-              remarkReadingTime,
-              readingMdxTime,
             ],
             rehypePlugins: [
               [
