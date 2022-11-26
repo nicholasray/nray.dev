@@ -5,12 +5,7 @@ const ROOT_PATH = process.cwd();
 import * as acorn from "acorn";
 import { fromMarkdown } from "mdast-util-from-markdown";
 import { mdxJsx } from "micromark-extension-mdx-jsx";
-import {
-  mdxJsxFromMarkdown,
-  MdxJsxFlowElement,
-  MdxJsxAttribute,
-} from "mdast-util-mdx-jsx";
-import { Literal } from "mdast";
+import { mdxJsxFromMarkdown } from "mdast-util-mdx-jsx";
 import {
   copyIfUpdated,
   getDestPath,
@@ -18,29 +13,26 @@ import {
   getSrcPath,
 } from "../fileUtils";
 
-interface RemarkCodeDemoOptions {
-  /**
-   * Should match contentlayer's `contentDirPath`. Used to
-   * determine the path of the mdx file.
-   */
-  contentDir: string;
-}
-
-export const getAbsolutePath = (
-  contentDir: string,
-  sourceFileDir: string,
-  filename: string
-) => {
+export const getAbsolutePath = (contentDir, sourceFileDir, filename) => {
   return path.join(ROOT_PATH, contentDir, sourceFileDir, filename);
 };
 
-function remarkDemo({ contentDir }: RemarkCodeDemoOptions) {
+/**
+ * @typedef {Object} RemarkDemoProps
+ * @property {string} contentDir Should match contentlayer's `contentDirPath`.
+ * Used to determine the path of the mdx file.
+ */
+
+/**
+ * @param {RemarkDemoProps}
+ */
+function remarkDemo({ contentDir }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return async (tree: any, file: any) => {
-    const promises: Promise<void>[] = [];
+  return async (tree, file) => {
+    const promises = [];
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    visit(tree, (node: any) => {
+    visit(tree, (node) => {
       if (node.type === "link" && node.url.startsWith("demos/")) {
         // Move demo folder from content to public.
         const srcPath = getSrcPath(
@@ -62,15 +54,15 @@ function remarkDemo({ contentDir }: RemarkCodeDemoOptions) {
         return;
       }
 
-      node.attributes.forEach((attribute: MdxJsxAttribute, index: number) => {
+      node.attributes.forEach((attribute, index) => {
         if (attribute.type !== "mdxJsxAttribute" || attribute.name !== "src") {
           return;
         }
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const elements = attribute.value.data.estree.body[0].expression
-          .elements as Literal[];
+        const elements =
+          attribute.value.data.estree.body[0].expression.elements;
 
         const promise = Promise.all(
           elements.map(async (element) => {
@@ -98,11 +90,7 @@ function remarkDemo({ contentDir }: RemarkCodeDemoOptions) {
             mdastExtensions: [mdxJsxFromMarkdown()],
           });
 
-          node.attributes.splice(
-            index,
-            1,
-            (tree.children[0] as MdxJsxFlowElement).attributes[0]
-          );
+          node.attributes.splice(index, 1, tree.children[0].attributes[0]);
         });
 
         promises.push(promise);

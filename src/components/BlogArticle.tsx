@@ -1,48 +1,32 @@
-import { useMDXComponent } from "next-contentlayer/hooks";
+import Cta from "./Cta";
+import ViewportPadding from "./ViewportPadding";
 import avatar from "@public/avatar.jpg";
-import NextImage from "next/image";
 import styles from "@styles/blog/blog.module.css";
-import ViewportPadding from "@components/ViewportPadding";
-import Cta from "@components/Cta";
-import { allPosts } from "src/api";
+import NextImage from "next/image";
 
-interface Params {
-  params: {
-    slug: string;
-  };
+interface BlogArticleProps {
+  title: string;
+  description: string;
+  publishedAt: string;
+  publishedAtFormatted: string;
+  readingTime: string;
+  children: React.ReactNode;
 }
 
-export async function generateStaticParams() {
-  return allPosts(["slug"]).map((post) => ({
-    slug: post.slug,
-  }));
-}
-
-export const dynamicParams = false;
-
-function Blog({ params }: Params) {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const post = allPosts([
-    "title",
-    "description",
-    "publishedAt",
-    "publishedAtFormatted",
-    "readTime",
-    "url",
-    "body",
-    "slug",
-    "_raw",
-  ]).find((post) => post.slug === params.slug)!;
-
-  const MDXContent = useMDXComponent(post.body.code);
-
+function BlogArticle({
+  children,
+  title,
+  publishedAt,
+  publishedAtFormatted,
+  readingTime,
+}: BlogArticleProps) {
   return (
     <main className="grid grid-cols-1 gap-y-20 sm:gap-y-32 md:gap-y-40">
       <section>
         <ViewportPadding>
           <article className="mx-auto mt-10 max-w-3xl">
             <h1 className="mb-3 text-3xl font-bold text-white md:mb-6 md:text-5xl">
-              {post.title}
+              {title}
             </h1>
             <div className="mb-8 flex items-center justify-between text-sm font-medium md:text-base">
               <div className="flex items-center">
@@ -57,17 +41,15 @@ function Blog({ params }: Params) {
                 <div>Nick Ray</div>
               </div>
               <div>
-                <time dateTime={post.publishedAt}>
-                  {post.publishedAtFormatted}
-                </time>
-                <span> — {post.readTime}</span>
+                <time dateTime={publishedAt}>{publishedAtFormatted}</time>
+                <span> — {readingTime}</span>
               </div>
             </div>
 
             <div
               className={`${styles.prose} prose-pre:shadow-inner-10 prose !prose-invert prose-slate max-w-none prose-pre:mt-0 prose-pre:px-0 prose-pre:!text-sm lg:prose-xl lg:prose-pre:mt-0 lg:prose-pre:px-0`}
             >
-              <MDXContent />
+              {children}
             </div>
           </article>
           <div className="mx-auto mt-10 max-w-3xl text-xl">
@@ -87,4 +69,4 @@ function Blog({ params }: Params) {
   );
 }
 
-export default Blog;
+export default BlogArticle;

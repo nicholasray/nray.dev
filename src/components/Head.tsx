@@ -1,6 +1,6 @@
 interface HeadProps {
   title: string;
-  canonical: string;
+  canonical?: string;
   description?: string;
   includeOg?: boolean;
 }
@@ -17,8 +17,8 @@ function Head({
       <meta name="description" content={description} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="robots" content="index,follow" />
-      <link rel="canonical" href={canonical} />
       <link rel="shortcut icon" href="/favicon.png" />
+      {canonical && <link rel="canonical" href={canonical} />}
 
       {includeOg && (
         <>

@@ -1,6 +1,6 @@
 ---
 title: How to Create Performant Scroll Animations
-publishedAt: "2022-10-02"
+publishedAt: 2022-10-02
 description: Learn how to create scroll-triggered animations without jank.
 ---
 
@@ -427,11 +427,6 @@ Your result should now be similar to the demo below. Keep in mind that you won't
 see the animation if your viewport is less than 640px due to the media query
 styles we set.
 
-<CodeEditor
-  template="react-ts"
-  src={[
-    "demos/react-scroll-animations/App.tsx",
-    "demos/react-scroll-animations/useIntersectionObserver.ts",
-    "demos/react-scroll-animations/styles.css",
-  ]}
-/>
+import ScrollDemo from "./ScrollDemo";
+
+<ScrollDemo />
