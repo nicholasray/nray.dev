@@ -5,6 +5,7 @@
   "scripts": {
     "start": "next start",
     "build": "next build",
+    "analyze": "ANALYZE=true npm run build",
     "dev": "next dev",
     "lint": "next lint --max-warnings 0",
     "test": "npm run lint && npm run test:unit",

@@ -174,7 +174,7 @@ const Home = () => {
                         </Paragraph>
                         <a
                           className="group mt-8 inline-flex h-9 items-center rounded-full bg-gray-700 px-3 text-gray-200 hover:text-gray-100"
-                          href="/resume.pdf"
+                          href="/nicholas-ray-resume.pdf"
                         >
                           View full resume{" "}
                           <ChevronRightIcon className="w-5 transition-transform group-hover:translate-x-0.5" />
