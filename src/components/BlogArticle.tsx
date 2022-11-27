@@ -3,7 +3,14 @@ import ViewportPadding from "./ViewportPadding";
 import avatar from "@public/avatar.jpg";
 import styles from "@styles/blog/blog.module.css";
 import NextImage from "next/image";
-import Post from "src/interfaces/post";
+
+interface BlogArticleProps {
+  title: string;
+  publishedAt: string;
+  publishedAtFormatted: string;
+  readingTime: string;
+  children: React.ReactNode;
+}
 
 function BlogArticle({
   title,
@@ -11,7 +18,7 @@ function BlogArticle({
   publishedAtFormatted,
   readingTime,
   children,
-}: Post) {
+}: BlogArticleProps) {
   return (
     <main className="grid grid-cols-1 gap-y-20 sm:gap-y-32 md:gap-y-40">
       <section>

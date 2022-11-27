@@ -3,6 +3,7 @@ declare module "*/page.mdx" {
   export { default } from "*.mdx";
 
   export const slug: string;
+  export const url: string;
   export const title: string;
   export const description: string;
   export const publishedAt: string;

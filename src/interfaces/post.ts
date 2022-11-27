@@ -1,5 +1,7 @@
 interface Post {
   title: string;
+  slug: string;
+  url: string;
   description: string;
   publishedAt: string;
   publishedAtFormatted: string;

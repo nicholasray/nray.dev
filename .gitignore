@@ -34,9 +34,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 
-# Contentlayer
-.contentlayer
-
 public/content
 /test-results/
 /tests/ui/*-snapshots

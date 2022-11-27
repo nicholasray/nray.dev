@@ -9,6 +9,10 @@ import remarkReadingTime from "remark-reading-time";
 import remarkComputedFrontmatter from "./src/remark/remarkComputedFrontmatter.mjs";
 import { format, parseISO } from "date-fns";
 import path from "path";
+import bundleAnalyzer from "@next/bundle-analyzer";
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 function addRawSourceSupport(config) {
   const queue = [...config.module.rules];
@@ -43,7 +47,7 @@ function addRawSourceSupport(config) {
 }
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig = withBundleAnalyzer({
   experimental: {
     appDir: true,
     fontLoaders: [
@@ -68,9 +72,11 @@ const nextConfig = {
               [
                 remarkComputedFrontmatter,
                 (data, file) => {
+                  const slug = path.basename(file.dirname);
                   return {
                     ...data,
-                    slug: path.basename(file.dirname),
+                    slug,
+                    url: `/blog/${slug}`,
                     readingTime: file.data.readingTime.text,
                     publishedAtFormatted: data.publishedAt
                       ? format(parseISO(data.publishedAt), "LLLL d, yyyy")
@@ -129,6 +135,6 @@ const nextConfig = {
 
     return config;
   },
-};
+});
 
 export default nextConfig;

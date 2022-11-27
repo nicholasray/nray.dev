@@ -23,7 +23,6 @@ function Page({ params }: Params) {
   return (
     <BlogArticle
       title={post.title}
-      description={post.description}
       publishedAt={post.publishedAt}
       publishedAtFormatted={post.publishedAtFormatted}
       readingTime={post.readingTime}

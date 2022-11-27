@@ -9,7 +9,6 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
     "./content/blog/**/*.{js,ts,jsx,tsx,mdx}",
     "./content/contact.mdx",
-    "./contentlayer.config.js",
   ],
   theme: {
     screens: constants.screens,
