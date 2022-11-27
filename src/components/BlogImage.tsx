@@ -1,7 +1,7 @@
-import NextImage from "next/image";
+import NextImage, { StaticImageData } from "next/image";
 
 interface ImageProps {
-  src: string;
+  src: StaticImageData;
   caption?: string;
 }
 
@@ -11,7 +11,7 @@ interface ImageProps {
 const Image = ({ src, caption, ...props }: ImageProps) => {
   return (
     <figure>
-      <a href={src}>
+      <a href={src.src}>
         <NextImage
           alt=""
           className="w-full"

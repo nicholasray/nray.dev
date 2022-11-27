@@ -2,11 +2,13 @@ import { compareDesc } from "date-fns";
 import * as howToCreatePerformantScrollAnimationsInReact from "./how-to-create-performant-scroll-animations-in-react/page.mdx";
 import * as usingMediaQueriesInJavascript from "./using-media-queries-in-javascript/page.mdx";
 import * as usingChromeProfilerToFixPerformanceIssues from "./using-chrome-profiler-to-fix-performance-issues/page.mdx";
+import * as analyzingSearchPerformance from "./analyzing-search-performance/page.mdx";
 
 const POSTS = [
   howToCreatePerformantScrollAnimationsInReact,
   usingMediaQueriesInJavascript,
   usingChromeProfilerToFixPerformanceIssues,
+  analyzingSearchPerformance,
 ];
 
 export function findPost(slug: string) {
