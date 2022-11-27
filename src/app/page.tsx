@@ -11,6 +11,8 @@ import TypescriptLogo from "@public/third-party-logos/typescript.svg";
 import HtmlLogo from "@public/third-party-logos/html.svg";
 import CssLogo from "@public/third-party-logos/css.svg";
 import ReactLogo from "@public/third-party-logos/react.svg";
+import Grid from "@public/grid.svg";
+import VisualRegressionArt from "@public/visual-regression-art.svg";
 import typeaheadImage from "@public/typeahead-search.png";
 import layoutImage from "@public/wikipedia-layout.png";
 import clsx from "clsx";
@@ -82,11 +84,7 @@ function Home() {
               </div>
             </Container>
           </ViewportPadding>
-          <img
-            src={"/grid.svg"}
-            alt=""
-            className="width-full pointer-events-none absolute bottom-0 left-0"
-          />
+          <Grid className="width-full pointer-events-none absolute bottom-0 left-0" />
           <RoundDivider className="absolute bottom-0 z-20 w-full" />
         </section>
         <div className="grid grid-cols-1 gap-y-20 sm:gap-y-32 md:gap-y-40">
@@ -201,10 +199,8 @@ function Home() {
                             </>
                           }
                           image={
-                            <img
+                            <VisualRegressionArt
                               className="w-full"
-                              src="/visual-regression-art.svg"
-                              alt="visual regression testing abstract art"
                               key="visual-regression"
                             />
                           }
