@@ -1,6 +1,6 @@
 import Head from "@components/Head";
 import constants from "src/constants";
-import post from "./page.mdx";
+import * as post from "./page.mdx";
 
 async function CustomHead() {
   const canonical = `${constants.url}`;
