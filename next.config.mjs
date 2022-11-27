@@ -8,6 +8,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import remarkReadingTime from "remark-reading-time";
 import remarkComputedFrontmatter from "./src/remark/remarkComputedFrontmatter.mjs";
 import { format, parseISO } from "date-fns";
+import path from "path";
 
 function addRawSourceSupport(config) {
   const queue = [...config.module.rules];
@@ -78,6 +79,7 @@ const nextConfig = {
 
                   return {
                     ...data,
+                    slug: path.basename(file.dirname),
                     readingTime: file.data.readingTime.text,
                     publishedAtFormatted: data.publishedAt
                       ? format(parseISO(data.publishedAt), "LLLL d, yyyy")
