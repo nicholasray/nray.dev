@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Logo from "../../public/logo.svg";
 import ViewportPadding from "./ViewportPadding";
 
@@ -6,12 +5,10 @@ const Footer = () => (
   <footer className="sticky top-[100vh] bg-white py-10 text-gray-700">
     <ViewportPadding>
       <div className="flex flex-col items-center justify-center text-center">
-        <Link href="/" className="mb-5">
-
+        <a href="/" className="mb-5">
           <span className="sr-only">nray.dev home page</span>
           <Logo className="h-8 w-auto" />
-
-        </Link>
+        </a>
         <div className="mb-4">
           Curious how I built this site?{" "}
           <a
@@ -25,9 +22,9 @@ const Footer = () => (
           © 2022 NRAY LLC. All rights reserved.
         </div>
         <div className="text-sm font-bold">
-          <Link href="/privacy" className="mb-5">
+          <a href="/privacy" className="mb-5">
             Privacy
-          </Link>
+          </a>
         </div>
       </div>
     </ViewportPadding>

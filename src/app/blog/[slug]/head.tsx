@@ -1,6 +1,6 @@
-import { allPosts } from "src/api";
+import CustomHead from "@components/Head";
 import constants from "src/constants";
-import Head from "@components/Head";
+import { allPosts, findPost } from "@app/blog";
 
 interface Params {
   params: {
@@ -8,23 +8,25 @@ interface Params {
   };
 }
 
-function CustomHead({ params }: Params) {
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const post = allPosts(["title", "description", "url", "slug"]).find(
-    (post) => post.slug === params.slug
-  )!;
+export async function generateStaticParams() {
+  return allPosts().map((post) => ({
+    slug: post.slug,
+  }));
+}
 
-  const canonical = `${constants.url}${post.url}`;
+async function Head({ params }: Params) {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const post = findPost(params.slug)!;
+  const canonical = `${constants.url}`;
+
   return (
-    <>
-      <Head
-        title={post.title}
-        description={post.description.raw}
-        canonical={canonical}
-        includeOg={true}
-      />
-    </>
+    <CustomHead
+      includeOg={true}
+      canonical={canonical}
+      title={post.title}
+      description={post.description}
+    />
   );
 }
 
-export default CustomHead;
+export default Head;

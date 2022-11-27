@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Logo from "@public/logo.svg";
 import Github from "@public/github.svg";
 import LinkedIn from "@public/linkedin.svg";
@@ -32,10 +31,10 @@ const Header = () => {
       className="z-100 relative flex h-[var(--header-height)] items-center justify-between bg-gray-900 font-semibold text-gray-200"
     >
       <div>
-        <Link href="/">
+        <a href="/">
           <span className="sr-only">nray.dev home page</span>
           <Logo className="h-8 w-auto" />
-        </Link>
+        </a>
       </div>
       <div className="flex items-center">
         <nav className="hidden md:block">
