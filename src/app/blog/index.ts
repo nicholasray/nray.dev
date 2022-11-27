@@ -1,10 +1,12 @@
 import { compareDesc } from "date-fns";
 import * as howToCreatePerformantScrollAnimationsInReact from "./how-to-create-performant-scroll-animations-in-react/page.mdx";
 import * as usingMediaQueriesInJavascript from "./using-media-queries-in-javascript/page.mdx";
+import * as usingChromeProfilerToFixPerformanceIssues from "./using-chrome-profiler-to-fix-performance-issues/page.mdx";
 
-const posts = [
+const POSTS = [
   howToCreatePerformantScrollAnimationsInReact,
   usingMediaQueriesInJavascript,
+  usingChromeProfilerToFixPerformanceIssues,
 ];
 
 export function findPost(slug: string) {
@@ -15,10 +17,9 @@ export function findPost(slug: string) {
  * @param limit Maximum number of posts returned.
  */
 export function allPosts(limit?: number) {
-  return posts
-    .filter((post) =>
-      process.env.NODE_ENV === "development" ? true : !!post.publishedAt
-    )
+  return POSTS.filter((post) =>
+    process.env.NODE_ENV === "development" ? true : !!post.publishedAt
+  )
     .sort((a, b) => {
       return compareDesc(
         new Date(a.publishedAt || new Date()),

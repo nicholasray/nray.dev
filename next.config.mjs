@@ -68,15 +68,6 @@ const nextConfig = {
               [
                 remarkComputedFrontmatter,
                 (data, file) => {
-                  const properties = ["publishedAt"];
-                  for (const property of properties) {
-                    if (!(property in data)) {
-                      throw new Error(
-                        `Expected frontmatter in file ${file.path} to contain ${property}`
-                      );
-                    }
-                  }
-
                   return {
                     ...data,
                     slug: path.basename(file.dirname),
