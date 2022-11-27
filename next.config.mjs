@@ -7,8 +7,9 @@ import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import remarkReadingTime from "remark-reading-time";
 import remarkComputedFrontmatter from "./src/remark/remarkComputedFrontmatter.mjs";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import path from "path";
+import { createLoader } from "simple-functional-loader";
 import bundleAnalyzer from "@next/bundle-analyzer";
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
@@ -63,6 +64,17 @@ const nextConfig = withBundleAnalyzer({
       test: /\.mdx$/,
       use: [
         options.defaultLoaders.babel,
+        createLoader(function (source) {
+          if (this.resourceQuery !== "?preview") {
+            return source;
+          }
+          // Relies on the frontmatter being the first export in the source.
+          const str = source
+            .split("\n")
+            .find((str) => str.startsWith("export const"));
+
+          return str;
+        }),
         {
           loader: "@mdx-js/loader",
           options: {
@@ -79,7 +91,7 @@ const nextConfig = withBundleAnalyzer({
                     url: `/blog/${slug}`,
                     readingTime: file.data.readingTime.text,
                     publishedAtFormatted: data.publishedAt
-                      ? format(parseISO(data.publishedAt), "LLLL d, yyyy")
+                      ? format(data.publishedAt, "LLLL d, yyyy")
                       : "",
                   };
                 },

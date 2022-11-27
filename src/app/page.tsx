@@ -20,11 +20,10 @@ import Container from "@components/Container";
 import ViewportPadding, { Breakpoint } from "@components/ViewportPadding";
 import Cta from "@components/Cta";
 import { screens } from "../constants";
-import { allPosts } from "@app/blog";
+import { allPosts } from "@app/blog/api";
 import TimelinePoint from "@components/TimelinePoint";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Home = () => {
+function Home() {
   const posts = allPosts(3);
 
   return (
@@ -44,9 +43,10 @@ const Home = () => {
                 </p>
                 <div className="relative inline-block">
                   <div className="absolute inset-0 h-full w-full rounded-full border-[8px] border-transparent"></div>
-                  <a
-                    href={posts[0].url}
-                    className="
+                  {posts.length && (
+                    <a
+                      href={posts[0].url}
+                      className="
               relative 
               z-10
               inline-flex 
@@ -62,10 +62,11 @@ const Home = () => {
               text-white 
               md:w-auto 
               "
-                  >
-                    <BookOpenIcon className="mr-2 h-6 w-6" />
-                    Read latest blog post
-                  </a>
+                    >
+                      <BookOpenIcon className="mr-2 h-6 w-6" />
+                      Read latest blog post
+                    </a>
+                  )}
                 </div>
               </div>
               <div className="relative z-10 mt-auto flex translate-y-[10%] justify-center pt-16 md:pt-20 lg:-mt-11 lg:translate-y-0 lg:pt-0">
@@ -337,6 +338,6 @@ const Home = () => {
       </main>
     </>
   );
-};
+}
 
 export default Home;

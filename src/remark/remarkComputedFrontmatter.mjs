@@ -1,12 +1,13 @@
 import { visit } from "unist-util-visit";
-import { parse, stringify } from "yaml";
+
+import { load, dump } from "js-yaml";
 
 function remarkComputedFrontmatter(callback) {
   return (tree, file) => {
     visit(tree, "yaml", (node) => {
-      const result = callback(parse(node.value), file);
+      const result = callback(load(node.value), file);
 
-      node.value = stringify(result);
+      node.value = dump(result);
     });
   };
 }
