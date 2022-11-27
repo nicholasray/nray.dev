@@ -37,7 +37,7 @@ function BlogArticle({
                     alt="Avatar"
                   />
                 </div>
-                <div>Nick Ray</div>
+                <div>Nicholas Ray</div>
               </div>
               <div>
                 <time dateTime={publishedAt}>{publishedAtFormatted}</time>

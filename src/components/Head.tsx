@@ -8,7 +8,7 @@ interface HeadProps {
 function Head({
   canonical,
   title,
-  description = "Learn JavaScript, React, CSS and more front-end development from the portfolio site of Nick Ray.",
+  description = "Learn JavaScript, React, CSS and more front-end development from the portfolio site of Nicholas Ray.",
   includeOg = false,
 }: HeadProps) {
   return (
@@ -25,7 +25,7 @@ function Head({
           <meta property="og:type" content="website" />
           <meta
             property="og:site_name"
-            content={"Nick Ray - Senior Software Engineer"}
+            content={"Nicholas Ray - Senior Software Engineer"}
           />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />

@@ -37,7 +37,7 @@ const Home = () => {
                 <h1 className="mb-8 text-5xl font-bold tracking-tight text-white lg:text-6xl">
                   Hello,
                   <br />
-                  I'm <span className="text-gradient">Nick Ray.</span>{" "}
+                  I'm <span className="text-gradient">Nicholas Ray.</span>{" "}
                 </h1>
                 <p className="mb-14 text-lg text-gray-400 lg:text-2xl">
                   I'm a senior software engineer living in Salt Lake City, Utah.
@@ -99,7 +99,7 @@ const Home = () => {
                         className="rounded-full"
                         sizes={`(min-width: ${screens.lg}) 6rem, 4rem`}
                         src={avatar}
-                        alt="Avatar of Nick Ray"
+                        alt="Avatar of Nicholas Ray"
                         priority
                       ></Image>
                     </div>
