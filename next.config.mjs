@@ -8,9 +8,10 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import remarkReadingTime from "remark-reading-time";
 import remarkComputedFrontmatter from "./src/remark/remarkComputedFrontmatter.mjs";
 import { format } from "date-fns";
-import path from "path";
 import { createLoader } from "simple-functional-loader";
 import bundleAnalyzer from "@next/bundle-analyzer";
+import path from "path";
+
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === "true",
 });
@@ -49,6 +50,7 @@ function addRawSourceSupport(config) {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = withBundleAnalyzer({
+  pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
   experimental: {
     appDir: true,
     fontLoaders: [
@@ -64,16 +66,21 @@ const nextConfig = withBundleAnalyzer({
       test: /\.mdx$/,
       use: [
         options.defaultLoaders.babel,
+        // For mdx imports that append the ?preview query string, strip the
+        // content and export only the meta data so that it doesn't cause
+        // increase the size of the JS bundle.
         createLoader(function (source) {
           if (this.resourceQuery !== "?preview") {
             return source;
           }
-          // Relies on the frontmatter being the first export in the source.
-          const str = source
-            .split("\n")
-            .find((str) => str.startsWith("export const"));
+          const captures = source.match(/(export const meta[^;]+;)/);
+          if (!captures[1]) {
+            throw new Error(
+              `Expected mdx to export "meta" object when parsing ${this.resourcePath}`
+            );
+          }
 
-          return str;
+          return captures[1];
         }),
         {
           loader: "@mdx-js/loader",
@@ -84,11 +91,16 @@ const nextConfig = withBundleAnalyzer({
               [
                 remarkComputedFrontmatter,
                 (data, file) => {
+                  if (!file.dirname.includes("/app")) {
+                    throw new Error(`${file.dirname} to include /app`);
+                  }
                   const slug = path.basename(file.dirname);
+                  const url = file.dirname.split("/app")[1];
+
                   return {
                     ...data,
                     slug,
-                    url: `/blog/${slug}`,
+                    url,
                     readingTime: file.data.readingTime.text,
                     publishedAtFormatted: data.publishedAt
                       ? format(data.publishedAt, "LLLL d, yyyy")
@@ -96,7 +108,7 @@ const nextConfig = withBundleAnalyzer({
                   };
                 },
               ],
-              remarkMdxFrontmatter,
+              [remarkMdxFrontmatter, { name: "meta" }],
               remarkGfm,
             ],
             rehypePlugins: [
@@ -136,6 +148,22 @@ const nextConfig = withBundleAnalyzer({
             providerImportSource: undefined,
           },
         },
+        createLoader(function (source) {
+          let data = [
+            source,
+            `import CustomHead from "@components/Head";`,
+            `export const Head = () => (<CustomHead includeOg={true} {...meta} />);`,
+          ];
+
+          if (this.resourcePath.includes("app/blog/")) {
+            data = data.concat([
+              `import BlogArticle from "@components/BlogArticle";`,
+              `export default ({ children }) => (<BlogArticle {...meta}>{children}</BlogArticle>);`,
+            ]);
+          }
+
+          return data.join("\n");
+        }),
       ].filter(Boolean),
     });
 

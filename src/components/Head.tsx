@@ -1,12 +1,12 @@
 interface HeadProps {
   title: string;
-  canonical?: string;
+  url?: string;
   description?: string;
   includeOg?: boolean;
 }
 
 function Head({
-  canonical,
+  url: canonical,
   title,
   description = "Learn JavaScript, React, CSS and more front-end development from the portfolio site of Nicholas Ray.",
   includeOg = false,

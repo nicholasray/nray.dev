@@ -6,7 +6,7 @@ function CustomHead() {
     <>
       <Head
         title={"Nicholas Ray - Senior Software Engineer"}
-        canonical={constants.url}
+        url={constants.url}
       />
     </>
   );

@@ -9,4 +9,5 @@ declare module "*/page.mdx" {
   export const publishedAt: string;
   export const publishedAtFormatted: string;
   export const readingTime: string;
+  export const Head: JSX.Element;
 }

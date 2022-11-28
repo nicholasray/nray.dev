@@ -22,7 +22,7 @@ import Container from "@components/Container";
 import ViewportPadding, { Breakpoint } from "@components/ViewportPadding";
 import Cta from "@components/Cta";
 import { screens } from "../constants";
-import { allPosts } from "@app/blog/api";
+import { allPosts } from "@app/blog";
 import TimelinePoint from "@components/TimelinePoint";
 
 function Home() {
