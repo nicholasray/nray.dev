@@ -10,12 +10,11 @@ const Footer = () => (
           <Logo className="h-8 w-auto" />
         </a>
         <div className="mb-4">
-          Curious how I built this site?{" "}
           <a
             className="font-semibold text-purple-700"
             href="https://github.com/nicholasray/nray.dev"
           >
-            View source
+            View source code
           </a>
         </div>
         <div className="mb-12 text-sm text-gray-600">
