@@ -167,9 +167,7 @@ function Home() {
                         </Heading>
                         <Paragraph color="lightGray">
                           Since 2018, I’ve had the privilege of developing
-                          features for Wikipedia's desktop and mobile sites
-                          which are used by millions of users every day across
-                          the world in over 300 different languages.
+                          features for Wikipedia's desktop and mobile sites.
                         </Paragraph>
                         <a
                           className="group mt-8 inline-flex h-9 items-center rounded-full bg-gray-700 px-3 text-gray-200 hover:text-gray-100"
