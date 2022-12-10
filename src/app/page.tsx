@@ -56,12 +56,12 @@ function Home() {
               items-center
               justify-center
               rounded-full 
-              bg-purple-600 
+              bg-slate-50
               py-5 
               px-6 
               text-lg 
               font-semibold 
-              text-white 
+              text-slate-900
               md:w-auto 
               "
                     >
