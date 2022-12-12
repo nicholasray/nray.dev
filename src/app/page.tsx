@@ -108,9 +108,9 @@ function Home() {
                   </Heading>
                   <Paragraph className="text-center">
                     Specializing in front-end web development, I use JavaScript,
-                    Node.js, TypeScript, HTML, CSS, and React to make websites
-                    and apps focused on performance, accessibility, and a
-                    delightful user experience.
+                    TypeScript, HTML, CSS, and React to make websites and apps
+                    focused on performance, accessibility, and a delightful user
+                    experience.
                   </Paragraph>
                 </div>
                 <ul className="mt-12 grid grid-cols-2 justify-items-center gap-10 sm:mt-20 md:grid-cols-3 lg:flex lg:justify-between">
@@ -166,8 +166,8 @@ function Home() {
                           <span className="text-gradient">Wikipedia</span>
                         </Heading>
                         <Paragraph color="lightGray">
-                          Since 2018, I’ve had the privilege of developing
-                          features for Wikipedia's desktop and mobile sites.
+                          Since 2018, I’ve developed features for Wikipedia's
+                          desktop and mobile sites.
                         </Paragraph>
                         <a
                           className="group mt-8 inline-flex h-9 items-center rounded-full bg-gray-700 px-3 text-gray-200 hover:text-gray-100"
@@ -192,8 +192,7 @@ function Home() {
                                 visual regression tool
                               </a>{" "}
                               that was used each week to catch UI bugs before
-                              users saw them and increased confidence in
-                              releases to production.
+                              users saw them and saved hours of manual review.
                             </>
                           }
                           image={
@@ -239,8 +238,6 @@ function Home() {
                                 new layout
                               </a>{" "}
                               to support a line length that made reading easier.
-                              The new layout was one of the most dramatic visual
-                              changes to the desktop site in over a decade.
                             </>
                           }
                           image={
