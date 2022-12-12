@@ -191,8 +191,8 @@ function Home() {
                               >
                                 visual regression tool
                               </a>{" "}
-                              that was used each week to catch UI bugs before
-                              users saw them and saved hours of manual review.
+                              that was used to catch UI bugs before users saw
+                              them and saved hours of manual review each week.
                             </>
                           }
                           image={
