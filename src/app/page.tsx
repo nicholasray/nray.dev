@@ -35,7 +35,7 @@ function Home() {
           <ViewportPadding className="h-full lg:pb-[calc(var(--header-height)+var(--round-section-divider-height))]">
             <Container className="flex h-full flex-col lg:grid lg:grid-cols-2 lg:items-center lg:gap-14">
               <div className="relative z-10 text-center md:text-left">
-                <h1 className="mb-8 text-5xl font-extrabold tracking-tight text-white lg:text-6xl">
+                <h1 className="mb-8 text-5xl font-bold tracking-tight text-white lg:text-6xl">
                   Hello,
                   <br />
                   I'm <span className="text-gradient">Nicholas Ray.</span>{" "}
