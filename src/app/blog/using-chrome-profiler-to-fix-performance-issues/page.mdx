@@ -55,8 +55,8 @@ can do that too! In fact, this is such a frequent use case that the Chrome team
 added a button to the Performance panel that lets you do this. Instead of
 clicking the "Record" button mentioned in the previous steps, you would click
 the rounded arrow button next to it. This initiates a reload of the page and
-starts the profiler. After the page loads, the profiler will automatically stop,
-and your results will be shown.
+starts the profiler. After the page loads, the profiler will automatically stop
+and display the results.
 
 ## Animations That Run On the Main Thread
 
@@ -244,6 +244,13 @@ and defer the execution of the writes to another frame. That's how we eliminate
 the layout thrashing and make substantial improvements to the performance.
 
 ## Conclusion
+
+Now that you have learned how to recognize inefficient animations, forced
+synchronous layouts, and layout thrashing through performance profiles, the next
+step is to use this knowledge in the wild. Profile websites that are in
+production and see if you can spot any of these inefficiencies. Better yet, fix
+any issues you observe and improve the website's user experience for all. Have
+fun!
 
 ## Resources
 
