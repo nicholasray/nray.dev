@@ -17,7 +17,7 @@ contains a plethora of helpful tools to help diagnose issues with the
 performance of a website.
 
 In this post, we'll use the performance panel of Chrome DevTools to diagnose
-several common performance issues that can plague website. In doing so, we'll
+several common performance issues that can plague websites. In doing so, we'll
 learn the characteristics of each problem so that you can recognize them in the
 future. Let's get started!
 
@@ -62,19 +62,20 @@ and your results will be shown.
 
 You might want to use animations on your website to improve the user experience.
 However, because the animation of certain CSS properties are prone to sluggish
-performance, it might have the opposite effect.
+performance, it may actually have the opposite effect.
 
 It turns out that limiting your animations to the `opacity` and/or `transform`
 CSS properties will give you the best chance at achieving performant animations.
 Why? Animating any other CSS property will cause it to run on the browser's
 [main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread)
-which can easily get bogged down with other work.
+which can easily become bogged down with other work.
 
-However, animating `opacity` and `transform` properties leverages another thread
-called the [compositor thread](https://web.dev/animations-overview/) which
-typically has a lot less competition. Less competition means that your
-animations have a much higher chance of looking smooth and performant to the
-user.
+However, animating `opacity` and `transform` properties leverages another
+browser thread called the
+[compositor thread](https://web.dev/animations-overview/). This thread typically
+has a lot less competition than the main thread. Less competition means that
+your animations have a much higher chance of looking smooth and performant to
+the user.
 
 <JankAnimation duration={2} />
 
@@ -143,10 +144,10 @@ have otherwise. In fact, it runs both of these steps **while** the JS is
 executing.
 
 This is called a `forced synchronous layout` and it can become particularly
-expensive when a write follows a read which follows a write in the same frame as
-it forces the browser to perform two calculations of layout instead of one. How
-do we prevent this inefficiency? It turns out that the ordering of these calls
-matters a lot.
+expensive when a write follows a read which follows a write as it forces the
+browser to perform multiple calculations of layout instead of one before the
+frame is produced. How do we prevent this inefficiency? It turns out that the
+ordering of these calls matters a lot.
 
 <div>
   <a href={demoUrl}>Forced Synchronous Layout Demo</a>
@@ -186,15 +187,61 @@ previous example is eliminated by batching the reads and writes together and
 performing the reads before the writes. The browser will still need to calculate
 the layout, but it only needs to do this once before the frame is produced
 because there aren't any reads that ask it to calculate the layout earlier than
-it wants. As a result, this is a more efficient way to render a frame than the
+that. As a result, this is a more efficient way to render a frame than the
 previous example.
 
 ## Layout Thrashing
 
 When the browser performs multiple forced synchronous layouts in the same frame,
 the effects on performance become particularly noticeable. This effect, known as
-"layout thrashing", commonly occurs when a forced synchronous layout is placed
-inside a loop.
+"layout thrashing", commonly occurs when a forced synchronous layout (a write
+followed by a read) is placed inside a loop.
+
+```js
+const boxes = document.querySelectorAll(".box");
+
+boxes.forEach((box) => {
+  // Write
+  box.classList.add("box--large");
+  // Read
+  const width = box.getBoundingClientRect().width;
+});
+```
+
+<div>
+  <a href={demoUrl}>Layout Thrashing Demo</a>
+</div>
+
+Let's go back to the same demo page as before and profile what layout thrashing
+looks like by following these steps:
+
+1. Click the "Add 1,000 cloned nodes" button to add 1,000 more boxes to the
+   page.
+2. Open the DevTools performance panel.
+3. Click the "Record" button on the performance panel to start profiling.
+4. Click the "Execute" button on the left hand side.
+5. Click the "Stop" button on the performance panel to stop profiling.
+
+In the profile produced, you'll noticed that over a thousand layout calculations
+are made before paint occurs! Perhaps more importantly, these calculations cause
+the click handler to be considerably slow. In my profile with a 6x CPU throttle,
+it takes around 10 seconds for the click handler to complete! This blocks the
+main thread and prevents the user from performing other actions on the page
+(e.g. clicking, highlighting text, etc).
+
+Now lets profile the strategy on the right hand side to compare. Refresh the
+page and perform the same steps as above but, as part of step 4, click the
+"Execute" button on the right hand side instead of the left hand side.
+
+You'll notice that only one layout bar appears before the paint in this profile.
+Additionally, the time it takes to reach the paint bar is a lot faster. In my
+profile with a 6x CPU throttle, it is around 50x faster than the previous
+profile and only takes around 200ms.
+
+As this example demonstrates, the treatment for layout thrashing is to avoid any
+forced synchronous layouts. Batch the reads together, batch the writes together
+and defer the execution of the writes to another frame. That's how we eliminate
+the layout thrashing and make substantial improvements to the performance.
 
 ## Conclusion
 
