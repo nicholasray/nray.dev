@@ -177,7 +177,10 @@ const nextConfig = withBundleAnalyzer({
         // By default, next places the html in the server folder which is not
         // publically accessible. It needs to go into the static folder instead
         // whose relative path differs between dev and production modes.
-        outputPath: config.mode === "production" ? "../../" : "../",
+        outputPath: path.relative(
+          config.output.path,
+          config.output.path.replace(/\.next\/.+/, ".next")
+        ),
       },
     });
 
