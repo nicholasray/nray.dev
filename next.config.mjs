@@ -175,9 +175,9 @@ const nextConfig = withBundleAnalyzer({
       resourceQuery: /file/,
       generator: {
         // By default, next places the html in the server folder which is not
-        // publically accessible. It needs to go into the static folder instead.
-        // This is likely a bug.
-        outputPath: "../",
+        // publically accessible. It needs to go into the static folder instead
+        // whose relative path differs between dev and production modes.
+        outputPath: config.mode === "production" ? "../../" : "../",
       },
     });
 
