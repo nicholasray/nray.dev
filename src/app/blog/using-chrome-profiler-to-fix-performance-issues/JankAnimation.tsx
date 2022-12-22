@@ -14,7 +14,12 @@ function Ball({ className }: BallProps) {
   );
 }
 
-function JankAnimation() {
+interface JankAnimationProps {
+  // How long the main thread should be blocked in seconds.
+  duration: number;
+}
+
+function JankAnimation({ duration = 1 }: JankAnimationProps) {
   return (
     <div className="relative">
       <div className="m-auto flex h-[350px] max-w-xs justify-between">
@@ -27,10 +32,11 @@ function JankAnimation() {
           onClick={() => {
             const t0 = performance.now();
 
-            while (performance.now() - t0 < 1000);
+            while (performance.now() - t0 < duration * 1000);
           }}
         >
-          Block main thread
+          Block main thread for {duration}{" "}
+          {duration === 1 ? "second" : "seconds"}
         </button>
       </div>
     </div>

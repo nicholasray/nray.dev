@@ -10,22 +10,98 @@ import JankAnimation from "./JankAnimation.tsx";
 When you go to a doctor for pain, they might take an x-ray, CT scan, or MRI of
 you to help with the diagnosis. Doctors then look at the results of the imaging
 and map certain characteristics to a diagnosis. Similar to how the medical world
-has these tests for humans, web developers have diagnostic tests to help them
+has diagnostic tests for humans, developers have tests that can help them
 determine issues with websites. One of the most popular ones, Chrome DevTools,
-contains a plethora of helpful tools to help diagnose problems including the
-ability to profile the runtime performance of websites.
+contains a plethora of helpful tools to help diagnose issues with the
+performance of a website.
 
 In this post, we'll use the performance panel of Chrome DevTools to diagnose
-several common performance issues that websites can experience. In doing so,
-we'll learn the characteristics of each performance problem so that you can
-recognize them in the future. Let's get started!
+several common performance issues that can plague website. In doing so, we'll
+learn the characteristics of each problem so that you can recognize them in the
+future. Let's get started!
+
+## How to Profile a Website with Chrome Developer Tools
+
+Using Chrome DevTools to profile a website can be done by performing the
+following steps:
+
+1. Open a new window of Chrome in
+   [incognito mode](https://support.google.com/chrome/answer/95464). This helps
+   reduce unnecessary noise in your performance profiles caused by factors such
+   as your browser's installed extensions which you probably don't care about.
+   Incognito Mode disables extensions by default so they won't influence your
+   profiling results.
+2. Go to the website you are interested in profiling.
+3. Open DevTools with Command+Option+I (Mac) or Control+Shift+I (Windows).
+4. Click the "Performance" tabs in DevTools.
+5. Make sure the "Screenshots" and "Enable advanced paint instrumentation
+   (slow)" and checkboxes are checked to get additional helpful data from the
+   profile. Additionally, in the likely event that the website you are profiling
+   serves users on mobile devices or low-end devices, change "CPU" to "4x
+   slowdown" or "6x slowdown" to get a more realistic picture of how the website
+   will perform on these devices.
+6. Click the "Record" button to start profiling the runtime performance of the
+   website.
+7. As it's recording, perform any action that you want to measure such as
+   scrolling or clicking a button.
+8. After you have performed the action, click "Stop".
+9. Chrome displays the results of your profile. This amount of data might be a
+   bit intimidating, but we'll cover a lot of in the subsequent sections!
+
+The previous steps show how you profile actions performed on a website, but what
+if you just wanted to measure the loading performance of a website? Well, you
+can do that too! In fact, this is such a frequent use case that the Chrome team
+added a button to the Performance panel that lets you do this. Instead of
+clicking the "Record" button mentioned in the previous steps, you would click
+the rounded arrow button next to it. This initiates a reload of the page and
+starts the profiler. After the page loads, the profiler will automatically stop,
+and your results will be shown.
 
 ## Animations That Run On the Main Thread
 
-- Compositor thread-friendly properties: Opacity and Transform
-- Flip Technique
+You might want to use animations on your website to improve the user experience.
+However, because the animation of certain CSS properties are prone to sluggish
+performance, it might have the opposite effect.
 
-<JankAnimation />
+It turns out that limiting your animations to the `opacity` and/or `transform`
+CSS properties will give you the best chance at achieving performant animations.
+Why? Animating any other CSS property will cause it to run on the browser's
+[main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread)
+which can easily get bogged down with other work.
+
+However, animating `opacity` and `transform` properties leverages another thread
+called the [compositor thread](https://web.dev/animations-overview/) which
+typically has a lot less competition. Less competition means that your
+animations have a much higher chance of looking smooth and performant to the
+user.
+
+<JankAnimation duration={2} />
+
+In the example above, there are two animations. The one on the left animates the
+ball's `top` CSS property while the one on the right animates the ball's
+`transform` property. As a result, the animation on the left is running on the
+main thread, while the animation to the right is leveraging the compositor
+thread.
+
+Now click the button below these animations to observe what happens when the
+main thread is busy for 2 seconds. You should notice that the animation on the
+main thread grinds to a halt while the compositor thread animation keeps running
+smoothly.
+
+Now let's profile what is happening. Follow the
+[steps above](#how-to-profile-a-website-with-chrome-developer-tools) and click
+the button as part of step 7. After you've clicked the stopped button, a profile
+that is similar to the one below should load:
+
+As shown, in the image above, you'll notice a long yellow bar labeled `click`
+under the expanded "Main" section. This section shows all activity that occurred
+on the main thread during the recording and the bar corresponds to your button
+click. Hovering over this yellow bar displays a tooltip that indicates it took 2
+seconds. You'll also notice that this bar is stacked on top of other bars.
+Chrome DevTools shows main thread activity via a flame chart so the y-axis
+represents the call stack while the x-axis represents time. Therefore, this
+stack of bars represents the call stack that occurred when you clicked the
+button.
 
 ## Forced Synchronous Layouts
 
@@ -43,6 +119,8 @@ recognize them in the future. Let's get started!
 
 ## Resources
 
+- [Chrome DevTools Performance Features Reference](https://developer.chrome.com/docs/devtools/evaluate-performance/reference/)
+- [Other common bottlenecks](https://developer.chrome.com/docs/devtools/evaluate-performance/)
 - [Inside look at modern web browser (part 3)](https://developer.chrome.com/blog/inside-browser-part3/)
 - [Life of a Pixel](https://youtu.be/K2QHdgAKP-s)
 - [The Anatomy of a Frame](https://aerotwist.com/blog/the-anatomy-of-a-frame/)
