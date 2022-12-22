@@ -64,11 +64,12 @@ const nextConfig = withBundleAnalyzer({
 
     config.module.rules.push({
       test: /\.mdx$/,
+      // Webpack executes loaders from bottom to top.
       use: [
         options.defaultLoaders.babel,
         // For mdx imports that append the ?preview query string, strip the
-        // content and export only the meta data so that it doesn't cause
-        // increase the size of the JS bundle.
+        // content and export only the meta data so that it doesn't increase the
+        // size of the JS bundle.
         createLoader(function (source) {
           if (this.resourceQuery !== "?preview") {
             return source;
@@ -164,7 +165,20 @@ const nextConfig = withBundleAnalyzer({
 
           return data.join("\n");
         }),
+        // Remove falsey (e.g. nulls) values from array.
       ].filter(Boolean),
+    });
+
+    config.module.rules.push({
+      test: /\.html/,
+      type: "asset/resource",
+      resourceQuery: /file/,
+      generator: {
+        // By default, next places the html in the server folder which is not
+        // publically accessible. It needs to go into the static folder instead.
+        // This is likely a bug.
+        outputPath: "../",
+      },
     });
 
     config.module.rules.push({
