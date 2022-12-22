@@ -104,27 +104,104 @@ represents the call stack while the x-axis represents time. Therefore, this
 stack of bars represents the call stack that occurred when you clicked the
 button.
 
+A common culprit of sluggish performance is too much activity on the main
+thread. According to the [RAIL](https://web.dev/rail/#focus-on-the-user) model,
+animations should produce a frame every 16ms in order to look smooth to the
+user. However, if the animation occurs on the main thread, long-running
+JavaScript tasks, such as the long click handler in the demo, can block the
+animation from producing any new frames until the JS has finished. That's why
+its critical for the animations to run on the compositor thread and for us to be
+careful how long our JS runs on the main thread.
+
 ## Forced Synchronous Layouts
 
+When the browser produces a frame that the user can see, the following steps can
+occur:
+
+1. JavaScript executes
+2. Style calculations (browser computes changed styles)
+3. Layout calculations (browser determines the position and size of elements)
+4. Paint (browser records draw calls)
+5. Composite (browser calculates layer info)
+
+Ideally, the browser won't need to repeat steps when producing a frame. However,
+what happens if JavaScript mutates the DOM (step 1) and then queries layout
+information about the element it mutated (step 3)?
+
+```js
+const box = document.querySelector(".box");
+// Write
+box.classList.add("box--large");
+// Read
+const width = box.getBoundingClientRect().width;
+```
+
+In the example above, we add a class to an element and then query its width.
+However, what if the newly added class affects the width? In order to calculate
+this info, the browser is **forced** to run steps 2 and 3 earlier than it would
+have otherwise. In fact, it runs both of these steps **while** the JS is
+executing.
+
+This is called a `forced synchronous layout` and it can become particularly
+expensive when a write follows a read which follows a write in the same frame as
+it forces the browser to perform two calculations of layout instead of one. How
+do we prevent this inefficiency? It turns out that the ordering of these calls
+matters a lot.
+
 <div>
-  <a href={demoUrl}>Demo</a>
+  <a href={demoUrl}>Forced Synchronous Layout Demo</a>
 </div>
-[Forced Synchronous Layout](demos/performance/index.html)
+
+Let's see an example of this. Visit the above link and you'll notice a box at
+the bottom with its height and left offset position. At the top, there are two
+strategies of changing the box's height.
+
+The strategy on the left, "Unbatched reads/writes", iterates over each box
+(currently only one), reads the current height of the box, increments the height
+of each box by 10 pixels and writes it in its `innerText`. After that, it
+performs another read/write set by calculating the relative left position of the
+box and writing that in its `innerText`. Importantly, there is a **read**,
+followed by a **write**, followed by a **read**, followed by a **write**.
+
+The strategy on the right, "Batched reads/writes", similarly iterates over each
+box, but batches the two reads of `height` and `offsetLeft` together before
+performing the writes. Furthermore, instead of performing the writes in the same
+frame, it defers the execution of the writes in a callback queue and waits until
+another frame passes before executing the callbacks. This is accomplished by
+wrapping the writes in two nested `requestAnimationFrame` calls.
+
+If we profile the strategy on the left by initiating the recording, clicking the
+"Execute" button, and then stopping the recording, we will see something like
+the above image. Notice that before the green paint bar, there are two `Layout`
+bars. Because we perform a write in JS and then query the element's
+layout/position, we trigger a forced synchronous layout. This is what is
+responsible for the first layout bar. The second one is caused by the final
+write which invalidates the previous one and causes the browser to perform a
+recalculation of the layout before the frame is produced.
+
+Performing a profile of the strategy on the right hand side reveals a subtle
+difference. Instead of seeing two layout bars before the relevant paint occurs,
+only one occurs. In this example, the forced synchronous layout found in the
+previous example is eliminated by batching the reads and writes together and
+performing the reads before the writes. The browser will still need to calculate
+the layout, but it only needs to do this once before the frame is produced
+because there aren't any reads that ask it to calculate the layout earlier than
+it wants. As a result, this is a more efficient way to render a frame than the
+previous example.
 
 ## Layout Thrashing
 
-## Excessive DOM Size
-
-- Responsible for slow recalc style and layouts
-
-[Large DOM Size](demos/performance/index.html)
+When the browser performs multiple forced synchronous layouts in the same frame,
+the effects on performance become particularly noticeable. This effect, known as
+"layout thrashing", commonly occurs when a forced synchronous layout is placed
+inside a loop.
 
 ## Conclusion
 
 ## Resources
 
 - [Chrome DevTools Performance Features Reference](https://developer.chrome.com/docs/devtools/evaluate-performance/reference/)
-- [Other common bottlenecks](https://developer.chrome.com/docs/devtools/evaluate-performance/)
+- [Analyze runtime performance](https://developer.chrome.com/docs/devtools/evaluate-performance/)
 - [Inside look at modern web browser (part 3)](https://developer.chrome.com/blog/inside-browser-part3/)
 - [Life of a Pixel](https://youtu.be/K2QHdgAKP-s)
 - [The Anatomy of a Frame](https://aerotwist.com/blog/the-anatomy-of-a-frame/)
