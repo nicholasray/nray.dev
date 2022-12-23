@@ -51,11 +51,6 @@ function BlogArticle({
               {children}
             </div>
           </article>
-          <div className="mx-auto mt-10 max-w-3xl text-xl">
-            <a href="https://www.buymeacoffee.com/nraydev">
-              ☕ Help me write more articles with a coffee →
-            </a>
-          </div>
         </ViewportPadding>
       </section>
       <Cta
