@@ -198,9 +198,9 @@ However, what if the newly added class affects the width? To calculate the
 width, the browser is **forced** to run steps 2 and 3 earlier than it would have
 otherwise, and it runs both of these steps before any more JavaScript executes.
 This is called a `forced synchronous layout`, and it can become particularly
-expensive when a write follows a read which follows a write. This particular
-sequence forces the browser to perform multiple layout calculations before the
-frame is produced. How do we prevent this inefficiency? The ordering of these
+expensive when there is a write followed by a read followed by another write as
+this sequence forces the browser to perform multiple layout calculations before
+the frame is produced. How do we prevent this inefficiency? The order of these
 calls matters a lot.
 
 <div>
