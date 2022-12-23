@@ -256,8 +256,11 @@ result, the browser can render the frame more efficiently.
 
 When the browser performs multiple forced synchronous layouts in the same frame,
 the harmful effects on performance become particularly noticeable. This
-inefficiency, known as "layout thrashing", commonly occurs when reads and writes
-are executed inside a loop. This causes **multiple forced synchronous layouts**.
+inefficiency, known as "layout thrashing", commonly occurs when a read and a
+write execute inside a loop. We learned earlier that the order of reads and
+writes matter, but note that even a read followed by a write inside a loop is
+problematic since another read will occur during the next iteration of the loop,
+which triggers a forced synchronous layout.
 
 ```js
 const boxes = document.querySelectorAll(".box");
@@ -318,23 +321,20 @@ for a prolonged time.
 As this example illustrates, the treatment for layout thrashing is to avoid
 writing JavaScript that causes multiple forced synchronous layouts. This
 inefficient code is commonly found inside loops where there is a write followed
-by a read or vice versa. Note that even a read followed by a write inside the
-loop will be problematic since a read will occur during the next iteration of
-the loop, which triggers a forced synchronous layout.
-
-Preferably, all reads would occur outside the loop, and the loop would only
-contain writes. However, if the reads need to stay inside the loop for whatever
-reason, you can batch the writes together and defer their execution to another
-frame like in this example. Either way, we can eliminate the layout thrashing
-and substantially improve the rendering performance and the user experience.
+by a read or vice versa. Preferably, all reads would occur outside the loop, and
+the loop would only contain writes. However, if the reads need to stay inside
+the loop for whatever reason, you can batch the writes together and defer their
+execution to another frame like in this example. Either way, we can eliminate
+the layout thrashing and substantially improve the rendering performance and the
+user experience.
 
 ## Conclusion
 
 Now that you have learned how to recognize inefficient animations, forced
 synchronous layouts, and layout thrashing through performance profiles, the next
 step is to use this knowledge in the wild. Profile websites in production and
-see if you can spot any of these inefficiencies. Better yet, fix any issues you
-observe and improve the website's user experience.
+see if you can spot any of these inefficiencies. Better yet, diagnose and fix
+any issues you observe and improve the website's user experience.
 
 ## Resources
 
