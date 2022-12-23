@@ -14,6 +14,7 @@ import performancePanelRecord from "./assets/performance-panel-record.png";
 import performancePanelStop from "./assets/performance-panel-stop.png";
 import performancePanelResults from "./assets/performance-panel-results.png";
 import performancePanelRecordPageLoad from "./assets/performance-panel-record-page-load.png";
+import profileMainThreadAnimation from "./assets/profile-main-thread-animation.png";
 
 When you go to a doctor for pain, they might take an x-ray, CT scan, or MRI of
 you to help with the diagnosis. Doctors then look at the results of the imaging
@@ -106,14 +107,14 @@ which can easily become bogged down with other work.
 However, animating `opacity` and `transform` properties leverages another
 browser thread called the
 [compositor thread](https://web.dev/animations-overview/). This thread typically
-has a lot less competition than the main thread. Less competition means that
+has a lot less competition than the main thread. And less competition means that
 your animations have a much higher chance of looking smooth and performant to
 the user.
 
 <JankAnimation duration={2} />
 
 In the example above, there are two animations. The one on the left animates the
-ball's `top` CSS property while the one on the right animates the ball's
+ball's `top` CSS property, while the one on the right animates the ball's
 `transform` property. As a result, the animation on the left is running on the
 main thread, while the animation to the right is leveraging the compositor
 thread.
@@ -124,19 +125,24 @@ main thread grinds to a halt while the compositor thread animation keeps running
 smoothly.
 
 Now let's profile what is happening. Follow the
-[steps above](#how-to-profile-a-website-with-chrome-developer-tools) and click
-the button as part of step 7. After you've clicked the stopped button, a profile
-that is similar to the one below should load:
+[steps above](#how-to-profile-a-website-with-chrome-developer-tools), but click
+the "Block main thread for 2 seconds" button as part of step 7. After you've
+clicked the "stop" button, a profile that is similar to the one below should
+load:
 
-As shown, in the image above, you'll notice a long yellow bar labeled `click`
+<Image
+  src={profileMainThreadAnimation}
+  alt="Performance profile of a main thread animation blocked by a click handler."
+/>
+
+As shown in the image above, you'll notice a long yellow bar labeled `click`
 under the expanded "Main" section. This section shows all activity that occurred
 on the main thread during the recording and the bar corresponds to your button
 click. Hovering over this yellow bar displays a tooltip that indicates it took 2
 seconds. You'll also notice that this bar is stacked on top of other bars.
-Chrome DevTools shows main thread activity via a flame chart so the y-axis
-represents the call stack while the x-axis represents time. Therefore, this
-stack of bars represents the call stack that occurred when you clicked the
-button.
+Chrome DevTools shows main thread activity via a flame chart. The y-axis
+represents the call stack while the x-axis represents time. This stack of bars,
+therefore, represents the call stack that occurred when you clicked the button.
 
 A common culprit of sluggish performance is too much activity on the main
 thread. According to the [RAIL](https://web.dev/rail/#focus-on-the-user) model,
