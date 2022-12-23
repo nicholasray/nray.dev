@@ -15,6 +15,10 @@ import performancePanelStop from "./assets/performance-panel-stop.png";
 import performancePanelResults from "./assets/performance-panel-results.png";
 import performancePanelRecordPageLoad from "./assets/performance-panel-record-page-load.png";
 import profileMainThreadAnimation from "./assets/profile-main-thread-animation.png";
+import profileForcedSynchronousLayoutLeft from "./assets/profile-forced-synchronous-layout-left.png";
+import profileWithoutFsl from "./assets/profile-without-fsl.png";
+import profileLayoutThrashing from "./assets/profile-layout-thrashing.png";
+import profileWithoutLayoutThrashing from "./assets/profile-without-layout-thrashing.png";
 
 When you go to a doctor for pain, they might take an x-ray, CT scan, or MRI of
 you to help with the diagnosis. Doctors then look at the results of the imaging
@@ -216,6 +220,11 @@ frame, it defers the execution of the writes in a callback queue and waits until
 another frame passes before executing the callbacks. This is accomplished by
 wrapping the writes in two nested `requestAnimationFrame` calls.
 
+<Image
+  src={profileForcedSynchronousLayoutLeft}
+  alt="Performance profile of a forced synchronous layout showing one layout bar underneath the JS bars and one subsequent layout bar."
+/>
+
 If we profile the strategy on the left by initiating the recording, clicking the
 "Execute" button, and then stopping the recording, we will see something like
 the above image. Notice that before the green paint bar, there are two `Layout`
@@ -225,22 +234,29 @@ responsible for the first layout bar. The second one is caused by the final
 write which invalidates the previous one and causes the browser to perform a
 recalculation of the layout before the frame is produced.
 
-Performing a profile of the strategy on the right hand side reveals a subtle
-difference. Instead of seeing two layout bars before the relevant paint occurs,
-only one occurs. In this example, the forced synchronous layout found in the
-previous example is eliminated by batching the reads and writes together and
-performing the reads before the writes. The browser will still need to calculate
-the layout, but it only needs to do this once before the frame is produced
-because there aren't any reads that ask it to calculate the layout earlier than
-that. As a result, this is a more efficient way to render a frame than the
-previous example.
+<Image
+  src={profileWithoutFsl}
+  alt="Performance profile without any forced synchronous layouts. Only 1 layout calculation is present before the relevant paint bar."
+/>
+
+Profiling the strategy on the right hand side reveals a subtle difference.
+Instead of seeing two layout bars before the relevant paint occurs, only one
+occurs. In this example, the forced synchronous layout found in the previous
+example is eliminated by batching the reads and writes together and executing
+all reads before any writes. The browser will still need to calculate the
+layout, but it only needs to do this once before the frame is produced because
+there aren't any reads that ask it to calculate the layout earlier than that. As
+a result, this is a more efficient way to render a frame than the previous
+example.
 
 ## Layout Thrashing
 
 When the browser performs multiple forced synchronous layouts in the same frame,
 the effects on performance become particularly noticeable. This effect, known as
-"layout thrashing", commonly occurs when a forced synchronous layout (a write
-followed by a read) is placed inside a loop.
+"layout thrashing", commonly occurs when a write followed by a read (which we
+now know will cause a forced synchronous layout) is placed inside a loop. This
+causes **multiple forced synchronous layouts** to occur before a frame is
+produced.
 
 ```js
 const boxes = document.querySelectorAll(".box");
@@ -267,26 +283,47 @@ looks like by following these steps:
 4. Click the "Execute" button on the left hand side.
 5. Click the "Stop" button on the performance panel to stop profiling.
 
-In the profile produced, you'll noticed that over a thousand layout calculations
-are made before paint occurs! Perhaps more importantly, these calculations cause
-the click handler to be considerably slow. In my profile with a 6x CPU throttle,
-it takes around 10 seconds for the click handler to complete! This blocks the
-main thread and prevents the user from performing other actions on the page
-(e.g. clicking, highlighting text, etc).
+<Image
+  src={profileLayoutThrashing}
+  alt="Performance profile of a layout thrashing showing many layout bars underneath the JS bar."
+/>
+
+In the profile produced, you'll noticed that over a thousand purple bars
+underneath the yellow click handler bar. These are all layout calculations!
+Perhaps more importantly, these calculations cause the click handler to be
+considerably slow. In my profile with a 6x CPU throttle, it takes around 10
+seconds for the click handler to complete. This blocks the main thread and
+prevents the user from performing other actions on the page (e.g. clicking,
+highlighting text, etc).
 
 Now lets profile the strategy on the right hand side to compare. Refresh the
 page and perform the same steps as above but, as part of step 4, click the
 "Execute" button on the right hand side instead of the left hand side.
 
+<Image
+  src={profileWithoutLayoutThrashing}
+  alt="Performance profile that is free from layout thrashing. There is only 1 layout bar before the paint bar."
+/>
+
 You'll notice that only one layout bar appears before the paint in this profile.
 Additionally, the time it takes to reach the paint bar is a lot faster. In my
-profile with a 6x CPU throttle, it is around 50x faster than the previous
-profile and only takes around 200ms.
+profile with a 6x CPU throttle, it is around 65x faster than the previous
+profile and only takes around 150ms. Importantly, the user sees the updated DOM
+much faster and is able to perform other actions on the page because the main
+thread isn't blocked for a prolonged time.
 
-As this example demonstrates, the treatment for layout thrashing is to avoid any
-forced synchronous layouts. Batch the reads together, batch the writes together
-and defer the execution of the writes to another frame. That's how we eliminate
-the layout thrashing and make substantial improvements to the performance.
+As this example illustrates, the treatment for layout thrashing is to avoid
+writing JavaScript that causes multiple forced synchronous layouts. This
+inefficient code is commonly found inside loops where there will be a write
+followed by a read or vice versa. Note that even a read followed by a write
+inside the loop will be problematic since a read will then occur on the next
+iteration of the loop which triggers a forced synchronous layout.
+
+Preferrably, all of the reads would occur outside the loop and the loop would
+only contain writes. If the reads need to stay inside the loop, you can instead
+batch the writes together and defer their execution to another frame like in
+this example. That's how we eliminate the layout thrashing and make substantial
+improvements to the rendering performance.
 
 ## Conclusion
 
@@ -294,8 +331,7 @@ Now that you have learned how to recognize inefficient animations, forced
 synchronous layouts, and layout thrashing through performance profiles, the next
 step is to use this knowledge in the wild. Profile websites that are in
 production and see if you can spot any of these inefficiencies. Better yet, fix
-any issues you observe and improve the website's user experience for all. Have
-fun!
+any issues you observe and improve the website's user experience for all.
 
 ## Resources
 
