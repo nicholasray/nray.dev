@@ -22,7 +22,7 @@ import profileLayoutThrashing from "./assets/profile-layout-thrashing.png";
 import profileWithoutLayoutThrashing from "./assets/profile-without-layout-thrashing.png";
 
 When you go to a doctor, they might take an x-ray or MRI scan to help diagnose
-you. Then, they examine the imaging results and map its characteristics to a
+you. Then, they examine the imaging results and map their characteristics to a
 diagnosis. Similar to how the medical world has diagnostic tests for humans,
 developers have tests that can help them determine issues with websites. Chrome
 DevTools is one example and has many helpful tools to help diagnose problems
@@ -222,7 +222,7 @@ box but batches the two reads of `height` and `offsetLeft` together before
 performing the writes. Furthermore, instead of performing the writes in the same
 frame, it defers the execution of the writes in a queue and waits until another
 frame passes before executing them. Wrapping the writes in two nested
-`requestAnimationFrame` calls defers the writes to the next frame.
+`requestAnimationFrame` calls defer the writes to the next frame.
 
 <Image
   src={profileForcedSynchronousLayoutLeft}
@@ -319,14 +319,12 @@ able to perform other actions on the page because the main thread isn't blocked
 for a prolonged time.
 
 As this example illustrates, the treatment for layout thrashing is to avoid
-writing JavaScript that causes multiple forced synchronous layouts. This
-inefficient code is commonly found inside loops where there is a write followed
-by a read or vice versa. Preferably, all reads would occur outside the loop, and
-the loop would only contain writes. However, if the reads need to stay inside
-the loop for whatever reason, you can batch the writes together and defer their
-execution to another frame like in this example. Either way, we can eliminate
-the layout thrashing and substantially improve the rendering performance and the
-user experience.
+writing JavaScript that causes multiple forced synchronous layouts. Preferably,
+all reads would occur outside the loop, and the loop would only contain writes.
+If the reads need to stay inside the loop, you can batch the writes together and
+defer their execution to another frame, like in this example. Either way, we can
+eliminate the layout thrashing and substantially improve the rendering
+performance and the user experience.
 
 ## Conclusion
 
