@@ -26,7 +26,7 @@ function addRawSourceSupport(config) {
     if (
       rule.test &&
       rule.test instanceof RegExp &&
-      testPaths.some((path) => rule.test.test(path))
+      testPaths.some((testPath) => rule.test.test(testPath))
     ) {
       rule.resourceQuery = {
         ...rule.resourceQuery,
