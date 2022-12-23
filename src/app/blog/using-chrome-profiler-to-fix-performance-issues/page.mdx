@@ -1,7 +1,7 @@
 ---
 title: Using Chrome Profiler to Fix Performance Issues
 description:
-  Chrome DevTools Performance Tab can help you diagnose and fix common
+  Chrome's DevTools performance panel can help you diagnose and fix common
   performance problems. Learn how in this article!
 ---
 
@@ -292,9 +292,9 @@ In the profile produced, you'll noticed that over a thousand purple bars
 underneath the yellow click handler bar. These are all layout calculations!
 Perhaps more importantly, these calculations cause the click handler to be
 considerably slow. In my profile with a 6x CPU throttle, it takes around 10
-seconds for the click handler to complete. This blocks the main thread and
-prevents the user from performing other actions on the page (e.g. clicking,
-highlighting text, etc).
+seconds for the click handler to complete. During this time, the main thread is
+blocked which prevents the user from performing other actions on the page such
+as clicking other buttons.
 
 Now lets profile the strategy on the right hand side to compare. Refresh the
 page and perform the same steps as above but, as part of step 4, click the
