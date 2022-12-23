@@ -5,8 +5,15 @@ description:
   performance problems. Learn how in this article!
 ---
 
+import Image from "@components/BlogImage";
 import JankAnimation from "./JankAnimation.tsx";
 import demoUrl from "./demos/performance/index.html?file";
+import renderingSteps from "./assets/rendering-steps.png";
+import performancePanel from "./assets/performance-panel.png";
+import performancePanelRecord from "./assets/performance-panel-record.png";
+import performancePanelStop from "./assets/performance-panel-stop.png";
+import performancePanelResults from "./assets/performance-panel-results.png";
+import performancePanelRecordPageLoad from "./assets/performance-panel-record-page-load.png";
 
 When you go to a doctor for pain, they might take an x-ray, CT scan, or MRI of
 you to help with the diagnosis. Doctors then look at the results of the imaging
@@ -35,28 +42,54 @@ following steps:
 2. Go to the website you are interested in profiling.
 3. Open DevTools with Command+Option+I (Mac) or Control+Shift+I (Windows).
 4. Click the "Performance" tabs in DevTools.
+
+<Image src={performancePanel} alt="Chrome DevTools performance panel" />
+
 5. Make sure the "Screenshots" and "Enable advanced paint instrumentation
-   (slow)" and checkboxes are checked to get additional helpful data from the
+   (slow)" checkboxes are checked to get additional helpful data from the
    profile. Additionally, in the likely event that the website you are profiling
    serves users on mobile devices or low-end devices, change "CPU" to "4x
    slowdown" or "6x slowdown" to get a more realistic picture of how the website
    will perform on these devices.
 6. Click the "Record" button to start profiling the runtime performance of the
    website.
+
+<Image
+  src={performancePanelRecord}
+  alt="Chrome DevTools performance panel with the record button highlighted."
+/>
+
 7. As it's recording, perform any action that you want to measure such as
    scrolling or clicking a button.
-8. After you have performed the action, click "Stop".
+8. After you have performed the action, click the "Stop" button.
+
+<Image
+  src={performancePanelStop}
+  alt="Chrome DevTools performance panel with the stop button highlighted."
+/>
+
 9. Chrome displays the results of your profile. This amount of data might be a
    bit intimidating, but we'll cover a lot of in the subsequent sections!
 
-The previous steps show how you profile actions performed on a website, but what
-if you just wanted to measure the loading performance of a website? Well, you
-can do that too! In fact, this is such a frequent use case that the Chrome team
-added a button to the Performance panel that lets you do this. Instead of
-clicking the "Record" button mentioned in the previous steps, you would click
-the rounded arrow button next to it. This initiates a reload of the page and
-starts the profiler. After the page loads, the profiler will automatically stop
-and display the results.
+<Image
+  src={performancePanelResults}
+  alt="Chrome DevTools performance panel with profiling results shown."
+/>
+
+The previous steps show how you profile certain **actions** on a website like
+clicking a button or scrolling, but what if you just wanted to measure the
+loading performance of a website? Well, you can do that too! In fact, this is
+such a frequent use case that the Chrome team added a button to the Performance
+panel that lets you do this. Instead of clicking the "Record" button mentioned
+in the previous steps, you would click the rounded arrow button next to it.
+
+<Image
+  src={performancePanelRecordPageLoad}
+  alt="Chrome DevTools performance panel with the button to profile page load highlighted."
+/>
+
+This initiates a reload of the page and starts the profiler. After the page
+loads, the profiler will automatically stop and display the results.
 
 ## Animations That Run On the Main Thread
 
@@ -119,11 +152,17 @@ careful how long our JS runs on the main thread.
 When the browser produces a frame that the user can see, the following steps can
 occur:
 
+<Image
+  src={renderingSteps}
+  alt="The browser's rendering steps. Each step is represented by a box."
+/>
+
 1. JavaScript executes
-2. Style calculations (browser computes changed styles)
-3. Layout calculations (browser determines the position and size of elements)
-4. Paint (browser records draw calls)
-5. Composite (browser calculates layer info)
+2. Style calculations. Browser determines the CSS rules and elements that are
+   involved in the changes
+3. Layout. Browser determines the position and size of elements
+4. Paint. Browser records draw calls
+5. Composite. Browser calculates layer info and passes it to compositor thread
 
 Ideally, the browser won't need to repeat steps when producing a frame. However,
 what happens if JavaScript mutates the DOM (step 1) and then queries layout
