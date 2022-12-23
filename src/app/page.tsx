@@ -31,7 +31,7 @@ function Home() {
   return (
     <>
       <main className="bg-white">
-        <section className="relative -mt-px overflow-hidden bg-gray-900 pt-10 md:h-[calc(100vh-var(--header-height)-48px)] md:min-h-[45rem] lg:pt-0">
+        <section className="relative -mb-px overflow-hidden bg-gray-900 pt-10 md:h-[calc(100vh-var(--header-height)-48px)] md:min-h-[45rem] lg:pt-0">
           <ViewportPadding className="h-full lg:pb-[calc(var(--header-height)+var(--round-section-divider-height))]">
             <Container className="flex h-full flex-col lg:grid lg:grid-cols-2 lg:items-center lg:gap-14">
               <div className="relative z-10 text-center md:text-left">
@@ -87,7 +87,7 @@ function Home() {
           <Grid className="width-full pointer-events-none absolute bottom-0 left-0" />
           <RoundDivider className="absolute bottom-0 z-20 w-full" />
         </section>
-        <div className="grid grid-cols-1 gap-y-20 sm:gap-y-32 md:gap-y-40">
+        <div className="relative z-10 grid grid-cols-1 gap-y-20 sm:gap-y-32 md:gap-y-40">
           <section className="pt-8 text-gray-700">
             <ViewportPadding>
               <Container>
