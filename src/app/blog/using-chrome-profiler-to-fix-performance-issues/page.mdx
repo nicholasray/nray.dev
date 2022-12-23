@@ -35,8 +35,7 @@ future. Let's get started!
 
 ## How to Profile a Website with Chrome Developer Tools
 
-Using Chrome DevTools to profile a website can be done by performing the
-following steps:
+Using Chrome DevTools to profile a website can be done with the following steps:
 
 1. Open a new window of Chrome in
    [incognito mode](https://support.google.com/chrome/answer/95464). Using
@@ -72,9 +71,8 @@ following steps:
   alt="Chrome DevTools performance panel with the stop button highlighted."
 />
 
-9. Chrome displays the results of your profile. This amount of data presented to
-   you might be a bit intimidating at first, but we'll cover a lot of it in the
-   subsequent sections
+9. Chrome displays the results of your profile. The results may be a bit
+   intimidating at first, but we'll cover the basics in the subsequent sections
 
 <Image
   src={performancePanelResults}
@@ -83,10 +81,9 @@ following steps:
 
 The previous steps show how you can profile specific **actions** on a website,
 like clicking a button or scrolling, but what if you just wanted to measure the
-loading performance of a website? Well, you can do that too! This is such a
-frequent use case that the Chrome team added a button to the performance panel
-that enables this. Instead of clicking the "Record" button mentioned in the
-previous steps, you click the rounded arrow button next to it.
+loading performance of a website? Well, you can do that too! Instead of clicking
+the "Record" button mentioned in the previous steps, you click the rounded arrow
+button next to it.
 
 <Image
   src={performancePanelRecordPageLoad}
@@ -99,8 +96,8 @@ results.
 
 ## Animations That Run On the Main Thread
 
-Adding animations to a website can improve the user experience if done well.
-However, because the animation of certain CSS properties is prone to sluggish
+If done well, adding animations to a website can improve the user experience.
+However, because animating certain CSS properties is prone to sluggish
 performance, sometimes it may have the opposite effect, particularly on low-end
 devices.
 
@@ -113,7 +110,7 @@ which can easily become bogged down with other work.
 However, animating `opacity` and `transform` properties leverages another
 browser thread called the
 [compositor thread](https://web.dev/animations-overview/). This thread typically
-has a lot less competition than the main thread. And less competition means that
+has a lot less competition than the main thread. Less competition means that
 your animations have a much higher chance of looking smooth and performant to
 the user.
 
@@ -154,13 +151,13 @@ therefore, represents the call stack that occurred when you clicked the button.
 
 A common culprit of sluggish animation performance is too much activity on the
 main thread. According to the [RAIL](https://web.dev/rail/#focus-on-the-user)
-model, and assuming your display has a 60 Hz refresh rate, animations should
-produce a frame every 16ms to look smooth to the user. However, if the animation
-occurs on the main thread, long-running JavaScript tasks, such as the click
-handler in the demo, can block the animation from producing any new frames until
-the JS has finished. As a result, the animation looks "janky". That's why the
-animations must run on compositor thread where it has a lower chance of being
-blocked.
+model, and assuming your display has a 60 Hz refresh rate, animations that
+produce a frame every 16ms will look smooth to the user. However, if the
+animation occurs on the main thread, long-running JavaScript tasks, such as the
+click handler in the demo, can **block** the animation from producing any new
+frames until the JS has finished. As a result, the animation drops frames and
+looks "janky". To avoid this, make sure your animations run on the compositor
+thread where it has a lower chance of being blocked by anything.
 
 ## Forced Synchronous Layouts
 
