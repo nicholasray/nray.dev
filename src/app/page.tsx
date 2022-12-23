@@ -26,7 +26,7 @@ import { allPosts } from "@app/blog";
 import TimelinePoint from "@components/TimelinePoint";
 
 function Home() {
-  const posts = allPosts(3);
+  const posts = allPosts(6);
 
   return (
     <>
