@@ -28,7 +28,7 @@ function JankAnimation({ duration = 1 }: JankAnimationProps) {
       </div>
       <div className="relative flex  justify-center">
         <button
-          className="rounded-md bg-indigo-500 py-2 px-3 text-base font-semibold text-white hover:bg-indigo-600"
+          className="rounded-md bg-zinc-200 py-2 px-3 text-base font-semibold text-zinc-900 hover:bg-white"
           onClick={() => {
             const t0 = performance.now();
 
