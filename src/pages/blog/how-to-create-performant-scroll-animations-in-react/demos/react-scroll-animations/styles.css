@@ -1,0 +1,56 @@
+html,
+body {
+  margin: 0;
+}
+
+section {
+  /* Prevent horizontal scrollbar from appearing due to translated elements. */
+  overflow: hidden;
+}
+
+.container {
+  display: grid;
+  gap: 16px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.animatable {
+  display: flex;
+  align-items: center;
+  padding-left: 48px;
+  padding-right: 48px;
+  height: 500px;
+  justify-content: center;
+  background: #cbd5e1;
+  color: #0f172a;
+  font-size: 24px;
+  border-radius: 16px;
+}
+
+/** 
+ * Only enable animations for devices with relatively large viewport widths
+ * which serves as a proxy for devices with more power and for users who haven't
+ * set the "prefers reduced motion" setting on their OS.
+ */
+@media (prefers-reduced-motion: no-preference) and (min-width: 640px) {
+  .animatable {
+    transition-duration: 500ms;
+    /** 
+    * Limit transitions to compositor thread-friendly properties for the best
+    * performance. 
+    */
+    transition-property: transform, opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (min-width: 640px) {
+  .animatable--initial {
+    transform: translateX(33%);
+    opacity: 0.6;
+  }
+}

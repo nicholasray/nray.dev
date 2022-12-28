@@ -10,11 +10,9 @@ import { remarkReadingTime } from "./remark/remarkReadingTime";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [
-    react(),
-    tailwind(),
-    mdx({
-      remarkPlugins: [remarkReadingTime],
-    }),
-  ],
+  markdown: {
+    remarkPlugins: [remarkReadingTime],
+    extendDefaultPlugins: true,
+  },
+  integrations: [react(), tailwind(), mdx()],
 });
