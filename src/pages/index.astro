@@ -1,6 +1,21 @@
 ---
 import Layout from "@layouts/BaseLayout.astro";
-const posts = await Astro.glob("./blog/**/index.mdx");
+import { compareDesc } from "date-fns";
+interface Frontmatter {
+  title: string;
+  description: string;
+  publishedAt: string;
+  readingTime: string;
+  draft?: boolean;
+}
+const posts = (await Astro.glob<Frontmatter>("./blog/**/index.mdx"))
+  .filter((post) => !post.frontmatter.draft)
+  .sort((a, b) => {
+    return compareDesc(
+      new Date(a.frontmatter.publishedAt || new Date()),
+      new Date(b.frontmatter.publishedAt || new Date())
+    );
+  });
 ---
 
 <Layout title="nray">
@@ -9,7 +24,7 @@ const posts = await Astro.glob("./blog/**/index.mdx");
       <a class="text-white font-semibold tracking-tight text-2xl" href="/"
         >nray</a
       >
-      <ul>
+      <ul class="text-zinc-200 font-semibold">
         <li>
           <a href="/about">About</a>
         </li>
