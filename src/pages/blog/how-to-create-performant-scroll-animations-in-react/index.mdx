@@ -1,5 +1,6 @@
 ---
 title: How to Create Performant Scroll Animations
+layout: "@layouts/BlogLayout.astro"
 publishedAt: 2022-10-02
 description: Learn how to create scroll-triggered animations without jank.
 ---
@@ -429,4 +430,4 @@ styles we set.
 
 import ScrollDemo from "./ScrollDemo";
 
-<ScrollDemo />
+<ScrollDemo client:visible />
