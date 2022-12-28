@@ -1,10 +1,45 @@
 ---
 import Layout from "./Layout.astro";
-const { frontmatter } = Astro.props;
+import avatar from "@assets/images/avatar.jpg";
+import { format } from "date-fns";
+const { title, readingTime, publishedAt } = Astro.props.frontmatter;
 ---
 
-<Layout {...Astro.props} title={frontmatter.title}>
-  <main>
-    <slot />
+<Layout {...Astro.props} title={title}>
+  <main class="grid grid-cols-1 gap-y-20 sm:gap-y-32 md:gap-y-40">
+    <section>
+      <article class="mx-auto mt-10 max-w-3xl">
+        <h1 class="mb-3 text-3xl font-bold text-white md:mb-6 md:text-5xl">
+          {title}
+        </h1>
+        <div
+          class="mb-8 flex items-center justify-between text-sm font-medium md:text-base"
+        >
+          <div class="flex items-center">
+            <div class="mr-3 h-9 w-9 rounded-full">
+              <img
+                class="rounded-full"
+                sizes="2.25rem"
+                src={avatar}
+                alt="Avatar"
+              />
+            </div>
+            <div>Nicholas Ray</div>
+          </div>
+          <div>
+            <time datetime={publishedAt}>
+              {publishedAt ? format(new Date(publishedAt), "LLLL d, yyyy") : ""}
+            </time>
+            <span> — {readingTime}</span>
+          </div>
+        </div>
+
+        <div
+          class={`prose-pre:shadow-inner-10 prose !prose-invert prose-zinc max-w-none prose-pre:mt-0 prose-pre:px-0 prose-pre:!text-sm lg:prose-xl lg:prose-pre:mt-0 lg:prose-pre:px-0`}
+        >
+          <slot />
+        </div>
+      </article>
+    </section>
   </main>
 </Layout>

@@ -3,7 +3,7 @@ import app from "./demos/react-scroll-animations/App.tsx?raw";
 import useIntersectionObserver from "./demos/react-scroll-animations/useIntersectionObserver.ts?raw";
 import styles from "./demos/react-scroll-animations/styles.css?raw";
 
-async function ScrollDemo() {
+function ScrollDemo() {
   return (
     <CodeEditor
       template="react-ts"
