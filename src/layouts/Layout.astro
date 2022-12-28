@@ -1,0 +1,35 @@
+---
+import BaseLayout from "@layouts/BaseLayout.astro";
+---
+
+<BaseLayout {...Astro.props}>
+  <header class="py-8 px-8">
+    <nav class="flex item-center justify-between">
+      <a class="text-white font-semibold tracking-tight text-2xl" href="/"
+        >nray</a
+      >
+      <ul class="text-zinc-200 font-semibold">
+        <li>
+          <a href="/about">About</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+  <slot />
+  <footer class="py-8 px-8">
+    <nav class="flex item-center justify-between">
+      <a class="text-white" href="/">nray</a>
+      <ul class="flex space-x-4">
+        <li>
+          <a href="https://github.com/nicholasray/nray.dev">View source code</a>
+        </li>
+        <li>
+          <a href="/about">About</a>
+        </li>
+        <li>
+          <a href="/privacy">Privacy</a>
+        </li>
+      </ul>
+    </nav>
+  </footer>
+</BaseLayout>
