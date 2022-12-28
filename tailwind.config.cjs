@@ -34,7 +34,7 @@ module.exports = {
                 opacity: theme("opacity.100"),
               },
             },
-            color: theme("colors.slate.400"),
+            color: theme("colors.zinc.400"),
             h2: {
               "&:hover .heading-link": {
                 display: "block",
@@ -74,10 +74,13 @@ module.exports = {
                   borderLeftColor: "transparent",
                 },
                 ".line--highlighted": {
-                  background: "#26173b",
-                  borderLeftColor: theme("colors.purple.400"),
+                  background: "#1b1e28",
+                  borderLeftColor: theme("colors.zinc.700"),
                 },
-
+                code: {
+                  display: "grid",
+                  fontSize: "14px",
+                },
                 "code[data-line-numbers]": {
                   counterReset: "line",
                 },
