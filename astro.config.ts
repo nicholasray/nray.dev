@@ -13,6 +13,9 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 // https://astro.build/config
+import image from "@astrojs/image";
+
+// https://astro.build/config
 export default defineConfig({
   markdown: {
     syntaxHighlight: false,
@@ -26,7 +29,12 @@ export default defineConfig({
             // Prevent lines from collapsing in `display: grid` mode, and
             // allow empty lines to be copy/pasted
             if (node.children.length === 0) {
-              node.children = [{ type: "text", value: " " }];
+              node.children = [
+                {
+                  type: "text",
+                  value: " ",
+                },
+              ];
             }
           },
           // Feel free to add classNames that suit your docs
@@ -46,11 +54,21 @@ export default defineConfig({
             "aria-label": "jump link",
             className: `heading-link opacity-0 no-underline before:content-['#'] absolute -ml-8`,
           },
-          content: { type: "text", value: "" },
+          content: {
+            type: "text",
+            value: "",
+          },
         },
       ],
     ],
     extendDefaultPlugins: true,
   },
-  integrations: [react(), tailwind(), mdx()],
+  integrations: [
+    react(),
+    tailwind(),
+    mdx(),
+    image({
+      serviceEntryPoint: "@astrojs/image/sharp",
+    }),
+  ],
 });
