@@ -1,0 +1,27 @@
+---
+import { Picture } from "@astrojs/image/components";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+}
+
+const { src, alt, caption, ...props } = Astro.props;
+---
+
+<figure>
+  <a href={src.src}>
+    <Picture
+      alt={alt}
+      class="w-full"
+      src={src}
+      width={src.width}
+      height={src.height}
+      widths={[400, 800, 1600]}
+      sizes="(min-width: 48rem) 48rem, 100vw"
+      {...props}
+    />
+  </a>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
