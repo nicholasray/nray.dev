@@ -1,13 +1,14 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
+
+const { title } = Astro.props;
 ---
 
-<BaseLayout {...Astro.props}>
-  <header class="py-8 px-8">
-    <nav class="flex item-center justify-between">
-      <a class="text-white font-semibold tracking-tight text-2xl" href="/"
-        >nray</a
-      >
+<BaseLayout title={title} {...Astro.props}>
+  <header class="px-4 sm:px-6 md:px-8 h-24 flex items-center justify-between">
+    <a class="text-white font-semibold tracking-tight text-2xl" href="/">nray</a
+    >
+    <nav>
       <ul class="text-zinc-200 font-semibold">
         <li>
           <a href="/about">About</a>
@@ -16,20 +17,30 @@ import BaseLayout from "@layouts/BaseLayout.astro";
     </nav>
   </header>
   <slot />
-  <footer class="py-8 px-8">
-    <nav class="flex item-center justify-between">
-      <a class="text-white" href="/">nray</a>
-      <ul class="flex space-x-4">
-        <li>
-          <a href="https://github.com/nicholasray/nray.dev">View source code</a>
-        </li>
-        <li>
-          <a href="/about">About</a>
-        </li>
-        <li>
-          <a href="/privacy">Privacy</a>
-        </li>
-      </ul>
-    </nav>
+  <footer class="sticky top-[100vh] text-zinc-200 py-10">
+    <div class="flex flex-col items-center justify-center text-center">
+      <a href="/" class="mb-5 font-semibold tracking-tight text-xl">
+        <span class="sr-only">nray.dev home page</span>
+        nray
+      </a>
+      <div class="mb-4">
+        <a class="font-semibold" href="https://github.com/nicholasray/nray.dev">
+          View source code
+        </a>
+      </div>
+      <div class="mb-12 text-sm text-zinc-400">
+        © 2022 NRAY LLC. All rights reserved.
+      </div>
+      <div class="text-sm font-bold text-zinc-400">
+        <a href="/privacy" class="mb-5"> Privacy</a>
+      </div>
+    </div>
   </footer>
 </BaseLayout>
+
+<style is:global>
+  html,
+  body {
+    height: 100%;
+  }
+</style>
