@@ -3,7 +3,11 @@ const { screens } = require("./src/constants.cjs");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  content: [
+    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+    // Enable auto-link heading styles.
+    "./astro.config.ts",
+  ],
   theme: {
     extend: {
       screens: screens,

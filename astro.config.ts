@@ -9,6 +9,8 @@ import mdx from "@astrojs/mdx";
 import { remarkReadingTime } from "./remark/remarkReadingTime";
 import rehypePrettyCode from "rehype-pretty-code";
 import ayu from "./src/themes/ayu.json";
+import { rehypeHeadingIds } from "@astrojs/markdown-remark";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 // https://astro.build/config
 export default defineConfig({
@@ -34,6 +36,17 @@ export default defineConfig({
           onVisitHighlightedWord(node: any) {
             node.properties.className = ["word"];
           },
+        },
+      ],
+      rehypeHeadingIds,
+      [
+        rehypeAutolinkHeadings,
+        {
+          properties: {
+            "aria-label": "jump link",
+            className: `heading-link opacity-0 no-underline before:content-['#'] absolute -ml-8`,
+          },
+          content: { type: "text", value: "" },
         },
       ],
     ],
