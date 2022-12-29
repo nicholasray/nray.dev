@@ -3,6 +3,7 @@ import Layout from "./Layout.astro";
 import { Image } from "@astrojs/image/components";
 import avatar from "@assets/images/avatar.jpg";
 import { format } from "date-fns";
+import Prose from "@components/Prose.astro";
 const { title, readingTime, publishedAt } = Astro.props.frontmatter;
 ---
 
@@ -34,12 +35,9 @@ const { title, readingTime, publishedAt } = Astro.props.frontmatter;
             <span> — {readingTime}</span>
           </div>
         </div>
-
-        <div
-          class="prose lg:prose-xl prose-zinc !prose-invert prose-pre:shadow-inner-10 max-w-none prose-pre:mt-0 prose-pre:px-0 lg:prose-pre:mt-0 lg:prose-pre:px-0"
-        >
+        <Prose>
           <slot />
-        </div>
+        </Prose>
       </article>
     </section>
   </main>

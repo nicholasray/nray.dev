@@ -1,0 +1,15 @@
+---
+import Prose from "@components/Prose.astro";
+import Layout from "./Layout.astro";
+const { title } = Astro.props.frontmatter;
+---
+
+<Layout {...Astro.props} title={title}>
+  <main class="grid grid-cols-1 gap-y-20 sm:gap-y-32 md:gap-y-40">
+    <div class="mx-auto mt-10 max-w-3xl">
+      <Prose>
+        <slot />
+      </Prose>
+    </div>
+  </main>
+</Layout>
