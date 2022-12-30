@@ -2,9 +2,10 @@
 import { Image, Picture } from "@astrojs/image/components";
 import Layout from "@layouts/Layout.astro";
 import type { MDXInstance } from "astro";
-import { compareDesc, format } from "date-fns";
+import { compareDesc } from "date-fns";
 import avatar from "@assets/images/avatar.jpg";
 import { Icon } from "astro-icon";
+import ArticleFooter from "@components/ArticleFooter.astro";
 
 interface Frontmatter {
   title: string;
@@ -40,12 +41,21 @@ const restOfPosts = posts.slice(1);
       class="mx-auto flex max-w-7xl items-center px-4 sm:px-6 md:px-8 lg:grid lg:grid-cols-2 lg:gap-14"
     >
       <div>
-        <h1 class="text-5xl font-bold tracking-tight text-white">
-          {featured.frontmatter.title}
-        </h1>
-        <p class="mt-8 text-2xl text-zinc-300">
-          {featured.frontmatter.description}
-        </p>
+        <article>
+          <h1 class="text-5xl font-bold tracking-tight text-white">
+            {featured.frontmatter.title}
+          </h1>
+          <p class="mt-8 text-2xl text-zinc-300">
+            {featured.frontmatter.description}
+          </p>
+
+          <footer class="mt-10 text-sm uppercase tracking-wide text-zinc-500">
+            <ArticleFooter
+              publishedAt={featured.frontmatter.publishedAt}
+              readingTime={featured.frontmatter.readingTime}
+            />
+          </footer>
+        </article>
         <a
           href={featured.url}
           class="relative z-10 mt-14 inline-flex w-full min-w-[12rem] items-center justify-center rounded-full bg-zinc-50 py-5 px-6 text-lg font-semibold text-slate-900 transition-performant duration-300 hover:scale-[1.1] active:translate-y-1 md:w-auto"
@@ -135,14 +145,10 @@ const restOfPosts = posts.slice(1);
                     {post.frontmatter.description}
                   </p>
                   <footer class="mt-auto text-sm uppercase tracking-wide text-zinc-500">
-                    <time datetime={post.frontmatter.publishedAt}>
-                      {format(
-                        new Date(post.frontmatter.publishedAt),
-                        "LLLL d, yyyy"
-                      )}
-                    </time>
-                    <span>&bull;</span>
-                    <span>{post.frontmatter.readingTime}</span>
+                    <ArticleFooter
+                      publishedAt={post.frontmatter.publishedAt}
+                      readingTime={post.frontmatter.readingTime}
+                    />
                   </footer>
                 </article>
               </a>
