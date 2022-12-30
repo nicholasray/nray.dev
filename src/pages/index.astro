@@ -1,6 +1,11 @@
 ---
+import { Image, Picture } from "@astrojs/image/components";
 import Layout from "@layouts/Layout.astro";
+import type { MDXInstance } from "astro";
 import { compareDesc } from "date-fns";
+import avatar from "@assets/images/avatar.jpg";
+import { Icon } from "astro-icon";
+
 interface Frontmatter {
   title: string;
   description: string;
@@ -8,6 +13,14 @@ interface Frontmatter {
   readingTime: string;
   draft?: boolean;
 }
+
+interface Post extends MDXInstance<Frontmatter> {
+  cover: {
+    metadata: ImageMetadata;
+    alt: string;
+  };
+}
+
 const posts = (await Astro.glob<Frontmatter>("./blog/**/index.mdx"))
   .filter((post) => !post.frontmatter.draft)
   .sort((a, b) => {
@@ -15,32 +28,90 @@ const posts = (await Astro.glob<Frontmatter>("./blog/**/index.mdx"))
       new Date(a.frontmatter.publishedAt || new Date()),
       new Date(b.frontmatter.publishedAt || new Date())
     );
-  });
+  }) as Post[];
+
 const featured = posts[0];
 const restOfPosts = posts.slice(1);
 ---
 
 <Layout title="nray">
   <main>
-    <div
-      class="max-w-7xl min-h-[40rem] mx-auto flex lg:grid lg:grid-cols-2 lg-items-center lg:gap-14"
+    <section
+      class="mx-auto flex max-w-7xl items-center px-4 sm:px-6 md:px-8 lg:grid lg:grid-cols-2 lg:gap-14"
     >
       <div>
-        <h1
-          class="text-5xl font-bold tracking-tight text-white lg:text-6xl mb-14"
-        >
+        <h1 class="text-5xl font-bold tracking-tight text-white">
           {featured.frontmatter.title}
         </h1>
+        <p class="mt-8 text-2xl text-zinc-300">
+          {featured.frontmatter.description}
+        </p>
         <a
           href={featured.url}
-          class="relative z-10 min-w-[12rem] inline-flex w-full items-center justify-center rounded-full bg-zinc-50 py-5 px-6 text-lg font-semibold text-slate-900 md:w-auto"
+          class="relative z-10 mt-14 inline-flex w-full min-w-[12rem] items-center justify-center rounded-full bg-zinc-50 py-5 px-6 text-lg font-semibold text-slate-900 md:w-auto"
         >
           Read article</a
         >
       </div>
-      <div></div>
-    </div>
-    <ul class="space-y-8 max-w-7xl mx-auto">
+      <div class="min-h-[34rem]">
+        <Picture
+          alt=""
+          class="w-full rounded-3xl h-[34rem] object-cover shadow-lg"
+          src={featured.cover.metadata}
+          width={featured.cover.metadata.width}
+          height={featured.cover.metadata.height}
+          widths={[400, 800, 1600]}
+          sizes="(min-width: 48rem) 48rem, 100vw"
+        />
+      </div>
+    </section>
+    <section
+      class="mx-auto mt-40 flex max-w-7xl items-center justify-between px-4 sm:px-6 md:px-8"
+    >
+      <Icon class="w-12 h-12 text-zinc-700" name="typescript" />
+      <Icon class="w-12 h-12 text-zinc-700" name="js" />
+      <Icon class="w-12 h-12 text-zinc-700" name="node" />
+      <Icon class="w-12 h-12 text-zinc-700" name="html" />
+      <Icon class="w-12 h-12 text-zinc-700" name="css" />
+      <Icon class="w-12 h-12 text-zinc-700" name="react" />
+    </section>
+    <section class="mx-auto mt-20 max-w-7xl px-4 sm:px-6 md:px-8">
+      <div class="flex max-w-5xl items-center gap-16">
+        <Image
+          class="w-[120px] rounded-full border-4 border-zinc-400"
+          src={avatar}
+          width={240}
+          alt="Avatar of Nicholas Ray"
+        />
+        <div>
+          <h2 class="text-4xl font-semibold tracking-tight text-white">
+            Hi, I'm Nicholas Ray
+          </h2>
+          <p class="mt-5 text-2xl text-zinc-300">
+            With over 8 years of experience in web development, I share what
+            I’ve learned throughout my career on this site to help you become a
+            better developer.
+          </p>
+        </div>
+      </div>
+      <div class="mt-12 flex">
+        <a
+          class="ml-[calc(120px+4rem)] text-xl font-semibold text-white"
+          href="/about"
+        >
+          Learn more about me &rarr;
+        </a>
+      </div>
+    </section>
+    <section class="mx-auto mt-40 max-w-7xl px-4 sm:px-6 md:px-8">
+      <h2
+        class="relative text-base font-semibold uppercase tracking-wide text-white before:absolute before:-top-2 before:block before:h-[3px] before:w-[48px] before:bg-pink-400"
+      >
+        Recently Published
+      </h2>
+    </section>
+
+    <ul class="mx-auto max-w-7xl space-y-8">
       {
         restOfPosts.map((post) => (
           <li>

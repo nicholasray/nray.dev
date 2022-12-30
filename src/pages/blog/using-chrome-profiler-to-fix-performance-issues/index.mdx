@@ -7,6 +7,14 @@ description:
   performance problems. Learn how in this article!
 ---
 
+import coverMetadata from "./assets/cover.jpg";
+export const cover = {
+  metadata: coverMetadata,
+  alt: "Abstract 3d shape",
+  credit:
+    "Photo by [Sebastian Svenson](https://unsplash.com/photos/LpbyDENbQQg)",
+};
+
 import Image from "@components/BlogImage.astro";
 import JankAnimation from "./JankAnimation.tsx";
 import renderingSteps from "./assets/rendering-steps.png";
