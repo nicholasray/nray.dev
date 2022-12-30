@@ -1,6 +1,8 @@
 ---
+import MailingList from "@components/MailingList.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { Icon } from "astro-icon";
+const FORM_URL = "https://app.convertkit.com/forms/3512386/subscriptions";
 
 const { title } = Astro.props;
 ---
@@ -27,26 +29,31 @@ const { title } = Astro.props;
     </div>
   </header>
   <slot />
-  <footer class="sticky top-[100vh] py-10 text-zinc-200">
-    <div class="flex flex-col items-center justify-center text-center">
-      <a href="/" class="mb-5 text-xl font-semibold tracking-tight">
-        <span class="sr-only">nray.dev home page</span>
-        <Icon class="h-7 text-white" name="logo" />
-      </a>
-      <div class="mb-4">
-        <a class="font-semibold" href="https://github.com/nicholasray/nray.dev">
-          View source code
-        </a>
-      </div>
-      <div class="mb-12 text-sm text-zinc-400">
-        © 2022 NRAY LLC. All rights reserved.
-      </div>
-      <div class="text-sm font-bold text-zinc-400">
-        <a href="/privacy" class="mb-5"> Privacy</a>
-      </div>
-    </div>
-  </footer>
+  <section>
+    <MailingList url={FORM_URL} />
+  </section>
 </BaseLayout>
+<footer
+  class="sticky top-[100vh] border-t border-t-zinc-700 py-10 text-zinc-200"
+>
+  <div class="flex flex-col items-center justify-center text-center">
+    <a href="/" class="mb-5 text-xl font-semibold tracking-tight">
+      <span class="sr-only">nray.dev home page</span>
+      <Icon class="h-7 text-white" name="logo" />
+    </a>
+    <div class="mb-4">
+      <a class="font-semibold" href="https://github.com/nicholasray/nray.dev">
+        View source code
+      </a>
+    </div>
+    <div class="mb-12 text-sm text-zinc-400">
+      © 2022 NRAY LLC. All rights reserved.
+    </div>
+    <div class="text-sm font-bold text-zinc-400">
+      <a href="/privacy" class="mb-5"> Privacy</a>
+    </div>
+  </div>
+</footer>
 
 <style is:global>
   html,
