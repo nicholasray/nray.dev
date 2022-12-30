@@ -1,12 +1,14 @@
 ---
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/variable.css"; // Contains ONLY variable weights and no other axes.
+import { SEO, Props as SeoProps } from "astro-seo";
 
-export interface Props {
-  title: string;
-}
-
-const { title } = Astro.props;
+export interface Props extends SeoProps {}
+const {
+  title = "Nicholas Ray | Software Engineer",
+  description = "Learn how to build better products. Articles for web developers.",
+  ...rest
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -14,9 +16,8 @@ const { title } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <SEO title={title} description={description} {...rest} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
   </head>
   <body>
     <slot />
