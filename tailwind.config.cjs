@@ -78,7 +78,7 @@ module.exports = {
                   borderLeftColor: "transparent",
                 },
                 ".line--highlighted": {
-                  background: "#1b1e28",
+                  background: "#191d29",
                   borderLeftColor: theme("colors.zinc.700"),
                 },
                 code: {
