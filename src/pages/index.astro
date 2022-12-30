@@ -61,7 +61,7 @@ const restOfPosts = posts.slice(1);
           width={featured.cover.metadata.width}
           height={featured.cover.metadata.height}
           widths={[400, 800, 1600]}
-          sizes="(min-width: 48rem) 48rem, 100vw"
+          sizes="(min-width: 48rem) 37rem, 100vw"
         />
       </div>
     </section>
@@ -109,18 +109,30 @@ const restOfPosts = posts.slice(1);
       >
         Recently Published
       </h2>
+      <ul
+        class="mt-8 grid grid-cols-[repeat(auto-fill,minmax(350px,1fr))] gap-9"
+      >
+        {
+          restOfPosts.map((post) => (
+            <li>
+              <a href={post.url}>
+                <div class="rounded-3xl">
+                  <Picture
+                    alt=""
+                    class="h-[34rem] w-full rounded-3xl object-cover shadow-lg"
+                    src={post.cover.metadata}
+                    width={post.cover.metadata.width}
+                    height={post.cover.metadata.height}
+                    widths={[400, 800, 1600]}
+                    sizes="(min-width: 48rem) 37rem, 100vw"
+                  />
+                </div>
+                <div class="text-2xl text-white">{post.frontmatter.title}</div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </section>
-
-    <ul class="mx-auto max-w-7xl space-y-8">
-      {
-        restOfPosts.map((post) => (
-          <li>
-            <a class="text-white" href={post.url}>
-              {post.frontmatter.title}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
   </main>
 </Layout>
