@@ -1,0 +1,39 @@
+---
+import { Picture } from "@astrojs/image/components";
+import type { Post } from "src/types";
+import ArticleFooter from "./ArticleFooter.astro";
+
+export interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+---
+
+<a href={post.url}>
+  <article class="flex h-full flex-col">
+    <div class="rounded-3xl">
+      <Picture
+        alt=""
+        class="h-[32rem] w-full rounded-3xl object-cover shadow-lg"
+        src={post.cover.metadata}
+        width={post.cover.metadata.width}
+        height={post.cover.metadata.height}
+        widths={[400, 800, 1600]}
+        sizes="(min-width: 48rem) 28rem, 100vw"
+      />
+    </div>
+    <h3 class="mt-8 text-2xl font-semibold tracking-tight text-white">
+      {post.frontmatter.title}
+    </h3>
+    <p class="mt-4 mb-6 text-lg text-zinc-300">
+      {post.frontmatter.description}
+    </p>
+    <footer class="mt-auto text-sm uppercase tracking-wide text-zinc-500">
+      <ArticleFooter
+        publishedAt={post.frontmatter.publishedAt}
+        readingTime={post.frontmatter.readingTime}
+      />
+    </footer>
+  </article>
+</a>
