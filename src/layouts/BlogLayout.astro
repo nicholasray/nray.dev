@@ -4,10 +4,13 @@ import { Image } from "@astrojs/image/components";
 import avatar from "@assets/images/avatar.jpg";
 import { format } from "date-fns";
 import Prose from "@components/Prose.astro";
-const { title, readingTime, publishedAt } = Astro.props.frontmatter;
+import type { Post, PostFrontmatter } from "src/types";
+
+const { title, readingTime, publishedAt, description } = Astro.props
+  .frontmatter as PostFrontmatter;
 ---
 
-<Layout {...Astro.props} title={title}>
+<Layout title={title} description={description}>
   <main class="grid grid-cols-1 gap-y-20 sm:gap-y-32 md:gap-y-40">
     <section>
       <article class="mx-auto mt-10 max-w-3xl">

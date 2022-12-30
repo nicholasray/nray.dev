@@ -1,28 +1,13 @@
 ---
 import { Image, Picture } from "@astrojs/image/components";
 import Layout from "@layouts/Layout.astro";
-import type { MDXInstance } from "astro";
 import { compareDesc } from "date-fns";
 import avatar from "@assets/images/avatar.jpg";
 import { Icon } from "astro-icon";
 import ArticleFooter from "@components/ArticleFooter.astro";
+import type { Post, PostFrontmatter } from "src/types";
 
-interface Frontmatter {
-  title: string;
-  description: string;
-  publishedAt: string;
-  readingTime: string;
-  draft?: boolean;
-}
-
-interface Post extends MDXInstance<Frontmatter> {
-  cover: {
-    metadata: ImageMetadata;
-    alt: string;
-  };
-}
-
-const posts = (await Astro.glob<Frontmatter>("./blog/**/index.mdx"))
+const posts = (await Astro.glob<PostFrontmatter>("./blog/**/index.mdx"))
   .filter((post) => !post.frontmatter.draft)
   .sort((a, b) => {
     return compareDesc(
@@ -35,7 +20,7 @@ const featured = posts[0];
 const restOfPosts = posts.slice(1);
 ---
 
-<Layout title="nray">
+<Layout>
   <main>
     <section
       class="mx-auto flex max-w-7xl items-center px-4 sm:px-6 md:px-8 lg:grid lg:grid-cols-2 lg:gap-14"
