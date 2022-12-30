@@ -2,7 +2,7 @@
 import { Image, Picture } from "@astrojs/image/components";
 import Layout from "@layouts/Layout.astro";
 import type { MDXInstance } from "astro";
-import { compareDesc } from "date-fns";
+import { compareDesc, format } from "date-fns";
 import avatar from "@assets/images/avatar.jpg";
 import { Icon } from "astro-icon";
 
@@ -53,7 +53,7 @@ const restOfPosts = posts.slice(1);
           Read article</a
         >
       </div>
-      <div class="min-h-[34rem]">
+      <div>
         <Picture
           alt=""
           class="w-full rounded-3xl h-[34rem] object-cover shadow-lg"
@@ -116,18 +116,35 @@ const restOfPosts = posts.slice(1);
           restOfPosts.map((post) => (
             <li>
               <a href={post.url}>
-                <div class="rounded-3xl">
-                  <Picture
-                    alt=""
-                    class="h-[34rem] w-full rounded-3xl object-cover shadow-lg"
-                    src={post.cover.metadata}
-                    width={post.cover.metadata.width}
-                    height={post.cover.metadata.height}
-                    widths={[400, 800, 1600]}
-                    sizes="(min-width: 48rem) 37rem, 100vw"
-                  />
-                </div>
-                <div class="text-2xl text-white">{post.frontmatter.title}</div>
+                <article class="flex h-full flex-col">
+                  <div class="rounded-3xl">
+                    <Picture
+                      alt=""
+                      class="h-[34rem] w-full rounded-3xl object-cover shadow-lg"
+                      src={post.cover.metadata}
+                      width={post.cover.metadata.width}
+                      height={post.cover.metadata.height}
+                      widths={[400, 800, 1600]}
+                      sizes="(min-width: 48rem) 28rem, 100vw"
+                    />
+                  </div>
+                  <h3 class="mt-8 text-2xl font-semibold text-white">
+                    {post.frontmatter.title}
+                  </h3>
+                  <p class="mt-4 mb-6 text-lg text-zinc-300">
+                    {post.frontmatter.description}
+                  </p>
+                  <footer class="mt-auto text-sm uppercase tracking-wide text-zinc-500">
+                    <time datetime={post.frontmatter.publishedAt}>
+                      {format(
+                        new Date(post.frontmatter.publishedAt),
+                        "LLLL d, yyyy"
+                      )}
+                    </time>
+                    <span>&bull;</span>
+                    <span>{post.frontmatter.readingTime}</span>
+                  </footer>
+                </article>
               </a>
             </li>
           ))
