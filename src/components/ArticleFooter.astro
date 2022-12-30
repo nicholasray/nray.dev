@@ -1,0 +1,18 @@
+---
+import { format } from "date-fns";
+
+interface Props {
+  publishedAt: string;
+  readingTime: string;
+}
+
+const { readingTime, publishedAt } = Astro.props;
+---
+
+<>
+  <time datetime={publishedAt}>
+    {format(new Date(publishedAt), "LLLL d, yyyy")}
+  </time>{" "}
+  <span>&bull;</span>{" "}
+  <span>{readingTime}</span>
+</>
