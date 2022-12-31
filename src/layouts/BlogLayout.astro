@@ -23,6 +23,7 @@ const { title, readingTime, publishedAt, description } = Astro.props
           <div class="flex items-center">
             <div class="mr-3 h-9 w-9 rounded-full">
               <Image
+                loading="eager"
                 class="rounded-full"
                 src={avatar}
                 width={72}
