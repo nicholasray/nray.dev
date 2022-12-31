@@ -1,5 +1,3 @@
-"use client";
-
 import { Sandpack, SandpackProps } from "@codesandbox/sandpack-react";
 import { nightOwl } from "@codesandbox/sandpack-themes";
 
