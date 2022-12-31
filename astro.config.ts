@@ -85,6 +85,8 @@ export default defineConfig({
           "./node_modules/@codesandbox/sandpack-react/dist/esm/index.js",
         "@codesandbox/sandpack-client":
           "./node_modules/@codesandbox/sandpack-client/dist/esm/index.js",
+        "@codesandbox/sandpack-themes":
+          "./node_modules/@codesandbox/sandpack-themes/dist/esm/index.js",
       },
     },
   },
