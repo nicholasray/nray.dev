@@ -82,7 +82,7 @@ module.exports = {
                 },
                 ".line--highlighted": {
                   background: "#191d29",
-                  borderLeftColor: theme("colors.zinc.700"),
+                  borderLeftColor: theme("colors.sky.400"),
                 },
                 code: {
                   display: "grid",
@@ -101,7 +101,7 @@ module.exports = {
                   width: theme("width.4"),
                   marginRight: theme("margin.6"),
                   textAlign: "right",
-                  color: theme("colors.gray.400"),
+                  color: theme("colors.zinc.500"),
                 },
 
                 "code[data-line-numbers] > .line--highlighted::before": {
