@@ -71,4 +71,21 @@ export default defineConfig({
       serviceEntryPoint: "@astrojs/image/sharp",
     }),
   ],
+  vite: {
+    resolve: {
+      // Sandpack apparently bundles their cjs module incorrectly so create
+      // aliases that point to the esm module instead. Hopefully, this can be
+      // removed in the future.
+      //
+      // Also see:
+      // https://github.com/withastro/astro/issues/4692
+      // https://github.com/withastro/astro/issues/5653
+      alias: {
+        "@codesandbox/sandpack-react":
+          "./node_modules/@codesandbox/sandpack-react/dist/esm/index.js",
+        "@codesandbox/sandpack-client":
+          "./node_modules/@codesandbox/sandpack-client/dist/esm/index.js",
+      },
+    },
+  },
 });
