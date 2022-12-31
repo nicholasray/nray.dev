@@ -27,9 +27,6 @@ module.exports = {
           "50%": { transform: "translateY(286px)" },
         },
       },
-      fontFamily: {
-        sans: ["InterVariable", "Inter", ...defaultTheme.fontFamily.sans],
-      },
       typography: (theme) => ({
         DEFAULT: {
           css: {
