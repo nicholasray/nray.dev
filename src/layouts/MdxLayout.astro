@@ -5,11 +5,13 @@ const { title } = Astro.props.frontmatter;
 ---
 
 <Layout {...Astro.props} title={title}>
-  <main class="grid grid-cols-1 gap-y-20 sm:gap-y-32 md:gap-y-40">
-    <div class="mx-auto mt-10 max-w-3xl">
-      <Prose>
-        <slot />
-      </Prose>
-    </div>
+  <main>
+    <section class="mx-auto mt-16 max-w-3xl">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+        <Prose>
+          <slot />
+        </Prose>
+      </div>
+    </section>
   </main>
 </Layout>

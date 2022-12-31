@@ -15,7 +15,7 @@ const FORM_URL = "https://app.convertkit.com/forms/3512386/subscriptions";
         <Icon class="h-8 text-white" name="logo" />
       </a>
       <nav>
-        <ul class="flex items-center space-x-20 font-semibold text-zinc-300">
+        <ul class="flex items-center space-x-16 font-semibold text-zinc-300">
           <li>
             <a class="block p-4 hover:text-white" href="/blog">Posts</a>
           </li>
@@ -30,28 +30,28 @@ const FORM_URL = "https://app.convertkit.com/forms/3512386/subscriptions";
   <section class="mt-24">
     <MailingList url={FORM_URL} />
   </section>
-</BaseLayout>
-<footer
-  class="sticky top-[100vh] border-t border-t-zinc-200/10 py-20 text-zinc-200"
->
-  <div class="flex flex-col items-center justify-center text-center">
-    <a href="/" class="mb-5 text-xl font-semibold tracking-tight">
-      <span class="sr-only">nray.dev home page</span>
-      <Icon class="h-7 text-white" name="logo" />
-    </a>
-    <div class="mb-4">
-      <a class="font-semibold" href="https://github.com/nicholasray/nray.dev">
-        View source code
+  <footer
+    class="sticky top-[100vh] border-t border-t-zinc-200/10 py-20 text-zinc-200"
+  >
+    <div class="flex flex-col items-center justify-center text-center">
+      <a href="/" class="mb-5 text-xl font-semibold tracking-tight">
+        <span class="sr-only">nray.dev home page</span>
+        <Icon class="h-7 text-white" name="logo" />
       </a>
+      <div class="mb-4">
+        <a class="font-semibold" href="https://github.com/nicholasray/nray.dev">
+          View source code
+        </a>
+      </div>
+      <div class="mb-12 text-sm text-zinc-400">
+        © 2022 NRAY LLC. All rights reserved.
+      </div>
+      <div class="text-sm font-bold text-zinc-400">
+        <a href="/privacy" class="mb-5"> Privacy</a>
+      </div>
     </div>
-    <div class="mb-12 text-sm text-zinc-400">
-      © 2022 NRAY LLC. All rights reserved.
-    </div>
-    <div class="text-sm font-bold text-zinc-400">
-      <a href="/privacy" class="mb-5"> Privacy</a>
-    </div>
-  </div>
-</footer>
+  </footer>
+</BaseLayout>
 
 <style is:global>
   html,
