@@ -6,36 +6,34 @@ interface Props {
 const { url } = Astro.props;
 ---
 
-<div class="mx-auto mb-16 max-w-7xl items-center px-4 sm:px-6 md:px-8">
-  <div class="flex flex-col items-center">
-    <h2 class="text-3xl font-semibold tracking-tight text-white">
-      Learn how to build better products
-    </h2>
-    <p class="mt-6 max-w-3xl text-lg text-zinc-300">
-      Get one email each month with my latest article about web development
-    </p>
-    <form
-      action={url}
-      method="post"
-      class="mt-14 flex w-full max-w-2xl items-center"
-    >
-      <div class="relative flex w-full items-center">
-        <input
-          type="email"
-          name="email_address"
-          required
-          class="shadow-inner-10 h-16 w-full rounded-full bg-zinc-100 py-2 pl-7 pr-40 font-semibold text-zinc-900 placeholder:text-zinc-600"
-          placeholder="Email Address"
-          aria-label="Email Address"
-        />
-        <button
-          type="submit"
-          class="absolute right-1 flex h-14 items-center rounded-full bg-zinc-600 py-4 px-5 font-medium text-white hover:bg-zinc-500"
-        >
-          Get updates
-        </button>
-      </div>
-    </form>
-    <div class="mt-8 text-sm text-zinc-400">No spam. Unsubscribe anytime.</div>
-  </div>
+<div class="flex flex-col items-center">
+  <h2 class="text-3xl font-semibold tracking-tight text-white">
+    Learn how to build better products
+  </h2>
+  <p class="mt-6 max-w-3xl text-lg text-zinc-300">
+    Get one email each month with my latest article about web development
+  </p>
+  <form
+    action={url}
+    method="post"
+    class="mt-14 flex w-full max-w-2xl items-center"
+  >
+    <div class="relative flex w-full items-center">
+      <input
+        type="email"
+        name="email_address"
+        required
+        class="shadow-inner-10 h-16 w-full rounded-full bg-zinc-100 py-2 pl-7 pr-40 font-semibold text-zinc-900 placeholder:text-zinc-600"
+        placeholder="Email Address"
+        aria-label="Email Address"
+      />
+      <button
+        type="submit"
+        class="absolute right-1 flex h-14 items-center rounded-full bg-zinc-600 py-4 px-5 font-medium text-white hover:bg-zinc-500"
+      >
+        Get updates
+      </button>
+    </div>
+  </form>
+  <div class="mt-8 text-sm text-zinc-400">No spam. Unsubscribe anytime.</div>
 </div>
