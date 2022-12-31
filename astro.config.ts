@@ -17,6 +17,7 @@ import image from "@astrojs/image";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://www.nray.dev",
   markdown: {
     syntaxHighlight: false,
     remarkPlugins: [remarkReadingTime],
