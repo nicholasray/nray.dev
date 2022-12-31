@@ -23,7 +23,8 @@ const restOfPosts = posts.slice(1);
       >
         <div class="lg:col-start-2">
           <Picture
-            alt=""
+            loading="eager"
+            alt={featured.cover.alt}
             class="w-full rounded-3xl h-[34rem] object-cover shadow-lg"
             src={featured.cover.metadata}
             width={featured.cover.metadata.width}
