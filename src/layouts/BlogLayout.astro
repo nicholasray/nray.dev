@@ -20,7 +20,7 @@ const { title, readingTime, publishedAt, description } = Astro.props
         <div
           class="mb-8 mt-6 space-y-3 text-sm font-medium sm:flex sm:items-center sm:justify-between sm:space-y-0 sm:text-base"
         >
-          <div class="flex items-center">
+          <a href="/about" class="flex items-center">
             <div class="mr-3 h-9 w-9 rounded-full">
               <Image
                 loading="eager"
@@ -31,7 +31,7 @@ const { title, readingTime, publishedAt, description } = Astro.props
               />
             </div>
             <div>Nicholas Ray</div>
-          </div>
+          </a>
           <div>
             <time datetime={publishedAt}>
               {publishedAt ? format(new Date(publishedAt), "LLLL d, yyyy") : ""}
