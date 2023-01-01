@@ -11,6 +11,7 @@ import rehypePrettyCode from "rehype-pretty-code";
 import ayu from "./src/themes/ayu.json";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import partytown from "@astrojs/partytown";
 
 // https://astro.build/config
 import image from "@astrojs/image";
@@ -70,6 +71,11 @@ export default defineConfig({
     mdx(),
     image({
       serviceEntryPoint: "@astrojs/image/sharp",
+    }),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+      },
     }),
   ],
   vite: {
