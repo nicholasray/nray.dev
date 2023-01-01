@@ -1,10 +1,15 @@
-export function remarkCover() {
-  return function (tree: unknown, { data }: any) {
-    console.log(data);
-    // const textOnPage = toString(tree);
-    // const readingTime = getReadingTime(textOnPage);
-    // // readingTime.text will give us minutes read as a friendly string,
-    // // i.e. "3 min read"
-    // data.astro.frontmatter.readingTime = readingTime.text;
+import { visit } from "unist-util-visit";
+
+import { load, dump } from "js-yaml";
+
+export default function remarkCover() {
+  return (tree: any, file: any) => {
+    console.log(file);
+    visit(tree, "yaml", (node) => {
+      console.log(node);
+      const result = load(node.value);
+
+      node.value = dump(result);
+    });
   };
 }

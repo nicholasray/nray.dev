@@ -14,13 +14,15 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 // https://astro.build/config
 import image from "@astrojs/image";
+import remarkCover from "./remark/remarkCover";
+import remarkFrontmatter from "remark-frontmatter";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.nray.dev",
   markdown: {
     syntaxHighlight: false,
-    remarkPlugins: [remarkReadingTime],
+    remarkPlugins: [remarkFrontmatter, remarkReadingTime, remarkCover],
     rehypePlugins: [
       [
         rehypePrettyCode,
