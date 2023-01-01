@@ -4,7 +4,7 @@ import { Image } from "@astrojs/image/components";
 import avatar from "@assets/images/avatar.jpg";
 import { format } from "date-fns";
 import Prose from "@components/Prose.astro";
-import type { Post, PostFrontmatter } from "src/types";
+import type { PostFrontmatter } from "src/types";
 
 const { title, readingTime, publishedAt, description } = Astro.props
   .frontmatter as PostFrontmatter;
