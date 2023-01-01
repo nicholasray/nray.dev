@@ -11,14 +11,14 @@ const { title, readingTime, publishedAt, description } = Astro.props
 ---
 
 <Layout title={title} description={description}>
-  <main class="grid grid-cols-1 gap-y-20 sm:gap-y-32 md:gap-y-40">
+  <main>
     <section class="mt-16">
       <article class="mx-auto max-w-3xl px-4 sm:px-6 md:px-8">
         <h1 class="mb-3 text-3xl font-bold text-white md:mb-6 md:text-5xl">
           {title}
         </h1>
         <div
-          class="mb-8 flex items-center justify-between text-sm font-medium md:text-base"
+          class="mb-8 space-y-2 text-sm font-medium sm:flex sm:items-center sm:justify-between sm:space-y-0 sm:text-base"
         >
           <div class="flex items-center">
             <div class="mr-3 h-9 w-9 rounded-full">
