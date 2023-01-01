@@ -7,6 +7,10 @@ module.exports = {
     "eslint:recommended",
     "plugin:astro/recommended",
   ],
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+  },
   // ...
   overrides: [
     {
@@ -23,6 +27,17 @@ module.exports = {
       rules: {
         // override/add rules settings here, such as:
         // "astro/no-set-html-directive": "error"
+      },
+    },
+    {
+      files: ["*.ts"],
+      parser: "@typescript-eslint/parser",
+      extends: ["plugin:@typescript-eslint/recommended"],
+      rules: {
+        "@typescript-eslint/no-unused-vars": [
+          "error",
+          { argsIgnorePattern: "^_", destructuredArrayIgnorePattern: "^_" },
+        ],
       },
     },
     // ...
