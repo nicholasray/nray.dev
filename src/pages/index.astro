@@ -22,16 +22,21 @@ const restOfPosts = posts.slice(1);
         class="mx-auto max-w-7xl items-center space-y-12 px-4 sm:px-6 md:px-8 lg:grid lg:grid-cols-2 lg:gap-14 lg:space-y-0"
       >
         <div class="lg:col-start-2">
-          <Picture
-            loading="eager"
-            alt={featured.cover.alt}
-            class="w-full rounded-3xl h-[34rem] object-cover shadow-lg"
-            src={featured.cover.metadata}
-            width={featured.cover.metadata.width}
-            height={featured.cover.metadata.height}
-            widths={[400, 800, 1600]}
-            sizes="(min-width: 48rem) 37rem, 100vw"
-          />
+          <a
+            href={featured.url}
+            class="block lg:rotate-2 lg:transition-performant lg:duration-300 lg:hover:rotate-0"
+          >
+            <Picture
+              class="w-full rounded-3xl h-[34rem] object-cover shadow-lg"
+              loading="eager"
+              alt={featured.cover.alt}
+              src={featured.cover.metadata}
+              width={featured.cover.metadata.width}
+              height={featured.cover.metadata.height}
+              widths={[400, 800, 1600]}
+              sizes="(min-width: 48rem) 37rem, 100vw"
+            />
+          </a>
         </div>
         <div class="lg:row-start-1">
           <article>
