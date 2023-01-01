@@ -16,15 +16,15 @@ const restOfPosts = posts.slice(1);
 ---
 
 <Layout>
-  <main class="space-y-20 sm:space-y-32 md:space-y-40">
+  <main class="space-y-20 overflow-hidden sm:space-y-32 md:space-y-40">
     <section class="mt-12 lg:mt-16">
       <div
-        class="mx-auto max-w-7xl items-center space-y-12 px-4 sm:px-6 md:px-8 lg:grid lg:grid-cols-2 lg:gap-14 lg:space-y-0"
+        class="mx-auto max-w-7xl items-center space-y-12 px-4 sm:px-6 md:grid md:grid-cols-[30rem_30rem] md:gap-14 md:space-y-0 md:px-8 lg:grid-cols-[36.25rem_36.25rem]"
       >
-        <div class="lg:col-start-2">
+        <div class="md:col-start-2">
           <a
             href={featured.url}
-            class="block lg:rotate-2 lg:transition-performant lg:duration-300 lg:hover:rotate-0"
+            class="block md:rotate-2 md:transition-performant md:duration-300 md:hover:rotate-0"
           >
             <Picture
               class="w-full rounded-3xl h-[34rem] object-cover shadow-lg"
@@ -38,7 +38,7 @@ const restOfPosts = posts.slice(1);
             />
           </a>
         </div>
-        <div class="lg:row-start-1">
+        <div class="md:row-start-1">
           <article>
             <h1
               class="text-4xl font-bold tracking-tight text-white lg:text-5xl"
@@ -58,7 +58,7 @@ const restOfPosts = posts.slice(1);
           </article>
           <a
             href={featured.url}
-            class="relative z-10 mt-14 inline-flex w-full min-w-[12rem] items-center justify-center rounded-full bg-zinc-50 py-5 px-6 text-lg font-semibold text-slate-900 lg:w-auto lg:transition-performant lg:duration-300 lg:hover:scale-[1.1] lg:active:translate-y-1"
+            class="relative z-10 mt-14 inline-flex w-full min-w-[12rem] items-center justify-center rounded-full bg-zinc-50 py-5 px-6 text-lg font-semibold text-slate-900 md:w-auto md:transition-performant md:duration-300 md:hover:scale-[1.1] md:active:translate-y-1"
           >
             Read article</a
           >
