@@ -40,11 +40,13 @@ const restOfPosts = posts.slice(1);
         </div>
         <div class="md:row-start-1">
           <article>
-            <h1
-              class="text-4xl font-bold tracking-tight text-white lg:text-5xl"
-            >
-              {featured.frontmatter.title}
-            </h1>
+            <a href={featured.url}>
+              <h1
+                class="text-4xl font-bold tracking-tight text-white lg:text-5xl"
+              >
+                {featured.frontmatter.title}
+              </h1>
+            </a>
             <p class="mt-8 text-xl text-zinc-300 lg:text-2xl">
               {featured.frontmatter.description}
             </p>
