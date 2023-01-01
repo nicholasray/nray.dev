@@ -16,6 +16,21 @@ const {
     <meta name="viewport" content="width=device-width" />
     <SEO title={title} description={description} {...rest} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      type="text/partytown"
+      src="https://www.googletagmanager.com/gtag/js?id=G-LG2JWMVV2J"
+    ></script>
+    <script type="text/partytown">
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-LG2JWMVV2J");
+    </script>
     <style is:inline>
       html,
       body {
