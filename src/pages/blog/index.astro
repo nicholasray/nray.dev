@@ -15,7 +15,7 @@ const posts = getPosts(await Astro.glob<PostFrontmatter>("./**/index.mdx"));
           {posts.length} Posts
         </h1>
         <ul
-          class="mt-14 grid grid-cols-[repeat(auto-fill,minmax(350px,1fr))] gap-x-9 gap-y-14"
+          class="mt-8 grid grid-cols-[repeat(auto-fill,minmax(350px,1fr))] gap-x-9 gap-y-14 md:mt-14"
         >
           {
             posts.map((post) => (
