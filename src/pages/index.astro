@@ -16,7 +16,23 @@ const featured = posts[0];
 const restOfPosts = posts.slice(1);
 ---
 
-<Layout>
+<Layout
+  openGraph={{
+    basic: {
+      title: "Nicholas Ray",
+      type: "website",
+      image: new URL("/avatar.jpg", Astro.url),
+    },
+    image: {
+      alt: "Profile picture of Nicholas Ray",
+      // Needed to prevent Astro SEO from outputting blank height tag.
+      height: null,
+    },
+  }}
+  twitter={{
+    card: "summary_large_image",
+  }}
+>
   <main class="space-y-20 overflow-hidden sm:space-y-32 md:space-y-40">
     <section class="mt-12 lg:mt-16">
       <div
