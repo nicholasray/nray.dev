@@ -41,7 +41,7 @@ const restOfPosts = posts.slice(1);
         <div class="md:col-start-2">
           <a
             href={featured.url}
-            class="block md:rotate-2 md:transition-performant md:duration-300 md:hover:rotate-0"
+            class="block md:rotate-2 md:hover:rotate-0 md:motion-safe:transition-performant md:motion-safe:duration-300"
           >
             <Picture
               class="w-full rounded-3xl h-80 md:h-[34rem] object-cover shadow-lg"
@@ -79,7 +79,7 @@ const restOfPosts = posts.slice(1);
           </article>
           <a
             href={featured.url}
-            class="relative z-10 mt-14 inline-flex w-full min-w-[12rem] items-center justify-center rounded-full bg-zinc-50 py-5 px-6 text-lg font-semibold text-slate-900 md:w-auto md:transition-performant md:duration-300 md:hover:scale-[1.1] md:active:translate-y-1"
+            class="relative z-10 mt-14 inline-flex w-full min-w-[12rem] items-center justify-center rounded-full bg-zinc-50 py-5 px-6 text-lg font-semibold text-slate-900 md:w-auto md:hover:scale-[1.1] md:active:translate-y-1 md:motion-safe:transition-performant md:motion-safe:duration-300"
           >
             Read article</a
           >
