@@ -8,9 +8,10 @@ import type { PostFrontmatter } from "src/types";
 import { getPosts } from "src/api";
 import Article from "@components/Article.astro";
 
-const posts = getPosts(
+const posts = await getPosts(
   await Astro.glob<PostFrontmatter>("./blog/**/index.mdx")
 );
+
 const featured = posts[0];
 const restOfPosts = posts.slice(1);
 ---
@@ -29,10 +30,12 @@ const restOfPosts = posts.slice(1);
             <Picture
               class="w-full rounded-3xl h-80 md:h-[34rem] object-cover shadow-lg"
               loading="eager"
-              alt={featured.cover.alt}
-              src={featured.cover.metadata}
-              width={featured.cover.metadata.width}
-              height={featured.cover.metadata.height}
+              alt={featured.frontmatter.cover.alt}
+              src={featured.frontmatter.cover.src}
+              aspectRatio={featured.frontmatter.cover.width /
+                featured.frontmatter.cover.height}
+              width={featured.frontmatter.cover.width}
+              height={featured.frontmatter.cover.height}
               widths={[400, 800, 1200]}
               sizes="(min-width: 48rem) 37rem, 100vw"
             />

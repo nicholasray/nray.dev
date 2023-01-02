@@ -6,6 +6,14 @@ export interface PostFrontmatter {
   publishedAt: string;
   readingTime: string;
   draft?: boolean;
+  cover: {
+    src: string;
+    filename: string;
+    alt: string;
+    credit: string;
+    width: number;
+    height: number;
+  };
 }
 
 export interface Post extends MDXInstance<PostFrontmatter> {

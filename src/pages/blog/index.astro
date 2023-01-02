@@ -4,7 +4,9 @@ import Layout from "@layouts/Layout.astro";
 import { getPosts } from "src/api";
 import type { PostFrontmatter } from "src/types";
 
-const posts = getPosts(await Astro.glob<PostFrontmatter>("./**/index.mdx"));
+const posts = await getPosts(
+  await Astro.glob<PostFrontmatter>("./**/index.mdx")
+);
 ---
 
 <Layout>

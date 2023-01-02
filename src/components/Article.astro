@@ -16,9 +16,11 @@ const { post } = Astro.props;
       <Picture
         alt=""
         class="h-80 md:h-[32rem] w-full rounded-3xl object-cover shadow-lg"
-        src={post.cover.metadata}
-        width={post.cover.metadata.width}
-        height={post.cover.metadata.height}
+        src={post.frontmatter.cover.src}
+        aspectRatio={post.frontmatter.cover.width /
+          post.frontmatter.cover.height}
+        width={post.frontmatter.cover.width}
+        height={post.frontmatter.cover.height}
         widths={[400, 800, 1600]}
         sizes="(min-width: 48rem) 28rem, 100vw"
       />
