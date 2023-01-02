@@ -26,17 +26,17 @@ import profileWithoutFsl from "./assets/profile-without-fsl.png";
 import profileLayoutThrashing from "./assets/profile-layout-thrashing.png";
 import profileWithoutLayoutThrashing from "./assets/profile-without-layout-thrashing.png";
 
-When you go to a doctor, they might take an x-ray or MRI scan to help diagnose
-you. Then, they examine the imaging results and map their characteristics to a
-diagnosis. Similar to how the medical world has diagnostic tests for humans,
-developers have tests that can help them determine issues with websites. Chrome
-DevTools is one example and has many helpful tools to help diagnose problems
-with a website's performance.
+When you go to a doctor, they may take an x-ray or MRI scan to help diagnose
+you. Then, they examine the imaging results and use them to make diagnosis. Just
+like the medical world has diagnostic tests for humans, developers have tests
+that can help them identify issues with websites. Chrome DevTools is one such
+tool and offers many helpful features for diagnosing problems with a website's
+performance.
 
-In this post, we'll use the performance panel of Chrome DevTools to diagnose
-several performance issues that often plague websites. In doing so, we'll learn
-the characteristics of each problem so that you can recognize them in the
-future. Let's get started!
+In this post, you'll use the performance panel of Chrome DevTools to diagnose
+several performance issues that frequently slow down websites. By doing this,
+you'll learn the characteristics of each problem so that you can recognize them
+in the future. Let's get started!
 
 ## How to Profile a Website with Chrome Developer Tools
 
@@ -101,10 +101,9 @@ results.
 
 ## Animations That Run On the Main Thread
 
-If done well, adding animations to a website can improve the user experience.
-However, because animating certain CSS properties is prone to sluggish
-performance, sometimes it may have the opposite effect, particularly on low-end
-devices.
+When done well, adding animations to a website can enhance the user experience.
+However, animating certain CSS properties can actually have the opposite effect
+due to their poor performance.
 
 It turns out that limiting your animations to the `opacity` or `transform` CSS
 properties will give you the best chance at achieving performant animations.
