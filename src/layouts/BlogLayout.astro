@@ -5,12 +5,36 @@ import avatar from "@assets/images/avatar.jpg";
 import { format } from "date-fns";
 import Prose from "@components/Prose.astro";
 import type { PostFrontmatter } from "src/types";
+import { getPost } from "src/api";
+import type { MDXInstance } from "astro";
 
-const { title, readingTime, publishedAt, description } = Astro.props
-  .frontmatter as PostFrontmatter;
+const post = await getPost(Astro.props as MDXInstance<PostFrontmatter>);
+const { title, readingTime, publishedAt, description, cover } =
+  post.frontmatter;
 ---
 
-<Layout title={title} description={description}>
+<Layout
+  title={title}
+  description={description}
+  openGraph={{
+    basic: {
+      title,
+      type: "article",
+      image: new URL(cover.src, Astro.url),
+    },
+    article: {
+      authors: ["Nicholas Ray"],
+    },
+    image: {
+      width: cover.width,
+      height: cover.height,
+      alt: cover.alt,
+    },
+  }}
+  twitter={{
+    card: "summary_large_image",
+  }}
+>
   <main>
     <section class="mt-16">
       <article class="mx-auto max-w-3xl px-4 sm:px-6 md:px-8">
