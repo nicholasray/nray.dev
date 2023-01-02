@@ -14,7 +14,7 @@ const { post } = Astro.props;
   <article class="flex h-full flex-col">
     <div class="rounded-3xl">
       <Picture
-        alt=""
+        alt={post.frontmatter.cover.alt}
         class="h-80 md:h-[32rem] w-full rounded-3xl object-cover shadow-lg"
         src={post.frontmatter.cover.src}
         aspectRatio={post.frontmatter.cover.width /

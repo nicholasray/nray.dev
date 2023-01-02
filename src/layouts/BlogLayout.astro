@@ -41,10 +41,10 @@ const { title, readingTime, publishedAt, description, cover } =
         <h1 class="text-3xl font-bold text-white md:text-5xl">
           {title}
         </h1>
-        <div class="rounded-3xl">
+        <div class="mt-8 rounded-3xl md:mt-12">
           <Picture
-            alt=""
-            class="mt-8 md:mt-12 h-80 md:h-[32rem] w-full rounded-3xl object-cover shadow-lg"
+            alt={post.frontmatter.cover.alt}
+            class="h-80 md:h-[32rem] w-full rounded-3xl object-cover shadow-lg"
             src={post.frontmatter.cover.src}
             aspectRatio={post.frontmatter.cover.width /
               post.frontmatter.cover.height}
