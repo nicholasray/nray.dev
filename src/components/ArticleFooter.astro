@@ -1,6 +1,7 @@
 ---
 import { format } from "date-fns";
 
+// eslint-disable-next-line no-unused-vars
 interface Props {
   publishedAt: string;
   readingTime: string;
@@ -10,9 +11,15 @@ const { readingTime, publishedAt } = Astro.props;
 ---
 
 <>
-  <time datetime={publishedAt}>
-    {format(new Date(publishedAt), "LLLL d, yyyy")}
-  </time>{" "}
-  <span>&bull;</span>{" "}
+  {
+    publishedAt && (
+      <>
+        <time datetime={publishedAt}>
+          {format(new Date(publishedAt), "LLLL d, yyyy")}
+        </time>
+        <span>&bull;</span>
+      </>
+    )
+  }
   <span>{readingTime}</span>
 </>

@@ -32,7 +32,7 @@ export async function getPost(post: MDXInstance<PostFrontmatter>) {
 export function getPosts(posts: MDXInstance<PostFrontmatter>[]) {
   return Promise.all(
     posts
-      .filter((post) => !post.frontmatter.draft)
+      .filter((post) => !(post.frontmatter.draft && import.meta.env.PROD))
       .sort((a, b) => {
         return compareDesc(
           new Date(a.frontmatter.publishedAt || new Date()),
