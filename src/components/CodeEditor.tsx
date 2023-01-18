@@ -10,6 +10,8 @@ function CodeEditor(props: CodeEditorProps) {
       options={{
         classes: {
           "sp-layout": "!block",
+          "sp-editor": "min-h-[400px]",
+          "sp-preview": "min-h-[400px]",
         },
       }}
       {...props}
