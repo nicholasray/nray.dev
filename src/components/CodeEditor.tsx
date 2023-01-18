@@ -11,7 +11,6 @@ function CodeEditor(props: CodeEditorProps) {
         classes: {
           "sp-layout": "!block",
         },
-        editorHeight: 350,
       }}
       {...props}
     />
