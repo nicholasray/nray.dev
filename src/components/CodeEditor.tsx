@@ -8,11 +8,7 @@ function CodeEditor(props: CodeEditorProps) {
     <Sandpack
       theme={nightOwl}
       options={{
-        classes: {
-          "sp-layout": "!block",
-          "sp-editor": "min-h-[400px]",
-          "sp-preview": "min-h-[400px]",
-        },
+        resizablePanels: false,
       }}
       {...props}
     />
