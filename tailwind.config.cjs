@@ -43,7 +43,10 @@ module.exports = {
                 display: "block",
               },
             },
-
+            "picture > img": {
+              marginTop: "0 !important",
+              marginBottom: "0 !important",
+            },
             "[data-rehype-pretty-code-title]": {
               backgroundColor: theme("colors.zinc.800"),
               fontFamily: `${theme("fontFamily.mono").join(",")}`,
