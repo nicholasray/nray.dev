@@ -21,32 +21,33 @@ import vector2022 from "./assets/vector-2022.png";
 Have you ever played the
 ["Spot the Difference"](https://en.wikipedia.org/wiki/Spot_the_difference) game?
 It's where you try to find slight differences between two very similar images.
-When I review code in a nontrivial patch or pull request that changes the HTML,
-CSS, or JavaScript of a website, I feel like I'm playing this game. Sometimes I
-win, other times I lose.
+When I review code in a nontrivial patch or pull request that changes a
+website's HTML, CSS, or JavaScript, I feel like I'm playing this game. Sometimes
+I win; other times, I lose.
 
-However, unlike the original game in which the player tries to identify a known
-number of innocuous differences, there are times when I'm not sure _how many_
+However, unlike the original game, in which the player tries to identify a known
+number of innocuous differences, there are times when I don't know _how many_
 visual changes a code change might cause. And contrary to the original game,
-where the consequences for not catching changes might result in you not scoring
-high enough to appear on a leaderboard somewhere, the effects of not catching
-accidental changes can include degradations to the user experience, loss of
-functionality, significant amount of time spent fixing the issues, or worse.
+where the consequences for not catching the differences might result in you not
+scoring high enough to appear on a leaderboard somewhere, the effects of not
+catching accidental changes can include degradations to the user experience,
+loss of functionality, significant amount of time spent fixing the issues, or
+worse.
 
 <Image
   src={referenceAndTest}
-  alt="Two very similar screenshots an article with slight visual differences"
+  alt="Two very similar screenshots an article with slight visual differences."
   caption="Can you spot the differences between these two images? See the end of this article for the answer!"
 />
 
 In the past year, developers on the
 [Web team](https://www.mediawiki.org/wiki/Readers/Web/Team) at the Wikimedia
 Foundation, the nonprofit organization that operates Wikipedia, have been using
-**visual testing** to help develop one of our most ambitious projects to date.
+**visual testing** to help develop one of our most ambitious projects.
 
 ## Development of Wikipedia's new skin
 
-By March 2022, our team was about three quarters of the way through a
+By March 2022, our team was about three-quarters of the way through a
 three-year-long project to update the skin of Wikipedia's desktop site. The
 previous skin, [Vector](https://www.mediawiki.org/wiki/Skin:Vector), had been
 the default look on Wikipedia for 12 years. It was time for a better desktop
@@ -59,54 +60,54 @@ experience.
 />
 
 At that point, we had incrementally built and released several features of our
-new skin, [Vector 2022](https://www.mediawiki.org/wiki/Skin:Vector/2022), to a
-number of pilot wikis across the world. We developed a new header with a
-collapsible sidebar, limited content width, improved search and language
-switching experience, revamped user menu, and sticky header. Each release
-brought us closer to our goal of creating a more welcoming, inclusive, and
-user-friendly interface.
+new skin, [Vector 2022](https://www.mediawiki.org/wiki/Skin:Vector/2022), to
+many pilot wikis worldwide. We developed a new header with a collapsible
+sidebar, limited content width, improved search and language switching
+experience, revamped user menu, and a sticky header. Each release brought us
+closer to our goal of creating a more welcoming, inclusive, and user-friendly
+interface.
 
 **But we were also releasing a lot of visual regressions**.
 
 Each feature we built was coupled with a significant risk that it would deviate
-from its meticulously considered design spec as time passed. One of our most
-frequent regressions involved the search component. The dimensions of its input
-kept changing in undesired ways, or the position of its magnifying glass icon
-would frequently move to a less attractive location as if it was drawn to an
-invisible magnet on the page.
+from its meticulously considered design spec as time passed. For example, one of
+our most frequent regressions involved the search component. The dimensions of
+its input kept changing in undesired ways, or the position of its magnifying
+glass icon would frequently move to a less attractive location as if an
+invisible magnet on the page was pulling it.
 
 We fell into a cycle of changing code, causing visual regressions, spending time
-fixing those regressions, and then having similar regression occur in as little
+fixing those regressions, and then having similar regressions occur in as little
 as a few weeks.
 
 <Image
   src={complexStates}
-  alt="A grid showing some of the different states that the table of contents, page tools, and main menu could have."
-  caption="A grid showing some of the different states that the table of contents, page tools, and main menu could have."
+  alt="A grid showing some of the different states that the table of contents, page tools, and the main menu could have."
+  caption="A grid showing some of the different states that the table of contents, page tools, and the main menu could have."
 />
 
 In addition, our UI was only getting more complex. For example, we wanted
-certain elements to only be visible when logged-in and only when the viewport
-was above a certain breakpoint. The content was to be centered on the page, but
-only when the table of contents wasn't pinned next to it. Speaking of the table
-of contents, when the user clicked its "hide" button, it should collapse into
-the page toolbar, but only if the user hasn't scrolled past the page's first
-heading to make the sticky header appear. Otherwise, it should be in the sticky
-header. Unless, of course, the viewport was at a small width. If that happened,
-the table of contents menu button should be placed at the top of the viewport,
-but without the sticky header showing...
+certain elements only to be visible when logged in and only when the viewport
+was above a specific breakpoint. Also, the content should be centered on the
+page, but only when the table of contents isn't pinned next to it. Speaking of
+the table of contents, when the user clicks its "hide" button, it should
+collapse into the page toolbar, but only if the user hasn't scrolled past the
+page's first heading to make the sticky header appear. Otherwise, it should be
+in the sticky header. Unless, of course, the viewport was at a small width. If
+that happened, the table of contents menu button should be at the top of the
+viewport, but without the sticky header showing.
 
 Using the [Jest Testing Framework](https://jestjs.io/), we tried writing unit
-tests for as much of the JavaScript logic involved in these situations as we
-could. We leveraged Jest's
-[snapshot feature](https://jestjs.io/docs/snapshot-testing#:~:text=Snapshot%20tests%20are%20a%20very,file%20stored%20alongside%20the%20test.)
+tests for as much of the JavaScript logic involved in these situations as
+possible. In addition, we leveraged Jest's
+[snapshot feature](https://jestjs.io/docs/snapshot-testing#:~:text=Snapshot%20tests%20are%20a%20very,file%20stored%20alongside%20the%20test.),
 which compares changes in the outputted DOM to detect any undesired class or
 element changes.
 
-However, there was still a gap in coverage. Much of the skin's complexity did
-not reside in JavaScript or HTML, but in CSS, and this gap was getting exposed
-more and more frequently. We needed something more than unit and integrations
-tests could provide. Something that could test what users _actually see_.
+However, there was still a gap in test coverage. Much of the skin's complexity
+did not reside in JavaScript or HTML but in CSS, and this gap was getting
+exposed more and more frequently. We needed something more than unit and
+integration tests could provide. Something that could test what users _see_.
 
 ## Visual testing pixel by pixel
 
@@ -117,12 +118,12 @@ test, also known as a "visual regression test", involves:
 
 1. Capturing a screenshot of a page or element (known as the "reference" or
    "baseline" screenshot).
-2. Making changes to code
+2. Making changes to the code
 3. Capturing another screenshot of that same page or element (commonly known as
    the "test" screenshot)
 4. Comparing and highlighting the difference between the two screenshots
 
-Not knowing whether this experiment would prove useful, we leveraged existing
+Not knowing whether this experiment would be helpful, we leveraged existing
 open-source
 [visual regression testing software](https://github.com/garris/BackstopJS) to
 point at a
@@ -131,17 +132,17 @@ point at a
 easier to compare two different states of MediaWiki, and called the tool
 [Pixel](https://github.com/wikimedia/pixel).
 
-In order for MediaWiki to resemble anything remotely close to the production
-environment that users see on English Wikipedia, many git submodules are needed
-in the form of [extensions](https://www.mediawiki.org/wiki/Manual:Extensions).
-And in addition to the core code of MediaWiki, each of these extensions has the
-capability to cause visual changes to the page.
+For MediaWiki to resemble anything remotely close to the production environment
+that users see on English Wikipedia requires many git submodules in the form of
+[extensions](https://www.mediawiki.org/wiki/Manual:Extensions). In addition to
+the core code of MediaWiki, each of these extensions can cause visual changes to
+the page.
 
-Instead of storing and managing hundereds (or more) reference images under
-source control (a common strategy with visual testing) and asking maintainers of
-these extensions to keep the reference images up-to-date, we made Pixel compare
-one state of MediaWiki with another state and produce a report that shows the
-visual differences.
+Instead of storing and managing hundreds (or more) reference images under source
+control (a common strategy with visual testing) and asking maintainers of these
+extensions to keep the reference images up-to-date, we made Pixel compare one
+state of MediaWiki with another state and produce a report that shows the visual
+differences.
 
 The two most common workflows are:
 
@@ -151,27 +152,27 @@ The two most common workflows are:
 2. Comparing the latest release branches of MediaWiki with the `HEAD` of
    `master`. A new release of Wikipedia usually gets deployed every week. By
    comparing the last release with `master`, we can _roughly_ see the visual
-   changes that will be introduced by the next release. We publish these reports
-   for anyone to view at [pixel.wmcloud.org](https://pixel.wmcloud.org/).
+   changes the next release will introduce. We publish these reports for anyone
+   to view at [pixel.wmcloud.org](https://pixel.wmcloud.org/).
 
 ## Seeing the impact
 
 Within the first week of our team's use of visual testing, we caught unintended
-changes in code review. In addition, a lot of time that was usually spent
-manually testing visual changes on a local server was replaced by our visual
-tests doing that work for us in a matter of minutes. Confidence in releases was
-reported to also increase.
+changes in code review. In addition, a lot of time usually spent manually
+testing visible changes on a local server was replaced by our visual tests doing
+that work for us in a matter of minutes. As a result, confidence in releases
+also increased.
 
-The benefits we've gotten from visual testing continue today. We frequently
-catch unintended visual changes with our tests and found visual testing valuable
-enough to continue using it in our workflow. Personally, I have a hard time
-reviewing any code without it.
+The benefits we saw from visual testing continue today. We frequently catch
+unintended visual changes with our tests and found visual testing valuable
+enough to continue using it in our workflow. I have a hard time reviewing any
+code without it.
 
-We still have a long way to go. To date, our "desktop" test suite, contains
-tests that capture a total of 140 screenshots across 5 different viewport
-widths. We still have visual regressions that slip into production, but many of
-these are the result of _not_ having the necessary visual tests in place for
-certain scenarios rather than a failure of the tests that have been written.
+We still have a long way to go, but we are improving. Our "desktop" test suite
+captures 140 screenshots and tests five different viewport widths. Yet, we still
+have visual regressions that slip into production. However, many of these result
+from _not_ having the necessary visual tests in place for specific scenarios
+rather than a failure of the existing tests.
 
 <Image
   src={testDiff}
@@ -179,10 +180,10 @@ certain scenarios rather than a failure of the tests that have been written.
   caption="Highlighted in pink, there are three visual regressions from the set of images shown in the introduction of this article."
 />
 
-So we will continue building out our visual test suite with more tests and more
-scenarios. With each new visual test we write, we develop an unfair advantage in
-the "Spot the Difference" game. And the difference between where we were before
-visual testing and where we are now, feels like a step in the right direction.
+So we will continue increasing coverage of our visual test suite with more tests
+and more scenarios. With each new visual test we write, we develop an unfair
+advantage in the "Spot the Difference" game. And the difference between where we
+were before visual testing and now feels like a step in the right direction.
 
 ## Resources
 
