@@ -15,6 +15,9 @@ description:
 
 import Image from "@components/BlogImage.astro";
 import complexStates from "./assets/complex-states.png";
+import referenceAndTest from "./assets/reference-and-test.png";
+import testDiff from "./assets/test-diff.png";
+import vector2022 from "./assets/vector-2022.png";
 
 Have you ever played the
 ["Spot the Difference"](https://en.wikipedia.org/wiki/Spot_the_difference) game?
@@ -23,8 +26,6 @@ When I review code in a nontrivial patch or pull request that changes the HTML,
 CSS, or JavaScript of a website, I feel like I'm playing this game. Sometimes I
 win, other times I lose.
 
-_insert spot the difference pic here_
-
 However, unlike the original game in which the player tries to identify a known
 number of innocuous differences, there are times when I'm not sure _how many_
 visual changes a code change might cause. And contrary to the original game,
@@ -32,6 +33,12 @@ where the consequences for not catching changes might result in you not scoring
 high enough to appear on a leaderboard somewhere, the effects of not catching
 accidental changes can include degradations to the user experience, loss of
 functionality, significant amount of time spent fixing the issues, or worse.
+
+<Image
+  src={referenceAndTest}
+  alt="Two very similar screenshots an article with slight visual differences"
+  caption="Can you spot the differences between these two images? See the end of this article for the answer!"
+/>
 
 In the past year, developers on the
 [Web team](https://www.mediawiki.org/wiki/Readers/Web/Team) at the Wikimedia
@@ -46,7 +53,11 @@ previous skin, [Vector](https://www.mediawiki.org/wiki/Skin:Vector), had been
 the default look on Wikipedia for 12 years. It was time for a better desktop
 experience.
 
-_insert video of wikipedia experience here_
+<Image
+  src={vector2022}
+  alt="A screenshot of the new Vector-2022 skin on Wikipedia showing an article of a Bighorn Sheep."
+  caption="The biggest update to Wikipedia's desktop look in over a decade - Vector-2022"
+/>
 
 At that point, we had incrementally built and released several features of our
 new skin, [Vector 2022](https://www.mediawiki.org/wiki/Skin:Vector/2022), to a
@@ -62,8 +73,8 @@ Each feature we built was coupled with a significant risk that it would deviate
 from its meticulously considered design spec as time passed. One of our most
 frequent regressions involved the search component. The dimensions of its input
 kept changing in undesired ways, or the position of its magnifying glass icon
-would move to a less attractive location. Sometimes its size would look
-disproportionately big or small.
+would frequently move to a less attractive location as if it was drawn to an
+invisible magnet on the page.
 
 We fell into a cycle of changing code, causing visual regressions, spending time
 fixing those regressions, and then having similar regression occur in as little
@@ -144,7 +155,7 @@ The two most common workflows are:
    changes that will be introduced by the next release. We publish these reports
    for anyone to view at [pixel.wmcloud.org](https://pixel.wmcloud.org/).
 
-## The impact
+## Seeing the impact
 
 Within the first week of our team's use of visual testing, we caught unintended
 changes in code review. In addition, a lot of time that was usually spent
@@ -157,17 +168,35 @@ catch unintended visual changes with our tests and found visual testing valuable
 enough to continue using it in our workflow. Personally, I have a hard time
 reviewing any code without it.
 
-It's not perfect. We have spent a nontrivial amount of time trying to make flaky
-tests (typically those that rely on asynchronous logic), less flaky.
-[Intentionality and attribution](https://phabricator.wikimedia.org/T320303) of
-the visual changes can also be a problem. However, it's an improvement from
-where we were.
+We still have a long way to go. To date, our "desktop" test suite, contains
+tests that capture a total of 140 screenshots across 5 different viewport
+widths. We still have visual regressions that slip into production, but many of
+these are the result of _not_ having the necessary visual tests in place for
+certain scenarios rather than a failure of the tests that have been written.
 
-To date, our "desktop" test suite, contains tests that capture a total of 140
-screenshots across 5 different viewport widths. We still have visual regressions
-that slip into production, but many of these are the result of _not_ having the
-necessary visual tests in place for certain scenarios rather than a failure of
-the tests that have been written.
+<Image
+  src={testDiff}
+  alt="An image diff of two very similar screenshots of an article. Differences include a bigger search input with a misaligned icon, missing arrow icons in the table of contents, and a missing arrow icon next to the language switcher."
+  caption="Highlighted in pink, there are three visual regressions from the set of images shown in the introduction of this article."
+/>
 
-With each new visual test we write, I feel we are developing an unfair advantage
-in the "spot the difference" game. And it feels good.
+So we will continue building out our visual test suite with more tests and more
+scenarios. With each new visual test we write, we develop an unfair advantage in
+the "Spot the Difference" game. And the difference between where we were before
+visual testing and where we are now, feels like a step in the right direction.
+
+## Resources
+
+- If you're a Wikimedia developer and interested in using visual testing on your
+  team, you might be interested in checking out
+  [Pixel](https://github.com/wikimedia/pixel)
+
+- If you're interested in using visual testing outside of Wikimedia projects,
+  you might be interested in checking out [Playwright](https://playwright.dev/)
+  or [BackstopJS](https://github.com/garris/BackstopJS)
+
+- To learn more about the first update to Wikipedia's look on desktop in over a
+  decade, check out:
+  - [The new Wikipedia appearance that took the whole village](https://jdlrobson.com/posts/2023-01-17_the-new-wikipedia-appearance-that-took-a-whole-village)
+  - [Wikipedia’s new look makes it easier to use for everyone](https://diff.wikimedia.org/2023/01/18/wikipedias-new-look-makes-it-easier-to-use-for-everyone/)
+  - [The story behind Wikipedia’s upcoming new look](https://diff.wikimedia.org/2021/08/12/the-story-behind-wikipedias-upcoming-new-look/)
