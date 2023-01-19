@@ -1,4 +1,3 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
 const { screens } = require("./src/constants.cjs");
 
 /** @type {import('tailwindcss').Config} */
