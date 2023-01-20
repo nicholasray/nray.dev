@@ -175,8 +175,8 @@ There are several drawbacks to our approach as well:
   alleviated by adjusting the difference threshold to ignore subtle changes.
 - Writing tests that capture the page at the right moment can be a pain. Visual
   tests need to be stable. All of our tests
-  [fast-forward through any animation on the page](https://github.com/wikimedia/pixel/blob/main/src/engine-scripts/puppet/fastForwardAnimations.js)
-  and
+  [fast-forward](https://github.com/wikimedia/pixel/blob/main/src/engine-scripts/puppet/fastForwardAnimations.js)
+  through any animation on the page and
   [wait for idle moments in the network and main thread](https://github.com/wikimedia/pixel/blob/474fd24e81ddb39f60b09ca2ed69e67c3d4f8774/src/engine-scripts/puppet/fastForwardAnimations.js)
   before taking any screenshot. This works _most_ of the time.
 - We sometimes have issues
