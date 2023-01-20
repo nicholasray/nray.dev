@@ -177,7 +177,7 @@ approach:
   alleviates this problem.
 - Writing tests that capture the page at the right moment can be a pain. Visual
   tests depend on a stable page. To achieve this, all of our tests
-  [fast-forward](https://github.com/wikimedia/pixel/blob/main/src/engine-scripts/puppet/fastForwardAnimations.js)
+  [fast-forward](https://github.com/wikimedia/pixel/blob/474fd24e81ddb39f60b09ca2ed69e67c3d4f8774/src/engine-scripts/puppet/fastForwardAnimations.js)
   through any animation on the page and
   [wait for idle moments in the network and main thread](https://github.com/wikimedia/pixel/blob/474fd24e81ddb39f60b09ca2ed69e67c3d4f8774/src/engine-scripts/puppet/fastForwardAnimations.js)
   before taking a screenshot. This strategy works _most_ of the time.
