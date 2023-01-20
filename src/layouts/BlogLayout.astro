@@ -44,6 +44,7 @@ const { title, readingTime, publishedAt, description, cover } =
         <div class="mt-8 rounded-3xl md:mt-12">
           <Picture
             alt={post.frontmatter.cover.alt}
+            loading="eager"
             class="h-80 md:h-[32rem] w-full rounded-3xl object-cover shadow-lg"
             src={post.frontmatter.cover.src}
             aspectRatio={post.frontmatter.cover.width /
