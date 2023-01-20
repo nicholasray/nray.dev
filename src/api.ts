@@ -14,6 +14,12 @@ export async function getPost(post: MDXInstance<PostFrontmatter>) {
   )}/public/covers/${post.frontmatter.cover.filename}`;
   const metadata = await sharp(input).metadata();
 
+  if (!metadata.width || !metadata.height) {
+    throw new Error(
+      `Could not determine cover image dimensions for ${post.file}`
+    );
+  }
+
   return {
     ...post,
     frontmatter: {
