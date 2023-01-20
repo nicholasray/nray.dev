@@ -174,7 +174,7 @@ Still, there are several drawbacks to our approach as well:
   otherwise be imperceptible to humans and be noisy. Usually, this can be
   alleviated by adjusting the difference threshold to ignore subtle changes.
 - Writing tests that capture the page at the right moment can be a pain. Visual
-  tests need to be stable. All of our tests
+  tests depend on a stable page. To achieve this, all of our tests
   [fast-forward](https://github.com/wikimedia/pixel/blob/main/src/engine-scripts/puppet/fastForwardAnimations.js)
   through any animation on the page and
   [wait for idle moments in the network and main thread](https://github.com/wikimedia/pixel/blob/474fd24e81ddb39f60b09ca2ed69e67c3d4f8774/src/engine-scripts/puppet/fastForwardAnimations.js)
@@ -183,7 +183,7 @@ Still, there are several drawbacks to our approach as well:
   [determining whether a visual change is intentional and who caused it](https://phabricator.wikimedia.org/T320303).
 
 We still have a long way to go, but we are improving. Our "desktop" test suite
-captures 140 screenshots and tests five different viewport widths. We still have
+captures 140 screenshots and tests five different viewport widths. We have
 visual regressions that slip into production. However, many of these result from
 _not_ having the necessary visual tests in place for specific scenarios rather
 than a failure of the existing tests.
