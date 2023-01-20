@@ -101,9 +101,8 @@ viewport but without the sticky header showing.
 Using the [Jest Testing Framework](https://jestjs.io/), we tried writing unit
 tests for as much of the JavaScript logic involved in these situations as
 possible. In addition, we leveraged Jest's
-[snapshot feature](https://jestjs.io/docs/snapshot-testing#:~:text=Snapshot%20tests%20are%20a%20very,file%20stored%20alongside%20the%20test.),
-which compares changes in the outputted DOM to detect any undesired class or
-element changes.
+[snapshot feature](https://jestjs.io/docs/snapshot-testing), which compares
+changes in the outputted DOM to detect any undesired class or element changes.
 
 However, there was still a gap in test coverage. Much of the skin's complexity
 did not reside in JavaScript or HTML but in CSS, and this gap was getting
