@@ -163,10 +163,24 @@ usually spent manually testing visible changes on a local server was replaced by
 our visual tests doing that work for us in a matter of minutes. As a result,
 confidence in releases also increased.
 
-The benefits we saw from visual testing continue today. We frequently catch
-unintended visual changes with our tests and found it valuable enough to
-continue using it in our workflow. Frankly, I have a hard time reviewing any
-code without it.
+The benefits we saw from visual testing continue today.
+[We frequently catch unintended visual changes](https://www.mediawiki.org/wiki/Reading/Web/Release_timeline/Visual_Changes)
+with our tests and found it valuable enough to continue using it in our
+workflow. Frankly, I have a hard time reviewing any code without it.
+
+There are some drawbacks to our approach as well:
+
+- Because our tests compare each pixel, they can flag changes that might
+  otherwise be imperceptible to humans and be noisy. Usually, this can be
+  alleviated by adjusting the difference threshold to ignore subtle changes.
+- Writing tests that capture the page at the right moment can be a pain. Visual
+  tests need to be stable. All of our tests
+  [fast-forward through any animation on the page](https://github.com/wikimedia/pixel/blob/main/src/engine-scripts/puppet/fastForwardAnimations.js)
+  and
+  [wait for idle moments in the network and main thread](https://github.com/wikimedia/pixel/blob/474fd24e81ddb39f60b09ca2ed69e67c3d4f8774/src/engine-scripts/puppet/fastForwardAnimations.js)
+  before taking any screenshot. This works _most_ of the time.
+- We sometimes have issues
+  [determining whether a visual change is intentional and who caused it](https://phabricator.wikimedia.org/T320303).
 
 We still have a long way to go, but we are improving. Our "desktop" test suite
 captures 140 screenshots and tests five different viewport widths. We still have
