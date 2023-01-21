@@ -3,20 +3,26 @@ interface Props {
   src: string;
   width: string;
   height: string;
+  caption: string;
 }
 
-const { src, width, height } = Astro.props;
+const { src, width, height, caption } = Astro.props;
 ---
 
-<video
-  class="pt-px"
-  width={width}
-  height={height}
-  playsinline
-  loop
-  muted
-  preload="metadata"
-  autoplay
->
-  <source src={src} type="video/mp4" />
-</video>
+<figure>
+  <video
+    class="pt-px"
+    width={width}
+    height={height}
+    controls
+    playsinline
+    disablepictureinpicture
+    loop
+    muted
+    preload="metadata"
+    autoplay
+  >
+    <source src={src} type="video/mp4" />
+  </video>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
