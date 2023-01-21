@@ -32,33 +32,28 @@ const descId = `video-${src.split("/").pop()!.split(".").shift()}`;
 </figure>
 
 <script>
-  // Adapted from https://web.dev/lazy-loading-video
   if (window.IntersectionObserver) {
-    const videos = [].slice.call(
-      document.querySelectorAll("video.lazy-load")
-    ) as HTMLVideoElement[];
     const observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          const video = entry.target as HTMLVideoElement;
-          for (let source of video.children) {
-            if (source.tagName !== "SOURCE") {
-              continue;
-            }
-
-            if (source instanceof HTMLSourceElement && source.dataset.src) {
-              source.src = source.dataset.src;
-            }
-          }
-
-          video.load();
-          observer.unobserve(video);
+        if (!entry.isIntersecting) {
+          return;
         }
+
+        const video = entry.target as HTMLVideoElement;
+        for (let source of video.children) {
+          if (source instanceof HTMLSourceElement && source.dataset.src) {
+            source.src = source.dataset.src;
+          }
+        }
+
+        video.load();
+        observer.unobserve(video);
       });
     });
 
-    videos.forEach(function (video) {
+    const videos = document.querySelectorAll("video.lazy-load");
+    for (let video of videos) {
       observer.observe(video);
-    });
+    }
   }
 </script>
