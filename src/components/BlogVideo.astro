@@ -1,17 +1,19 @@
 ---
 interface Props {
+  description: string;
   src: string;
   width: string;
   height: string;
   caption: string;
 }
 
-const { src, width, height, caption } = Astro.props;
+const { src, width, height, caption, description } = Astro.props;
+const descId = src.split("/").pop()!.split(".").shift();
 ---
 
 <figure>
   <video
-    class="pt-px"
+    aria-describedby={descId}
     width={width}
     height={height}
     controls
@@ -25,4 +27,5 @@ const { src, width, height, caption } = Astro.props;
     <source src={src} type="video/mp4" />
   </video>
   {caption && <figcaption>{caption}</figcaption>}
+  <p class="sr-only" id={descId}>{description}</p>
 </figure>
