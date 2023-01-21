@@ -14,10 +14,12 @@ description:
 ---
 
 import Image from "@components/BlogImage.astro";
+import Video from "@components/BlogVideo.astro";
 import complexStates from "./assets/complex-states.png";
 import referenceAndTest from "./assets/reference-and-test.png";
 import testDiff from "./assets/test-diff.png";
 import vector2022 from "./assets/vector-2022.png";
+import visualTestDemo from "./assets/visual-test-demo.mp4";
 
 Have you ever played the
 ["Spot the Difference"](https://en.wikipedia.org/wiki/Spot_the_difference) game?
@@ -167,7 +169,9 @@ The benefits we saw from visual testing continue today.
 with our tests and found it valuable enough to continue using it in our
 workflow. Frankly, I have a hard time reviewing any code without it.
 
-Still, there are several difficulties we've experienced along the way:
+<Video width="877" height="521" src={visualTestDemo} />
+
+Still, we've experienced several difficulties along the way:
 
 - Because our tests compare each pixel, they can flag changes that might
   otherwise be imperceptible to humans and cause the results of a report to be
