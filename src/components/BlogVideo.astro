@@ -13,6 +13,7 @@ const descId = `video-${src.split("/").pop()!.split(".").shift()}`;
 
 <figure>
   <video
+    class="lazy-load"
     aria-describedby={descId}
     width={width}
     height={height}
@@ -24,8 +25,40 @@ const descId = `video-${src.split("/").pop()!.split(".").shift()}`;
     preload="metadata"
     autoplay
   >
-    <source src={src} type="video/mp4" />
+    <source data-src={src} type="video/mp4" />
   </video>
   {caption && <figcaption>{caption}</figcaption>}
   <p class="sr-only" id={descId}>{description}</p>
 </figure>
+
+<script>
+  // Adapted from https://web.dev/lazy-loading-video
+  if (window.IntersectionObserver) {
+    const videos = [].slice.call(
+      document.querySelectorAll("video.lazy-load")
+    ) as HTMLVideoElement[];
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          const video = entry.target as HTMLVideoElement;
+          for (let source of video.children) {
+            if (source.tagName !== "SOURCE") {
+              continue;
+            }
+
+            if (source instanceof HTMLSourceElement && source.dataset.src) {
+              source.src = source.dataset.src;
+            }
+          }
+
+          video.load();
+          observer.unobserve(video);
+        }
+      });
+    });
+
+    videos.forEach(function (video) {
+      observer.observe(video);
+    });
+  }
+</script>
