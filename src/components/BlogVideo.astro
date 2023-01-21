@@ -33,23 +33,28 @@ const descId = `video-${src.split("/").pop()!.split(".").shift()}`;
 
 <script>
   if (window.IntersectionObserver) {
-    const observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) {
-          return;
-        }
-
-        const video = entry.target as HTMLVideoElement;
-        for (let source of video.children) {
-          if (source instanceof HTMLSourceElement && source.dataset.src) {
-            source.src = source.dataset.src;
+    const observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) {
+            return;
           }
-        }
 
-        video.load();
-        observer.unobserve(video);
-      });
-    });
+          const video = entry.target as HTMLVideoElement;
+          for (let source of video.children) {
+            if (source instanceof HTMLSourceElement && source.dataset.src) {
+              source.src = source.dataset.src;
+            }
+          }
+
+          video.load();
+          observer.unobserve(video);
+        });
+      },
+      {
+        rootMargin: "0px 0px 50% 0px",
+      }
+    );
 
     const videos = document.querySelectorAll("video.lazy-load");
     for (let video of videos) {
