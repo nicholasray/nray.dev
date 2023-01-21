@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { src, width, height, caption, description } = Astro.props;
-const descId = src.split("/").pop()!.split(".").shift();
+const descId = `video-${src.split("/").pop()!.split(".").shift()}`;
 ---
 
 <figure>
