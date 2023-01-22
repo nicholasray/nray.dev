@@ -13,6 +13,7 @@ const descId = `video-${src.split("/").pop()!.split(".").shift()}`;
 
 <figure>
   <video
+    style={`aspect-ratio:${width} / ${height}`}
     class="lazy-load"
     aria-describedby={descId}
     width={width}
