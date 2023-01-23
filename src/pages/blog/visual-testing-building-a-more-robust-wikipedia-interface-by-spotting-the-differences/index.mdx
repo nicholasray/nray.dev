@@ -177,10 +177,10 @@ workflow. Frankly, I have a hard time reviewing any code without it.
 
 Still, we've experienced several difficulties along the way:
 
-- Because our tests compare each pixel, they can flag changes that might
-  otherwise be imperceptible to humans and cause the results of a report to be
-  noisy. Usually, adjusting the difference threshold to ignore subtle changes
-  alleviates this problem.
+- Because our visual tests compare each pixel, they can flag changes that might
+  otherwise be undetectable to humans, causing noise in the report's results.
+  Usually, adjusting the difference threshold in the tests to ignore subtle
+  changes alleviates this problem.
 - Writing tests that capture the page at the right moment can be a pain. Visual
   tests depend on a stable page. To achieve this, all of our tests
   [fast-forward](https://github.com/wikimedia/pixel/blob/474fd24e81ddb39f60b09ca2ed69e67c3d4f8774/src/engine-scripts/puppet/fastForwardAnimations.js)
