@@ -73,8 +73,8 @@ Each feature we built was coupled with a significant risk that it would deviate
 from its meticulously considered design spec as time passed. For example, one of
 our most frequent regressions involved the search component. The dimensions of
 its input kept changing in undesired ways, or the position of its magnifying
-glass icon would frequently move to a less attractive location as if an
-invisible magnet on the page was pulling it.
+glass icon would move to a less attractive location as if an invisible magnet on
+the page was pulling it.
 
 We fell into a cycle of changing code, causing visual regressions, spending time
 fixing those regressions and then having similar ones occur in as little as a
@@ -99,14 +99,14 @@ header showing.
 
 Using the [Jest Testing Framework](https://jestjs.io/), we tried writing unit
 tests for as much of the JavaScript logic involved in these situations as
-possible. In addition, we leveraged Jest's
+possible. We also leveraged Jest's
 [snapshot feature](https://jestjs.io/docs/snapshot-testing), which compares
 changes in the outputted DOM to detect any undesired class or element changes.
 
-However, there was still a gap in test coverage. Much of the skin's complexity
-did not reside in JavaScript or HTML but in CSS, and this gap was getting
-exposed more and more frequently. We needed something more than unit and
-integration tests could provide. Something that could test what users _see_.
+But, there was still a gap in test coverage. Much of the skin's complexity did
+not reside in JavaScript or HTML but in CSS, and this gap was getting exposed
+more and more frequently. We needed something more than unit and integration
+tests could provide. Something that could test what users _see_.
 
 ## Visual testing pixel by Pixel
 
@@ -180,7 +180,7 @@ Still, we've experienced several difficulties along the way:
   Usually, adjusting the difference threshold in the tests to ignore subtle
   changes alleviates this problem.
 - Writing tests that capture the page at the right moment can be a pain. Visual
-  tests depend on a stable page. To achieve this, all of our tests
+  tests depend on a stable page. To achieve this, our tests
   [fast-forward](https://github.com/wikimedia/pixel/blob/474fd24e81ddb39f60b09ca2ed69e67c3d4f8774/src/engine-scripts/puppet/fastForwardAnimations.js)
   through any animation on the page and
   [wait for idle moments in the network and main thread](https://github.com/wikimedia/pixel/blob/474fd24e81ddb39f60b09ca2ed69e67c3d4f8774/src/engine-scripts/puppet/onReady.js#L51-L54)
