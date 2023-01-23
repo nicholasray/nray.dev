@@ -87,16 +87,16 @@ few weeks.
   caption="A grid showing eight different states that the table of contents, page tools, and the main menu could have."
 />
 
-In addition, our UI was only getting more complex. For example, we wanted
-certain elements only to be visible when logged in and only when the viewport
-was above a specific breakpoint. Also, the content should be centered on the
-page, but only when the table of contents isn't pinned next to it. Speaking of
-the table of contents, when the user clicks its "hide" button, it should
-collapse into the page toolbar, but only if the user hasn't scrolled past the
-page's first heading to make the sticky header appear. Otherwise, it should be
-in the sticky header. Unless, of course, the viewport was at a small width. If
-that happens, the table of contents menu button should be at the top of the
-viewport but without the sticky header showing.
+Also, our UI was only getting more complex. For example, we wanted certain
+elements only to be visible when logged in and only when the viewport was above
+a specific breakpoint. Center the content on the page, but only when the table
+of contents isn't pinned next to it. Speaking of the table of contents, when the
+user clicks its "hide" button, it should collapse into the page toolbar, but
+only if the user hasn't scrolled past the page's first heading to make the
+sticky header appear. Otherwise, it should be in the sticky header. Unless, of
+course, the viewport was at a small width. If that happens, the table of
+contents menu button should be at the top of the viewport but without the sticky
+header showing.
 
 Using the [Jest Testing Framework](https://jestjs.io/), we tried writing unit
 tests for as much of the JavaScript logic involved in these situations as
