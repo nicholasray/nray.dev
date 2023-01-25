@@ -8,8 +8,13 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "test": "npm run -s lint && tsc",
+    "lint": "eslint --max-warnings=0 --cache .",
     "astro": "astro"
   },
+  "pre-commit": [
+    "test"
+  ],
   "dependencies": {
     "@astrojs/image": "^0.13.0",
     "@astrojs/mdx": "^0.15.0",
@@ -44,6 +49,8 @@
     "eslint": "^8.32.0",
     "eslint-plugin-astro": "^0.23.0",
     "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "pre-commit": "^1.2.2",
     "prettier": "^2.8.3",
     "prettier-plugin-astro": "^0.7.2",
     "prettier-plugin-tailwindcss": "^0.2.2"

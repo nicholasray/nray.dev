@@ -12,9 +12,21 @@ module.exports = {
     "eslint:recommended",
     "plugin:astro/recommended",
   ],
+  plugins: [
+    // ...
+    "react-hooks",
+  ],
+  rules: {
+    // ...
+    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+  },
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
+  },
+  globals: {
+    ImageMetadata: true,
   },
   // ...
   overrides: [
@@ -44,6 +56,12 @@ module.exports = {
           { argsIgnorePattern: "^_", destructuredArrayIgnorePattern: "^_" },
         ],
       },
+    },
+    {
+      // Define the configuration for `<script>` tag.
+      // Script in `<script>` is assigned a virtual file name with the `.js` extension.
+      files: ["**/*.astro/*.js", "*.astro/*.js"],
+      parser: "@typescript-eslint/parser",
     },
     // ...
   ],

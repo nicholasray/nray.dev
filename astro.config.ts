@@ -26,6 +26,7 @@ export default defineConfig({
         rehypePrettyCode,
         {
           theme: ayu,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onVisitLine(node: any) {
             // Prevent lines from collapsing in `display: grid` mode, and
             // allow empty lines to be copy/pasted
@@ -39,9 +40,11 @@ export default defineConfig({
             }
           },
           // Feel free to add classNames that suit your docs
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onVisitHighlightedLine(node: any) {
             node.properties.className.push("line--highlighted");
           },
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onVisitHighlightedWord(node: any) {
             node.properties.className = ["word"];
           },
@@ -62,7 +65,6 @@ export default defineConfig({
         },
       ],
     ],
-    extendDefaultPlugins: true,
   },
   integrations: [
     react(),
