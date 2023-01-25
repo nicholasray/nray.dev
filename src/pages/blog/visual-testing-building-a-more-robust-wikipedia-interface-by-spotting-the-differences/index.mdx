@@ -179,7 +179,7 @@ Still, we've experienced several difficulties along the way:
   otherwise be undetectable to humans, causing noise in the report's results.
   Adjusting the difference threshold in the tests to ignore subtle changes can
   alleviate this problem but comes with the risk of letting real regressions
-  pass. We've settled on a difference threshold of 0.04% for most of our tests.
+  pass. Therefore, we use a difference threshold of 0.04% for most tests.
 - Writing tests that capture the page at the right moment can be a pain. Visual
   tests depend on a stable page. To achieve this, our tests
   [fast-forward](https://github.com/wikimedia/pixel/blob/474fd24e81ddb39f60b09ca2ed69e67c3d4f8774/src/engine-scripts/puppet/fastForwardAnimations.js)
