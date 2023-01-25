@@ -183,7 +183,7 @@ Still, we've experienced several difficulties along the way:
   tests depend on a stable page. To achieve this, our tests
   [fast-forward](https://github.com/wikimedia/pixel/blob/474fd24e81ddb39f60b09ca2ed69e67c3d4f8774/src/engine-scripts/puppet/fastForwardAnimations.js)
   through any animation on the page and
-  [wait for idle moments in the network and main thread](https://github.com/wikimedia/pixel/blob/474fd24e81ddb39f60b09ca2ed69e67c3d4f8774/src/engine-scripts/puppet/onReady.js#L51-L54)
+  [wait for idle moments in the network and main thread](https://github.com/wikimedia/pixel/blob/daef37049a99ee7cea5534f236783e88332786fd/src/engine-scripts/puppet/onReady.js#L49-L52)
   before taking a screenshot. This strategy works _most_ of the time.
 - Sometimes we have issues
   [determining whether a visual change is intentional and who caused it](https://phabricator.wikimedia.org/T320303).
