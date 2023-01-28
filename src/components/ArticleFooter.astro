@@ -15,7 +15,7 @@ const { readingTime, publishedAt } = Astro.props;
     publishedAt && (
       <>
         <time datetime={publishedAt}>
-          {format(new Date(publishedAt), "LLLL d, yyyy")}
+          {format(new Date(publishedAt), "LLL d, yyyy")}
         </time>
         <span>&bull;</span>
       </>
