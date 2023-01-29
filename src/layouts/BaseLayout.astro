@@ -14,13 +14,13 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#FAFAFA" />
     <title>{title}</title>
     <SEO description={description} {...rest} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script is:inline>
       const theme = localStorage.getItem("theme");
-      const meta = document.createElement("meta");
-      meta.name = "theme-color";
+      const meta = document.head.querySelector('meta[name="theme-color"]');
 
       if (
         theme === "dark" ||
@@ -30,11 +30,7 @@ const {
           document.documentElement.className + " dark"
         ).trim();
         meta.content = "#18181B";
-      } else {
-        meta.content = "#FAFAFA";
       }
-
-      document.head.appendChild(meta);
     </script>
     <script
       is:inline
