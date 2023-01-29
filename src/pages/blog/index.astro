@@ -17,7 +17,7 @@ const posts = await getPosts(
           {posts.length} Posts
         </h1>
         <ul
-          class="mt-8 grid grid-cols-[repeat(auto-fill,minmax(350px,1fr))] gap-x-9 gap-y-14 md:mt-12"
+          class="mt-8 space-y-14 md:mt-12 md:grid md:grid-cols-[repeat(auto-fill,minmax(350px,1fr))] md:gap-x-9 md:gap-y-14 md:space-y-0"
         >
           {
             posts.map((post) => (
