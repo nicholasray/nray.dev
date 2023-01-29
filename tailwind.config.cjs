@@ -66,11 +66,14 @@ module.exports = {
             },
 
             "[data-rehype-pretty-code-fragment]": {
+              borderRadius: theme("borderRadius.2xl"),
+              overflow: "hidden",
               marginTop: theme("margin.8"),
               marginBottom: theme("margin.8"),
 
               pre: {
                 background: "#0C0E13",
+                borderRadius: 0,
                 marginTop: 0,
                 marginBottom: 0,
 
