@@ -23,7 +23,7 @@ import { Icon } from "astro-icon";
       super();
 
       const button = this.querySelector("button") as HTMLElement;
-      const meta = document.querySelector(
+      const meta = document.head.querySelector(
         'meta[name="theme-color"]'
       ) as HTMLMetaElement;
 

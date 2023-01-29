@@ -20,7 +20,7 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script is:inline>
       const theme = localStorage.getItem("theme");
-      const meta = document.querySelector('meta[name="theme-color"]');
+      const meta = document.head.querySelector('meta[name="theme-color"]');
 
       if (
         theme === "dark" ||
