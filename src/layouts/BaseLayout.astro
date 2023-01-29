@@ -20,7 +20,7 @@ const {
     <meta id="theme-color" name="theme-color" content="#FAFAFA" />
     <script is:inline>
       const theme = localStorage.getItem("theme");
-      const meta = document.getElementById("theme-color");
+      const meta = document.currentScript.previousElementSibling;
 
       if (
         theme === "dark" ||
