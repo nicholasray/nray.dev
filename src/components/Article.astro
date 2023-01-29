@@ -16,7 +16,7 @@ const { post } = Astro.props;
       <Picture
         background={undefined}
         alt={post.frontmatter.cover.alt}
-        class="h-80 md:h-[32rem] w-full rounded-3xl object-cover shadow-lg"
+        class="h-80 md:h-[32rem] w-full rounded-3xl object-cover dark:shadow-lg"
         src={post.frontmatter.cover.src}
         aspectRatio={post.frontmatter.cover.width /
           post.frontmatter.cover.height}
@@ -26,13 +26,17 @@ const { post } = Astro.props;
         sizes="(min-width: 48rem) 28rem, 100vw"
       />
     </div>
-    <h3 class="mt-8 text-2xl font-bold tracking-tight text-white">
+    <h3
+      class="mt-8 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white"
+    >
       {post.frontmatter.title}
     </h3>
-    <p class="mt-4 mb-6 text-lg text-zinc-300">
+    <p class="mt-4 mb-6 text-lg text-zinc-600 dark:text-zinc-300">
       {post.frontmatter.description}
     </p>
-    <footer class="mt-auto text-sm uppercase tracking-wide text-zinc-400">
+    <footer
+      class="mt-auto text-sm uppercase tracking-wide text-zinc-500 dark:text-zinc-400"
+    >
       <ArticleFooter
         publishedAt={post.frontmatter.publishedAt}
         readingTime={post.frontmatter.readingTime}

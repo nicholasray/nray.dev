@@ -1,5 +1,6 @@
 ---
 import { Icon } from "astro-icon";
+import ThemeToggle from "./ThemeToggle.astro";
 ---
 
 <header>
@@ -12,13 +13,22 @@ import { Icon } from "astro-icon";
     </a>
     <nav>
       <ul
-        class="flex items-center space-x-6 font-semibold text-zinc-300 md:space-x-8"
+        class="flex items-center space-x-6 font-semibold text-zinc-700 dark:text-zinc-300 md:space-x-8"
       >
         <li>
-          <a class="block p-4 hover:text-white" href="/blog">Posts</a>
+          <a
+            class="block rounded-2xl p-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:hover:text-white"
+            href="/blog">Posts</a
+          >
         </li>
         <li>
-          <a class="block p-4 hover:text-white" href="/about">About</a>
+          <a
+            class="block rounded-2xl p-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:hover:text-white"
+            href="/about">About</a
+          >
+        </li>
+        <li>
+          <ThemeToggle />
         </li>
       </ul>
     </nav>

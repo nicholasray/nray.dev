@@ -3,10 +3,11 @@ const { screens } = require("./src/constants.cjs");
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue,svg}",
     // Enable auto-link heading styles.
     "./astro.config.ts",
   ],
+  darkMode: "class",
   theme: {
     extend: {
       transitionProperty: {
@@ -37,7 +38,6 @@ module.exports = {
                 opacity: theme("opacity.100"),
               },
             },
-            color: theme("colors.zinc.400"),
             h2: {
               "&:hover .heading-link": {
                 display: "block",

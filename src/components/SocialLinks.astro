@@ -28,7 +28,10 @@ import { Icon } from "astro-icon";
     ].map((data) => {
       return (
         <li class="flex">
-          <a class="flex items-center hover:text-zinc-200" href={data.href}>
+          <a
+            class="flex items-center hover:text-zinc-500 dark:hover:text-zinc-200"
+            href={data.href}
+          >
             <Icon class="h-6 w-6" name={data.icon} />
             <span class="ml-4">{data.text}</span>
           </a>

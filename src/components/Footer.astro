@@ -3,22 +3,27 @@ import { Icon } from "astro-icon";
 ---
 
 <footer
-  class="sticky top-[100vh] border-t border-t-zinc-200/10 py-14 text-zinc-200 lg:py-20"
+  class="sticky top-[100vh] border-t border-t-zinc-200/10 py-14 text-zinc-600 dark:text-zinc-200 lg:py-20"
 >
   <div class="flex flex-col items-center justify-center text-center">
     <a href="/" class="mb-5 text-xl font-semibold tracking-tight">
       <span class="sr-only">nray.dev home page</span>
-      <Icon class="h-7 text-white" name="logo" />
+      <Icon class="h-7" name="logo" />
     </a>
     <div class="mb-4">
-      <a class="font-semibold" href="https://github.com/nicholasray/nray.dev">
+      <a
+        class="font-semibold text-zinc-500 hover:text-zinc-900 dark:text-zinc-400"
+        href="https://github.com/nicholasray/nray.dev"
+      >
         View source code
       </a>
     </div>
-    <div class="mb-12 text-sm text-zinc-400">
+    <div class="mb-12 text-sm text-zinc-600 dark:text-zinc-400">
       © 2022 Nicholas Ray. All rights reserved.
     </div>
-    <div class="text-sm font-bold text-zinc-400">
+    <div
+      class="text-sm font-bold text-zinc-500 hover:text-zinc-900 dark:text-zinc-400"
+    >
       <a href="/privacy" class="mb-5"> Privacy</a>
     </div>
   </div>

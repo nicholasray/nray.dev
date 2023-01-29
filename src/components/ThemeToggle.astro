@@ -1,0 +1,43 @@
+---
+import { Icon } from "astro-icon";
+---
+
+<theme-toggle>
+  <button
+    class="block rounded-full p-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:hover:text-white"
+  >
+    <div class="theme-toggle-light dark:hidden">
+      <Icon class="h-7" name="heroicons:sun" />
+      <span class="sr-only">Toggle Dark Mode</span>
+    </div>
+    <div class="theme-toggle-dark hidden dark:block">
+      <Icon class="h-7" name="heroicons:moon" />
+      <span class="sr-only">Toggle Light Mode</span>
+    </div>
+  </button>
+</theme-toggle>
+
+<script>
+  class ThemeToggle extends HTMLElement {
+    constructor() {
+      super();
+
+      const button = this.querySelector("button") as HTMLElement;
+      button.addEventListener("click", () => {
+        const isDark = document.documentElement.classList.contains("dark");
+
+        if (isDark) {
+          // Switch to light mode.
+          document.documentElement.classList.remove("dark");
+          localStorage.setItem("theme", "light");
+        } else {
+          // Switch to dark mode.
+          document.documentElement.classList.add("dark");
+          localStorage.setItem("theme", "dark");
+        }
+      });
+    }
+  }
+
+  customElements.define("theme-toggle", ThemeToggle);
+</script>

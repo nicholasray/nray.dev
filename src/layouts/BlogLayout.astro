@@ -49,12 +49,12 @@ const { title, readingTime, publishedAt, description, cover } =
               post.frontmatter.cover.height}
             width={post.frontmatter.cover.width}
             height={post.frontmatter.cover.height}
-            widths={[400, 800, 1600]}
-            sizes="(min-width: 48rem) 44rem, 100vw"
+            widths={[400, 800, 1600, 2200]}
+            sizes="(min-width: 48rem) 72rem, 100vw"
           />
         </div>
         <h1
-          class="mx-auto mt-6 max-w-4xl text-center text-3xl font-bold tracking-tight text-white md:mt-10 md:text-5xl lg:mt-14"
+          class="mx-auto mt-6 max-w-4xl text-center text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white md:mt-10 md:text-5xl lg:mt-14"
         >
           {title}
         </h1>
@@ -62,7 +62,7 @@ const { title, readingTime, publishedAt, description, cover } =
           class="mt-4 flex items-center justify-between text-sm font-medium sm:text-base md:mt-6 lg:mt-10"
         >
           <a href="/about" class="flex items-center">
-            <div class="mr-3 h-9 w-9 rounded-full">
+            <div class="mr-3 h-12 w-12 rounded-full">
               <Image
                 loading="eager"
                 class="rounded-full"

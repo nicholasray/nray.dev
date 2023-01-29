@@ -8,10 +8,10 @@ const { url } = Astro.props;
 ---
 
 <div class="flex flex-col items-center">
-  <h2 class="text-3xl font-bold tracking-tight text-white">
+  <h2 class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white">
     Learn how to build better products
   </h2>
-  <p class="mt-6 max-w-3xl text-lg text-zinc-300">
+  <p class="mt-6 max-w-3xl text-lg text-zinc-600 dark:text-zinc-300">
     Get one email each month with my latest article about web development
   </p>
   <form
@@ -24,7 +24,7 @@ const { url } = Astro.props;
         type="email"
         name="email_address"
         required
-        class="shadow-inner-10 h-16 w-full rounded-full bg-zinc-50 py-2 pl-7 pr-40 font-semibold text-zinc-900 placeholder:text-zinc-600"
+        class="shadow-inner-10 h-16 w-full rounded-full bg-zinc-100 py-2 pl-7 pr-40 font-semibold text-zinc-900 placeholder:text-zinc-600 dark:bg-zinc-50"
         placeholder="Email Address"
         aria-label="Email Address"
       />
@@ -36,7 +36,7 @@ const { url } = Astro.props;
       </button>
     </div>
   </form>
-  <div class="mt-8 text-sm text-zinc-400">
+  <div class="mt-8 text-sm text-zinc-600 dark:text-zinc-400">
     No spam. Unsubscribe anytime. <span class="text-xl">✌️</span>
   </div>
 </div>
