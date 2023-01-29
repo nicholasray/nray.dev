@@ -17,7 +17,12 @@ const {
     <title>{title}</title>
     <SEO description={description} {...rest} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="theme-color" content="#FAFAFA" />
+    <meta
+      name="theme-color"
+      content="#FAFAFA"
+      data-dark="#181818B"
+      data-light="#FAFAFA"
+    />
     <script is:inline>
       const theme = localStorage.getItem("theme");
       const meta = document.currentScript.previousElementSibling;
@@ -29,7 +34,7 @@ const {
         document.documentElement.className = (
           document.documentElement.className + " dark"
         ).trim();
-        meta.content = "#18181B";
+        meta.content = meta.dataset.dark;
       }
     </script>
     <script
