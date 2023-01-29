@@ -26,6 +26,8 @@ const {
         (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
       ) {
         document.documentElement.className += " dark";
+        document.documentElement.className =
+          document.documentElement.className.trim();
       }
     </script>
     <script
