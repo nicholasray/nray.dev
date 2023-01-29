@@ -14,6 +14,7 @@ const { post } = Astro.props;
   <article class="flex h-full flex-col">
     <div class="rounded-3xl">
       <Picture
+        background={undefined}
         alt={post.frontmatter.cover.alt}
         class="h-80 md:h-[32rem] w-full rounded-3xl object-cover shadow-lg"
         src={post.frontmatter.cover.src}
@@ -25,7 +26,7 @@ const { post } = Astro.props;
         sizes="(min-width: 48rem) 28rem, 100vw"
       />
     </div>
-    <h3 class="mt-8 text-2xl font-semibold tracking-tight text-white">
+    <h3 class="mt-8 text-2xl font-bold tracking-tight text-white">
       {post.frontmatter.title}
     </h3>
     <p class="mt-4 mb-6 text-lg text-zinc-300">
