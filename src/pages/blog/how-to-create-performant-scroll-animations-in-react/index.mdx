@@ -9,55 +9,58 @@ publishedAt: 2022-10-02
 description: Learn how to create scroll-triggered animations without jank.
 ---
 
-Performant web animations can be tricky to get right. Coupling these animations
-with a high-frequency critical event like scrolling increases the stakes. Done
-well, they can enhance the user's experience. Done poorly, they can frustrate
-users and make your site unusable.
+Performant web animations can be tricky to get right. Coupling these
+animations with a high-frequency critical event like scrolling increases
+the stakes. Done well, they can enhance the user's experience. Done poorly,
+they can frustrate users and make your site unusable.
 
-In this post, I will show you how to avoid the common pitfalls and incorporate
-performant animations that can captivate your users. Let's get started!
+In this post, I will show you how to avoid the common pitfalls and
+incorporate performant animations that can captivate your users. Let's get
+started!
 
 ## Staying off the main thread
 
-If you want animations to have the best chance of looking smooth to your users,
-you have to make them run somewhere free from interference. Smooth animations
-achieve consistent and rapid frame production. Interference can prevent the
-browser from producing frames as fast as the screen's refresh rate, leading to
-janky animations. For example, if the screen refreshes at a rate of 60 times a
-second (typical for most monitors), the browser must produce each frame within
-16.667 milliseconds for the animation to look smooth. Higher-end 120 hertz
-monitors cut this budget in half and require frames made in 8.333 milliseconds.
-The animation will look slow and sluggish if the browser doesn't meet this
-deadline.
+If you want animations to have the best chance of looking smooth to your
+users, you have to make them run somewhere free from interference. Smooth
+animations achieve consistent and rapid frame production. Interference can
+prevent the browser from producing frames as fast as the screen's refresh
+rate, leading to janky animations. For example, if the screen refreshes at
+a rate of 60 times a second (typical for most monitors), the browser must
+produce each frame within 16.667 milliseconds for the animation to look
+smooth. Higher-end 120 hertz monitors cut this budget in half and require
+frames made in 8.333 milliseconds. The animation will look slow and
+sluggish if the browser doesn't meet this deadline.
 
-To make matters worse, there are many potential sources of interference. The
-browser's parsing of HTML sent from the server when the page is loading can
-cause interference. The execution of JavaScript can interfere. The browser's
-[rendering steps](https://developer.chrome.com/blog/inside-browser-part3/), like
-when it computes the styles of elements, determines an element's geometry and
-position, or creates paint records, are all sources of jank. And that's not
-everything!
+To make matters worse, there are many potential sources of interference.
+The browser's parsing of HTML sent from the server when the page is loading
+can cause interference. The execution of JavaScript can interfere. The
+browser's
+[rendering steps](https://developer.chrome.com/blog/inside-browser-part3/),
+like when it computes the styles of elements, determines an element's
+geometry and position, or creates paint records, are all sources of jank.
+And that's not everything!
 
-All the sources of interference mentioned previously run on the main thread of
-the browser's renderer process. The main thread is a dangerous place. We want to
-avoid running our animations here because the competition is too fierce. Only
-one thing can execute on the main thread at a time, and the risk is too high
-that it will be something other than our animation.
+All the sources of interference mentioned previously run on the main thread
+of the browser's renderer process. The main thread is a dangerous place. We
+want to avoid running our animations here because the competition is too
+fierce. Only one thing can execute on the main thread at a time, and the
+risk is too high that it will be something other than our animation.
 
-The best place to run animations is where none of these competing events happen.
-Luckily, another thread, the compositor thread, has much less stuff. As a
-result, it is not as prone to jank. There is a slight catch, though. The CSS
-properties `opacity` and `transform` are the only compositor thread-friendly
-properties. Consequently, attempting to animate any other property will make
-your animation run on the main thread, where it will be prone to jank. Still,
-you might be surprised how much you can achieve with only these properties.
+The best place to run animations is where none of these competing events
+happen. Luckily, another thread, the compositor thread, has much less
+stuff. As a result, it is not as prone to jank. There is a slight catch,
+though. The CSS properties `opacity` and `transform` are the only
+compositor thread-friendly properties. Consequently, attempting to animate
+any other property will make your animation run on the main thread, where
+it will be prone to jank. Still, you might be surprised how much you can
+achieve with only these properties.
 
 ## Detecting when an element has entered the viewport
 
-To trigger animations when a user scrolls, we need to detect when the element
-we'd like to animate has entered the viewport. Once it has sufficiently entered
-the viewport, we want the animation to begin. In the past, we might have
-achieved this with a scroll event listener:
+To trigger animations when a user scrolls, we need to detect when the
+element we'd like to animate has entered the viewport. Once it has
+sufficiently entered the viewport, we want the animation to begin. In the
+past, we might have achieved this with a scroll event listener:
 
 ```js
 const animatable = document.querySelector(".animatable");
@@ -90,22 +93,22 @@ However, this approach can cause a couple of problems:
   potential to cause jank to other areas of the user experience (e.g.
   scrolling).
 
-- Relatedly, calling `element.getBoundingClientRect()` can be an expensive call.
-  It can make the browser perform
+- Relatedly, calling `element.getBoundingClientRect()` can be an expensive
+  call. It can make the browser perform
   [expensive style recalc and layout operations](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)
   which ties up the main thread even more.
 
-It would be ideal if the browser could fire our callback when it has detected
-that our element of interest has entered the viewport instead of being forced to
-query this information on every scroll event. Fortunately, there is a way with
-the Intersection Observer API.
+It would be ideal if the browser could fire our callback when it has
+detected that our element of interest has entered the viewport instead of
+being forced to query this information on every scroll event. Fortunately,
+there is a way with the Intersection Observer API.
 
 ## Using Intersection Observer to trigger scroll-down animations
 
-Use the Intersection Observer API to detect when an element enters or leaves the
-viewport without the expensive querying that a scroll event listener might
-cause. Instead, Intersection Observer detects intersection changes in a way that
-stay off the main thread!
+Use the Intersection Observer API to detect when an element enters or
+leaves the viewport without the expensive querying that a scroll event
+listener might cause. Instead, Intersection Observer detects intersection
+changes in a way that stay off the main thread!
 
 ```js
 const animatable = document.querySelector(".animatable");
@@ -124,13 +127,14 @@ observer.observe(animatable);
 ```
 
 The callback passed to Intersection Observer will be called whenever
-intersection changes are associated with the observed element. It's important to
-note that the code in this callback _will_ take place on the main thread, so we
-shouldn't do anything costly there. Writing efficient code in this callback is
-fairly easy, however, because the information that the callback's `entries`
-param contains is usually all we need to determine whether we should trigger the
-animation. Using an Intersection Observer instead of a scroll event listener in
-the previous example would look like this:
+intersection changes are associated with the observed element. It's
+important to note that the code in this callback _will_ take place on the
+main thread, so we shouldn't do anything costly there. Writing efficient
+code in this callback is fairly easy, however, because the information that
+the callback's `entries` param contains is usually all we need to determine
+whether we should trigger the animation. Using an Intersection Observer
+instead of a scroll event listener in the previous example would look like
+this:
 
 ```js showLineNumbers
 const animatable = document.querySelector(".animatable");
@@ -153,36 +157,39 @@ const observer = new IntersectionObserver((entries) => {
 observer.observe(animatable);
 ```
 
-You may have noticed that on line 8, we check the `boundingClientRect` property
-of the element and wonder how this is any different than the call to
-`getBoundingClientRect()` that we cited as potentially problematic and expensive
-in the previous example that used a scroll event listener. Although the calls
-look similar, there are a couple of significant differences:
+You may have noticed that on line 8, we check the `boundingClientRect`
+property of the element and wonder how this is any different than the call
+to `getBoundingClientRect()` that we cited as potentially problematic and
+expensive in the previous example that used a scroll event listener.
+Although the calls look similar, there are a couple of significant
+differences:
 
 - Unlike `getBoundingClientRect()`, calling `boundingClientRect` returns a
-  cached value. When the intersection change occurs, this value will always be
-  the element's position, which may differ from the element's current position.
-  For example, if you call `boundingClientRect` in a `setTimeout`, scroll, and
-  then wait for the `setTimeout` callback to fire, the position reported by
-  `boundingClientRect` will be the same as before the scroll took place. Because
-  this call is cached and is not doing a live computation of the element's
-  position, it is relatively fast.
+  cached value. When the intersection change occurs, this value will always
+  be the element's position, which may differ from the element's current
+  position. For example, if you call `boundingClientRect` in a
+  `setTimeout`, scroll, and then wait for the `setTimeout` callback to
+  fire, the position reported by `boundingClientRect` will be the same as
+  before the scroll took place. Because this call is cached and is not
+  doing a live computation of the element's position, it is relatively
+  fast.
 - It does not cause the browser to perform
   [expensive style recalc and layout operations](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)
   that calling `element.getBoundingClientRect()` might incur. Instead, the
-  browser queries this information at a time that is most efficient within the
-  rendering pipeline.
+  browser queries this information at a time that is most efficient within
+  the rendering pipeline.
 
 ## Creating scroll animations in React with Intersection Observer
 
 Now with all the theory out of the way, let's see how we could build
-scroll-triggered animations using Intersection Observer in React and Typescript.
-We'll take advantage of React Hooks to create something simple and reusable.
+scroll-triggered animations using Intersection Observer in React and
+Typescript. We'll take advantage of React Hooks to create something simple
+and reusable.
 
 ### Step 1: Create a new hook
 
-First, following the conventions of React Hooks, let's create a new file with
-the following boilerplate.
+First, following the conventions of React Hooks, let's create a new file
+with the following boilerplate.
 
 ```ts showLineNumbers title="useIntersectionObserver.ts"
 import { useEffect, useRef, useState } from "react";
@@ -221,11 +228,11 @@ export default useIntersectionObserver;
 We need to add a few bits of state to our hook. First, we need to store a
 reference to the element we want to observe. We take advantage of React's
 support for
-[callback refs](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs) by
-passing the `setRef` callback to the client of the hook. We also store the
-intersection observer entry which will be `null` when the component first
-renders. Finally, a `ref` stores whether the callback has already been triggered
-while the element intersected.
+[callback refs](https://reactjs.org/docs/refs-and-the-dom.html#callback-refs)
+by passing the `setRef` callback to the client of the hook. We also store
+the intersection observer entry which will be `null` when the component
+first renders. Finally, a `ref` stores whether the callback has already
+been triggered while the element intersected.
 
 ```ts showLineNumbers title="useIntersectionObserver.js" {7-11}
 function useIntersectionObserver({
@@ -235,7 +242,9 @@ function useIntersectionObserver({
   executeOnce = false,
 }: Options): ReturnType {
   const [ref, setRef] = useState<Element | null>(null);
-  const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null);
+  const [entry, setEntry] = useState<IntersectionObserverEntry | null>(
+    null
+  );
   const hasExecuted = useRef(false);
 
   return [setRef, entry];
@@ -249,9 +258,9 @@ export default useIntersectionObserver;
 To create our instance of `IntersectionObserver` and start observing our
 element, we need to add a `useEffect` hook. In the callback passed to the
 `IntersectionObserver` constructor, we'll set the entry state. Intersection
-changes will trigger the callback. We return a cleanup function from the effect
-that will run when any of the dependencies passed as a second argument to
-`useEffect` changes or if the component unmounts.
+changes will trigger the callback. We return a cleanup function from the
+effect that will run when any of the dependencies passed as a second
+argument to `useEffect` changes or if the component unmounts.
 
 ```ts showLineNumbers title="useIntersectionObserver.js" {11-51}
 function useIntersectionObserver({
@@ -261,7 +270,9 @@ function useIntersectionObserver({
   executeOnce = false,
 }: Options): ReturnType {
   const [ref, setRef] = useState<Element | null>(null);
-  const [entry, setEntry] = useState<IntersectionObserverEntry | null>(null);
+  const [entry, setEntry] = useState<IntersectionObserverEntry | null>(
+    null
+  );
   const hasExecuted = useRef(false);
 
   useEffect(
@@ -341,7 +352,9 @@ function Animatable({ children }: AnimatableProps) {
   return (
     <div
       ref={ref}
-      className={`animatable ${addInitial ? "animatable--initial" : ""}`.trim()}
+      className={`animatable ${
+        addInitial ? "animatable--initial" : ""
+      }`.trim()}
     >
       {children}
     </div>
@@ -365,22 +378,23 @@ export default function App() {
 ### Step 4: Animate responsibly
 
 When adding any feature to a website, it's essential to consider its
-accessibility implications. For example, not everyone likes animations, and many
-people have vestibular motion disorders where animations can cause harm.
-Therefore, users should be allowed to opt out of any animation we add to a
-website.
+accessibility implications. For example, not everyone likes animations, and
+many people have vestibular motion disorders where animations can cause
+harm. Therefore, users should be allowed to opt out of any animation we add
+to a website.
 
 One relatively easy way we can achieve this is to use the
-`prefers-reduced-motion` media query to only enable the animation when the user
-has enabled the "reduce motion" setting in their operating system. By using the
-media query, the end point of the animation renders, and the transition will be
-inert when the user has enabled the setting.
+`prefers-reduced-motion` media query to only enable the animation when the
+user has enabled the "reduce motion" setting in their operating system. By
+using the media query, the end point of the animation renders, and the
+transition will be inert when the user has enabled the setting.
 
-I also like to disable scroll-triggered animations on mobile devices since they
-are much more prone to jank due to generally having less powerful hardware.
-Unfortunately, there isn't a media query explicitly targeting mobile devices,
-but we can use the viewport's width as a sufficient proxy. Therefore, we will
-only enable the animation if the viewport exceeds a minimum width.
+I also like to disable scroll-triggered animations on mobile devices since
+they are much more prone to jank due to generally having less powerful
+hardware. Unfortunately, there isn't a media query explicitly targeting
+mobile devices, but we can use the viewport's width as a sufficient proxy.
+Therefore, we will only enable the animation if the viewport exceeds a
+minimum width.
 
 ```css showLineNumbers title="styles.css"
 .animatable {
@@ -421,9 +435,9 @@ only enable the animation if the viewport exceeds a minimum width.
 }
 ```
 
-Your result should now be similar to the demo below. Keep in mind that you won't
-see the animation if your viewport is less than 640px due to the media query
-styles we set.
+Your result should now be similar to the demo below. Keep in mind that you
+won't see the animation if your viewport is less than 640px due to the
+media query styles we set.
 
 import ScrollDemo from "./ScrollDemo";
 
