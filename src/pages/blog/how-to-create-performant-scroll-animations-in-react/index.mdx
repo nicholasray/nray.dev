@@ -205,15 +205,16 @@ type ReturnType = [
 
 interface Options extends IntersectionObserverInit {
   /**
-   * Only execute Intersection Observer callback once while the element is
-   * intersected. Use this if you only want to run an animation once, for
-   * example.
+   * Only execute Intersection Observer callback once while the
+   * element is intersected. Use this if you only want to run an
+   * animation once, for example.
    */
   executeOnce?: boolean;
 }
 
 /**
- * A React Hook used to observe intersection changes with elements.
+ * A React Hook used to observe intersection changes with
+ * elements.
  *
  * @param options
  */
@@ -238,7 +239,7 @@ the intersection observer entry which will be `null` when the component
 first renders. Finally, a `ref` stores whether the callback has already
 been triggered while the element intersected.
 
-```ts showLineNumbers title="useIntersectionObserver.js" {7-11}
+```ts showLineNumbers title="useIntersectionObserver.ts" {7-12}
 function useIntersectionObserver({
   root = null,
   rootMargin = "0%",
@@ -265,7 +266,7 @@ changes will trigger the callback. We return a cleanup function from the
 effect that will run when any of the dependencies passed as a second
 argument to `useEffect` changes or if the component unmounts.
 
-```ts showLineNumbers title="useIntersectionObserver.js" {11-51}
+```ts showLineNumbers title="useIntersectionObserver.ts" {12-60}
 function useIntersectionObserver({
   root = null,
   rootMargin = "0%",
@@ -279,10 +280,11 @@ function useIntersectionObserver({
 
   useEffect(
     () => {
-      // Return early if the callback has already been executed while the
-      // element was intersected, if we don't have a reference to the element
-      // yet, if the browser doesn't support IntersectionObserver or if the
-      // callback has already executed while the element was intersected.
+      // Return early if the callback has already been executed
+      // while the element was intersected, if we don't have a
+      // reference to the element yet, if the browser doesn't
+      // support IntersectionObserver or if the callback has
+      // already executed while the element was intersected.
       if (
         !ref ||
         !window.IntersectionObserver ||
@@ -291,8 +293,9 @@ function useIntersectionObserver({
         return;
       }
 
-      // Create new Intersection Observer instance where we'll set the entry
-      // state when intersection changes are detected.
+      // Create new Intersection Observer instance where we'll
+      // set the entry state when intersection changes are
+      // detected.
       const observer = new IntersectionObserver(
         ([entry]) => {
           setEntry(entry);
@@ -313,8 +316,8 @@ function useIntersectionObserver({
         observer.disconnect();
       };
     },
-    // Avoid excessive re-renders by converting threshold to a string if it is
-    // an array.
+    // Avoid excessive re-renders by converting threshold to a
+    // string if it is an array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [
       root,
@@ -342,19 +345,20 @@ interface AnimatableProps {
 }
 
 /**
- * Animates an element when at least 35% of the element is within the viewport
- * including its top.
+ * Animates an element when at least 35% of the element is within
+ * the viewport including its top.
  */
 function Animatable({ children }: AnimatableProps) {
   const [ref, entry] = useIntersectionObserver({
-    // Trigger callback when at least 35% of the element is visible in the
-    // viewport.
+    // Trigger callback when at least 35% of the element is
+    // visible in the viewport.
     threshold: 0.35,
     // Only execute animation once.
     executeOnce: true,
   });
 
-  // Add initial transform/opacity classes if the entry is not intersecting.
+  // Add initial transform/opacity classes if the entry is not
+  // intersecting.
   const addInitial = !entry?.isIntersecting;
 
   return (
@@ -419,17 +423,18 @@ minimum width.
 }
 
 /** 
- * Only enable animations for devices with relatively large viewport widths
- * which serves as a proxy for devices with more power and for users who haven't
- * set the "prefers reduced motion" setting on their OS.
+ * Only enable animations for devices with relatively large
+ * viewport widths which serves as a proxy for devices with more
+ * power and for users who haven't set the "prefers reduced
+ * motion" setting on their OS.
  */
 @media (prefers-reduced-motion: no-preference) and (min-width: 640px) {
   .animatable {
     transition-duration: 500ms;
     /** 
-    * Limit transitions to compositor thread-friendly properties for the best
-    * performance. 
-    */
+     * Limit transitions to compositor thread-friendly properties
+     * for the best performance. 
+     */
     transition-property: transform, opacity;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   }
