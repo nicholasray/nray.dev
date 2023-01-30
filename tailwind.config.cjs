@@ -88,7 +88,6 @@ module.exports = {
                 },
                 code: {
                   display: "grid",
-                  fontSize: "14px",
                 },
                 "code[data-line-numbers]": {
                   counterReset: "line",

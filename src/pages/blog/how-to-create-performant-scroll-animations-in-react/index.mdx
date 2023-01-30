@@ -69,16 +69,18 @@ const handler = () => {
   // Check the position of the element relative to the viewport.
   const position = animatable.getBoundingClientRect();
 
-  // Check if at least 1 pixel of the element is within the viewport.
+  // Check if at least 1 pixel of the element is within the
+  // viewport.
   if (
     (position.top > 0 && position.top <= window.innerHeight) ||
-    (position.bottom > 0 && position.bottom <= window.innerHeight)
+    (position.bottom > 0 &&
+      position.bottom <= window.innerHeight)
   ) {
-    // Element is within viewport so start the animation by removing the class
-    // that controls its starting position.
+    // Element is within viewport so start the animation by
+    // removing the class that controls its starting position.
     animatable.classList.remove("animatable--initial");
-    // Remove event listener once the animation has started since we don't need
-    // it anymore.
+    // Remove event listener once the animation has started since
+    // we don't need it anymore.
     window.removeEventListener("scroll", handler);
   }
 };
@@ -114,7 +116,8 @@ changes in a way that stay off the main thread!
 const animatable = document.querySelector(".animatable");
 
 const options = {
-  // Fire callback as soon as little as one pixel is visible in the viewport.
+  // Fire callback as soon as little as one pixel is visible in
+  // the viewport.
   threshold: 0,
 };
 const callback = () => {
@@ -141,13 +144,14 @@ const animatable = document.querySelector(".animatable");
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
-    // Check if at least 1 pixel of the element is within the viewport.
+    // Check if at least 1 pixel of the element is within the
+    // viewport.
     if (entry.isIntersecting) {
-      // Element is within viewport so start the animation by removing the class
-      // that controls its starting position.
+      // Element is within viewport so start the animation by
+      // removing the class that controls its starting position.
       animatable.classList.remove("animatable--initial");
-      // Stop observing element once the animation has started since we don't
-      // need it anymore.
+      // Stop observing element once the animation has started
+      // since we don't need it anymore.
       observer.disconnect();
     }
   });
@@ -242,9 +246,8 @@ function useIntersectionObserver({
   executeOnce = false,
 }: Options): ReturnType {
   const [ref, setRef] = useState<Element | null>(null);
-  const [entry, setEntry] = useState<IntersectionObserverEntry | null>(
-    null
-  );
+  const [entry, setEntry] =
+    useState<IntersectionObserverEntry | null>(null);
   const hasExecuted = useRef(false);
 
   return [setRef, entry];
@@ -270,9 +273,8 @@ function useIntersectionObserver({
   executeOnce = false,
 }: Options): ReturnType {
   const [ref, setRef] = useState<Element | null>(null);
-  const [entry, setEntry] = useState<IntersectionObserverEntry | null>(
-    null
-  );
+  const [entry, setEntry] =
+    useState<IntersectionObserverEntry | null>(null);
   const hasExecuted = useRef(false);
 
   useEffect(
@@ -314,7 +316,13 @@ function useIntersectionObserver({
     // Avoid excessive re-renders by converting threshold to a string if it is
     // an array.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [root, rootMargin, JSON.stringify(threshold), ref, executeOnce]
+    [
+      root,
+      rootMargin,
+      JSON.stringify(threshold),
+      ref,
+      executeOnce,
+    ]
   );
 
   return [setRef, entry];
