@@ -34,14 +34,22 @@ import { Icon } from "astro-icon";
           // Switch to light mode.
           document.documentElement.classList.remove("dark");
           localStorage.setItem("theme", "light");
-          meta.content = meta.dataset.light!;
+          this.toggleMeta(meta);
         } else {
           // Switch to dark mode.
           document.documentElement.classList.add("dark");
           localStorage.setItem("theme", "dark");
-          meta.content = meta.dataset.dark!;
+          this.toggleMeta(meta);
         }
       });
+    }
+
+    toggleMeta(meta: HTMLMetaElement) {
+      const next = meta.dataset.next;
+      meta.dataset.next = meta.content;
+      if (next) {
+        meta.content = next;
+      }
     }
   }
 

@@ -17,12 +17,7 @@ const {
     <title>{title}</title>
     <SEO description={description} {...rest} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta
-      name="theme-color"
-      content="#FAFAFA"
-      data-light="#FAFAFA"
-      data-dark="#18181B"
-    />
+    <meta name="theme-color" content="#FAFAFA" data-next="#18181B" />
     <script is:inline>
       const theme = localStorage.getItem("theme");
       const meta = document.currentScript.previousElementSibling;
@@ -31,10 +26,12 @@ const {
         theme === "dark" ||
         (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
       ) {
+        const next = meta.dataset.next;
+        meta.dataset.next = meta.content;
+        meta.content = next;
         document.documentElement.className = (
           document.documentElement.className + " dark"
         ).trim();
-        meta.content = meta.dataset.dark;
       }
     </script>
     <script
