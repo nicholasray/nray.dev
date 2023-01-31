@@ -105,4 +105,14 @@ const { title, readingTime, publishedAt, description, cover } =
   .sp-editor {
     min-height: 400px;
   }
+
+  [data-rehype-pretty-code-fragment] {
+    @apply -mx-4;
+  }
+
+  @media screen(md) {
+    [data-rehype-pretty-code-fragment] {
+      @apply overflow-hidden rounded-2xl;
+    }
+  }
 </style>
