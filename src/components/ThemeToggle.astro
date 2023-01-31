@@ -24,11 +24,21 @@ import { Icon } from "astro-icon";
     constructor() {
       super();
 
-      const button = this.querySelector("button") as HTMLElement;
+      this.handleSystemChange = this.handleSystemChange.bind(this);
       this.meta = document.head.querySelector(
         'meta[name="theme-color"]'
       ) as HTMLMetaElement;
+      const button = this.querySelector("button") as HTMLElement;
+      const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
 
+      // Handle system theme changes.
+      if (mediaQueryList.addEventListener) {
+        mediaQueryList.addEventListener("change", this.handleSystemChange);
+      } else {
+        mediaQueryList.addListener(this.handleSystemChange);
+      }
+
+      // Handle theme toggle button clicks.
       button.addEventListener("click", () => {
         const isDark = document.documentElement.classList.contains("dark");
 
@@ -38,6 +48,14 @@ import { Icon } from "astro-icon";
           this.enableDarkMode();
         }
       });
+    }
+
+    handleSystemChange(e: MediaQueryListEvent) {
+      if (e.matches) {
+        this.enableDarkMode();
+      } else {
+        this.enableLightMode();
+      }
     }
 
     toggleMeta() {
