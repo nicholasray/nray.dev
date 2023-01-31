@@ -2,6 +2,9 @@ const { screens } = require("./src/constants.cjs");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   content: [
     "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue,svg}",
     // Enable auto-link heading styles.
