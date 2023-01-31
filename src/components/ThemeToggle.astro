@@ -19,11 +19,13 @@ import { Icon } from "astro-icon";
 
 <script>
   class ThemeToggle extends HTMLElement {
+    meta: HTMLMetaElement;
+
     constructor() {
       super();
 
       const button = this.querySelector("button") as HTMLElement;
-      const meta = document.head.querySelector(
+      this.meta = document.head.querySelector(
         'meta[name="theme-color"]'
       ) as HTMLMetaElement;
 
@@ -31,25 +33,31 @@ import { Icon } from "astro-icon";
         const isDark = document.documentElement.classList.contains("dark");
 
         if (isDark) {
-          // Switch to light mode.
-          document.documentElement.classList.remove("dark");
-          localStorage.setItem("theme", "light");
-          this.toggleMeta(meta);
+          this.enableLightMode();
         } else {
-          // Switch to dark mode.
-          document.documentElement.classList.add("dark");
-          localStorage.setItem("theme", "dark");
-          this.toggleMeta(meta);
+          this.enableDarkMode();
         }
       });
     }
 
-    toggleMeta(meta: HTMLMetaElement) {
-      const next = meta.dataset.next;
-      meta.dataset.next = meta.content;
+    toggleMeta() {
+      const next = this.meta.dataset.next;
+      this.meta.dataset.next = this.meta.content;
       if (next) {
-        meta.content = next;
+        this.meta.content = next;
       }
+    }
+
+    enableLightMode() {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+      this.toggleMeta();
+    }
+
+    enableDarkMode() {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+      this.toggleMeta();
     }
   }
 
