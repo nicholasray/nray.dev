@@ -91,28 +91,3 @@ const { title, readingTime, publishedAt, description, cover } =
     </article>
   </main>
 </Layout>
-
-<style is:global>
-  .sp-layout {
-    display: block !important;
-  }
-
-  .sp-preview {
-    width: auto !important;
-  }
-
-  .sp-preview,
-  .sp-editor {
-    min-height: 400px;
-  }
-
-  [data-rehype-pretty-code-fragment] {
-    @apply -mx-4;
-  }
-
-  @media screen(md) {
-    [data-rehype-pretty-code-fragment] {
-      @apply overflow-hidden rounded-2xl;
-    }
-  }
-</style>

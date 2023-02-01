@@ -3,3 +3,81 @@
 >
   <slot />
 </div>
+
+<style is:global>
+  .prose {
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      @apply -ml-8 pl-8;
+
+      &:hover .heading-link {
+        @apply block opacity-100;
+      }
+    }
+
+    picture > img {
+      @apply !my-0;
+    }
+
+    .sp-layout {
+      display: block !important;
+    }
+
+    .sp-preview {
+      width: auto !important;
+    }
+
+    .sp-preview,
+    .sp-editor {
+      min-height: 400px;
+    }
+
+    [data-rehype-pretty-code-title] {
+      @apply bg-zinc-800 pt-0.5 pr-0.5 pb-0.5 pl-[calc(1rem+4px)] font-mono text-sm text-gray-400;
+    }
+
+    [data-rehype-pretty-code-fragment] {
+      @apply -mx-4 my-8;
+
+      pre {
+        @apply mt-0 mb-0 rounded-none bg-[#0C0E13];
+      }
+
+      .line {
+        @apply border-l-4 border-l-transparent pl-4;
+      }
+
+      .line--highlighted {
+        @apply border-l-sky-400 bg-[#191d29];
+      }
+
+      code {
+        @apply grid;
+      }
+
+      code[data-line-numbers] {
+        counter-reset: line;
+      }
+
+      code[data-line-numbers] > .line::before {
+        counter-increment: line;
+        content: counter(line);
+
+        @apply mr-6 inline-block w-4 text-center text-zinc-500;
+      }
+
+      code[data-line-numbers] > .line--highlighted::before {
+        @apply text-gray-100;
+      }
+    }
+
+    @media screen(md) {
+      [data-rehype-pretty-code-fragment] {
+        @apply overflow-hidden rounded-2xl;
+      }
+    }
+  }
+</style>
