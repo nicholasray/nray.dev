@@ -1,5 +1,5 @@
 {
-  "proseWrap": "preserve",
+  "proseWrap": "always",
   "overrides": [
     {
       "files": "*.mdx",
