@@ -42,12 +42,12 @@ const { title, readingTime, publishedAt, description, cover } =
     <article>
       <section class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <h1
-          class="mt-6 text-center text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white md:mt-10 md:text-5xl lg:mt-14"
+          class="mt-6 text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white md:mt-10 md:text-center md:text-5xl lg:mt-14"
         >
           {title}
         </h1>
         <div
-          class="mx-auto mt-4 flex max-w-5xl items-center justify-center text-lg font-medium md:mt-6 lg:mt-10"
+          class="mt-4 flex max-w-5xl items-center text-sm font-medium md:mx-auto md:mt-6 md:justify-center md:text-lg lg:mt-10"
         >
           <a href="/about" class="flex items-center">
             <div class="mr-3 h-10 w-10 rounded-full md:h-12 md:w-12">
@@ -61,12 +61,14 @@ const { title, readingTime, publishedAt, description, cover } =
             </div>
             <div class="font-bold">Nicholas Ray</div>
           </a>
-          <span class="mx-3 font-bold">·</span>
-          <time datetime={publishedAt}>
-            {publishedAt ? format(new Date(publishedAt), "LLL d, yyyy") : ""}
-          </time>
-          <span class="mx-3 font-bold">·</span>
-          <div>{readingTime}</div>
+          <div class="flex items-center">
+            <span class="mx-3 font-bold">·</span>
+            <time datetime={publishedAt}>
+              {publishedAt ? format(new Date(publishedAt), "LLL d, yyyy") : ""}
+            </time>
+            <span class="mx-3 font-bold">·</span>
+            <div>{readingTime}</div>
+          </div>
         </div>
         <div class="mt-4 rounded-3xl md:mt-6 lg:mt-10">
           <Picture
