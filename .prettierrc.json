@@ -4,7 +4,7 @@
     {
       "files": "*.mdx",
       "options": {
-        "printWidth": 65
+        "printWidth": 80
       }
     }
   ]

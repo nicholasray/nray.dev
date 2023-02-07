@@ -1,12 +1,12 @@
 import { Sandpack, SandpackProps } from "@codesandbox/sandpack-react";
-import { nightOwl } from "@codesandbox/sandpack-themes";
+import { sandpackDark } from "@codesandbox/sandpack-themes";
 
 type CodeEditorProps = SandpackProps;
 
 function CodeEditor(props: CodeEditorProps) {
   return (
     <Sandpack
-      theme={nightOwl}
+      theme={sandpackDark}
       options={{
         resizablePanels: false,
       }}

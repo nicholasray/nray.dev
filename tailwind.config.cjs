@@ -1,4 +1,5 @@
 const { screens } = require("./src/constants.cjs");
+const defaultTheme = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -13,6 +14,9 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
+      fontFamily: {
+        serif: ["Merriweather", ...defaultTheme.fontFamily.serif],
+      },
       transitionProperty: {
         performant: "opacity, transform",
       },

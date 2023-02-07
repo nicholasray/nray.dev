@@ -1,0 +1,25 @@
+---
+import type { MarkdownHeading } from "astro";
+import TableOfContentsList from "./TableOfContentsList.astro";
+
+interface Heading extends MarkdownHeading {
+  children: MarkdownHeading[];
+}
+
+interface Props {
+  heading: Heading;
+}
+
+const { heading } = Astro.props;
+---
+
+<li id={`toc-${heading.slug}`} class:list={[{ "pl-4": heading.depth !== 2 }]}>
+  <a class="flex py-2" href={`#${heading.slug}`}>
+    {heading.text}
+  </a>
+  {
+    heading.children.length > 0 && (
+      <TableOfContentsList headings={heading.children} />
+    )
+  }
+</li>

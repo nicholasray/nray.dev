@@ -22,6 +22,7 @@
     "@astrojs/tailwind": "3.0.1",
     "@codesandbox/sandpack-react": "1.20.8",
     "@codesandbox/sandpack-themes": "1.19.0",
+    "@fontsource/merriweather": "^4.5.14",
     "@tailwindcss/typography": "0.5.9",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",

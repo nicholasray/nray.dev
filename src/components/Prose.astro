@@ -1,5 +1,5 @@
 <div
-  class="prose-pre:shadow-inner-10 prose prose-zinc max-w-none prose-pre:mt-0 prose-pre:px-0 dark:prose-invert lg:prose-xl lg:prose-pre:mt-0 lg:prose-pre:rounded-2xl lg:prose-pre:px-0"
+  class="prose-pre:shadow-inner-10 prose prose-zinc max-w-none font-serif text-zinc-800 prose-headings:font-sans prose-headings:font-extrabold prose-headings:tracking-tight prose-pre:mt-0 prose-pre:px-0 dark:prose-invert dark:text-zinc-300/80 lg:prose-lg lg:prose-pre:mt-0 lg:prose-pre:rounded-2xl lg:prose-pre:px-0"
 >
   <slot />
 </div>
@@ -11,7 +11,7 @@
     h4,
     h5,
     h6 {
-      @apply -ml-8 pl-8 font-extrabold tracking-tight;
+      @apply -ml-8 pl-8;
 
       &:hover .heading-link {
         @apply block opacity-100;
@@ -36,7 +36,7 @@
     }
 
     [data-rehype-pretty-code-title] {
-      @apply bg-zinc-800 pt-0.5 pr-0.5 pb-0.5 pl-[calc(1rem+4px)] font-mono text-sm text-gray-400;
+      @apply bg-zinc-800 pt-0.5 pr-0.5 pb-0.5 pl-[calc(1rem+4px)] font-mono text-sm text-gray-300;
     }
 
     [data-rehype-pretty-code-fragment] {

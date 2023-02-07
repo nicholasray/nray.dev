@@ -1,0 +1,31 @@
+---
+import type { MarkdownHeading } from "astro";
+import TableOfContentsListItem from "./TableOfContentsListItem.astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+interface Heading extends MarkdownHeading {
+  children: MarkdownHeading[];
+}
+
+const headings: Heading[] = [];
+
+while (Astro.props.headings.length) {
+  const heading = Astro.props.headings.shift() as MarkdownHeading;
+  const previous = headings[headings.length - 1];
+  if (!headings.length || heading.depth <= previous.depth) {
+    headings.push({
+      children: [],
+      ...heading,
+    });
+  } else {
+    previous.children.push(heading);
+  }
+}
+---
+
+<ul>
+  {headings.map((heading) => <TableOfContentsListItem heading={heading} />)}
+</ul>
