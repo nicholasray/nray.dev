@@ -3,21 +3,91 @@ title: "How to Build Tailwind CSS Dark Mode"
 layout: "@layouts/BlogLayout.astro"
 cover:
   filename: sea-at-night.jpg
-  alt:
-    "A view of the expansive sea on a cloudy night with a bright
-    moon"
-  credit:
-    "Photo by [Kyle
-    Johnson](https://unsplash.com/photos/8Gl7Ew-q6D8)"
+  alt: "A view of the expansive sea on a cloudy night with a bright moon"
+  credit: "Photo by [Kyle Johnson](https://unsplash.com/photos/8Gl7Ew-q6D8)"
 draft: true
 description:
-  Learn step-by-step instructions on how to implement a sleek
-  dark mode theme for your website using Tailwind CSS.
+  Learn step-by-step instructions on how to implement a sleek dark mode theme
+  for your website using Tailwind CSS.
 ---
 
-Lorem ipsum:
+Have you ever visited a website in a dark room that smothers the screen in
+bright white pixels?
 
-- Change meta theme tag
+_Ouch_.
+
+Apart from being less jarring to eyes in dim settings, a website that offers
+users a dark mode option can:
+
+- [increase reading rates for people with cataract and other visual disorders](https://www.nngroup.com/articles/dark-mode/)
+- [reduce power use by 63%](https://www.techspot.com/news/77340-dark-mode-saves-lot-phone-battery-life-google.html)
+- [promote better sleep](https://www.sleepfoundation.org/bedroom-environment/blue-light)
+  from emitting less blue light, although that's
+  [debatable](https://www.eurekalert.org/news-releases/642949)
+- look more aesthetically pleasing to users
+
+In this article, you'll learn how to implement a dark mode theme using
+[Tailwind CSS](https://tailwindcss.com/), one of the most popular CSS
+frameworks. Nevertheless, many of the concepts presented in this article apply
+to any dark mode implementation.
+
+## Dark mode variant class in Tailwind CSS
+
+Tailwind CSS allows you to easily style elements using a set of utility class
+names. Adding dark mode support is no different. Simply prefix any supported
+class name with `dark:`, and that style will apply when the user has enabled
+their operating system's dark mode setting.
+
+The following example defaults to a white background with dark gray text if the
+user hasn't enabled dark mode on their operating system (shown left). If they
+have, the box will have a dark gray background with white text (shown right).
+
+<div class="md:grid md:grid-cols-2 md:gap-4">
+  <div class="rounded-lg bg-white p-4 text-gray-900 shadow-lg">Light mode</div>
+  <div class="rounded-lg bg-gray-700 p-4 text-white shadow-lg ">Dark mode</div>
+</div>
+
+```html /dark:bg-gray-900/
+<div
+  class="rounded-lg bg-white p-4 text-gray-900 shadow-lg dark:bg-gray-700 dark:text-white "
+>
+  <span class="dark:hidden">Light mode</span>
+  <span class="hidden dark:block">Dark mode</span>
+</div>
+```
+
+Try opening
+[this demo](/blog/how-to-build-tailwind-css-dark-mode/demos/dark-variant) and
+toggling your operating system's dark mode setting to activate the dark mode
+styles.
+
+If you inspect the styles of elements that have the `dark` variant prefix,
+you'll see that it adds a wrapping `prefers-color-scheme` media query to the
+underlying style so that they styles only become active when the user has
+requested it on their system:
+
+```css
+@media (prefers-color-scheme: dark) {
+  .dark\:bg-gray-700 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(55 65 81 / var(--tw-bg-opacity));
+  }
+}
+```
+
+https://color-scheme-demo.glitch.me/
+
+## Picking a good default
+
+It's tempting to think that users who prefer dark mode will flock to any toggle
+button you add to the page. But most users
+[won't bother customizing their experience](https://www.nngroup.com/articles/customization-of-uis-and-products)
+— they just want to get things done. Therefore, it's essential to have a good
+default theme.
+
+Luckily the user's operating system can provide it. The latest versions of
+Windows, MacOS, iOS, and Android operating systems all feature a dark mode
+setting that users can choose.
 
 ## Changing meta theme-color
 
