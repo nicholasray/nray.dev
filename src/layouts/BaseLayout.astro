@@ -16,6 +16,9 @@ const {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
+    <title>{title}</title>
+    <SEO description={description} {...rest} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
     <meta
       class="meta-theme"
       name="theme-color"
@@ -28,9 +31,6 @@ const {
       content="light"
       data-other="dark"
     />
-    <title>{title}</title>
-    <SEO description={description} {...rest} />
-    <link rel="icon" type="image/png" href="/favicon.png" />
     <script is:inline>
       const theme = localStorage.getItem("theme");
 
