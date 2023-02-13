@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
   <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="noindex, nofollow" />
@@ -12,15 +12,6 @@
       1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
       2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
       */
-
-      body,
-      html {
-        height: 100%;
-      }
-
-      .h-full {
-        height: 100%;
-      }
 
       *,
       ::before,
@@ -539,8 +530,16 @@
         display: none;
       }
 
+      .h-full {
+        height: 100%;
+      }
+
       .rounded-lg {
         border-radius: 0.5rem;
+      }
+
+      .bg-transparent {
+        background-color: transparent;
       }
 
       .bg-white {
@@ -592,7 +591,7 @@
       }
     </style>
   </head>
-  <body class="p-4 text-lg">
+  <body class="h-full p-4 text-lg">
     <div
       class="h-full rounded-lg bg-white p-4 text-gray-900 shadow-lg dark:bg-gray-700 dark:text-white"
     >
