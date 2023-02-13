@@ -39,17 +39,17 @@ class name with `dark:`, and that style will apply when the user has enabled
 their operating system's dark mode setting.
 
 The following example defaults to a white background with dark gray text if the
-user hasn't enabled dark mode on their operating system (shown left). If they
-have, the box will have a dark gray background with white text (shown right).
+user hasn't enabled dark mode on their operating system. If they have, the box
+will have a dark gray background with white text:
 
-<div class="md:grid md:grid-cols-2 md:gap-4">
-  <div class="rounded-lg bg-white p-4 text-gray-900 shadow-lg">Light mode</div>
-  <div class="rounded-lg bg-gray-700 p-4 text-white shadow-lg ">Dark mode</div>
-</div>
+<iframe
+  class="h-40 w-52"
+  src="/blog/how-to-build-tailwind-css-dark-mode/demos/dark-variant"
+></iframe>
 
 ```html /dark:bg-gray-900/
 <div
-  class="rounded-lg bg-white p-4 text-gray-900 shadow-lg dark:bg-gray-700 dark:text-white "
+  class="h-full rounded-lg bg-white p-4 text-gray-900 shadow-lg dark:bg-gray-700 dark:text-white"
 >
   <span class="dark:hidden">Light mode</span>
   <span class="hidden dark:block">Dark mode</span>
@@ -60,12 +60,6 @@ Try opening
 [this demo](/blog/how-to-build-tailwind-css-dark-mode/demos/dark-variant) and
 toggling your operating system's dark mode setting to activate the dark mode
 styles.
-
-<iframe
-  width="200"
-  height="200"
-  src="/blog/how-to-build-tailwind-css-dark-mode/demos/dark-variant"
-></iframe>
 
 If you inspect the styles of elements that have the `dark` variant prefix,
 you'll see that it adds a wrapping `prefers-color-scheme` media query to the
