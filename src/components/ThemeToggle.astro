@@ -72,12 +72,16 @@ import { Icon } from "astro-icon";
       document.documentElement.classList.remove("dark");
       this.toggleMeta();
       localStorage.setItem("theme", "light");
+      const event = new Event("theme-change");
+      document.documentElement.dispatchEvent(event);
     }
 
     enableDarkMode() {
       document.documentElement.classList.add("dark");
       this.toggleMeta();
       localStorage.setItem("theme", "dark");
+      const event = new Event("theme-change");
+      document.documentElement.dispatchEvent(event);
     }
   }
 

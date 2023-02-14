@@ -1,0 +1,84 @@
+---
+const { class: classNames, ...rest } = Astro.props;
+---
+
+<blog-iframe class:list={["opacity-0", classNames]}>
+  <iframe loading="lazy" {...rest}></iframe>
+</blog-iframe>
+
+<script>
+  class BlogIframe extends HTMLElement {
+    child: HTMLIFrameElement | undefined;
+    meta: HTMLMetaElement | undefined;
+    metaSelector = `meta[name="color-scheme"]`;
+
+    setMeta() {
+      const meta: HTMLMetaElement | null = document.head.querySelector(
+        this.metaSelector
+      );
+
+      if (!meta) {
+        throw new Error(
+          `Expected meta[name="color-scheme"] in the document head`
+        );
+      }
+
+      this.meta = meta;
+    }
+
+    copyColorSchemeFromParent() {
+      if (!this.child || !this.child.contentDocument || !this.meta) {
+        return;
+      }
+
+      const imported = this.child.contentDocument.importNode(this.meta);
+
+      const meta = this.child.contentDocument.head.querySelector(
+        this.metaSelector
+      );
+      if (meta) {
+        meta.remove();
+      }
+
+      this.child.contentDocument.head.appendChild(
+        this.child.contentDocument.importNode(imported)
+      );
+    }
+
+    init() {
+      if (!this.child) {
+        return;
+      }
+
+      this.setMeta();
+      this.copyColorSchemeFromParent();
+      this.classList.remove("opacity-0");
+    }
+
+    connectedCallback() {
+      this.child = this.firstElementChild as HTMLIFrameElement;
+      if (
+        this.child.contentDocument &&
+        this.child.contentDocument.readyState !== "loading" &&
+        this.child.contentDocument.location.href === this.child.src
+      ) {
+        this.init();
+      } else {
+        this.child.addEventListener("load", () => {
+          this.init();
+        });
+      }
+    }
+  }
+
+  customElements.define("blog-iframe", BlogIframe);
+
+  document.documentElement.addEventListener("theme-change", () => {
+    const nodes = document.querySelectorAll("blog-iframe");
+    nodes.forEach((node) => {
+      if (node instanceof BlogIframe) {
+        node.copyColorSchemeFromParent();
+      }
+    });
+  });
+</script>

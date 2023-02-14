@@ -11,6 +11,8 @@ description:
   for your website using Tailwind CSS.
 ---
 
+import BlogIframe from "@components/BlogIframe.astro";
+
 Have you ever visited a website in a dark room that smothers the screen in
 bright white pixels?
 
@@ -42,11 +44,10 @@ The following example defaults to a white background with dark gray text if the
 user hasn't enabled dark mode on their operating system. If they have, the box
 will have a dark gray background with white text:
 
-<iframe
+<BlogIframe
   class="h-40 w-72"
   src="/blog/how-to-build-tailwind-css-dark-mode/demos/dark-variant"
-  style="color-scheme: light dark"
-></iframe>
+/>
 
 ```html /dark:bg-gray-900/
 <div
