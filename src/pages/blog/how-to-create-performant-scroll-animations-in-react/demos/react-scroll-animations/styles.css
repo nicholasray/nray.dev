@@ -3,7 +3,7 @@ body {
   margin: 0;
 }
 
-section {
+.sp-demo {
   /* Prevent horizontal scrollbar from appearing due to translated elements. */
   overflow: hidden;
 }

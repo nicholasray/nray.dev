@@ -38,7 +38,7 @@ export default function App() {
   }
 
   return (
-    <section>
+    <section className="sp-demo">
       <div className="container">{animatables}</div>
     </section>
   );
