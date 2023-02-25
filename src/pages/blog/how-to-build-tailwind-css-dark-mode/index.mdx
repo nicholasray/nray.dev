@@ -34,8 +34,6 @@ In this article, you'll learn how to implement a dark mode theme using
 frameworks. Nevertheless, many of the concepts presented in this article apply
 to any dark mode implementation.
 
-## Enabling dark mode on your operating system
-
 ## Using the dark mode variant class in Tailwind CSS
 
 Tailwind CSS allows you to easily style elements using a set of utility class
@@ -66,8 +64,8 @@ the dark mode styles.
 
 If you inspect the styles of elements that have the `dark` variant prefix,
 you'll see that it adds a wrapping `prefers-color-scheme` media query to the
-underlying style so that they styles only become active when the user has
-requested it on their system:
+underlying style so that it only becomes active when the user has requested the
+relevant theme on their system:
 
 ```css
 @media (prefers-color-scheme: dark) {
@@ -77,6 +75,9 @@ requested it on their system:
   }
 }
 ```
+
+In the example above, the gray background color will only apply when the user
+has chosen the dark theme on their device.
 
 https://color-scheme-demo.glitch.me/
 https://drafts.csswg.org/css-color-adjust-1/#color-scheme-effect
