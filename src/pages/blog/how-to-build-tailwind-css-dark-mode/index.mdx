@@ -63,9 +63,9 @@ Try toggling your operating system's dark mode setting to activate or inactivate
 the dark mode styles.
 
 If you inspect the styles of elements that have the `dark` variant prefix,
-you'll see that it adds a wrapping `prefers-color-scheme` media query to the
-underlying style so that it only becomes active when the user has requested the
-relevant theme on their system:
+you'll see that it adds a wrapping `prefers-color-scheme` media query around the
+gray background style so that it only becomes active when the user has enabled
+dark mode on their device:
 
 ```css
 @media (prefers-color-scheme: dark) {
@@ -75,9 +75,6 @@ relevant theme on their system:
   }
 }
 ```
-
-In the example above, the gray background color will only apply when the user
-has chosen the dark theme on their device.
 
 https://color-scheme-demo.glitch.me/
 https://drafts.csswg.org/css-color-adjust-1/#color-scheme-effect
@@ -95,5 +92,3 @@ Windows, MacOS, iOS, and Android operating systems all feature a dark mode
 setting that users can choose.
 
 ## Changing meta theme-color
-
-## Creating a favicon that supports dark mode
