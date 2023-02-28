@@ -18,7 +18,7 @@ bright white pixels?
 
 _Ouch_.
 
-Apart from being
+Besides being
 [easier on the eyes](https://medium.com/dev-channel/let-there-be-darkness-maybe-9facd9c3023d),
 a website that offers a dark mode option may:
 
@@ -31,15 +31,15 @@ a website that offers a dark mode option may:
 
 In this article, you'll learn how to implement a dark mode theme using
 [Tailwind CSS](https://tailwindcss.com/), one of the most popular CSS
-frameworks. Nevertheless, many of the concepts presented in this article apply
-to any dark mode implementation.
+frameworks. Nevertheless, the concepts presented in this article apply to many
+dark mode implementations.
 
 ## Using the dark mode variant class in Tailwind CSS
 
-Tailwind CSS allows you to easily style elements using a set of utility class
-names. Adding dark mode support is no different. Simply prefix any supported
-class name with `dark:`, and that style will apply when the user has enabled
-their operating system's dark mode setting.
+Tailwind CSS allows you to easily style elements using a set of utility classes.
+Adding dark mode support is no different. Simply prefix any supported class name
+with `dark:`, and that style will apply when the user has enabled their
+operating system's dark mode setting.
 
 The following example defaults to a white background with dark gray text if the
 user hasn't enabled dark mode on their operating system. If they have, the box
@@ -62,10 +62,10 @@ will have a dark gray background with white text:
 Try toggling your operating system's dark mode setting to activate or inactivate
 the dark mode styles.
 
-If you inspect the styles of elements that have the `dark` variant prefix,
-you'll see that it adds a wrapping `prefers-color-scheme` media query around the
-gray background style so that it only becomes active when the user has enabled
-dark mode on their device:
+If you inspect the styles of the box that has the `dark` variant prefix, you'll
+see that it adds a wrapping `prefers-color-scheme` media query around the gray
+background style so that it only becomes active when the user has enabled dark
+mode on their device:
 
 ```css
 @media (prefers-color-scheme: dark) {
