@@ -24,22 +24,21 @@ a website that offers a dark mode option may:
 
 - [increase reading rates for people with cataract and other visual disorders](https://www.nngroup.com/articles/dark-mode/)
 - [reduce power use by 63% on AMOLED screens](https://www.techspot.com/news/77340-dark-mode-saves-lot-phone-battery-life-google.html)
-- [promote better sleep](https://www.sleepfoundation.org/bedroom-environment/blue-light)
-  by emitting less blue light, although that's
-  [debatable](https://www.eurekalert.org/news-releases/642949)
-- look more aesthetically pleasing to users
+- [promote better sleep by emitting less blue light](https://www.sleepfoundation.org/bedroom-environment/blue-light),
+  although [that's debatable](https://www.eurekalert.org/news-releases/642949)
+- [looks elegant and beautiful](https://medium.com/dev-channel/let-there-be-darkness-maybe-9facd9c3023d)
 
 In this article, you'll learn how to implement a dark mode theme using
-[Tailwind CSS](https://tailwindcss.com/), one of the most popular CSS
-frameworks. Nevertheless, the concepts presented in this article apply to many
-dark mode implementations.
+[Tailwind CSS](https://tailwindcss.com/), one of the most popular CSS frameworks
+at the time of this writing. Nevertheless, the concepts presented in this
+article apply to many dark mode implementations.
 
 ## Using the dark mode variant class in Tailwind CSS
 
-Tailwind CSS allows you to easily style elements using a set of utility classes.
-Adding dark mode support is no different. Simply prefix any supported class name
-with `dark:`, and that style will apply when the user has enabled their
-operating system's dark mode setting.
+Tailwind CSS allows you to easily style elements using a set of utility classes,
+and adding dark mode support is no different. Simply prefix any supported class
+name with `dark:`, and that class will only apply when the user has enabled
+their operating system's dark mode setting.
 
 The following example defaults to a white background with dark gray text if the
 user hasn't enabled dark mode on their operating system. If they have, the box
@@ -60,7 +59,7 @@ will have a dark gray background with white text:
 ```
 
 Try toggling your operating system's dark mode setting to activate or inactivate
-the dark mode styles.
+the dark mode styles above:
 
 If you inspect the styles of the box that has the `dark` variant prefix, you'll
 see that it adds a wrapping `prefers-color-scheme` media query around the gray
@@ -76,8 +75,48 @@ mode on their device:
 }
 ```
 
-https://color-scheme-demo.glitch.me/
-https://drafts.csswg.org/css-color-adjust-1/#color-scheme-effect
+## Using the 'class' strategy
+
+By default, the `dark` variant prefix relies on the device's theme setting via
+the `prefers-color-scheme` media query. But what if you wanted to add a toggle
+button to your website that allowed users to switch between themes independent
+of their system's preference? This requires toggling a `dark` class on the
+`html` element, which Tailwind calls the `class` strategy.
+
+To enable the `class` strategy, modify your `tailwind.config.js` file:
+
+```js title="tailwind.config.js"
+module.exports = {
+  // Determine whether dark mode is enabled from the `dark` class on the `html`
+  // element.
+  darkMode: "class",
+  // ...
+};
+```
+
+Next, you need to implement behavior that adds or removes the `dark` class when
+the user clicks the toggle button. A naive implementation might look like:
+
+```js
+const button = this.querySelector("button");
+button.addEventListener("click", () => {
+  // Add or remove the 'dark' class from the 'html' element.
+  document.documentElement.classList.toggle("dark");
+});
+```
+
+Easy, right? Well, there are several additional things to consider when toggling
+the theme:
+
+- There are a couple of `meta` tags that you may want to vary with the theme
+  change.
+- It would be nice if the theme change persisted — after the user toggles the
+  theme and then refreshes the page, the theme that they toggled should still be
+  active.
+
+## Meta tags: `theme-color` and `color-scheme` meta tags
+
+## Theme persistence: making the theme stick
 
 ## Picking a good default
 

@@ -25,14 +25,12 @@ import { Icon } from "astro-icon";
       super();
 
       this.handleSystemChange = this.handleSystemChange.bind(this);
-
       this.metaTags = document.head.querySelectorAll(
         ".meta-theme"
       ) as NodeListOf<HTMLMetaElement>;
-      const button = this.querySelector("button") as HTMLElement;
-      const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
 
       // Handle system theme changes.
+      const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
       if (mediaQueryList.addEventListener) {
         mediaQueryList.addEventListener("change", this.handleSystemChange);
       } else {
@@ -40,6 +38,7 @@ import { Icon } from "astro-icon";
       }
 
       // Handle theme toggle button clicks.
+      const button = this.querySelector("button") as HTMLElement;
       button.addEventListener("click", () => {
         const isDark = document.documentElement.classList.contains("dark");
 
@@ -68,20 +67,27 @@ import { Icon } from "astro-icon";
       }
     }
 
+    dispatchThemeChangeEvent() {
+      const event = new Event("theme-change");
+      document.documentElement.dispatchEvent(event);
+    }
+
+    persistTheme(theme: "light" | "dark") {
+      localStorage.setItem("theme", theme);
+    }
+
     enableLightMode() {
       document.documentElement.classList.remove("dark");
       this.toggleMeta();
-      localStorage.setItem("theme", "light");
-      const event = new Event("theme-change");
-      document.documentElement.dispatchEvent(event);
+      this.persistTheme("light");
+      this.dispatchThemeChangeEvent();
     }
 
     enableDarkMode() {
       document.documentElement.classList.add("dark");
       this.toggleMeta();
-      localStorage.setItem("theme", "dark");
-      const event = new Event("theme-change");
-      document.documentElement.dispatchEvent(event);
+      this.persistTheme("dark");
+      this.dispatchThemeChangeEvent();
     }
   }
 
