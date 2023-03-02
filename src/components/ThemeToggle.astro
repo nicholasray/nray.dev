@@ -60,8 +60,8 @@ import { Icon } from "astro-icon";
 
     toggleMeta() {
       for (var i = 0; i < this.metaTags.length; i++) {
-        var meta = this.metaTags[i];
-        var other = meta.dataset.other;
+        const meta = this.metaTags[i];
+        const other = meta.dataset.other;
         meta.dataset.other = meta.content!;
         meta.content = other!;
       }
