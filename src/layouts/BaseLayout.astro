@@ -1,12 +1,11 @@
 ---
 import { SEO, Props as SeoProps } from "astro-seo";
-import "@fontsource/merriweather";
-import "@fontsource/merriweather/700.css";
 
 export interface Props extends SeoProps {}
 const {
   title = "Nicholas Ray",
   description = "Learn how to build better products. Articles for web developers.",
+  preloadFonts = false,
   ...rest
 } = Astro.props;
 ---
@@ -14,6 +13,7 @@ const {
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <slot name="after-head" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <title>{title}</title>
@@ -31,6 +31,26 @@ const {
       content="light"
       data-other="dark"
     />
+    {
+      preloadFonts && (
+        <>
+          <link
+            as="font"
+            crossorigin="anonymous"
+            href="/fonts/merriweather/400.woff2"
+            rel="preload"
+            type="font/woff2"
+          />
+          <link
+            as="font"
+            crossorigin="anonymous"
+            href="/fonts/merriweather/700.woff2"
+            rel="preload"
+            type="font/woff2"
+          />
+        </>
+      )
+    }
     <script is:inline>
       var theme = localStorage.getItem("theme");
 
