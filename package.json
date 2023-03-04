@@ -20,12 +20,12 @@
     "@astrojs/mdx": "0.17.2",
     "@astrojs/react": "2.0.2",
     "@astrojs/tailwind": "3.0.1",
-    "@codesandbox/sandpack-react": "2.0.23",
+    "@codesandbox/sandpack-react": "2.0.27",
     "@codesandbox/sandpack-themes": "2.0.21",
     "@tailwindcss/typography": "0.5.9",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",
-    "astro": "2.0.16",
+    "astro": "2.0.17",
     "astro-icon": "0.8.0",
     "astro-seo": "0.7.1",
     "clsx": "1.2.1",
@@ -33,7 +33,7 @@
     "heroicons": "2.0.16",
     "install": "0.13.0",
     "mdast-util-to-string": "3.1.1",
-    "npm": "9.5.1",
+    "npm": "9.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "reading-time": "1.5.0",
@@ -54,6 +54,6 @@
     "pre-commit": "1.2.2",
     "prettier": "2.8.4",
     "prettier-plugin-astro": "0.8.0",
-    "prettier-plugin-tailwindcss": "0.2.3"
+    "prettier-plugin-tailwindcss": "0.2.4"
   }
 }
