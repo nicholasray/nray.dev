@@ -69,6 +69,8 @@ export default defineConfig({
   integrations: [
     react(),
     tailwind(),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     mdx(),
     image({
       serviceEntryPoint: "@astrojs/image/sharp",
