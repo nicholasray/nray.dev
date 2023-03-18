@@ -23,7 +23,7 @@ a website that offers a dark mode option may:
 - [increase reading rates for people with cataract and other visual disorders](https://www.nngroup.com/articles/dark-mode/)
 - [reduce power use by 63% on AMOLED screens](https://www.techspot.com/news/77340-dark-mode-saves-lot-phone-battery-life-google.html)
 - [promote better sleep by emitting less blue light](https://www.sleepfoundation.org/bedroom-environment/blue-light),
-  although [that's debatable](https://www.eurekalert.org/news-releases/642949)
+  although [it's debatable](https://www.eurekalert.org/news-releases/642949)
 - [looks elegant and beautiful](https://medium.com/dev-channel/let-there-be-darkness-maybe-9facd9c3023d)
 
 In this article, you'll learn how to implement a dark mode theme using
@@ -106,7 +106,7 @@ the user clicks the toggle button. A naive implementation might look like the
 following:
 
 ```js
-const button = this.querySelector("button");
+const button = document.querySelector("button");
 button.addEventListener("click", () => {
   // Add or remove the 'dark' class from the 'html' element.
   document.documentElement.classList.toggle("dark");
@@ -256,8 +256,8 @@ In the example above, the button's "Dark" label is shown when light mode is
 active. The `dark:hidden` class is used to hide the "Dark" label when dark mode
 is active and instead show the "Light" label with the `dark:block` class.
 
-Now, we need some JavaScript that makes clicks to the button toggle the `dark`
-class on the `html` element:
+Now, we need JavaScript to handle clicks to the toggle button. When the button
+is clicked, the `dark` class should be added to the `html` element:
 
 ```js
 function enableLightMode() {
@@ -268,19 +268,29 @@ function enableDarkMode() {
   document.documentElement.classList.add("dark");
 }
 
-const button = this.querySelector("button");
-button.addEventListener("click", () => {
-  const isDark = document.documentElement.classList.contains("dark");
+function bindButtonListener() {
+  // Bind button click listener.
+  const button = document.querySelector("button");
+  button.addEventListener("click", () => {
+    const isDark = document.documentElement.classList.contains("dark");
 
-  if (isDark) {
-    this.enableLightMode();
-  } else {
-    this.enableDarkMode();
-  }
-});
+    if (isDark) {
+      enableLightMode();
+    } else {
+      enableDarkMode();
+    }
+  });
+}
+
+function init() {
+  bindButtonListener();
+}
+
+init();
 ```
 
-We can also add persistence:
+The next step is adding persistence so that the theme remains after reloading or
+going to a new page:
 
 ```js {1-3, 7, 12}
 function persistTheme(theme) {
@@ -289,22 +299,25 @@ function persistTheme(theme) {
 
 function enableLightMode() {
   document.documentElement.classList.remove("dark");
-  this.persistTheme("light");
+  persistTheme("light");
 }
 
 function enableDarkMode() {
   document.documentElement.classList.add("dark");
-  this.persistTheme("dark");
+  persistTheme("dark");
 }
 ```
 
-And toggle the meta tags:
+As we did in the `<head>`, we use `localStorage` for persistence. But instead of
+retrieving the theme from `localStoarge`, we save it.
 
-```js {1-8, 13, 19}
+We can also toggle the meta tags that we added to the `<head>`:
+
+```js {1-9, 14, 20}
 function toggleMeta() {
   const metaTags = document.head.querySelectorAll(".meta-theme");
-  for (var i = 0; i < this.metaTags.length; i++) {
-    const meta = this.metaTags[i];
+  for (var i = 0; i < metaTags.length; i++) {
+    const meta = metaTags[i];
     const other = meta.dataset.other;
     meta.dataset.other = meta.content;
     meta.content = other;
@@ -313,37 +326,48 @@ function toggleMeta() {
 
 function enableLightMode() {
   document.documentElement.classList.remove("dark");
-  this.persistTheme("light");
-  this.toggleMeta();
+  persistTheme("light");
+  toggleMeta();
 }
 
 function enableDarkMode() {
   document.documentElement.classList.add("dark");
-  this.persistTheme("dark");
-  this.toggleMeta();
+  persistTheme("dark");
+  toggleMeta();
 }
 ```
 
-Finally, it would cool if the website's theme color changed when the user
+Finally, it would be nice if the website's theme color changed when the user
 changed their system's theme color. We can do that by using the
 [`matchMedia`](/blog/using-media-queries-in-javascript) API
 
-```js
+```js {1-21, 25}
 function handleSystemChange(e) {
   if (e.matches) {
     // User has enabled their system's dark mode setting.
-    this.enableDarkMode();
+    enableDarkMode();
   } else {
     // User has enabled their system's light mode setting.
-    this.enableLightMode();
+    enableLightMode();
   }
 }
 
-// Handle system theme changes.
-const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
-if (mediaQueryList.addEventListener) {
-  mediaQueryList.addEventListener("change", this.handleSystemChange);
-} else {
-  mediaQueryList.addListener(this.handleSystemChange);
+function bindMediaQueryListener() {
+  // Handle system theme changes.
+  const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
+  if (mediaQueryList.addEventListener) {
+    mediaQueryList.addEventListener("change", handleSystemChange);
+  } else {
+    // In Safari versions < 14, the `addEventListener` API is not available, so
+    // use `addListener` method instead.
+    mediaQueryList.addListener(handleSystemChange);
+  }
 }
+
+function init() {
+  bindButtonListener();
+  bindMediaQueryListener();
+}
+
+init();
 ```
