@@ -20,7 +20,7 @@
     "@astrojs/mdx": "0.18.1",
     "@astrojs/react": "2.1.0",
     "@astrojs/tailwind": "3.1.1",
-    "@codesandbox/sandpack-react": "2.1.7",
+    "@codesandbox/sandpack-react": "2.1.9",
     "@codesandbox/sandpack-themes": "2.0.21",
     "@tailwindcss/typography": "0.5.9",
     "@types/react": "18.0.28",
@@ -33,7 +33,7 @@
     "heroicons": "2.0.16",
     "install": "0.13.0",
     "mdast-util-to-string": "3.1.1",
-    "npm": "9.6.1",
+    "npm": "9.6.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "reading-time": "1.5.0",
@@ -48,12 +48,12 @@
     "@typescript-eslint/eslint-plugin": "5.55.0",
     "@typescript-eslint/parser": "5.55.0",
     "eslint": "8.36.0",
-    "eslint-plugin-astro": "0.24.0",
+    "eslint-plugin-astro": "0.26.0",
     "eslint-plugin-jsx-a11y": "6.7.1",
     "eslint-plugin-react-hooks": "4.6.0",
     "pre-commit": "1.2.2",
     "prettier": "2.8.4",
     "prettier-plugin-astro": "0.8.0",
-    "prettier-plugin-tailwindcss": "0.2.4"
+    "prettier-plugin-tailwindcss": "0.2.5"
   }
 }
