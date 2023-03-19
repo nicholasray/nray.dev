@@ -12,6 +12,8 @@ description:
 ---
 
 import BlogIframe from "@components/BlogIframe.astro";
+import Image from "@components/BlogImage.astro";
+import Video from "@components/BlogVideo.astro";
 
 Have you ever visited a website in a dark room that smothers the screen in
 bright white pixels?
@@ -24,12 +26,12 @@ a website that offers a dark mode option may:
 - [reduce power use by 63% on AMOLED screens](https://www.techspot.com/news/77340-dark-mode-saves-lot-phone-battery-life-google.html)
 - [promote better sleep by emitting less blue light](https://www.sleepfoundation.org/bedroom-environment/blue-light),
   although [it's debatable](https://www.eurekalert.org/news-releases/642949)
-- [looks elegant and beautiful](https://medium.com/dev-channel/let-there-be-darkness-maybe-9facd9c3023d)
+- [look elegant and beautiful](https://medium.com/dev-channel/let-there-be-darkness-maybe-9facd9c3023d)
 
 In this article, you'll learn how to implement a dark mode theme using
 [Tailwind CSS](https://tailwindcss.com/), one of the most popular CSS frameworks
-at the time of this writing. Nevertheless, the concepts presented here apply to
-many dark mode implementations.
+at the time of this writing. Nevertheless, many of the concepts presented here
+can apply to other dark mode implementations.
 
 ## Using the dark mode variant class in Tailwind CSS
 
@@ -56,10 +58,32 @@ will have a dark gray background with white text:
 </div>
 ```
 
-If you inspect the styles of the `<div>` above, you'll see that the `dark:`
-prefix adds a wrapping `prefers-color-scheme` media query around the
-`background-color` property so that it only becomes active when the user has
-enabled dark mode on their device:
+Switching between dark mode and light mode on your operating system changes the
+website's theme as well:
+
+import macAppearancePanel from "./assets/mac-os-appearance-panel.mp4";
+
+<Video
+  description="Video showing that switching to dark mode on MacOS makes the example box have a dark background color. Switching to light mode makes the example box makes the example box have a light background color."
+  width="1818"
+  height="1080"
+  src={macAppearancePanel}
+/>
+
+How does this happen?
+
+If you inspect the styles of the `<div>` above when dark mode is active, you'll
+see that the `dark:` prefix adds a wrapping `prefers-color-scheme` media query
+around the `background-color` and `color` properties, so that the styles only
+become active when the user has enabled dark mode on their device:
+
+import prefersMediaQuery from "./assets/prefers-color-scheme-media-query.png";
+
+<Image
+  class="shadow-xl"
+  src={prefersMediaQuery}
+  alt="Prefers media query screenshot"
+/>
 
 ```css
 /** default or light mode styles */
@@ -80,15 +104,16 @@ their system
 }
 ```
 
+By default, the `dark` variant prefix relies on the device's theme setting via
+the `prefers-color-scheme` media query. But what if you wanted to add a toggle
+button to your website that allowed users to switch between themes independent
+of their system's preference?
+
 ## Using the 'class' strategy
 
-By default, the `dark` variant prefix relies on the device's theme setting via
-the `prefers-color-scheme` media query.
-
-But what if you wanted to add a toggle button to your website that allowed users
-to switch between themes independent of their system's preference? Instead, you
-can toggle a `dark` class on the `html` element when the user toggles the theme.
-Tailwind calls this the `class` strategy.
+In order to enable the user to switch themes using a toggle on your website, you
+need to toggle a `dark` class on the `html` element. Tailwind calls this the
+`class` strategy.
 
 To enable the `class` strategy, modify your `tailwind.config.js` file:
 
@@ -151,7 +176,7 @@ and block the browser from parsing HTML. This is usually undesirable from a
 performance perspective, but advantageous in this case because we don't _want_
 the browser to render anything until we know which theme the website uses:
 
-```html
+```html title="index.html"
 <!DOCTYPE html>
 <html>
   <head>
@@ -175,7 +200,7 @@ button you add to the page. But most users
 sensible default. We can default to the system's color theme if the user hasn't
 used the website's toggle button:
 
-```html {8}
+```html {8} title="index.html"
     <script>
       // Check if the user has previously toggled the theme.
       var theme = localStorage.getItem("theme");
@@ -194,7 +219,7 @@ used the website's toggle button:
 
 We can also add and toggle the `<meta>` tags discussed previously here:
 
-```html {4-15, 25-33}
+```html {4-15, 25-33} title="index.html"
 <!DOCTYPE html>
 <html>
   <head>
@@ -243,7 +268,7 @@ We can also add and toggle the `<meta>` tags discussed previously here:
 Now let's focus on building the actual toggle. We'll start a minimal toggle
 button:
 
-```html
+```html title="index.html"
 <button
   class="theme-toggle block rounded-full p-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:hover:text-white"
 >
@@ -259,7 +284,7 @@ is active and instead show the "Light" label with the `dark:block` class.
 Now, we need JavaScript to handle clicks to the toggle button. When the button
 is clicked, the `dark` class should be added to the `html` element:
 
-```js
+```js title="script.js"
 function enableLightMode() {
   document.documentElement.classList.remove("dark");
 }
@@ -292,7 +317,7 @@ init();
 The next step is adding persistence so that the theme remains after reloading or
 going to a new page:
 
-```js {1-3, 7, 12}
+```js {1-3, 7, 12} title="script.js"
 function persistTheme(theme) {
   localStorage.setItem("theme", theme);
 }
@@ -313,7 +338,7 @@ retrieving the theme from `localStoarge`, we save it.
 
 We can also toggle the meta tags that we added to the `<head>`:
 
-```js {1-9, 14, 20}
+```js {1-9, 14, 20} title="script.js"
 function toggleMeta() {
   const metaTags = document.head.querySelectorAll(".meta-theme");
   for (var i = 0; i < metaTags.length; i++) {
@@ -341,7 +366,7 @@ Finally, it would be nice if the website's theme color changed when the user
 changed their system's theme color. We can do that by using the
 [`matchMedia`](/blog/using-media-queries-in-javascript) API
 
-```js {1-21, 25}
+```js {1-21, 25} title="script.js"
 function handleSystemChange(e) {
   if (e.matches) {
     // User has enabled their system's dark mode setting.
@@ -371,3 +396,6 @@ function init() {
 
 init();
 ```
+
+Check out the
+[full demo](https://codesandbox.io/p/sandbox/nray-dev-how-to-build-tailwind-css-dark-mode-rl20n9?file=%2Fscript.js).
