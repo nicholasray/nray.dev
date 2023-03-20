@@ -20,7 +20,7 @@
     "@astrojs/mdx": "0.18.1",
     "@astrojs/react": "2.1.0",
     "@astrojs/tailwind": "3.1.1",
-    "@codesandbox/sandpack-react": "2.1.9",
+    "@codesandbox/sandpack-react": "2.0.29",
     "@codesandbox/sandpack-themes": "2.0.21",
     "@tailwindcss/typography": "0.5.9",
     "@types/react": "18.0.28",
