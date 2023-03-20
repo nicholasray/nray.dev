@@ -189,11 +189,12 @@ either use a `cookie` or `localstorage`, but `localstorage` is commonly used.
 
 To avoid a
 [flash of unstyled content](https://en.wikipedia.org/wiki/Flash_of_unstyled_content),
-add an inline script in the `<head>`. Why? Inline scripts are
-[render-blocking](https://developers.google.com/speed/docs/insights/BlockingJS)
-and block the browser from parsing HTML. This is usually undesirable from a
-performance perspective, but advantageous in this case because we don't _want_
-the browser to render anything until we know which theme the website uses:
+add an inline script in the `<head>`. Why? Inline scripts block the browser from
+parsing more HTML and are
+[render-blocking](https://developers.google.com/speed/docs/insights/BlockingJS).
+This is usually undesirable from a performance perspective, but advantageous in
+this case because we don't _want_ the browser to render anything until we know
+which theme the website uses:
 
 ```html title="index.html"
 <!DOCTYPE html>
@@ -216,8 +217,8 @@ It's tempting to think that users who prefer dark mode will flock to any theme
 button you add to the page. But most users
 [won't bother customizing their experience](https://www.nngroup.com/articles/customization-of-uis-and-products)
 — they just want to get things done. Therefore, it's essential to have a
-sensible default. We can default to the system's color theme if the user hasn't
-used the website's toggle button:
+sensible default. We can use the system's color theme as a default if the user
+hasn't used the website's toggle button:
 
 ```html {8} title="index.html"
     <script>
@@ -236,7 +237,8 @@ used the website's toggle button:
     ...
 ```
 
-We can also add and toggle the `<meta>` tags discussed previously here:
+We can also add and toggle the theme-relevant `<meta>` tags discussed previously
+here:
 
 ```html {4-15, 25-33} title="index.html"
 <!DOCTYPE html>
@@ -415,6 +417,18 @@ function init() {
 
 init();
 ```
+
+You should now have a theme toggle that looks like the following:
+
+import darkModeToggleWebM from "./assets/dark-mode-toggle.webm";
+import darkModeToggleMp4 from "./assets/dark-mode-toggle.mp4";
+
+<Video
+  description="Video showing that switching to dark mode and light mode by using the toggle developed from this tutorial."
+  width="1000"
+  height="952"
+  src={[darkModeToggleWebM, darkModeToggleMp4]}
+/>
 
 Check out the
 [full demo](https://codesandbox.io/p/sandbox/nray-dev-how-to-build-tailwind-css-dark-mode-rl20n9?file=%2Fscript.js).
