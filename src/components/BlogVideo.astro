@@ -1,14 +1,14 @@
 ---
 interface Props {
   description: string;
-  src: string;
+  src: [string];
   width: string;
   height: string;
   caption: string;
 }
 
 const { src, width, height, caption, description } = Astro.props;
-const descId = `video-${src.split("/").pop()!.split(".").shift()}`;
+const descId = `video-${src[0].split("/").pop()!.split(".").shift()}`;
 ---
 
 <figure>
@@ -26,7 +26,12 @@ const descId = `video-${src.split("/").pop()!.split(".").shift()}`;
     preload="metadata"
     autoplay
   >
-    <source data-src={src} type="video/mp4" />
+    {
+      src.map((srcStr) => {
+        const ext = srcStr.split(".").pop();
+        return <source data-src={srcStr} type={`video/${ext}`} />;
+      })
+    }
   </video>
   {caption && <figcaption>{caption}</figcaption>}
   <p class="sr-only" id={descId}>{description}</p>
