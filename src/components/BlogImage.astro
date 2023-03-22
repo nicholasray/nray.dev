@@ -5,16 +5,18 @@ interface Props {
   src: ImageMetadata;
   alt: string;
   caption?: string;
+  shadow?: boolean;
 }
 
-const { src, alt, caption, ...props } = Astro.props;
+const { src, alt, caption, shadow, ...props } = Astro.props;
 ---
 
 <figure>
   <a href={src.src}>
     <Picture
       alt={alt}
-      class="w-full rounded-lg"
+      class:list={["w-full rounded-2xl", { "shadow-xl": shadow }]}
+      class="w-full rounded-2xl"
       src={src}
       width={src.width}
       height={src.height}
