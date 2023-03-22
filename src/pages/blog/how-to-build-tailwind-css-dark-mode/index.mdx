@@ -62,7 +62,7 @@ will have a dark gray background with white text:
 ```
 
 Switching between dark mode and light mode on your operating system changes the
-website's theme as well:
+website's theme:
 
 import macAppearancePanelWebM from "./assets/mac-os-appearance-panel.webm";
 import macAppearancePanelMp4 from "./assets/mac-os-appearance-panel.mp4";
@@ -77,7 +77,7 @@ import macAppearancePanelMp4 from "./assets/mac-os-appearance-panel.mp4";
 How does this happen?
 
 Inspect the styles of the `<div>` above when dark mode is active. You'll see
-that the `dark:` prefix adds a wrapping `prefers-color-scheme` media query
+that the `dark:` prefix adds a `prefers-color-scheme` media query that wraps
 around the `background-color` and `color` properties, so that the styles only
 become active when the user has enabled dark mode on their device:
 
@@ -104,18 +104,19 @@ their system
 }
 ```
 
-By default, the `dark` variant prefix relies on the device's theme setting via
-the `prefers-color-scheme` media query. But what if you wanted to add a toggle
+By default, the `dark:` prefix relies on the device's theme setting via the
+`prefers-color-scheme` media query. But what if you wanted to add a toggle
 button to your website that allowed users to switch between themes independent
 of their system's preference?
 
 ## Using the 'class' strategy
 
 To enable the user to switch themes using a toggle on your website, you need to
-toggle a `dark` class on the `html` element. Tailwind calls this the `class`
-strategy.
+toggle a `dark` class on the `html` element when the user has clicked a toggle.
+Tailwind calls this the `class` strategy.
 
-To enable the `class` strategy, modify your `tailwind.config.js` file:
+To enable the `class` strategy, modify your `tailwind.config.js` file as
+follows:
 
 ```js title="tailwind.config.js"
 module.exports = {
@@ -145,7 +146,8 @@ the theme.
 
 Adding a dark mode toggle to your website won't affect the surrounding color of
 the browser's user interface. But there is a `<meta>` tag that can help with
-that. The `theme-color` meta tag suggests the color that browsers should use:
+that. The `theme-color` meta tag suggests the color that browsers should use and
+can make your website's theme look more consistent:
 
 ```html
 <meta name="theme-color" content="#4285f4" />
@@ -175,7 +177,7 @@ import metaColorScheme from "./assets/meta-color-scheme.png";
 <Image
   src={metaColorScheme}
   alt="Side-by-side comparison of the site with meta color-scheme tag vs. site without meta color-scheme tag. Using the meta color-scheme tag applies a lighter blue color to the checkboxes."
-  caption="Adding a `color-scheme` meta tag changes the default color of form controls like checkboxes."
+  caption="Adding a `color-scheme` meta tag changes the default color of form controls like checkboxes to a color better suited for dark mode."
   shadow
 />
 
