@@ -1,8 +1,8 @@
 ---
 import Article from "@components/Article.astro";
 import Layout from "@layouts/Layout.astro";
-import { getPosts } from "src/api";
-import type { PostFrontmatter } from "src/types";
+import { getPosts } from "@src/api";
+import type { PostFrontmatter } from "@src/types";
 
 const posts = await getPosts(
   await Astro.glob<PostFrontmatter>("./**/index.mdx")

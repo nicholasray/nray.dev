@@ -4,8 +4,8 @@ import Layout from "@layouts/Layout.astro";
 import avatar from "@assets/images/avatar.jpg";
 import { Icon } from "astro-icon";
 import ArticleFooter from "@components/ArticleFooter.astro";
-import type { PostFrontmatter } from "src/types";
-import { getPosts } from "src/api";
+import type { PostFrontmatter } from "@src/types";
+import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
 
 const posts = await getPosts(
@@ -45,7 +45,7 @@ const restOfPosts = posts.slice(1);
           >
             <Picture
               background={undefined}
-              class="w-full rounded-3xl h-80 md:h-[34rem] object-cover md:shadow-xl"
+              class="h-80 w-full rounded-3xl object-cover md:h-[34rem] md:shadow-xl"
               loading="eager"
               alt={featured.frontmatter.cover.alt}
               src={featured.frontmatter.cover.src}
@@ -96,19 +96,19 @@ const restOfPosts = posts.slice(1);
         <div
           class="flex items-center justify-between text-zinc-400 dark:text-zinc-700"
         >
-          <Icon class="w-12 h-12" name="typescript" />
-          <Icon class="w-12 h-12" name="js" />
-          <Icon class="w-12 h-12" name="node" />
-          <Icon class="w-12 h-12" name="html" />
-          <Icon class="w-12 h-12" name="css" />
-          <Icon class="w-12 h-12" name="react" />
+          <Icon class="h-12 w-12" name="typescript" />
+          <Icon class="h-12 w-12" name="js" />
+          <Icon class="h-12 w-12" name="node" />
+          <Icon class="h-12 w-12" name="html" />
+          <Icon class="h-12 w-12" name="css" />
+          <Icon class="h-12 w-12" name="react" />
         </div>
         <div class="mt-8 md:mt-20">
           <div
             class="flex max-w-5xl flex-col items-center gap-8 md:flex md:flex-row md:items-center md:gap-16"
           >
             <Image
-              class="w-[100px] flex-shrink-0 md:w-[120px] rounded-full border-4 border-zinc-600 dark:border-zinc-300"
+              class="w-[100px] flex-shrink-0 rounded-full border-4 border-zinc-600 dark:border-zinc-300 md:w-[120px]"
               src={avatar}
               width={240}
               alt="Avatar of Nicholas Ray"

@@ -227,7 +227,7 @@ intersection observer entry which will be `null` when the component first
 renders. Finally, a `ref` stores whether the callback has already been triggered
 while the element intersected.
 
-```ts showLineNumbers title="useIntersectionObserver.ts" {7-12}
+```ts showLineNumbers title="useIntersectionObserver.ts" {7-11}
 function useIntersectionObserver({
   root = null,
   rootMargin = "0%",
@@ -253,7 +253,7 @@ changes will trigger the callback. We return a cleanup function from the effect
 that will run when any of the dependencies passed as a second argument to
 `useEffect` changes or if the component unmounts.
 
-```ts showLineNumbers title="useIntersectionObserver.ts" {12-60}
+```ts showLineNumbers title="useIntersectionObserver.ts" {12-49}
 function useIntersectionObserver({
   root = null,
   rootMargin = "0%",
@@ -420,10 +420,6 @@ only enable the animation if the viewport exceeds a minimum width.
 }
 ```
 
-Your result should now be similar to the demo below. Keep in mind that you won't
-see the animation if your viewport is less than 640px due to the media query
-styles we set.
-
-import ScrollDemo from "./ScrollDemo";
-
-<ScrollDemo client:visible />
+Check out the [demo](https://codesandbox.io/s/tender-river-k6rn1w), but keep in
+mind that you won't see the animation if your viewport is less than 640px due to
+the media query styles that we added above.
