@@ -17,7 +17,6 @@
   ],
   "dependencies": {
     "@astrojs/image": "0.16.1",
-    "@astrojs/markdown-remark": "^2.1.2",
     "@astrojs/mdx": "0.18.2",
     "@astrojs/react": "2.1.0",
     "@astrojs/tailwind": "3.1.1",
