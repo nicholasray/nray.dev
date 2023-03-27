@@ -302,12 +302,12 @@ for a minimal toggle button:
 </button>
 ```
 
-The example above shows the button's "Dark" label when light mode is active.
-When dark mode is active, the "Light" label is shown by the `dark:block` class,
-while the "Dark" label is hidden by the `dark:hidden` class.
+The button's "Dark" label is shown when light mode is active. When dark mode is
+enabled, the "Light" label is shown by the `dark:block` class, while the
+`dark:hidden` class hides the "Dark" label.
 
-Now, we need JavaScript to handle clicks to the toggle button. When the button
-is clicked, the `dark` class should be added to the `html` element:
+Now we need JavaScript to handle clicks to the toggle button. When the user
+clicks the button, we should add the `dark` class to the `html` element:
 
 ```js title="script.js"
 function enableLightMode() {
@@ -339,8 +339,8 @@ function init() {
 init();
 ```
 
-The next step is adding persistence so that the theme remains after reloading or
-going to a new page:
+The next step is adding persistence so that the user's selected theme stays
+after reloading the page or going to a new page:
 
 ```js {1-3, 7, 12} title="script.js"
 function persistTheme(theme) {
@@ -358,8 +358,8 @@ function enableDarkMode() {
 }
 ```
 
-As we did in the `<head>`, we use `localStorage` for persistence. But instead of
-retrieving the theme from `localStoarge`, we save it.
+Like in the `<head>`, we use `localStorage` to handle persistence. But instead
+of retrieving the theme from `localStorage`, we save it.
 
 We can also toggle the meta tags that we added to the `<head>`:
 
@@ -422,14 +422,14 @@ function init() {
 init();
 ```
 
-You should now have a dark mode toggle that is functionally similar to the
-following demo:
+After following these steps, you should now have a dark mode toggle that is
+functionally similar to the following demo:
 
 import darkModeToggleWebM from "./assets/dark-mode-toggle.webm";
 import darkModeToggleMp4 from "./assets/dark-mode-toggle.mp4";
 
 <Video
-  description="Video showing that switching to dark mode and light mode by using the toggle developed from this tutorial."
+  description="Video showing switching between dark and light modes by using the toggle developed from this tutorial."
   width="1000"
   height="952"
   src={[darkModeToggleWebM, darkModeToggleMp4]}
