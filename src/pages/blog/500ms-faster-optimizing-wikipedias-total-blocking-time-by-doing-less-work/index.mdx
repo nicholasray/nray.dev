@@ -1,0 +1,40 @@
+---
+title:
+  "500ms Faster: Optimizing Wikipedia's Total Blocking Time by Doing Less Work"
+layout: "@layouts/BlogLayout.astro"
+cover:
+  filename: "mobile-phone-orange-background.jpg"
+  alt:
+    "Mobile phone on orange background with plant, pen, and graph paper laying
+    next to it"
+  credit: "Photo by [@shambam](https://unsplash.com/photos/N47bbEPuuWw)"
+description:
+  "Discover the simple steps I followed to improve the responsiveness of
+  Wikipedia's mobile site"
+draft: true
+---
+
+Have you ever visited a website that took forever to respond to your clicks or
+suffered from choppy scrolling when using your mobile device? It probably wasn't
+a pleasant experience. You may have even started
+[rage clicking](https://addyosmani.com/blog/usability/). Website performance can
+make or break a user's experience.
+
+For more than four years, Wikipedia's mobile site had a piece of JavaScript that
+would take around [800ms to execute](https://phabricator.wikimedia.org/T241139)
+on lower-end devices visiting large pages like the
+["Barack Obama"](https://en.m.wikipedia.org/wiki/Barack_Obama) article.
+
+While 800ms may sound like a small amount of time, imagine if the user tried to
+click on something at the beginning of this execution. Because JavaScript is
+single-threaded, it would take at least this long before the browser is able to
+respond to that interaction with a visual update. What's more, the user can
+perceive this slowdown since it is longer than the
+[recommended 100ms response time for user interactions](https://web.dev/rail/#response-process-events-in-under-50ms).
+
+Truth be told, Google considers anything that takes longer than 50ms on the
+browser's
+[main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread) to
+be a "long task".
+
+## Step 1: Do less work
