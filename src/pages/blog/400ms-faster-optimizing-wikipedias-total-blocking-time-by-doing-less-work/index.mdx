@@ -17,25 +17,32 @@ draft: true
 Have you ever visited a website that took forever to respond to your clicks or
 suffered from choppy scrolling when using your mobile device? It probably wasn't
 a pleasant experience. You may have even started
-[rage clicking](https://addyosmani.com/blog/usability/). Needless to say,
-website performance can make or break a user's experience.
+[rage clicking](https://addyosmani.com/blog/usability/). Performance flaws like
+these can make or break a user's experience.
 
 For more than three years, Wikipedia's mobile site had a piece of JavaScript
-that would take around
-[800ms to execute](https://phabricator.wikimedia.org/T241139) on lower-end
-devices visiting large pages like the
+that could take around
+[700ms to execute](https://phabricator.wikimedia.org/T241139) during page load
+on lower-end devices visiting large pages like the
 ["Barack Obama"](https://en.m.wikipedia.org/wiki/Barack_Obama) article.
 
-While 800ms may sound like a small amount of time, imagine if the user tried to
-click on something at the beginning of this execution. Because JavaScript is
-single-threaded, it would take at least this long before the browser is able to
-respond to that interaction with a visual update. What's more, the user can
-perceive this slowdown since it is longer than the
+In this article, we'll walk through a couple easy steps I took to improve the
+responsiveness of Wikipedia's mobile site.
+
+# What's the big deal?
+
+700ms may not sound like a large amount of time, but imagine if a user tried to
+click on something when this JavaScript was beginning to execute. Because
+JavaScript is single-threaded, the user would need to wait at least this amount
+of time before the browser could respond to that interaction with a visual
+update. And users _can_ perceive this slowdown since it is longer than the
 [recommended 100ms response time for user interactions](https://web.dev/rail/#response-process-events-in-under-50ms).
 
-Truth be told, Google considers anything that takes longer than 50ms on the
-browser's
-[main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread) to
-be a "long task".
+In fact, Google considers anything on the browser's
+[main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread)
+that takes
+[longer than 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread)
+to be a "long task" that can affect responsiveness. They even have a metric for
+this called "Total Blocking Time" which measures
 
 ## Step 1: Do less work
