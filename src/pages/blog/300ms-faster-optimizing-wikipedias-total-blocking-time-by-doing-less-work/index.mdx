@@ -1,6 +1,6 @@
 ---
 title:
-  "400ms Faster: Optimizing Wikipedia's Total Blocking Time by Doing Less Work"
+  "300ms Faster: Optimizing Wikipedia's Total Blocking Time by Doing Less Work"
 layout: "@layouts/BlogLayout.astro"
 cover:
   filename: "mobile-phone-orange-background.jpg"
@@ -15,15 +15,16 @@ draft: true
 ---
 
 Have you ever visited a website that took forever to respond to your clicks or
-suffered from choppy scrolling when using your mobile device? It probably wasn't
-a pleasant experience. You may have even started
-[rage clicking](https://addyosmani.com/blog/usability/). Performance flaws like
-these can make or break a user's experience.
+suffered from choppy scrolling when using your mobile device? Performance flaws
+like these can lead to:
+
+- [Rage clicking](https://speakerdeck.com/bluesmoon/ux-and-performance-metrics-that-matter-a062d37f-e6c7-4b8a-8399-472ec76bb75e?slide=13)
+- [Decrease conversion rates]()
 
 For more than three years, Wikipedia's mobile site had a piece of JavaScript
 that could take around
 [700ms to execute](https://phabricator.wikimedia.org/T241139) during page load
-on lower-end devices visiting large pages like the
+on low-end devices visiting longish articles like the
 ["Barack Obama"](https://en.m.wikipedia.org/wiki/Barack_Obama) article.
 
 In this article, we'll walk through a couple easy steps I took to improve the
