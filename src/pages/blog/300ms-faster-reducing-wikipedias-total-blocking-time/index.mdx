@@ -44,8 +44,8 @@ a "long task" that can affect the page's responsiveness to user input. They even
 developed a metric for this — "Total Blocking Time" (TBT).
 
 TBT measures the sum of time that the browser's main thread is blocked by tasks
-longer than 50ms between **[First Contentful Paint](https://web.dev/fcp/)** and
-**[Time to Interactive](https://web.dev/tti/)**.
+longer than 50ms between [First Contentful Paint](https://web.dev/fcp/) and
+[Time to Interactive](https://web.dev/tti/).
 
 Let's review what this means:
 
@@ -225,6 +225,13 @@ In this case:
    element. If it didn't, exit early since we only care about clicks to
    thumbnails. If it did, we handle the event.
 
-What were the results of this work?
+But what were the results of this work?
 
-## The payoff
+## Conclusion
+
+The work from step 1 and step 2 were released to production in two deploys (step
+1 was deployed first). Wikipedia's
+[synthetic performance tests](https://developer.mozilla.org/en-US/docs/Web/Performance/Rum-vs-Synthetic#synthetic_monitoring)
+showed approximately a 200ms decrease in TBT after the first deploy and
+approximately 80ms decrease after the second deploy when testing on a Moto G (5)
+phone. Together, this work reduced TBT by **300ms**.
