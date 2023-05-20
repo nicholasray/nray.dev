@@ -10,8 +10,11 @@ description:
 draft: true
 ---
 
-Have you ever visited a website that took a long time to respond to your clicks
-or suffered from janky scrolling? Performance flaws like these can lead to:
+import Image from "@components/BlogImage.astro";
+
+Have you tried interacting with a website that took a long time to respond to
+your clicks or suffered from janky scrolling? Performance flaws like these can
+lead to:
 
 - [Rage clicking](https://speakerdeck.com/bluesmoon/ux-and-performance-metrics-that-matter-a062d37f-e6c7-4b8a-8399-472ec76bb75e?slide=13)
 - [Increased bounce rates and decreased conversion rates](https://edgemesh.com/blog/time-to-interactive-and-conversion-rate)
@@ -234,4 +237,21 @@ The work from step 1 and step 2 were released to production in two deploys (step
 [synthetic performance tests](https://developer.mozilla.org/en-US/docs/Web/Performance/Rum-vs-Synthetic#synthetic_monitoring)
 showed approximately a 200ms decrease in TBT after the first deploy and
 approximately 80ms decrease after the second deploy when testing on a Moto G (5)
-phone. Together, this work reduced TBT by **300ms**.
+phone. Together, this work reduced TBT by almost **300ms**.
+
+import tbtResults from "./assets/total-blocking-time-results.png";
+
+<Image
+  src={tbtResults}
+  alt="Synthetic test graph showing a 200ms decrease in Total Blocking Time after the first deploy and a 100ms decrease in Total Blocking Time after the second deploy"
+  shadow
+/>
+
+Of course, there is still room for improvement. This task is still almost 250ms
+(300ms - 50ms) too long on low-end devices. Reducing TBT from this task further
+will likely require
+[breaking it up into smaller tasks](https://web.dev/optimize-long-tasks/).
+
+Making noticeable performance improvements doesn't always require huge or
+complex changes to a codebase. Sometimes, all it takes is removing or optimizing
+small pieces of code to make a big impact.
