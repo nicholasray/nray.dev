@@ -53,19 +53,21 @@ when tested on average mobile hardware. But Wikipedia's longest task could take
 
 How do we decrease this time?
 
-## Step 1: Do less work
+## Step 1: Do less work by removing code
 
 In order to decrease TBT, you need to do either do less work on the main thread
 or break up long tasks so that there is less time spent in excess of 50ms. While
 many things run on the main thread including HTML parsing, paints, and garbage
 collection, long JavaScript execution is often the culprit of TBT problems.
 
-Profiling Wikipedia's mobile site revealed a long time — approximately 200ms —
-spend in an `_enable` method responsible for setting up the mobile site's
-section expansion/collapsing behavior. This method contained code that added a
-click event listener to nearly every link in the content. Worse yet, long
-articles like the [United States](https://en.wikipedia.org/wiki/United_States)
-article contained over 4,000 links!:
+Profiling Wikipedia's mobile site revealed approximately 200ms spent in an
+`_enable` method responsible for setting up the mobile site's section
+expansion/collapsing behavior. This method contained code that, using jQuery's
+insidious `.on` method, added a click event listener to nearly every link in the
+content so that the corresponding section would open if the link contained a
+hash fragment. For long articles like the
+[United States](https://en.wikipedia.org/wiki/United_States) article contained
+over 4,000 links!:
 
 ```js {4-13}
 // Restricted to links created by editors and thus outside our control
@@ -85,3 +87,18 @@ util.getWindow().on("hashchange", function () {
   checkHash();
 });
 ```
+
+Worse yet, this behavior was mostly redundant. The subsequent code that listened
+to the `hashchange` event already called the same method that the click event
+listener called. That is, unless the window's location already pointed at the
+link's destination, clicking a link would call the same `checkHash` method twice
+— once for the link click event listener and once more for the `hashchange`
+listener.
+
+Therefore, in this case, the best approach was to simply remove this block of
+JavaScript and free up nearly 200ms from the main thread.
+
+When profiling, always check where the most time is being spent. Then see if you
+can optimize the code responsible for that time easily.
+
+## Step 2: Do less work by using event delegation
