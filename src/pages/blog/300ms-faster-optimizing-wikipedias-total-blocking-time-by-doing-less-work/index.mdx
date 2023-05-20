@@ -3,46 +3,85 @@ title:
   "300ms Faster: Optimizing Wikipedia's Total Blocking Time by Doing Less Work"
 layout: "@layouts/BlogLayout.astro"
 cover:
-  filename: "mobile-phone-orange-background.jpg"
-  alt:
-    "Mobile phone on orange background with plant, pen, and graph paper laying
-    next to it"
-  credit: "Photo by [@shambam](https://unsplash.com/photos/N47bbEPuuWw)"
+  filename: "clock-in-pastel-background.jpg"
+  alt: "Clock lying on pink and blue pastel background"
+  credit: "Photo by [@icons8](https://unsplash.com/photos/dhZtNlvNE8M)"
 description:
   "How two simple steps improved the responsiveness of Wikipedia's mobile site"
 draft: true
 ---
 
 Have you ever visited a website that took a long time to respond to your clicks
-or suffered from janky scrolling when using your mobile device? Performance
-flaws like these can lead to:
+or suffered from janky scrolling? Performance flaws like these can lead to:
 
 - [Rage clicking](https://speakerdeck.com/bluesmoon/ux-and-performance-metrics-that-matter-a062d37f-e6c7-4b8a-8399-472ec76bb75e?slide=13)
 - [Increased bounce rates and decreased conversion rates](https://edgemesh.com/blog/time-to-interactive-and-conversion-rate)
+- [Decreased search engine rank](https://developers.google.com/search/blog/2021/11/bringing-page-experience-to-desktop)
 
 For more than three years, Wikipedia's mobile site had a piece of JavaScript
-that could take around
-[700ms to execute](https://phabricator.wikimedia.org/T241139) during page load
-on low-end devices visiting longish articles like the
-["Barack Obama"](https://en.m.wikipedia.org/wiki/Barack_Obama) article.
+that could take over
+[600ms to execute](https://phabricator.wikimedia.org/T241139) during page load
+on low-end devices that could cause the page to become unresponsive.
 
-In this article, we'll walk through a couple easy steps I took to improve the
-responsiveness of Wikipedia's mobile site.
+In this article, we'll walk through a couple easy steps I took to reduce the
+execution time of this task by over 50%.
 
-# What's the big deal?
+## What's the big deal?
 
-700ms may not sound like a large amount of time, but imagine if a user tried to
-click on something when this JavaScript was beginning to execute. Because
-JavaScript is single-threaded, the user would need to wait at least this amount
-of time before the browser could respond to that interaction with a visual
-update. And users _can_ perceive this slowdown since it is longer than the
-[recommended 100ms response time for user interactions](https://web.dev/rail/#response-process-events-in-under-50ms).
+600ms may not sound like a large amount of time, but imagine if a user tried to
+interact with the page (e.g. by clicking a button) when this JavaScript was
+beginning to execute. Because JavaScript is single-threaded, the user would need
+to wait at least this amount of time before the browser could respond to that
+interaction with a visual update. And users _can_ perceive any interaction that
+takes longer than
+[100ms](https://web.dev/rail/#response-process-events-in-under-50ms) as slow.
 
-In fact, Google considers anything on the browser's
+In fact, Google considers any task on the browser's
 [main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread)
 that takes
 [longer than 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread)
-to be a "long task" that can affect responsiveness. They even have a metric for
-this called "Total Blocking Time" which measures
+a "long task" that can affect the page's responsiveness to user input. They even
+have a metric called "Total Blocking Time" (TBT) that measures the sum of this
+blocking portion — the portion in excess of 50ms — of all long tasks between
+[First Contentful Paint](https://web.dev/fcp/) and
+[Time to Interactive](https://web.dev/tti/).
+
+Google
+[recommends a TBT that is less than 200 milliseconds](https://web.dev/tbt/#what-is-a-good-tbt-score)
+when tested on average mobile hardware. But Wikipedia's longest task could take
+600 milliseconds — 3x the recommended limit.
+
+How do we decrease this time?
 
 ## Step 1: Do less work
+
+In order to decrease TBT, you need to do either do less work on the main thread
+or break up long tasks so that there is less time spent in excess of 50ms. While
+many things run on the main thread including HTML parsing, paints, and garbage
+collection, long JavaScript execution is often the culprit of TBT problems.
+
+Profiling Wikipedia's mobile site revealed a long time — approximately 200ms —
+spend in an `_enable` method responsible for setting up the mobile site's
+section expansion/collapsing behavior. This method contained code that added a
+click event listener to nearly every link in the content. Worse yet, long
+articles like the [United States](https://en.wikipedia.org/wiki/United_States)
+article contained over 4,000 links!:
+
+```js {4-13}
+// Restricted to links created by editors and thus outside our control
+// T166544 - don't do this for reference links - they will be handled elsewhere
+var $link = $container.find("a:not(.reference a)");
+$link.on("click", function () {
+  // the link might be an internal link with a hash.
+  // if it is check if we need to reveal any sections.
+  if (
+    $link.attr("href") !== undefined &&
+    $link.attr("href").indexOf("#") > -1
+  ) {
+    checkHash();
+  }
+});
+util.getWindow().on("hashchange", function () {
+  checkHash();
+});
+```
