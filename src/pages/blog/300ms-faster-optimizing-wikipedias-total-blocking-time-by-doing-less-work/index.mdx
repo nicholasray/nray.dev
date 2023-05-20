@@ -41,13 +41,13 @@ In fact, Google considers any task on the browser's
 that takes
 [longer than 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread)
 a "long task" that can affect the page's responsiveness to user input. They even
-have a metric called "Total Blocking Time" (TBT) that measures the sum of this
-blocking portion — the portion in excess of 50ms — of all long tasks between
-[First Contentful Paint](https://web.dev/fcp/) and
+developed a metric for this — "Total Blocking Time" (TBT). TBT measures the sum
+of this blocking portion — the portion in excess of 50ms — of all long tasks
+between [First Contentful Paint](https://web.dev/fcp/) and
 [Time to Interactive](https://web.dev/tti/).
 
 Google
-[recommends a TBT that is less than 200 milliseconds](https://web.dev/tbt/#what-is-a-good-tbt-score)
+[recommends sites have a TBT less than 200 milliseconds](https://web.dev/tbt/#what-is-a-good-tbt-score)
 when tested on average mobile hardware. But Wikipedia's longest task could take
 600 milliseconds — 3x the recommended limit.
 
@@ -58,16 +58,15 @@ How do we decrease this time?
 In order to decrease TBT, you need to do either do less work on the main thread
 or break up long tasks so that there is less time spent in excess of 50ms. While
 many things run on the main thread including HTML parsing, paints, and garbage
-collection, long JavaScript execution is often the culprit of TBT problems.
+collection, long JavaScript execution is frequently the culprit of TBT problems.
+
+In fact,
+[JavaScript is the fastest way to slow down a site](https://timkadlec.com/remembers/2020-04-21-the-cost-of-javascript-frameworks/).
 
 Profiling Wikipedia's mobile site revealed approximately 200ms spent in an
-`_enable` method responsible for setting up the mobile site's section
-expansion/collapsing behavior. This method contained code that, using jQuery's
-insidious `.on` method, added a click event listener to nearly every link in the
-content so that the corresponding section would open if the link contained a
-hash fragment. For long articles like the
-[United States](https://en.wikipedia.org/wiki/United_States) article contained
-over 4,000 links!:
+`_enable` method responsible for initializing the mobile site's section
+expansion/collapsing behavior. And much of the time was spent in an insidious
+call to jQuery's `.on()` method.
 
 ```js {4-13}
 // Restricted to links created by editors and thus outside our control
@@ -88,6 +87,13 @@ util.getWindow().on("hashchange", function () {
 });
 ```
 
+The `.on("click")` call attached a click event listener to nearly every link in
+the content so that the corresponding section would open if the link contained a
+hash fragment. For short articles with few links, the performance impact was
+negligible. But long articles like the
+[United States](https://en.wikipedia.org/wiki/United_States) article contained
+over 4,000 links and led to over 200ms of execution time on low-end devices.
+
 Worse yet, this behavior was mostly redundant. The subsequent code that listened
 to the `hashchange` event already called the same method that the click event
 listener called. That is, unless the window's location already pointed at the
@@ -96,9 +102,12 @@ link's destination, clicking a link would call the same `checkHash` method twice
 listener.
 
 Therefore, in this case, the best approach was to simply remove this block of
-JavaScript and free up nearly 200ms from the main thread.
+JavaScript and free up nearly 200ms from the main thread with virtually the same
+functionality.
 
-When profiling, always check where the most time is being spent. Then see if you
-can optimize the code responsible for that time easily.
+When profiling, always check where the most time is being spent. Then see if
+there is low-hanging fruit you can pick.
+
+The fastest way to speed up a site is to _remove_ JavaScript.
 
 ## Step 2: Do less work by using event delegation
