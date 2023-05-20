@@ -1,0 +1,221 @@
+---
+title: "300ms Faster: Optimizing Wikipedia's Total Blocking Time"
+layout: "@layouts/BlogLayout.astro"
+cover:
+  filename: "clock-in-pastel-background.jpg"
+  alt: "Clock lying on pink and blue pastel background"
+  credit: "Photo by [@icons8](https://unsplash.com/photos/dhZtNlvNE8M)"
+description:
+  "How two simple steps improved the responsiveness of Wikipedia's mobile site"
+draft: true
+---
+
+Have you ever visited a website that took a long time to respond to your clicks
+or suffered from janky scrolling? Performance flaws like these can lead to:
+
+- [Rage clicking](https://speakerdeck.com/bluesmoon/ux-and-performance-metrics-that-matter-a062d37f-e6c7-4b8a-8399-472ec76bb75e?slide=13)
+- [Increased bounce rates and decreased conversion rates](https://edgemesh.com/blog/time-to-interactive-and-conversion-rate)
+- [Lower search engine ranking](https://developers.google.com/search/blog/2021/11/bringing-page-experience-to-desktop)
+
+For more than three years, Wikipedia's mobile site had a piece of JavaScript
+that could take over
+[600ms to execute](https://phabricator.wikimedia.org/T241139) during page load
+on low-end devices that could cause the page to become unresponsive.
+
+In this article, we'll walk through a couple easy steps I took to reduce the
+execution time of this task by over 50%.
+
+## What's the big deal?
+
+600ms may not sound like a large amount of time, but imagine if a user tried to
+interact with the page (e.g. by clicking a button) when this JavaScript was
+beginning to execute. Because JavaScript is single-threaded, the user would need
+to wait at least this amount of time before the browser could respond to that
+interaction with a visual update. And users _can_ perceive any interaction that
+takes longer than
+[100ms](https://web.dev/rail/#response-process-events-in-under-50ms) as
+**slow**.
+
+In fact, Google considers any task on the browser's
+[main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread)
+that takes
+[longer than 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread)
+a "long task" that can affect the page's responsiveness to user input. They even
+developed a metric for this — "Total Blocking Time" (TBT).
+
+TBT measures the sum of time that the browser's main thread is blocked by tasks
+longer than 50ms between [First Contentful Paint](https://web.dev/fcp/) and
+[Time to Interactive](https://web.dev/tti/).
+
+Let's review what this means:
+
+Google [recommends](https://web.dev/tbt/#what-is-a-good-tbt-score) sites have a
+TBT less than 200 milliseconds when tested on average mobile hardware. But
+Wikipedia's longest task could take 600 milliseconds — 3x the recommended limit.
+
+How do we decrease this time?
+
+## Step 1: Do less work by removing code
+
+In order to decrease TBT, a website needs to either:
+
+1. Do less work on the main thread between First Contentful Paint and Time to
+   Interactive
+2. Do the same amount of work, but break up long tasks into smaller taks so
+   there is less time spent in excess of 50ms.
+
+While many things run on the main thread including HTML parsing, paints, and
+garbage collection, long JavaScript execution is frequently the culprit of TBT
+problems.
+
+In fact,
+[JavaScript is the fastest way to slow down a site](https://timkadlec.com/remembers/2020-04-21-the-cost-of-javascript-frameworks/).
+
+When I profiled Wikipedia's mobile site, I found approximately 200ms spent in an
+`_enable` method responsible for initializing the mobile site's section
+expansion and collapsing behavior. And much of the time was spent in an
+insidious call to jQuery's `.on()` method.
+
+```js {4-13}
+// Restricted to links created by editors and thus outside our control
+// T166544 - don't do this for reference links - they will be handled elsewhere
+var $link = $container.find("a:not(.reference a)");
+$link.on("click", function () {
+  // the link might be an internal link with a hash.
+  // if it is check if we need to reveal any sections.
+  if (
+    $link.attr("href") !== undefined &&
+    $link.attr("href").indexOf("#") > -1
+  ) {
+    checkHash();
+  }
+});
+util.getWindow().on("hashchange", function () {
+  checkHash();
+});
+```
+
+The `.on("click")` call attached a click event listener to nearly every link in
+the content so that the corresponding section would open if the clicked link
+contained a hash fragment. For short articles with few links, the performance
+impact was negligible. But long articles like the
+[United States](https://en.wikipedia.org/wiki/United_States) article contained
+over 4,000 links and led to over 200ms of execution time on low-end devices.
+
+Worse yet, this behavior was mostly redundant. The subsequent code that listened
+to the `hashchange` event already called the same method that the click event
+listener called. That is, unless the window's location already pointed at the
+link's destination, clicking a link would call the same `checkHash` method twice
+— once for the link click event listener and once more for the `hashchange`
+listener.
+
+Therefore, in this case, the best approach was to simply
+[remove this block of JavaScript](https://gerrit.wikimedia.org/r/c/mediawiki/extensions/MobileFrontend/+/908333/6/src/mobile.startup/Toggler.js#22)
+and free up nearly 200ms from the main thread with virtually the same
+functionality.
+
+When profiling, always check where the most time is being spent. Then, see if
+there is code you can either optimize or remove.
+
+The fastest way to speed up a site is to _remove_ JavaScript.
+
+## Step 2: Do less work by using event delegation
+
+Another look at the performance profile revealed that around ~100 milliseconds
+was spent in an `initMediaViewer` method. This method was responsible for
+attaching a click event listener to each thumbnail in the content so that a
+media viewer opened when the image was clicked:
+
+```js
+/**
+ * Event handler for clicking on an image thumbnail
+ *
+ * @param {jQuery.Event} ev
+ * @ignore
+ */
+function onClickImage(ev) {
+  ev.preventDefault();
+  routeThumbnail($(this).data("thumb"));
+}
+
+/**
+ * Add routes to images and handle clicks
+ *
+ * @method
+ * @ignore
+ * @param {jQuery.Object} [$container] Optional container to search within
+ */
+function initMediaViewer($container) {
+  currentPageHTMLParser.getThumbnails($container).forEach(function (thumb) {
+    thumb.$el.off().data("thumb", thumb).on("click", onClickImage);
+  });
+}
+```
+
+Similar to the link example in step 1, attaching an event listener to each
+thumbnail on the page doesn't scale well. Editors of Wikipedia articles can (and
+do) make articles with
+[thousands of images](https://en.wikipedia.org/wiki/B8_polytope). When this
+block of code ran, it could take well over 100 milliseconds to execute for pages
+with a lot of images and increase the total blocking time of the page. What is
+an alternative approach?
+
+Use event delegation.
+
+Event delegation is a powerful technique that enables us attach a single event
+listener to an element that is the common ancestor of many elements. This is
+often a more efficient approach compared to adding an event listener to many
+elements especially when user generated content is involved. It takes advantage
+of
+[event bubbling](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_bubbling)
+and works like this:
+
+1. Attach an event listener to a container element.
+2. Check the `event.target` property in the event handler to see the source of
+   the event. Optionally use the `event.target.closest(selector)` API to check
+   for an ancestor element.
+3. If the source of the event is an element or the child of an element we care
+   about, handle it.
+
+The
+[updated code](https://gerrit.wikimedia.org/r/c/mediawiki/skins/MinervaNeue/+/908675/10/resources/skins.minerva.scripts/initMobile.js#66)
+looked like the following:
+
+```js
+/**
+ * Event handler for clicking on an image thumbnail
+ *
+ * @param {MouseEvent} ev
+ * @ignore
+ */
+function onClickImage(ev) {
+  var el = ev.target.closest(PageHTMLParser.THUMB_SELECTOR);
+  if (!el) {
+    return;
+  }
+
+  var thumb = currentPageHTMLParser.getThumbnail($(el));
+  if (!thumb) {
+    return;
+  }
+
+  ev.preventDefault();
+  routeThumbnail(thumb);
+}
+
+/**
+ * Add routes to images and handle clicks
+ *
+ * @method
+ * @ignore
+ * @param {HTMLElement} container Container to search within
+ */
+function initMediaViewer(container) {
+  container.addEventListener("click", onClickImage);
+}
+```
+
+I revised `initMediaViewer` to attach one click event listener to a single
+container element that contained all the images. In `onClickImage` I used the
+`ev.target.closest(selector)` to check if the click originated from a thumbnail
+or a child of a thumbnail element. If it did, we handle the event.
