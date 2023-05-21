@@ -30,10 +30,10 @@ execution time of this task by over 50%.
 
 ## What's the big deal?
 
-600ms may not sound like a long time, but imagine if a user tries to interact
-with the page by clicking a button when the 600ms JavaScript began executing
-during page load. Because JavaScript is single-threaded, the user would need to
-wait for the following steps to finish before they see a visual update:
+600ms may not sound like a long time, but imagine if a user tried to click a
+button during page load when the 600ms of JavaScript began executing. Because
+JavaScript is single-threaded, the user would need to wait for the following
+steps to finish before they see a visual update:
 
 1. The 600ms JavaScript task to complete
 2. The relevant click handler task to complete
@@ -58,7 +58,7 @@ Google considers any task on the browser's
 that takes
 [longer than 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread)
 a "long task" that can affect the page's responsiveness to user input. They even
-developed a metric called "Total Blocking Time" (TBT) that measures this.
+developed a metric for this called "Total Blocking Time" (TBT).
 
 import mainThreadTasks from "./assets/main-thread-tasks.png";
 
@@ -231,14 +231,15 @@ Use **event delegation**.
 Event delegation is a powerful technique that enables us to attach a single
 event listener to an element that is the common ancestor of many elements. Using
 event delegation is often more efficient than adding an event listener to many
-elements, especially when user-generated content could add an unknown number of
-elements. It takes advantage of
+elements, especially when user-generated content could add many elements. It
+takes advantage of
 [event bubbling](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_bubbling)
 and works like this:
 
 1. Attach an event listener to a container element.
-2. Check the `event.target` property in the event handler to see the source of
-   the event. Optionally use the `event.target.closest(selector)`
+2. Using the `event` param in the event handler, check the `event.target`
+   property to see the source of the event. Optionally use the
+   `event.target.closest(selector)`
    [API](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest) to
    check for an ancestor element.
 3. If the source of the event is an element or the child of an element we care
@@ -288,8 +289,8 @@ In this case:
    a single container element that contained all the images.
 2. In the `onClickImage` method, I used the `ev.target.closest(selector)` API to
    check if the click originated from a thumbnail or a child of a thumbnail
-   element. If it didn't, exit early since we only care about clicks to
-   thumbnails. If it did, handle the event.
+   element. If it didn't, the code returns early since we only care about clicks
+   to thumbnails. If it did, the code handles the event.
 
 But what were the results of this work?
 
@@ -315,6 +316,7 @@ Of course, there is still room for improvement. This task is still almost 250ms
 (300ms - 50ms) too long on low-end devices. Reducing more TBT from this task
 will likely require
 [breaking it up into smaller tasks](https://web.dev/optimize-long-tasks/).
+Still, the task was reduced by about 50% with a couple small wins.
 
 Making noticeable performance improvements doesn't always require huge or
 complex changes to a codebase. Sometimes, all it takes is removing or optimizing
