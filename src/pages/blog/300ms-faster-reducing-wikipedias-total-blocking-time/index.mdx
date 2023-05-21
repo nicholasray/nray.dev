@@ -59,8 +59,8 @@ import mainThreadTasks from "./assets/main-thread-tasks.png";
 <Image
   background
   src={mainThreadTasks}
-  alt="A timeline from first contentful paint to time to interactive showing a 80ms task, a 30ms task, and a 100ms task on the main thread"
-  caption="There are two long tasks — the 80ms task and the 100ms task."
+  alt="A timeline from first contentful paint to time to interactive showing a 80ms task, a 30ms task, and a 100ms task on the main thread."
+  caption="There are two long tasks (> 50ms) — the 80ms task and the 100ms task."
 />
 
 TBT measures the sum of the blocking portion of all long tasks on the browser's
@@ -68,14 +68,15 @@ main thread between [First Contentful Paint](https://web.dev/fcp/) and
 [Time to Interactive](https://web.dev/tti/). The "blocking portion" is the
 amount of time after 50ms.
 
-Let's take a closer look:
+Let's try calculating the TBT in the example below:
 
 import mainThreadTasksTbt from "./assets/main-thread-tasks-tbt.png";
 
 <Image background src={mainThreadTasksTbt} alt="Main thread tasks" />
 
 1. The 80ms task is **30ms** longer than 50ms so contributes **30ms** to TBT.
-2. The second task doesn't contribute to TBT at all since it is less than 50ms.
+2. The second task doesn't contribute to TBT at all since it is less than 50ms
+   and not a long task.
 3. The 100ms task is **50ms** longer than 50ms so contributes **50ms** to TBT.
 
 Since TBT is the sum of the total time of tasks in excess of 50ms, the TBT for
@@ -85,7 +86,7 @@ Google [recommends](https://web.dev/tbt/#what-is-a-good-tbt-score) sites have a
 TBT less than 200 milliseconds when tested on average mobile hardware. But
 Wikipedia's longest task could take 600 milliseconds — 3x the recommended limit.
 
-How do we decrease this time?
+How do we improve TBT?
 
 ## Step 1: Do less work by removing code
 
@@ -108,7 +109,7 @@ import profileBeginning from "./assets/profile-beginning.png";
 <Image
   background
   src={profileBeginning}
-  alt="Chrome performance profile showing that one method took 475ms to execute."
+  alt="Chrome performance profile showing that a `_enable` method took 475ms to execute."
 />
 
 When I profiled Wikipedia's mobile site, I found that the majority of the time
@@ -157,7 +158,7 @@ import profileRemoval from "./assets/profile-removing-unnecessary-code.png";
 <Image
   background
   src={profileRemoval}
-  alt="Chrome performance profile showing that one method took 475ms to execute."
+  alt="Chrome performance profile showing that a `on` method took 264ms to execute and all of this code can be removed."
 />
 
 Therefore, in this case, the best approach was to simply
@@ -177,7 +178,7 @@ import profileMediaViewer from "./assets/profile-media-viewer.png";
 <Image
   background
   src={profileMediaViewer}
-  alt="Chrome performance profile showing that a `initMediaViewer` method taking 114ms to execute."
+  alt="Chrome performance profile showing that a `initMediaViewer` method took 114ms to execute."
 />
 
 Another look at the performance profile revealed that around ~100 milliseconds
@@ -288,8 +289,8 @@ But what were the results of this work?
 
 ## Conclusion
 
-The work from step 1 and step 2 were released to production in two deploys with step
-1 deployed first followed by step 2. 
+The work from step 1 and step 2 were released to production in two deploys with
+step 1 deployed first followed by step 2.
 
 Wikipedia's
 [synthetic performance tests](https://developer.mozilla.org/en-US/docs/Web/Performance/Rum-vs-Synthetic#synthetic_monitoring)
@@ -301,7 +302,7 @@ import tbtResults from "./assets/total-blocking-time-results.png";
 
 <Image
   src={tbtResults}
-  alt="Synthetic test graph showing a 200ms decrease in Total Blocking Time after the first deploy and a 100ms decrease in Total Blocking Time after the second deploy"
+  alt="Synthetic test graph showing a 200ms decrease in Total Blocking Time after the first deploy and a 100ms decrease in Total Blocking Time on a Moto G (5) phone after the second deploy."
 />
 
 Of course, there is still room for improvement. This task is still almost 250ms
