@@ -172,6 +172,14 @@ Remember, the fastest way to speed up a site is to _remove_ JavaScript.
 
 ## Step 2: Do less work by using event delegation
 
+import profileMediaViewer from "./assets/profile-media-viewer.png";
+
+<Image
+  background
+  src={profileMediaViewer}
+  alt="Chrome performance profile showing that a `initMediaViewer` method taking 114ms to execute."
+/>
+
 Another look at the performance profile revealed that around ~100 milliseconds
 was spent in an `initMediaViewer` method. This method was responsible for
 attaching a click event listener to each thumbnail in the content so that a
@@ -274,7 +282,7 @@ In this case:
 2. In the `onClickImage` method, I used the `ev.target.closest(selector)` API to
    check if the click originated from a thumbnail or a child of a thumbnail
    element. If it didn't, exit early since we only care about clicks to
-   thumbnails. If it did, we handle the event.
+   thumbnails. If it did, handle the event.
 
 But what were the results of this work?
 
