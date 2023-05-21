@@ -23,7 +23,7 @@ lead to:
 For more than three years, Wikipedia's mobile site had a piece of JavaScript
 that could take over
 [600ms to execute](https://phabricator.wikimedia.org/T241139) during page load
-on low-end devices and block interactions from the user.
+on low-end devices while blocking user interactions.
 
 In this article, we'll walk through a couple easy steps I took to reduce the
 execution time of this task by over 50%.
@@ -182,7 +182,7 @@ import profileMediaViewer from "./assets/profile-media-viewer.png";
 
 Another look at the performance profile revealed that around ~100 milliseconds
 was spent in an `initMediaViewer` method. This method was responsible for
-attaching a click event listener to each thumbnail in the content so that a
+attaching a click event listener to **each** thumbnail in the content so that a
 media viewer opened when the image was clicked:
 
 ```js
