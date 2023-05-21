@@ -14,7 +14,7 @@ import Image from "@components/BlogImage.astro";
 
 Have you tried interacting with a website that took a long time to respond to
 your clicks or suffered from janky scrolling? Performance flaws like these can
-lead to:
+lead to the following:
 
 - [Rage clicking](https://speakerdeck.com/bluesmoon/ux-and-performance-metrics-that-matter-a062d37f-e6c7-4b8a-8399-472ec76bb75e?slide=13)
 - [Increased bounce rates and decreased conversion rates](https://edgemesh.com/blog/time-to-interactive-and-conversion-rate)
@@ -25,17 +25,17 @@ that could take over
 [600ms to execute](https://phabricator.wikimedia.org/T241139) during page load
 on low-end devices while blocking user interactions.
 
-In this article, we'll walk through a couple easy steps I took to reduce the
+In this article, we'll walk through a couple of easy steps I took to reduce the
 execution time of this task by over 50%.
 
 ## What's the big deal?
 
-600ms may not sound like a large amount of time, but imagine if a user tried to
-interact with the page by clicking a button when JavaScript began to execute.
-Because JavaScript is single-threaded, the user would need to wait at least this
-amount of time before the browser could execute the click handler and respond to
-that interaction with a visual update. And any interaction that takes longer
-than [100ms](https://web.dev/rail/#response-process-events-in-under-50ms) can be
+600ms may not sound like a long time, but imagine if a user tried to interact
+with the page by clicking a button when JavaScript began to execute. Because
+JavaScript is single-threaded, the user would need to wait this amount of time
+before the browser could execute the click handler and respond to that
+interaction with a visual update. And any interaction that takes longer than
+[100ms](https://web.dev/rail/#response-process-events-in-under-50ms) can be
 perceived as **slow**.
 
 import mainThreadClick from "./assets/main-thread-click.png";
@@ -43,16 +43,16 @@ import mainThreadClick from "./assets/main-thread-click.png";
 <Image
   background
   src={mainThreadClick}
-  alt="Main thread timeline showing a click occuring at the beginning of a long task. After the long task is finished, the click callback executes, followed by a browser paint. A visual update only appears after the paint."
+  alt="Main thread timeline showing a click occurring at the beginning of a long task. The click callback executes after completing the long task, followed by a browser paint. A visual update only appears after the paint."
   caption="A long task can delay the execution of a click handler that produces a visual update."
 />
 
-In fact, Google considers any task on the browser's
+Google considers any task on the browser's
 [main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread)
 that takes
 [longer than 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread)
 a "long task" that can affect the page's responsiveness to user input. They even
-developed a metric for this called "Total Blocking Time" (TBT).
+developed a metric called "Total Blocking Time" (TBT) that measures this.
 
 import mainThreadTasks from "./assets/main-thread-tasks.png";
 
@@ -79,25 +79,26 @@ import mainThreadTasksTbt from "./assets/main-thread-tasks-tbt.png";
    and not a long task.
 3. The 100ms task is **50ms** longer than 50ms so contributes **50ms** to TBT.
 
-Since TBT is the sum of the total time of tasks in excess of 50ms, the TBT for
+Since TBT is the sum of the time exceeding 50ms in each long task, the TBT for
 this example is 30ms + 50ms = **80ms**.
 
-Google [recommends](https://web.dev/tbt/#what-is-a-good-tbt-score) sites have a
-TBT less than 200 milliseconds when tested on average mobile hardware. But
-Wikipedia's longest task could take 600 milliseconds — 3x the recommended limit.
+When tested on average mobile hardware, Google
+[recommends](https://web.dev/tbt/#what-is-a-good-tbt-score) sites have a TBT of
+less than 200 milliseconds. But Wikipedia's longest task could take 600
+milliseconds — 3x the recommended limit.
 
 How do we improve TBT?
 
 ## Step 1: Do less work by removing code
 
-In order to decrease TBT, a website needs to either:
+To decrease TBT, you need to either:
 
 1. Do less work on the main thread between First Contentful Paint and Time to
    Interactive
-2. Do the same amount of work, but break up long tasks into smaller taks so
-   there is less time spent in excess of 50ms.
+2. Do the same amount of work, but break up long tasks into smaller tasks that
+   don't exceed 50ms
 
-While many things run on the main thread including HTML parsing, paints, and
+While many things run on the main thread, including HTML parsing, paints, and
 garbage collection, long JavaScript execution is frequently the culprit of TBT
 problems.
 
@@ -112,10 +113,10 @@ import profileBeginning from "./assets/profile-beginning.png";
   alt="Chrome performance profile showing that a `_enable` method took 475ms to execute."
 />
 
-When I profiled Wikipedia's mobile site, I found that the majority of the time
-was spent in an `_enable` method responsible for initializing the mobile site's
-section expansion and collapsing behavior. And much of the time was spent in an
-insidious call to jQuery's `.on("click")` method.
+When I profiled Wikipedia's mobile site, I found that an `_enable` method was
+responsible for most of the execution time. This method initialized the mobile
+site's section expansion and collapsing behavior. And much of the time was spent
+in an insidious call to jQuery's `.on("click")` method.
 
 ```js {6-15}
 function _enable( $container, prefix, page, isClosed ) {
@@ -144,21 +145,20 @@ the content so that the corresponding section would open if the clicked link
 contained a hash fragment. For short articles with few links, the performance
 impact was negligible. But long articles like the
 [United States](https://en.wikipedia.org/wiki/United_States) article contained
-over 4,000 links and led to over 200ms of execution time on low-end devices.
+over 4,000 links, leading to over 200ms of execution time on low-end devices.
 
-Worse yet, this behavior was mostly redundant. The subsequent code that listened
-to the `hashchange` event already called the same method that the click event
-listener called. That is, unless the window's location already pointed at the
-link's destination, clicking a link would call the same `checkHash` method twice
-— once for the link click event handler and once more for the `hashchange`
-handler.
+Worse yet, this behavior was primarily redundant. The following code that
+listened to the `hashchange` event already called the same method that the click
+event listener called. Unless the window's location already pointed at the
+link's destination, clicking a link called the `checkHash` method twice — once
+for the link click event handler, and once more for the `hashchange` handler.
 
 import profileRemoval from "./assets/profile-removing-unnecessary-code.png";
 
 <Image
   background
   src={profileRemoval}
-  alt="Chrome performance profile showing that a `on` method took 264ms to execute and all of this code can be removed."
+  alt="Chrome performance profile showing that an `on` method took 264ms to execute. All of this code was removed."
 />
 
 Therefore, in this case, the best approach was to simply
@@ -166,8 +166,8 @@ Therefore, in this case, the best approach was to simply
 and free up nearly 200ms from the main thread with virtually the same
 functionality.
 
-When profiling, always check where the most time is being spent. Then, see if
-there is code you can either optimize or remove.
+When profiling, always check where the most time is spent. Then, see if there is
+code you can either optimize or remove.
 
 Remember, the fastest way to speed up a site is to _remove_ JavaScript.
 
@@ -178,13 +178,13 @@ import profileMediaViewer from "./assets/profile-media-viewer.png";
 <Image
   background
   src={profileMediaViewer}
-  alt="Chrome performance profile showing that a `initMediaViewer` method took 114ms to execute."
+  alt="Chrome performance profile showing that an `initMediaViewer` method took 114ms to execute."
 />
 
 Another look at the performance profile revealed that around ~100 milliseconds
 was spent in an `initMediaViewer` method. This method was responsible for
 attaching a click event listener to **each** thumbnail in the content so that a
-media viewer opened when the image was clicked:
+click to a thumbnail would open a media viewer:
 
 ```js
 /**
@@ -223,10 +223,10 @@ an alternative approach?
 Use **event delegation**.
 
 Event delegation is a powerful technique that enables us to attach a single
-event listener to an element that is the common ancestor of many elements. This
-is often a more efficient approach compared to adding an event listener to many
-elements especially when user generated content is involved. It takes advantage
-of
+event listener to an element that is the common ancestor of many elements. Using
+event delegation is often more efficient than adding an event listener to many
+elements, especially when user-generated content could add an unknown number of
+elements. It takes advantage of
 [event bubbling](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_bubbling)
 and works like this:
 
@@ -289,13 +289,13 @@ But what were the results of this work?
 
 ## Conclusion
 
-The work from step 1 and step 2 were released to production in two deploys with
-step 1 deployed first followed by step 2.
+We deployed the work from step 1 and step 2 to production in two deploys — step
+1 followed by step 2.
 
 Wikipedia's
 [synthetic performance tests](https://developer.mozilla.org/en-US/docs/Web/Performance/Rum-vs-Synthetic#synthetic_monitoring)
-showed approximately a 200ms decrease in TBT after the first deploy and
-approximately 80ms decrease after the second deploy when testing on a Moto G (5)
+showed approximately a 200ms decrease in TBT after the first deployment and
+about a 80ms reduction after the second deployment when testing on a Moto G (5)
 phone. Together, this work reduced TBT by almost **300ms**.
 
 import tbtResults from "./assets/total-blocking-time-results.png";
@@ -312,4 +312,4 @@ will likely require
 
 Making noticeable performance improvements doesn't always require huge or
 complex changes to a codebase. Sometimes, all it takes is removing or optimizing
-small pieces of code to make a big impact.
+small pieces of code to make a significant impact.
