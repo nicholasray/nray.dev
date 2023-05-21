@@ -31,20 +31,29 @@ execution time of this task by over 50%.
 ## What's the big deal?
 
 600ms may not sound like a large amount of time, but imagine if a user tried to
-interact with the page (e.g. by clicking a button) when this JavaScript was
-beginning to execute. Because JavaScript is single-threaded, the user would need
-to wait at least this amount of time before the browser could respond to that
-interaction with a visual update. And users _can_ perceive any interaction that
-takes longer than
+interact with the page by clicking a button when JavaScript began to execute.
+Because JavaScript is single-threaded, the user would need to wait at least this
+amount of time before the browser could execute the click handler and respond to
+that interaction with a visual update. And users _can_ perceive any interaction
+that takes longer than
 [100ms](https://web.dev/rail/#response-process-events-in-under-50ms) as
 **slow**.
+
+import mainThreadClick from "./assets/main-thread-click.png";
+
+<Image
+  background
+  src={mainThreadClick}
+  alt="Main thread timeline showing a click occuring at the beginning of a long task. After the long task is finished, the click callback executes, followed by a browser paint. A visual update only appears after the paint."
+  caption="If the user clicks a button during the execution of a long task, they need to wait for the long task to finish before the click handler executes that produces a visual update."
+/>
 
 In fact, Google considers any task on the browser's
 [main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread)
 that takes
 [longer than 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread)
 a "long task" that can affect the page's responsiveness to user input. They even
-developed a metric for this — "Total Blocking Time" (TBT).
+developed a metric for this called "Total Blocking Time" (TBT).
 
 import mainThreadTasks from "./assets/main-thread-tasks.png";
 
@@ -52,11 +61,13 @@ import mainThreadTasks from "./assets/main-thread-tasks.png";
   background
   src={mainThreadTasks}
   alt="A timeline from first contentful paint to time to interactive showing a 80ms task, a 30ms task, and a 100ms task on the main thread"
+  caption="There are two long tasks — the 80ms task and the 100ms task."
 />
 
-TBT measures the sum of time that the browser's main thread is blocked by tasks
-longer than 50ms between [First Contentful Paint](https://web.dev/fcp/) and
-[Time to Interactive](https://web.dev/tti/).
+TBT measures the sum of the blocking portion of all long tasks on the browser's
+main thread between [First Contentful Paint](https://web.dev/fcp/) and
+[Time to Interactive](https://web.dev/tti/). The "blocking portion" is the
+amount of time after 50ms.
 
 Let's take a closer look:
 
