@@ -148,8 +148,8 @@ impact was negligible. But long articles like
 "[United States](https://en.wikipedia.org/wiki/United_States)" included over
 4,000 links, leading to over 200ms of execution time on low-end devices.
 
-Worse yet, this behavior was unnecessary. The downstream code that listened to
-the `hashchange` event already called the same method that the click event
+Worse yet, this behavior was **unnecessary**. The downstream code that listened
+to the `hashchange` event already called the same method that the click event
 listener called. Unless the window's location already pointed at the link's
 destination, clicking a link called the `checkHash` method twice — once for the
 link click event handler and once more for the `hashchange` handler.
