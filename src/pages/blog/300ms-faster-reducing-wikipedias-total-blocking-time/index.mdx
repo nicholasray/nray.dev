@@ -23,7 +23,7 @@ lead to:
 For more than three years, Wikipedia's mobile site had a piece of JavaScript
 that could take over
 [600ms to execute](https://phabricator.wikimedia.org/T241139) during page load
-on low-end devices that could cause the page to become unresponsive.
+on low-end devices and block interactions from the user.
 
 In this article, we'll walk through a couple easy steps I took to reduce the
 execution time of this task by over 50%.
@@ -46,11 +46,30 @@ that takes
 a "long task" that can affect the page's responsiveness to user input. They even
 developed a metric for this — "Total Blocking Time" (TBT).
 
+import mainThreadTasks from "./assets/main-thread-tasks.png";
+
+<Image
+  background
+  src={mainThreadTasks}
+  alt="A timeline from first contentful paint to time to interactive showing a 80ms task, a 30ms task, and a 100ms task on the main thread"
+/>
+
 TBT measures the sum of time that the browser's main thread is blocked by tasks
 longer than 50ms between [First Contentful Paint](https://web.dev/fcp/) and
 [Time to Interactive](https://web.dev/tti/).
 
-Let's review what this means:
+Let's take a closer look:
+
+import mainThreadTasksTbt from "./assets/main-thread-tasks-tbt.png";
+
+<Image background src={mainThreadTasksTbt} alt="Main thread tasks" />
+
+1. The 80ms task is **30ms** longer than 50ms so contributes **30ms** to TBT.
+2. The second task doesn't contribute to TBT at all since it is less than 50ms.
+3. The 100ms task is **50ms** longer than 50ms so contributes **50ms** to TBT.
+
+Since TBT is the sum of the total time of tasks in excess of 50ms, the TBT for
+this example is 30ms + 50ms = **80ms**.
 
 Google [recommends](https://web.dev/tbt/#what-is-a-good-tbt-score) sites have a
 TBT less than 200 milliseconds when tested on average mobile hardware. But
@@ -244,11 +263,10 @@ import tbtResults from "./assets/total-blocking-time-results.png";
 <Image
   src={tbtResults}
   alt="Synthetic test graph showing a 200ms decrease in Total Blocking Time after the first deploy and a 100ms decrease in Total Blocking Time after the second deploy"
-  shadow
 />
 
 Of course, there is still room for improvement. This task is still almost 250ms
-(300ms - 50ms) too long on low-end devices. Reducing TBT from this task further
+(300ms - 50ms) too long on low-end devices. Reducing more TBT from this task
 will likely require
 [breaking it up into smaller tasks](https://web.dev/optimize-long-tasks/).
 
