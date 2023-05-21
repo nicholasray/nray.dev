@@ -45,7 +45,7 @@ import mainThreadClick from "./assets/main-thread-click.png";
   background
   src={mainThreadClick}
   alt="Main thread timeline showing a click occuring at the beginning of a long task. After the long task is finished, the click callback executes, followed by a browser paint. A visual update only appears after the paint."
-  caption="If the user clicks a button during the execution of a long task, they need to wait for the long task to finish before the click handler executes that produces a visual update."
+  caption="A long task can delay the execution of a click handler that produces a visual update."
 />
 
 In fact, Google considers any task on the browser's
