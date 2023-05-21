@@ -32,10 +32,11 @@ execution time of this task by over 50%.
 
 600ms may not sound like a long time, but imagine if a user tried to interact
 with the page by clicking a button when JavaScript began to execute during page
-load. Because JavaScript is single-threaded, the user would need to wait this
-amount of time before the browser could execute the click handler and respond to
-that interaction with a visual update. And any interaction that takes longer
-than [100ms](https://web.dev/rail/#response-process-events-in-under-50ms) can be
+load. Because JavaScript is single-threaded, the user would need to wait for
+this JavaScript to complete before the browser could execute the relevant click
+handler and respond to that interaction with a visual update. And any
+interaction that takes longer than
+[100ms](https://web.dev/rail/#response-process-events-in-under-50ms) can be
 perceived as **slow**.
 
 import mainThreadClick from "./assets/main-thread-click.png";
