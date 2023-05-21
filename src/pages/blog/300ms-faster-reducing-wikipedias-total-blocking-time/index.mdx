@@ -35,14 +35,10 @@ button during page load when the 600ms of JavaScript began executing. Because
 JavaScript is single-threaded, the user would need to wait for the following
 steps to finish before they see a visual update:
 
-1. The 600ms JavaScript task to complete
-2. The relevant click handler task to complete
-3. The browser to perform the necessary rendering steps to visually update the
-   page.
-
-Each of these takes time, and any interaction that takes longer than
-[100ms](https://web.dev/rail/#response-process-events-in-under-50ms) can be
-perceived as **slow**.
+1. The 600ms JavaScript task completes
+2. The relevant click handler task completes
+3. The browser performs the necessary rendering steps to update the page
+   visually
 
 import mainThreadClick from "./assets/main-thread-click.png";
 
@@ -53,11 +49,13 @@ import mainThreadClick from "./assets/main-thread-click.png";
   caption="A long task can delay the execution of a click handler that produces a visual update."
 />
 
-Google considers any task on the browser's
+Each step takes time, and the user can perceive any interaction that takes
+longer than [100ms](https://web.dev/rail/#response-process-events-in-under-50ms)
+to be **slow**. Because of this, Google considers any task on the browser's
 [main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread)
 that takes
-[longer than 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread)
-a "long task" that can affect the page's responsiveness to user input. They even
+[over 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread) a
+"long task" that can affect the page's responsiveness to user input. They even
 developed a metric for this called "Total Blocking Time" (TBT).
 
 import mainThreadTasks from "./assets/main-thread-tasks.png";
@@ -71,8 +69,8 @@ import mainThreadTasks from "./assets/main-thread-tasks.png";
 
 TBT measures the sum of the blocking portion of all long tasks on the browser's
 main thread between [First Contentful Paint](https://web.dev/fcp/) and
-[Time to Interactive](https://web.dev/tti/). The "blocking portion" is the
-amount of time after 50ms in each long task.
+[Time to Interactive](https://web.dev/tti/). The "blocking portion" is the time
+after 50ms of each long task.
 
 Let's try calculating the TBT in the example below:
 
@@ -81,11 +79,10 @@ import mainThreadTasksTbt from "./assets/main-thread-tasks-tbt.png";
 <Image background src={mainThreadTasksTbt} alt="Main thread tasks" />
 
 1. The 80ms task is **30ms** longer than 50ms so contributes **30ms** to TBT.
-2. The second task doesn't contribute to TBT at all since it is less than 50ms
-   and therefore is not a long task.
+2. The second task doesn't contribute to TBT since it is less than 50ms.
 3. The 100ms task is **50ms** longer than 50ms so contributes **50ms** to TBT.
 
-Since TBT is the sum of the time exceeding 50ms in each long task, the TBT for
+Since TBT is the sum of the time exceeding 50ms of each long task, the TBT for
 this example is 30ms + 50ms = **80ms**.
 
 When tested on average mobile hardware, Google
@@ -107,8 +104,6 @@ To decrease TBT, you need to either:
 While many things run on the main thread, including HTML parsing, paints, and
 garbage collection, long JavaScript execution is frequently the culprit of TBT
 problems.
-
-In fact,
 [JavaScript is the fastest way to slow down a site](https://timkadlec.com/remembers/2020-04-21-the-cost-of-javascript-frameworks/).
 
 import profileBeginning from "./assets/profile-beginning.png";
@@ -121,8 +116,8 @@ import profileBeginning from "./assets/profile-beginning.png";
 
 When I profiled Wikipedia's mobile site, I found that an `_enable` method was
 responsible for most of the execution time. This method initialized the mobile
-site's section expansion and collapsing behavior. And much of the time was spent
-in an insidious call to jQuery's `.on("click")` method.
+site's section expansion and collapsing behavior. The profile also showed that,
+within the `_enable` method, a call to jQuery's `.on("click")` method was slow.
 
 ```js {6-15}
 function _enable( $container, prefix, page, isClosed ) {
@@ -149,15 +144,15 @@ function _enable( $container, prefix, page, isClosed ) {
 The `.on("click")` call attached a click event listener to nearly every link in
 the content so that the corresponding section would open if the clicked link
 contained a hash fragment. For short articles with few links, the performance
-impact was negligible. But long articles like the
-[United States](https://en.wikipedia.org/wiki/United_States) article contained
-over 4,000 links, leading to over 200ms of execution time on low-end devices.
+impact was negligible. But long articles like
+"[United States](https://en.wikipedia.org/wiki/United_States)" included over
+4,000 links, leading to over 200ms of execution time on low-end devices.
 
-Worse yet, this behavior was primarily redundant. The following code that
-listened to the `hashchange` event already called the same method that the click
-event listener called. Unless the window's location already pointed at the
-link's destination, clicking a link called the `checkHash` method twice — once
-for the link click event handler, and once more for the `hashchange` handler.
+Worse yet, this behavior was unnecessary. The downstream code that listened to
+the `hashchange` event already called the same method that the click event
+listener called. Unless the window's location already pointed at the link's
+destination, clicking a link called the `checkHash` method twice — once for the
+link click event handler and once more for the `hashchange` handler.
 
 import profileRemoval from "./assets/profile-removing-unnecessary-code.png";
 
@@ -187,10 +182,10 @@ import profileMediaViewer from "./assets/profile-media-viewer.png";
   alt="Chrome performance profile showing that an `initMediaViewer` method took 114ms to execute."
 />
 
-Another look at the performance profile revealed that around ~100 milliseconds
-was spent in an `initMediaViewer` method. This method was responsible for
-attaching a click event listener to **each** thumbnail in the content so that a
-click to a thumbnail would open a media viewer:
+An additional performance review revealed that an `initMediaViewer` method took
+~100ms to execute . This method was responsible for attaching a click event
+listener to **each** thumbnail in the content so that a click to a thumbnail
+would open a media viewer:
 
 ```js
 /**
@@ -230,9 +225,8 @@ Use **event delegation**.
 
 Event delegation is a powerful technique that enables us to attach a single
 event listener to an element that is the common ancestor of many elements. Using
-event delegation is often more efficient than adding an event listener to many
-elements, especially when user-generated content could add many elements. It
-takes advantage of
+event delegation is often more efficient when dealing with user-generated
+content that could add any number of elements. It takes advantage of
 [event bubbling](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_bubbling)
 and works like this:
 
@@ -242,8 +236,8 @@ and works like this:
    `event.target.closest(selector)`
    [API](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest) to
    check for an ancestor element.
-3. If the source of the event is an element or the child of an element we care
-   about, handle it.
+3. If the source of the event is an element or the child of an element we're
+   interested in, handle it.
 
 The
 [updated code](https://gerrit.wikimedia.org/r/c/mediawiki/skins/MinervaNeue/+/908675/10/resources/skins.minerva.scripts/initMobile.js#66)
@@ -316,7 +310,7 @@ Of course, there is still room for improvement. This task is still almost 250ms
 (300ms - 50ms) too long on low-end devices. Reducing more TBT from this task
 will likely require
 [breaking it up into smaller tasks](https://web.dev/optimize-long-tasks/).
-Still, the task was reduced by about 50% with a couple small wins.
+Still, the task was reduced by about 50% with a couple of small wins.
 
 Making noticeable performance improvements doesn't always require huge or
 complex changes to a codebase. Sometimes, all it takes is removing or optimizing
