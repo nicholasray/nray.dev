@@ -31,12 +31,12 @@ execution time of this task by over 50%.
 ## What's the big deal?
 
 600ms may not sound like a long time, but imagine if a user tries to interact
-with the page by clicking a button when JavaScript began executing during page
-load. Because JavaScript is single-threaded, the user would need to wait for the
-following steps to finish before they see a visual update:
+with the page by clicking a button when the 600ms JavaScript began executing
+during page load. Because JavaScript is single-threaded, the user would need to
+wait for the following steps to finish before they see a visual update:
 
-1. The JavaScript to complete
-2. The relevant click handler to complete
+1. The 600ms JavaScript task to complete
+2. The relevant click handler task to complete
 3. The browser to perform the necessary rendering steps to visually update the
    page.
 
