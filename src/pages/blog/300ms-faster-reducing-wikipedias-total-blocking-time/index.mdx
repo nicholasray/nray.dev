@@ -32,10 +32,15 @@ execution time of this task by over 50%.
 
 600ms may not sound like a long time, but imagine if a user tried to interact
 with the page by clicking a button when JavaScript began to execute during page
-load. Because JavaScript is single-threaded, the user would need to wait for
-this JavaScript to complete before the browser could execute the relevant click
-handler and respond to that interaction with a visual update. And any
-interaction that takes longer than
+load. Because JavaScript is single-threaded, the user would need to wait for the
+following steps to finish before they saw a visual update:
+
+1. The JavaScript to complete
+2. The relevant click handler to complete
+3. The browser to perform the necessary rendering steps to visually update the
+   page.
+
+Each of these takes time, and any interaction that takes longer than
 [100ms](https://web.dev/rail/#response-process-events-in-under-50ms) can be
 perceived as **slow**.
 
@@ -67,7 +72,7 @@ import mainThreadTasks from "./assets/main-thread-tasks.png";
 TBT measures the sum of the blocking portion of all long tasks on the browser's
 main thread between [First Contentful Paint](https://web.dev/fcp/) and
 [Time to Interactive](https://web.dev/tti/). The "blocking portion" is the
-amount of time after 50ms.
+amount of time after 50ms in each long task.
 
 Let's try calculating the TBT in the example below:
 
