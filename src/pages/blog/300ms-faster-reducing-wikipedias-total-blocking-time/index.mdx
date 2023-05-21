@@ -34,10 +34,9 @@ execution time of this task by over 50%.
 interact with the page by clicking a button when JavaScript began to execute.
 Because JavaScript is single-threaded, the user would need to wait at least this
 amount of time before the browser could execute the click handler and respond to
-that interaction with a visual update. And users _can_ perceive any interaction
-that takes longer than
-[100ms](https://web.dev/rail/#response-process-events-in-under-50ms) as
-**slow**.
+that interaction with a visual update. And any interaction that takes longer
+than [100ms](https://web.dev/rail/#response-process-events-in-under-50ms) can be
+perceived as **slow**.
 
 import mainThreadClick from "./assets/main-thread-click.png";
 
@@ -104,28 +103,39 @@ problems.
 In fact,
 [JavaScript is the fastest way to slow down a site](https://timkadlec.com/remembers/2020-04-21-the-cost-of-javascript-frameworks/).
 
-When I profiled Wikipedia's mobile site, I found approximately **200ms** spent
-in an `_enable` method responsible for initializing the mobile site's section
-expansion and collapsing behavior. And much of the time was spent in an
+import profileBeginning from "./assets/profile-beginning.png";
+
+<Image
+  background
+  src={profileBeginning}
+  alt="Chrome performance profile showing that one method took 475ms to execute."
+/>
+
+When I profiled Wikipedia's mobile site, I found that the majority of the time
+was spent in an `_enable` method responsible for initializing the mobile site's
+section expansion and collapsing behavior. And much of the time was spent in an
 insidious call to jQuery's `.on("click")` method.
 
-```js {4-13}
-// Restricted to links created by editors and thus outside our control
-// T166544 - don't do this for reference links - they will be handled elsewhere
-var $link = $container.find("a:not(.reference a)");
-$link.on("click", function () {
-  // the link might be an internal link with a hash.
-  // if it is check if we need to reveal any sections.
-  if (
-    $link.attr("href") !== undefined &&
-    $link.attr("href").indexOf("#") > -1
-  ) {
+```js {6-15}
+function _enable( $container, prefix, page, isClosed ) {
+  ...
+  // Restricted to links created by editors and thus outside our control
+  // T166544 - don't do this for reference links - they will be handled elsewhere
+  var $link = $container.find("a:not(.reference a)");
+  $link.on("click", function () {
+    // the link might be an internal link with a hash.
+    // if it is check if we need to reveal any sections.
+    if (
+      $link.attr("href") !== undefined &&
+      $link.attr("href").indexOf("#") > -1
+    ) {
+      checkHash();
+    }
+  });
+  util.getWindow().on("hashchange", function () {
     checkHash();
-  }
-});
-util.getWindow().on("hashchange", function () {
-  checkHash();
-});
+  });
+}
 ```
 
 The `.on("click")` call attached a click event listener to nearly every link in
@@ -142,6 +152,14 @@ link's destination, clicking a link would call the same `checkHash` method twice
 — once for the link click event handler and once more for the `hashchange`
 handler.
 
+import profileRemoval from "./assets/profile-removing-unnecessary-code.png";
+
+<Image
+  background
+  src={profileRemoval}
+  alt="Chrome performance profile showing that one method took 475ms to execute."
+/>
+
 Therefore, in this case, the best approach was to simply
 [remove this block of JavaScript](https://gerrit.wikimedia.org/r/c/mediawiki/extensions/MobileFrontend/+/908333/6/src/mobile.startup/Toggler.js#22)
 and free up nearly 200ms from the main thread with virtually the same
@@ -150,7 +168,7 @@ functionality.
 When profiling, always check where the most time is being spent. Then, see if
 there is code you can either optimize or remove.
 
-The fastest way to speed up a site is to _remove_ JavaScript.
+Remember, the fastest way to speed up a site is to _remove_ JavaScript.
 
 ## Step 2: Do less work by using event delegation
 
