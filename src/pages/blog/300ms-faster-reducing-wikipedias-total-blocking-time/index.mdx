@@ -82,7 +82,7 @@ import mainThreadTasksTbt from "./assets/main-thread-tasks-tbt.png";
 
 1. The 80ms task is **30ms** longer than 50ms so contributes **30ms** to TBT.
 2. The second task doesn't contribute to TBT at all since it is less than 50ms
-   and not a long task.
+   and therefore is not a long task.
 3. The 100ms task is **50ms** longer than 50ms so contributes **50ms** to TBT.
 
 Since TBT is the sum of the time exceeding 50ms in each long task, the TBT for
@@ -173,7 +173,7 @@ and free up nearly 200ms from the main thread with virtually the same
 functionality.
 
 When profiling, always check where the most time is spent. Then, see if there is
-code you can either optimize or remove.
+code you can either optimize or, better yet, remove.
 
 Remember, the fastest way to speed up a site is to _remove_ JavaScript.
 
