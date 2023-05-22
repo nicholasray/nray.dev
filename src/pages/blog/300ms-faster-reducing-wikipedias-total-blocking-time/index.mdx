@@ -93,14 +93,18 @@ milliseconds** — 3x the recommended limit.
 
 How do we improve TBT?
 
-## Step 1: Reduce Total Blocking Time by removing JavaScript
+## How to reduce Total Blocking Time
 
-To decrease TBT, you need to either:
+To decrease TBT, we need to either:
 
-1. Do less work on the main thread between First Contentful Paint and Time to
-   Interactive
-2. Do the same amount of work, but break up long tasks into smaller tasks that
-   don't exceed 50ms
+- Do less work on the main thread between First Contentful Paint and Time to
+  Interactive
+- Do the same amount of work, but break up long tasks into smaller tasks that
+  don't exceed 50ms
+
+This article focuses on making gains from the first bullet point.
+
+## Step 1: Remove unnecessary JavaScript
 
 While many things run on the main thread, including HTML parsing, paints, and
 garbage collection, long JavaScript execution is frequently the culprit of TBT
@@ -173,7 +177,7 @@ code you can either optimize or, better yet, remove.
 
 **Remember, the fastest way to speed up a site is to _remove_ JavaScript.**
 
-## Step 2: Reduce Total Blocking Time by optimizing JavaScript
+## Step 2: Optimize existing JavaScript
 
 import profileMediaViewer from "./assets/profile-media-viewer.png";
 
