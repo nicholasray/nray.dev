@@ -32,8 +32,10 @@ execution time of this task by over 50%.
 
 600ms may not sound like a long time, but imagine if a user tried to click a
 button during page load when the 600ms of JavaScript began executing. Because
-JavaScript is single-threaded, the user would need to wait for the following
-steps to finish before they see a visual update:
+only one task can be processed on the browser's
+[main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread) at
+any given time, the user would need to wait for the following steps to finish before
+they see a visual update:
 
 1. The 600ms JavaScript task completes
 2. The relevant click handler task completes
@@ -51,9 +53,7 @@ import mainThreadClick from "./assets/main-thread-click.png";
 
 Each step takes time, and the user can perceive any interaction that takes
 longer than [100ms](https://web.dev/rail/#response-process-events-in-under-50ms)
-to be **slow**. Because of this, Google considers any task on the browser's
-[main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread)
-that takes
+to be **slow**. Because of this, Google considers any task that takes
 [over 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread) a
 "long task" that can affect the page's responsiveness to user input. They even
 developed a metric for this called "Total Blocking Time" (TBT).
