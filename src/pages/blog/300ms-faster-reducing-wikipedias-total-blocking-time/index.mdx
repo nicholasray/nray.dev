@@ -307,12 +307,15 @@ import tbtResults from "./assets/total-blocking-time-results.png";
   alt="Synthetic test graph showing a 200ms decrease in Total Blocking Time after the first deploy and a 100ms decrease in Total Blocking Time on a Moto G (5) phone after the second deploy."
 />
 
-Of course, there is still room for improvement. This task is still almost 250ms
-(300ms - 50ms) too long on low-end devices. Reducing more TBT from this task
-will likely require
-[breaking it up into smaller tasks](https://web.dev/optimize-long-tasks/).
-Still, the task was reduced by about 50% with a couple of small wins.
+While there is still room for further improvement, with the task still exceeding
+the recommended limit on low-end devices, the progress made so far is
+significant. To achieve even greater reductions in TBT, it may be necessary to
+break down the task into smaller tasks.
 
-Making noticeable performance improvements doesn't always require huge or
-complex changes to a codebase. Sometimes, all it takes is removing or optimizing
-small pieces of code to make a significant impact.
+What this experience demonstrates is that significant performance improvements
+can be achieved through small, targeted optimizations. By removing or optimizing
+specific sections of code, even seemingly minor changes can have a substantial
+impact on a website's overall performance. It serves as a reminder that
+delivering a smoother and more responsive browsing experience doesn't always
+require complex and extensive modifications to the codebase. Sometimes, it's the
+smaller wins that make the biggest difference.
