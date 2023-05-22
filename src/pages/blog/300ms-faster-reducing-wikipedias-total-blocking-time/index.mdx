@@ -34,8 +34,8 @@ execution time of this task by over 50%.
 button during page load when the 600ms of JavaScript began executing. Because
 only one task can be processed on the browser's
 [main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread) at
-any given time, the user would need to wait for the following steps to finish before
-they see a visual update:
+any given time, the user would need to wait for the following steps to finish
+before they see a visual update:
 
 1. The 600ms JavaScript task completes
 2. The relevant click handler task completes
@@ -92,7 +92,7 @@ milliseconds — 3x the recommended limit.
 
 How do we improve TBT?
 
-## Step 1: Do less work by removing code
+## Step 1: Do less work by removing JavaScript
 
 To decrease TBT, you need to either:
 
