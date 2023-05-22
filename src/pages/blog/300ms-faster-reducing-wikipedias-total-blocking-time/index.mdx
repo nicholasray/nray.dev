@@ -82,7 +82,8 @@ import mainThreadTasksTbt from "./assets/main-thread-tasks-tbt.png";
 <Image background src={mainThreadTasksTbt} alt="Main thread tasks" />
 
 1. The 80ms task is **30ms** longer than 50ms so contributes **30ms** to TBT.
-2. The second task doesn't contribute to TBT since it is less than 50ms.
+2. The second task doesn't contribute to TBT since it is less than 50ms and NOT
+   a long task.
 3. The 100ms task is **50ms** longer than 50ms so contributes **50ms** to TBT.
 
 Since TBT is the sum of the time exceeding 50ms of each long task, the TBT for
