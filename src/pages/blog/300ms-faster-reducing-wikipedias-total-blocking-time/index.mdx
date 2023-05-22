@@ -54,7 +54,7 @@ import mainThreadClick from "./assets/main-thread-click.png";
 Each step takes time, and the user can perceive any interaction that takes
 longer than [100ms](https://web.dev/rail/#response-process-events-in-under-50ms)
 to be **slow**. Because of this, Google considers any task that takes
-[over 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread) a
+[more than 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread) a
 "long task" that can affect the page's responsiveness to user input. They even
 developed a metric for this called "Total Blocking Time" (TBT).
 
@@ -312,6 +312,6 @@ will likely require
 [breaking it up into smaller tasks](https://web.dev/optimize-long-tasks/).
 Still, the task was reduced by about 50% with a couple of small wins.
 
-Making noticeable performance improvements doesn't always require huge or
-complex changes to a codebase. Sometimes, all it takes is removing or optimizing
-small pieces of code to make a significant impact.
+Making noticeable performance improvements don't always require huge or complex
+changes to a codebase. Sometimes, all it takes is removing or optimizing small
+pieces of code to make a significant impact.
