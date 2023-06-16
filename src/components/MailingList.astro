@@ -9,13 +9,15 @@ const { url } = Astro.props;
 
 <div class="flex flex-col items-center">
   <h2
-    class="lg:text-4xl text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white"
+    class="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white lg:text-4xl"
   >
     Make your website faster 🚀
   </h2>
-  <p class="mt-6 max-w-3xl text-lg text-zinc-600 dark:text-zinc-300">
-    Learn web performance strategies that lead to increased conversions and
-    happier users. Subscribe to the newsletter.
+  <p
+    class="mt-6 max-w-2xl text-center text-lg text-zinc-600 dark:text-zinc-300"
+  >
+    Get web performance strategies that lead to increased conversions and
+    happier users. Sign up for the newsletter.
   </p>
   <form
     action={url}
@@ -35,7 +37,7 @@ const { url } = Astro.props;
         type="submit"
         class="absolute right-1 flex h-14 items-center rounded-full bg-zinc-700 px-5 py-4 font-medium text-zinc-300 hover:bg-zinc-700/95 hover:text-zinc-50 active:bg-zinc-700 active:text-zinc-300/90"
       >
-      Subscribe
+        Subscribe
       </button>
     </div>
   </form>
