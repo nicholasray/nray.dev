@@ -31,9 +31,8 @@ execution time of this task by about 50%.
 ## Total Blocking Time: Why long tasks matter
 
 600ms of synchronous JavaScript execution may not sound like a long time, but
-imagine if a user tried to click a button during page load when the 600ms of
-JavaScript began executing. Because only one task can be processed on the
-browser's
+imagine if a user tried to click a button during page load when the JavaScript
+began executing. Because only one task can be processed on the browser's
 [main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread) at
 any given time, the user would need to wait for the following steps to finish
 before they see a visual update:
