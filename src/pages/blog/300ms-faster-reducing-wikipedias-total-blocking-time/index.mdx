@@ -318,6 +318,17 @@ import tbtResults from "./assets/total-blocking-time-results.png";
   caption={`Wikipedia's Moto G (5) synthetic performance test visiting the "Sweden" article on English Wikipedia`}
 />
 
+Wikipedia's real user monitoring (RUM) also showed improvements for long task
+duration.
+
+import longTaskDuration from "./assets/long-task-duration-results.png";
+
+<Image
+  src={longTaskDuration}
+  alt="Real user monitoring graph of p95 India users showing a roughly 200ms improvement in long task duration before load event"
+  caption={`Real user monitoring graph of p95 India users showing a roughly 200ms improvement in long task duration before load event`}
+/>
+
 While there is still room for further improvement, with the task still exceeding
 the recommended limit on low-end devices, the progress made so far is
 significant. To achieve even greater reductions in TBT, it may be necessary to
