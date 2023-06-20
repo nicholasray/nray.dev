@@ -7,14 +7,16 @@ interface Props {
 const { url } = Astro.props;
 ---
 
-<div class="flex flex-col items-center">
+<div
+  class="flex flex-col items-center rounded-2xl bg-zinc-200/80 px-10 py-14 dark:bg-zinc-800"
+>
   <h2
     class="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white lg:text-4xl"
   >
     Make your website faster 🚀
   </h2>
   <p
-    class="mt-6 max-w-2xl text-center text-lg text-zinc-600 dark:text-zinc-300"
+    class="mt-6 max-w-2xl text-center text-lg text-zinc-800 dark:text-zinc-300"
   >
     Get web performance tips that lead to increased conversions and happier
     users.
@@ -29,19 +31,19 @@ const { url } = Astro.props;
         type="email"
         name="email_address"
         required
-        class="shadow-inner-10 h-16 w-full rounded-full bg-zinc-100 py-2 pl-7 pr-40 font-semibold text-zinc-900 placeholder:text-zinc-600 dark:bg-zinc-50"
+        class="shadow-inner-10 h-16 w-full rounded-full bg-white py-2 pl-7 pr-40 font-semibold text-zinc-900 placeholder:text-zinc-600 dark:bg-zinc-50"
         placeholder="Email Address"
         aria-label="Email Address"
       />
       <button
         type="submit"
-        class="absolute right-1 flex h-14 items-center rounded-full bg-zinc-700 px-5 py-4 font-medium text-zinc-300 hover:bg-zinc-700/95 hover:text-zinc-50 active:bg-zinc-700 active:text-zinc-300/90"
+        class="absolute right-1 flex h-14 items-center rounded-full bg-zinc-800 px-5 py-4 font-medium text-white hover:bg-zinc-700/95 hover:text-zinc-50 active:bg-zinc-700 active:text-zinc-300/90"
       >
         Subscribe
       </button>
     </div>
   </form>
-  <div class="mt-6 text-sm text-zinc-600 dark:text-zinc-400">
+  <div class="mt-6 text-sm text-zinc-800 dark:text-zinc-300">
     No spam. Unsubscribe anytime. <span class="text-xl">✌️</span>
   </div>
 </div>
