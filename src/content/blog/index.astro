@@ -2,11 +2,10 @@
 import Article from "@components/Article.astro";
 import Layout from "@layouts/Layout.astro";
 import { getPosts } from "@src/api";
-import type { PostFrontmatter } from "@src/types";
+import { getCollection } from "astro:content";
 
-const posts = await getPosts(
-  await Astro.glob<PostFrontmatter>("./**/index.mdx")
-);
+const collection = await getCollection("blog");
+const posts = await getPosts(collection);
 ---
 
 <Layout>

@@ -4,13 +4,12 @@ import Layout from "@layouts/Layout.astro";
 import avatar from "@assets/images/avatar.jpg";
 import { Icon } from "astro-icon";
 import ArticleFooter from "@components/ArticleFooter.astro";
-import type { PostFrontmatter } from "@src/types";
 import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
+import { getCollection } from "astro:content";
 
-const posts = await getPosts(
-  await Astro.glob<PostFrontmatter>("./blog/**/index.mdx")
-);
+const collection = await getCollection("blog");
+const posts = await getPosts(collection);
 
 const featured = posts[0];
 const restOfPosts = posts.slice(1);
@@ -47,12 +46,12 @@ const restOfPosts = posts.slice(1);
               background={undefined}
               class="h-80 w-full rounded-3xl object-cover md:h-[34rem]"
               loading="eager"
-              alt={featured.frontmatter.cover.alt}
-              src={featured.frontmatter.cover.src}
-              aspectRatio={featured.frontmatter.cover.width /
-                featured.frontmatter.cover.height}
-              width={featured.frontmatter.cover.width}
-              height={featured.frontmatter.cover.height}
+              alt={featured.data.cover.alt}
+              src={featured.data.cover.src}
+              aspectRatio={featured.data.cover.width /
+                featured.data.cover.height}
+              width={featured.data.cover.width}
+              height={featured.data.cover.height}
               widths={[400, 800, 1200]}
               sizes="(min-width: 48rem) 37rem, 100vw"
             />
@@ -64,21 +63,21 @@ const restOfPosts = posts.slice(1);
               <h1
                 class="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white lg:text-5xl"
               >
-                {featured.frontmatter.title}
+                {featured.data.title}
               </h1>
             </a>
             <p
               class="mt-8 text-xl text-zinc-600 dark:text-zinc-300 lg:text-2xl"
             >
-              {featured.frontmatter.description}
+              {featured.data.description}
             </p>
 
             <footer
               class="mt-8 text-sm uppercase tracking-wide text-zinc-500 dark:text-zinc-400"
             >
               <ArticleFooter
-                publishedAt={featured.frontmatter.publishedAt}
-                readingTime={featured.frontmatter.readingTime}
+                publishedAt={featured.data.publishedAt}
+                readingTime={featured.readingTime}
               />
             </footer>
           </article>

@@ -1,32 +1,36 @@
-import type { MDXInstance } from "astro";
 import { compareDesc } from "date-fns";
-import type { Post, PostFrontmatter } from "./types";
 import sharp from "sharp";
+import type { CollectionEntry } from "astro:content";
+import path from "path";
+import { fileURLToPath } from "url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-export async function getPost(post: MDXInstance<PostFrontmatter>) {
-  if (!(post.frontmatter.cover && post.frontmatter.cover.filename)) {
-    return post;
-  }
-
-  const input = `${post.file.substring(
-    0,
-    post.file.indexOf("/src")
-  )}/public/covers/${post.frontmatter.cover.filename}`;
-  const metadata = await sharp(input).metadata();
+export async function getPost(entry: CollectionEntry<"blog">) {
+  const coverFilename = entry.data.cover.filename;
+  const metadata = await sharp(
+    `${__dirname}/../public/covers/${coverFilename}`
+  ).metadata();
 
   if (!metadata.width || !metadata.height) {
     throw new Error(
-      `Could not determine cover image dimensions for ${post.file}`
+      `Could not determine cover image dimensions for ${entry.id}`
     );
   }
 
+  const { Content, headings, remarkPluginFrontmatter } = await entry.render();
+
   return {
-    ...post,
-    frontmatter: {
-      ...post.frontmatter,
+    ...entry,
+    Content,
+    headings,
+    readingTime: remarkPluginFrontmatter.readingTime,
+    url: `/blog/${entry.slug}`,
+    data: {
+      ...entry.data,
       cover: {
-        ...post.frontmatter.cover,
-        src: `/covers/${post.frontmatter.cover.filename}`,
+        ...entry.data.cover,
+        src: `/covers/${coverFilename}`,
         width: metadata.width,
         height: metadata.height,
         format: metadata.format,
@@ -35,16 +39,16 @@ export async function getPost(post: MDXInstance<PostFrontmatter>) {
   };
 }
 
-export function getPosts(posts: MDXInstance<PostFrontmatter>[]) {
+export function getPosts(posts: CollectionEntry<"blog">[]) {
   return Promise.all(
     posts
-      .filter((post) => !(post.frontmatter.draft && import.meta.env.PROD))
+      .filter((post) => !(!post.data.publishedAt && import.meta.env.PROD))
       .sort((a, b) => {
         return compareDesc(
-          new Date(a.frontmatter.publishedAt || new Date()),
-          new Date(b.frontmatter.publishedAt || new Date())
+          new Date(a.data.publishedAt || new Date()),
+          new Date(b.data.publishedAt || new Date())
         );
       })
       .map(getPost)
-  ) as Promise<Post[]>;
+  );
 }

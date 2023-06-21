@@ -1,10 +1,10 @@
 ---
 import { Picture } from "@astrojs/image/components";
-import type { Post } from "src/types";
 import ArticleFooter from "./ArticleFooter.astro";
+import type { getPost } from "@src/api";
 
 export interface Props {
-  post: Post;
+  post: Awaited<ReturnType<typeof getPost>>;
 }
 
 const { post } = Astro.props;
@@ -15,13 +15,12 @@ const { post } = Astro.props;
     <div class="rounded-3xl">
       <Picture
         background={undefined}
-        alt={post.frontmatter.cover.alt}
-        class="h-80 md:h-[32rem] w-full rounded-3xl object-cover dark:shadow-lg"
-        src={post.frontmatter.cover.src}
-        aspectRatio={post.frontmatter.cover.width /
-          post.frontmatter.cover.height}
-        width={post.frontmatter.cover.width}
-        height={post.frontmatter.cover.height}
+        alt={post.data.cover.alt}
+        class="h-80 w-full rounded-3xl object-cover dark:shadow-lg md:h-[32rem]"
+        src={post.data.cover.src}
+        aspectRatio={post.data.cover.width / post.data.cover.height}
+        width={post.data.cover.width}
+        height={post.data.cover.height}
         widths={[400, 800, 1600]}
         sizes="(min-width: 48rem) 28rem, 100vw"
       />
@@ -29,17 +28,17 @@ const { post } = Astro.props;
     <h3
       class="mt-8 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white"
     >
-      {post.frontmatter.title}
+      {post.data.title}
     </h3>
-    <p class="mt-4 mb-6 text-lg text-zinc-600 dark:text-zinc-300">
-      {post.frontmatter.description}
+    <p class="mb-6 mt-4 text-lg text-zinc-600 dark:text-zinc-300">
+      {post.data.description}
     </p>
     <footer
       class="mt-auto text-sm uppercase tracking-wide text-zinc-500 dark:text-zinc-400"
     >
       <ArticleFooter
-        publishedAt={post.frontmatter.publishedAt}
-        readingTime={post.frontmatter.readingTime}
+        publishedAt={post.data.publishedAt}
+        readingTime={post.readingTime}
       />
     </footer>
   </article>

@@ -4,16 +4,19 @@ import { Image, Picture } from "@astrojs/image/components";
 import avatar from "@assets/images/avatar.jpg";
 import { format } from "date-fns";
 import Prose from "@components/Prose.astro";
-import type { PostFrontmatter } from "@src/types";
 import { getPost } from "@src/api";
-import type { MarkdownHeading, MDXInstance } from "astro";
 import TableOfContents from "@components/TableOfContents.astro";
+import type { CollectionEntry } from "astro:content";
+import type { MarkdownHeading } from "astro";
 
-const post = await getPost(Astro.props as MDXInstance<PostFrontmatter>);
+interface Props {
+  entry: CollectionEntry<"blog">;
+  headings: MarkdownHeading[];
+  readingTime: string;
+}
 
-const headings: MarkdownHeading[] = Astro.props.headings;
-const { title, readingTime, publishedAt, description, cover } =
-  post.frontmatter;
+const { entry, headings, readingTime } = Astro.props;
+const { title, description, publishedAt, cover } = (await getPost(entry)).data;
 ---
 
 <Layout
@@ -64,8 +67,8 @@ const { title, readingTime, publishedAt, description, cover } =
           </a>
           <div class="flex items-center">
             <span class="mx-3 font-bold">·</span>
-            <time datetime={publishedAt}>
-              {publishedAt ? format(new Date(publishedAt), "LLL d, yyyy") : ""}
+            <time datetime={publishedAt.toISOString()}>
+              {publishedAt ? format(publishedAt, "LLL d, yyyy") : ""}
             </time>
             <span class="mx-3 font-bold">·</span>
             <div>{readingTime}</div>
@@ -74,14 +77,13 @@ const { title, readingTime, publishedAt, description, cover } =
         <div class="mt-4 rounded-3xl md:mt-6 lg:mt-10">
           <Picture
             background={undefined}
-            alt={post.frontmatter.cover.alt}
+            alt={cover.alt}
             loading="eager"
             class="h-80 w-full rounded-3xl object-cover md:h-[32rem]"
-            src={post.frontmatter.cover.src}
-            aspectRatio={post.frontmatter.cover.width /
-              post.frontmatter.cover.height}
-            width={post.frontmatter.cover.width}
-            height={post.frontmatter.cover.height}
+            src={cover.src}
+            aspectRatio={cover.width / cover.height}
+            width={cover.width}
+            height={cover.height}
             widths={[400, 800, 1600, 2200]}
             sizes="(min-width: 48rem) 76rem, 100vw"
           />

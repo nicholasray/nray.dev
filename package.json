@@ -19,6 +19,7 @@
     "@astrojs/image": "0.17.0",
     "@astrojs/mdx": "0.19.7",
     "@astrojs/react": "2.2.1",
+    "@astrojs/rss": "^2.4.3",
     "@astrojs/tailwind": "4.0.0",
     "@tailwindcss/typography": "0.5.9",
     "@types/react": "18.2.13",
