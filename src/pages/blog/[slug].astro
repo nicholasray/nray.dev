@@ -1,9 +1,18 @@
 ---
-import BlogLayout from "@src/layouts/BlogLayout.astro";
+import Layout from "@layouts/Layout.astro";
+import { getPost } from "@src/api";
 import { CollectionEntry, getCollection } from "astro:content";
+import { Image, Picture } from "@astrojs/image/components";
+import avatar from "@assets/images/avatar.jpg";
+import { format } from "date-fns";
+import TableOfContents from "@components/TableOfContents.astro";
+import Prose from "@components/Prose.astro";
+
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
-  const blogEntries = await getCollection("blog");
+  const blogEntries = await getCollection("blog", ({ data }) => {
+    return !!data.publishedAt;
+  });
   return blogEntries.map((entry) => ({
     params: { slug: entry.slug },
     props: { entry },
@@ -15,14 +24,104 @@ interface Props {
 }
 
 // 2. When it's time to render, you can get the entry directly from the prop
-const { entry } = Astro.props;
-const { Content, headings, remarkPluginFrontmatter } = await entry.render();
+const post = await getPost(Astro.props.entry);
+const { Content, headings, readingTime } = post;
+const { title, description, cover, publishedAt } = post.data;
 ---
 
-<BlogLayout
-  entry={entry}
-  headings={headings}
-  readingTime={remarkPluginFrontmatter.readingTime}
+<Layout
+  title={title}
+  description={description}
+  openGraph={{
+    basic: {
+      title,
+      type: "article",
+      image: new URL(cover.src, Astro.url),
+    },
+    article: {
+      authors: ["Nicholas Ray"],
+    },
+    image: {
+      width: cover.width,
+      height: cover.height,
+      alt: cover.alt,
+    },
+  }}
+  preloadFonts={true}
+  twitter={{
+    card: "summary_large_image",
+  }}
 >
-  <Content />
-</BlogLayout>
+  <main class="mt-8">
+    <article>
+      <section class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+        <h1
+          class="mt-6 text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white md:mt-10 md:text-center md:text-5xl lg:mt-14"
+        >
+          {title}
+        </h1>
+        <div
+          class="mt-4 flex max-w-5xl items-center text-sm font-medium md:mx-auto md:mt-6 md:justify-center md:text-lg lg:mt-10"
+        >
+          <a href="/about" class="flex items-center">
+            <div class="mr-3 h-10 w-10 rounded-full md:h-12 md:w-12">
+              <Image
+                loading="eager"
+                class="rounded-full"
+                src={avatar}
+                width={72}
+                alt="Avatar"
+              />
+            </div>
+            <div class="font-bold">Nicholas Ray</div>
+          </a>
+          <div class="flex items-center">
+            <span class="mx-3 font-bold">·</span>
+            <time datetime={publishedAt.toISOString()}>
+              {publishedAt ? format(publishedAt, "LLL d, yyyy") : ""}
+            </time>
+            <span class="mx-3 font-bold">·</span>
+            <div>{readingTime}</div>
+          </div>
+        </div>
+        <div class="mt-4 rounded-3xl md:mt-6 lg:mt-10">
+          <Picture
+            background={undefined}
+            alt={cover.alt}
+            loading="eager"
+            class="h-80 w-full rounded-3xl object-cover md:h-[32rem]"
+            src={cover.src}
+            aspectRatio={cover.width / cover.height}
+            width={cover.width}
+            height={cover.height}
+            widths={[400, 800, 1600, 2200]}
+            sizes="(min-width: 48rem) 76rem, 100vw"
+          />
+        </div>
+      </section>
+      <section
+        class="mx-auto mt-8 max-w-7xl px-4 sm:px-6 md:mt-12 md:grid md:grid-cols-[250px_minmax(0,1fr)] md:gap-x-10 md:px-8 lg:mt-14 lg:gap-x-24"
+      >
+        <div class="hidden md:block">
+          <TableOfContents headings={headings} />
+        </div>
+        <Prose>
+          <Content />
+        </Prose>
+      </section>
+    </article>
+  </main>
+</Layout>
+
+<style is:global>
+  .prose {
+    > *,
+    astro-island > * {
+      @apply max-w-2xl;
+    }
+  }
+
+  [data-rehype-pretty-code-fragment] {
+    @apply !max-w-none;
+  }
+</style>
