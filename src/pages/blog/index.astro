@@ -2,10 +2,8 @@
 import Article from "@components/Article.astro";
 import Layout from "@layouts/Layout.astro";
 import { getPosts } from "@src/api";
-import { getCollection } from "astro:content";
 
-const collection = await getCollection("blog");
-const posts = await getPosts(collection);
+const posts = await getPosts();
 ---
 
 <Layout>

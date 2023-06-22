@@ -1,10 +1,10 @@
 ---
 import { Picture } from "@astrojs/image/components";
 import ArticleFooter from "./ArticleFooter.astro";
-import type { getPost } from "@src/api";
+import type { Post } from "@src/types";
 
 export interface Props {
-  post: Awaited<ReturnType<typeof getPost>>;
+  post: Post;
 }
 
 const { post } = Astro.props;

@@ -6,11 +6,8 @@ import { Icon } from "astro-icon";
 import ArticleFooter from "@components/ArticleFooter.astro";
 import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
-import { getCollection } from "astro:content";
 
-const collection = await getCollection("blog");
-const posts = await getPosts(collection);
-
+const posts = await getPosts();
 const featured = posts[0];
 const restOfPosts = posts.slice(1);
 ---

@@ -1,21 +1,3 @@
-export interface PostFrontmatter {
-  title: string;
-  description: string;
-  publishedAt: string;
-  readingTime: string;
-  cover: {
-    src: string;
-    filename: string;
-    alt: string;
-    credit: string;
-    width: number;
-    height: number;
-  };
-}
+import type { getPost } from "./api";
 
-export interface Post {
-  cover: {
-    metadata: ImageMetadata;
-    alt: string;
-  };
-}
+export type Post = Awaited<ReturnType<typeof getPost>>;

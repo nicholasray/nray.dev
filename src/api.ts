@@ -1,5 +1,5 @@
 import { compareDesc } from "date-fns";
-import type { CollectionEntry } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 export async function getPost(entry: CollectionEntry<"blog">) {
   const allImages = import.meta.glob<{ default: ImageMetadata }>(
@@ -36,7 +36,9 @@ export async function getPost(entry: CollectionEntry<"blog">) {
   };
 }
 
-export function getPosts(posts: CollectionEntry<"blog">[]) {
+export async function getPosts() {
+  const posts = await getCollection("blog");
+
   return Promise.all(
     posts
       .filter((post) => !(!post.data.publishedAt && import.meta.env.PROD))
