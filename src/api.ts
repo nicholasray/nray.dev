@@ -13,7 +13,7 @@ export async function getPost(entry: CollectionEntry<"blog">) {
 
   if (!coverFn) {
     throw new Error(
-      `[blog] Cover image for "${entry.data.title}" not found! Provided: "${entry.data.cover}", is there a typo?`
+      `[blog] Cover image for "${entry.data.title}" not found! Provided: "${entry.data.cover.src}", is there a typo?`
     );
   }
 
