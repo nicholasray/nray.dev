@@ -1,23 +1,23 @@
 import { compareDesc } from "date-fns";
-import sharp from "sharp";
 import type { CollectionEntry } from "astro:content";
-import path from "path";
-import { fileURLToPath } from "url";
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export async function getPost(entry: CollectionEntry<"blog">) {
-  const coverFilename = entry.data.cover.filename;
-  const metadata = await sharp(
-    `${__dirname}/../public/covers/${coverFilename}`
-  ).metadata();
+  const allImages = import.meta.glob<{ default: ImageMetadata }>(
+    `/src/content/blog/*/_assets/*.{png,jpg,jpeg,webp}`
+  );
 
-  if (!metadata.width || !metadata.height) {
+  const coverFn =
+    allImages[
+      `/src/content/blog/${entry.slug}${entry.data.cover.src.slice(1)}`
+    ];
+
+  if (!coverFn) {
     throw new Error(
-      `Could not determine cover image dimensions for ${entry.id}`
+      `[blog] Cover image for "${entry.data.title}" not found! Provided: "${entry.data.cover}", is there a typo?`
     );
   }
 
+  const { default: image } = await coverFn();
   const { Content, headings, remarkPluginFrontmatter } = await entry.render();
 
   return {
@@ -30,10 +30,7 @@ export async function getPost(entry: CollectionEntry<"blog">) {
       ...entry.data,
       cover: {
         ...entry.data.cover,
-        src: `/covers/${coverFilename}`,
-        width: metadata.width,
-        height: metadata.height,
-        format: metadata.format,
+        ...image,
       },
     },
   };
