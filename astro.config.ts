@@ -8,7 +8,7 @@ import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import { remarkReadingTime } from "./remark/remarkReadingTime";
 import rehypePrettyCode from "rehype-pretty-code";
-import ayu from "./src/themes/ayu.json";
+import ayu from "./ayu.theme.json";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
