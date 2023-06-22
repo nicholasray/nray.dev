@@ -61,8 +61,8 @@ white text:
 Also, switching between dark mode and light mode on your operating system
 changes the website's theme:
 
-import macAppearancePanelWebM from "./assets/mac-os-appearance-panel.webm";
-import macAppearancePanelMp4 from "./assets/mac-os-appearance-panel.mp4";
+import macAppearancePanelWebM from "./_assets/mac-os-appearance-panel.webm";
+import macAppearancePanelMp4 from "./_assets/mac-os-appearance-panel.mp4";
 
 <Video
   description="Video showing that switching to dark mode on MacOS gives the example box have a dark background color. Switching to light mode changes the example box's background color to a lighter color."
@@ -78,7 +78,7 @@ that the `dark:` prefix adds a `prefers-color-scheme` media query that wraps
 around the `background-color` and `color` properties so that the styles only
 become active when the user has enabled dark mode on their device:
 
-import prefersMediaQuery from "./assets/prefers-color-scheme-media-query.png";
+import prefersMediaQuery from "./_assets/prefers-color-scheme-media-query.png";
 
 <Image src={prefersMediaQuery} alt="Prefers media query screenshot" shadow />
 
@@ -152,7 +152,7 @@ more consistent:
 <meta name="theme-color" content="#4285f4" />
 ```
 
-import metaThemeColor from "./assets/meta-theme-color.png";
+import metaThemeColor from "./_assets/meta-theme-color.png";
 
 <Image
   src={metaThemeColor}
@@ -170,7 +170,7 @@ The second `meta` tag, named `color-scheme`, controls the default appearance of
 <meta name="color-scheme" content="dark" />
 ```
 
-import metaColorScheme from "./assets/meta-color-scheme.png";
+import metaColorScheme from "./_assets/meta-color-scheme.png";
 
 <Image
   src={metaColorScheme}
@@ -425,8 +425,8 @@ init();
 After following these steps, you should now have a dark mode toggle that is
 functionally similar to the following demo:
 
-import darkModeToggleWebM from "./assets/dark-mode-toggle.webm";
-import darkModeToggleMp4 from "./assets/dark-mode-toggle.mp4";
+import darkModeToggleWebM from "./_assets/dark-mode-toggle.webm";
+import darkModeToggleMp4 from "./_assets/dark-mode-toggle.mp4";
 
 <Video
   description="Video showing switching between dark and light modes by using the toggle developed from this tutorial."

@@ -41,7 +41,7 @@ before they see a visual update:
 3. The browser performs the necessary rendering steps to update the page
    visually
 
-import mainThreadClick from "./assets/main-thread-click.png";
+import mainThreadClick from "./_assets/main-thread-click.png";
 
 <Image
   background
@@ -58,7 +58,7 @@ task that takes
 "long task" that can affect the page's responsiveness to user input. They even
 developed a metric for this called "Total Blocking Time" (TBT).
 
-import mainThreadTasks from "./assets/main-thread-tasks.png";
+import mainThreadTasks from "./_assets/main-thread-tasks.png";
 
 <Image
   background
@@ -76,7 +76,7 @@ time after 50ms of each long task.
 
 Let's try calculating the TBT in the example below:
 
-import mainThreadTasksTbt from "./assets/main-thread-tasks-tbt.png";
+import mainThreadTasksTbt from "./_assets/main-thread-tasks-tbt.png";
 
 <Image background src={mainThreadTasksTbt} alt="Main thread tasks" />
 
@@ -114,7 +114,7 @@ garbage collection, long JavaScript execution is frequently the culprit of TBT
 problems. After all,
 [JavaScript is the fastest way to slow down a site](https://timkadlec.com/remembers/2020-04-21-the-cost-of-javascript-frameworks/).
 
-import profileBeginning from "./assets/profile-beginning.png";
+import profileBeginning from "./_assets/profile-beginning.png";
 
 <Image
   background
@@ -162,7 +162,7 @@ listener called. Unless the window's location already pointed at the link's
 destination, clicking a link called the `checkHash` method twice — once for the
 link click event handler and once more for the `hashchange` handler.
 
-import profileRemoval from "./assets/profile-removing-unnecessary-code.png";
+import profileRemoval from "./_assets/profile-removing-unnecessary-code.png";
 
 <Image
   background
@@ -182,7 +182,7 @@ code you can either optimize or, better yet, remove.
 
 ## Step 2: Optimize existing JavaScript
 
-import profileMediaViewer from "./assets/profile-media-viewer.png";
+import profileMediaViewer from "./_assets/profile-media-viewer.png";
 
 <Image
   background
@@ -308,7 +308,7 @@ data, the first deployment resulted in a reduction of TBT by approximately
 real Moto G (5) phone. Overall, these two steps reduced TBT by nearly **300ms**
 on devices like the Moto G (5) phone visiting long articles.
 
-import tbtResults from "./assets/total-blocking-time-results.png";
+import tbtResults from "./_assets/total-blocking-time-results.png";
 
 <Image
   src={tbtResults}
@@ -318,7 +318,7 @@ import tbtResults from "./assets/total-blocking-time-results.png";
 
 Wikipedia's real user monitoring (RUM) also improved in long task duration.
 
-import longTaskDuration from "./assets/long-task-duration-results.png";
+import longTaskDuration from "./_assets/long-task-duration-results.png";
 
 <Image
   src={longTaskDuration}
