@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 
-// https://astro.build/config
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 
@@ -14,6 +13,9 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 // https://astro.build/config
 import image from "@astrojs/image";
+
+// https://astro.build/config
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
@@ -78,5 +80,6 @@ export default defineConfig({
     image({
       serviceEntryPoint: "@astrojs/image/sharp",
     }),
+    sitemap(),
   ],
 });
