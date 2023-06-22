@@ -1,6 +1,7 @@
 ---
 import { Icon } from "astro-icon";
 import ThemeToggle from "./ThemeToggle.astro";
+import RSSButton from "./RSSButton.astro";
 ---
 
 <header>
@@ -26,6 +27,9 @@ import ThemeToggle from "./ThemeToggle.astro";
             class="block rounded-2xl p-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:hover:text-white"
             href="/about">About</a
           >
+        </li>
+        <li>
+          <RSSButton />
         </li>
         <li>
           <ThemeToggle />
