@@ -11,7 +11,7 @@ import Prose from "@components/Prose.astro";
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
   const blogEntries = await getCollection("blog", ({ data }) => {
-    return !!data.publishedAt;
+    return !(!data.publishedAt && import.meta.env.PROD);
   });
   return blogEntries.map((entry) => ({
     params: { slug: entry.slug },
@@ -77,7 +77,7 @@ const { title, description, cover, publishedAt } = post.data;
           </a>
           <div class="flex items-center">
             <span class="mx-3 font-bold">·</span>
-            <time datetime={publishedAt.toISOString()}>
+            <time datetime={publishedAt && publishedAt.toISOString()}>
               {publishedAt ? format(publishedAt, "LLL d, yyyy") : ""}
             </time>
             <span class="mx-3 font-bold">·</span>
