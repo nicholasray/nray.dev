@@ -1,10 +1,11 @@
 import rss from "@astrojs/rss";
 import { getPosts } from "@src/api";
-import { getCollection } from "astro:content";
 
 export async function get(context) {
-  const collection = await getCollection("blog");
-  const blog = await getPosts(collection);
+  // Filter out drafts.
+  let blog = (await getPosts()).filter((post) => {
+    return !!post.data.publishedAt;
+  });
 
   return rss({
     // `<title>` field in output xml
