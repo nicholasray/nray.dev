@@ -36,21 +36,21 @@
     }
 
     [data-rehype-pretty-code-title] {
-      @apply bg-zinc-800 py-1.5 pr-0.5 pl-[calc(1rem+4px)] font-mono text-sm text-gray-300;
+      @apply bg-zinc-800 py-1.5 pl-[calc(1rem+4px)] pr-0.5 font-mono text-sm text-gray-300;
     }
 
     [data-rehype-pretty-code-fragment] {
       @apply -mx-4 my-8;
 
       pre {
-        @apply mt-0 mb-0 rounded-none bg-[#0C0E13];
+        @apply mb-0 mt-0 rounded-none bg-[#0C0E13];
       }
 
-      .line {
+      [data-line] {
         @apply border-l-4 border-l-transparent pl-4;
       }
 
-      .line--highlighted {
+      [data-highlighted-line] {
         @apply border-l-sky-400 bg-[#191d29];
       }
 
@@ -69,7 +69,7 @@
         @apply mr-6 inline-block w-4 text-center text-zinc-500;
       }
 
-      code[data-line-numbers] > .line--highlighted::before {
+      code[data-line-numbers] > [data-highlighted-line]::before {
         @apply text-gray-100;
       }
     }
