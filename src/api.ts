@@ -25,7 +25,7 @@ export async function getPost(entry: CollectionEntry<"blog">) {
     Content,
     headings,
     readingTime: remarkPluginFrontmatter.readingTime,
-    url: `/blog/${entry.slug}`,
+    url: `/blog/${entry.slug}/`,
     data: {
       ...entry.data,
       cover: {
