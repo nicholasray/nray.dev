@@ -71,6 +71,8 @@ export default defineConfig({
     image({
       serviceEntryPoint: "@astrojs/image/sharp",
     }),
-    sitemap(),
+    sitemap({
+      filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
+    }),
   ],
 });
