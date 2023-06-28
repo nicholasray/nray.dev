@@ -2,12 +2,7 @@
 import { SEO, Props as SeoProps } from "astro-seo";
 
 export interface Props extends SeoProps {}
-const {
-  title = "Nicholas Ray",
-  description = "Web performance tips that improve page speed, business metrics, and user happiness",
-  preloadFonts = false,
-  ...rest
-} = Astro.props;
+const { title = "Nicholas Ray", preloadFonts = false, ...rest } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -17,7 +12,7 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <SEO description={description} {...rest} />
+    <SEO {...rest} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta
       class="meta-theme"
