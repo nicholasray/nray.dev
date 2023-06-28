@@ -10,12 +10,14 @@ import Article from "@components/Article.astro";
 const posts = await getPosts();
 const featured = posts[0];
 const restOfPosts = posts.slice(1);
+const title = "Nicholas Ray — Web Performance and Page Speed";
 ---
 
 <Layout
+  title={title}
   openGraph={{
     basic: {
-      title: "Nicholas Ray — Web Performance and Page Speed",
+      title,
       type: "website",
       image: new URL("/avatar.jpg", Astro.url),
     },
