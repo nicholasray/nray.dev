@@ -20,6 +20,7 @@ import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.nray.dev",
+  trailingSlash: "always",
   experimental: {
     assets: true,
   },
