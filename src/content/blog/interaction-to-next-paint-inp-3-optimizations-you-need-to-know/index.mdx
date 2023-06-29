@@ -1,0 +1,78 @@
+---
+title: "Optimize Interaction to Next Paint (INP): 3 Phases You Need to Know"
+cover:
+  src: ./_assets/interaction-to-next-paint-stroke.jpg
+  alt: "Blue paint stroke on white canvas"
+  credit:
+    "Photo by [Dan Cristian Pădureț](https://unsplash.com/photos/hguxpsaUpBk)"
+description:
+  "Everything you need to know about the Interaction to Next Paint (INP) Core
+  Web Vital"
+---
+
+import Image from "@components/BlogImage.astro";
+
+## What is Interaction to Next Paint?
+
+There are **three phases** that make up INP:
+
+1. **Input delay**
+2. **Processing time**
+3. **Presentation delay**
+
+import inpComponents from "./_assets/interaction-to-next-paint-components.png";
+
+<Image
+  background
+  src={inpComponents}
+  alt="Interaction to Next Paint Components"
+/>
+
+Each of these phases contributes to the total interaction latency.
+
+## How is Interaction to Next Paint Measured?
+
+INP only measures the following interactions:
+
+- Mouse clicks
+- Taps on a touchscreen
+- Key presses
+
+It does NOT measure:
+
+- Hovering
+- Scrolling
+
+## How is INP different from First Input Delay (FID)?
+
+Unlike First Input Delay which only measured the input delay portion of the
+_first_ interaction on a page, INP observes the all interactions made on the
+page and reports the one with the worst latency. To reduce noise on pages with
+over 50 interactions, the highest interaction for every 50 interactions is
+ignored.
+
+## How is INP different from Total Blocking Time (TBT)?
+
+## What's a good Interaction to Next Paint score?
+
+import inpScores from "./_assets/interaction-to-next-paint-scores.png";
+
+<Image background src={inpScores} alt="Interaction to Next Paint Scores" />
+
+## How do you measure Interaction to Next Paint?
+
+## How to Optimize Interaction to Next Paint
+
+## Input delay
+
+### Be careful with `<script defer>`
+
+### Reduce recurring timers
+
+## Processing time
+
+### Eliminate Layout Thrashing
+
+### Show progress
+
+## Presentation delay
