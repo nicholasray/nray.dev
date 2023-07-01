@@ -12,57 +12,65 @@ description:
 
 import Image from "@components/BlogImage.astro";
 
-Around **35% of mobile websites are projected to fail** Google's new measurement
-for responsiveness to user interactions, **Interaction to Next Paint (INP)**.
+At the time of this writing, around **35% of mobile websites** are projected to
+**fail** Google's new measurement for interaction responsiveness, **Interaction
+to Next Paint (INP)** when it goes into effect on **March 2024**.
 
-Replacing the **First Input Delay (FID)** Core Web Vital on **March 2024**, INP
-will factor into your website's search ranking. The upcoming change is expected
-to provide a more accurate assessment of a user's experience on a page compared
-to FID, which most websites — 99.9% of desktop and 93.2% of mobile sites —
-passed with flying colors since it only measured a _portion_ of the user's first
-interaction on a page.
+Users expect that when they interact with a page by clicking a button, tapping a
+menu item, or pressing a key, visual feedback happens — **and occurs quickly**.
+INP captures the elapsed time each interaction takes to produce a visual update
+and flags interactions that result in a poor user experience.
+
+Replacing the **Core Web Vital** called **First Input Delay (FID)**, INP will
+factor into your website's search ranking. The upcoming change is expected to
+provide a more accurate assessment of a user's experience on a page compared to
+FID. And the numbers back this up — 99.9% of desktop and 93.2% of mobile sites
+passed FID with flying colors, but this was mostly because it only measured a
+_portion_ of the user's _first interaction_ on a page.
 
 import CruxChart from "./_components/INPCruxChart.astro";
 
 <CruxChart />
 
-Users expect that when they interact with a page by clicking a button, tapping a
-menu item, or pressing a key, visual feedback happens — **and occurs quickly**.
-INP captures the total time that an interaction takes to produce a visual update
-and flags interactions that result in a poor user experience.
-
-This article explains what exactly INP measures and how you can optimize it. But
-first, let's define INP.
+This article describes INP and how you can optimize it for your website.
 
 ## What is Interaction to Next Paint (INP)?
 
-INP is a metric that evaluates a page's overall responsiveness to user
-interactions. It measures the elapsed time between the start of a user's
-interaction and the point at which there is a visual update.
-
-It's important to know that the visual update doesn't necessarily need to be the
-final desired visual state. Showing an intermediate state like a spinner is
-sufficient for INP as long as the spinner is quickly shown. But from a user
-experience standpoint make sure you use the
-[best progress indicator for the situation](https://www.nngroup.com/articles/progress-indicators/).
-
-## How is INP Measured?
-
-Throughout the lifespan of a user's visit to a page, clicks, taps, and keyboard
-press interactions are timed from the moment they are initiated to the moment a
-visual update occurs. When the user leaves the page, the INP score is calculated
-for that page.
-
-For pages that do not have over 50 interactions, **the longest interaction is
-used as the INP score**. Otherwise, in an attempt to reduce outliers, the
-highest interaction for every 50 interactions is ignored.
-
-As with other Core Web Vitals, the **75th percentile** of all the page views is
-then reported, further reducing noise.
+INP is a metric that evaluates how fast a page visually responds to eligible
+user interactions.
 
 import inpTimeline from "./_assets/interaction-to-next-paint-timeline.png";
 
 <Image background src={inpTimeline} alt="Interaction to Next Paint Timeline" />
+
+## How is INP Measured?
+
+Throughout the lifespan of a user's visit to a page, each click, tap, and
+keyboard press is timed from the moment the interaction begins to the moment a
+**visual update** occurs. This elapsed time represents the **interaction's
+latency**. When the user leaves the page, the INP score is calculated based on
+the recorded interaction latencies.
+
+Notably, the visual update doesn't _need_ to be the final desired visual state.
+It can be an **intermediate state** like a spinner. As long as the interaction
+results in timely visual feedback that shows progress is occurring, good INP
+scores can be achieved. Just make sure you use the
+[best progress indicator for the situation](https://www.nngroup.com/articles/progress-indicators/).
+
+import inpSpinner from "./_assets/inp-progress-indicator.png";
+
+<Image
+  background
+  src={inpSpinner}
+  alt="Spinner showing after a user interaction"
+/>
+
+For pages that do not have over 50 interactions, **the longest interaction
+latency is used as the INP score**. Otherwise, the highest interaction for every
+50 interactions is ignored in an attempt to reduce outliers.
+
+As with other Core Web Vitals, the **75th percentile** of all the page views is
+then reported, further reducing noise.
 
 ## What's a good INP score?
 
@@ -109,20 +117,23 @@ import inpComponents from "./_assets/interaction-to-next-paint-components.png";
 />
 
 Each of these phases takes time and the sum of these phases is the interaction's
-latency. Therefore, it's import
+latency. Part of the reason why First Input Delay rarely had a failing result
+was that it only measured the input delay portion of the user's first
+interaction. Because INP measures all the way to the first frame a user can see,
+it is much better indicator of a user's experience.
 
 ## How to Optimize Interaction to Next Paint
 
-## Input delay
+## Optimizing Input delay
 
 ### Be careful with `<script defer>`
 
 ### Reduce recurring timers
 
-## Processing time
+## Optimizing Processing time
 
 ### Eliminate Layout Thrashing
 
 ### Show progress
 
-## Presentation delay
+## Optimizing presentation delay
