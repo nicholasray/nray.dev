@@ -1,0 +1,99 @@
+<canvas id="good-inp-chart"></canvas>
+
+<style>
+  :global(.dark) {
+    canvas {
+      filter: invert(1) hue-rotate(180deg);
+    }
+  }
+</style>
+
+<script>
+  import {
+    Chart,
+    Colors,
+    LineController,
+    LineElement,
+    PointElement,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+    TimeScale,
+    Title,
+    Legend,
+  } from "chart.js";
+  import "chartjs-adapter-date-fns";
+  import data from "../_assets/inp-crux-data.json";
+
+  const desktopData = data.filter((row) => row.client === "desktop");
+  const mobileData = data.filter((row) => row.client === "mobile");
+
+  Chart.register(
+    Colors,
+    LineController,
+    LineElement,
+    PointElement,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+    TimeScale,
+    Title,
+    Legend
+  );
+  new Chart(document.getElementById("good-inp-chart") as HTMLCanvasElement, {
+    type: "line",
+    options: {
+      plugins: {
+        legend: {
+          position: "top",
+        },
+        title: {
+          display: true,
+          text: 'Percent of Sites with "Good" Interaction to Next Paint',
+        },
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              return context.dataset.label + ": " + context.parsed.y + "%";
+            },
+          },
+        },
+      },
+      interaction: {
+        intersect: false,
+      },
+      scales: {
+        y: {
+          min: 0,
+          max: 100,
+          ticks: {
+            callback: (label) => `${label}%`,
+          },
+        },
+        x: {
+          type: "time",
+          time: {
+            tooltipFormat: "MMM d, yyyy", // <- HERE
+            unit: "month",
+            displayFormats: {
+              month: "MMM ''yy",
+            },
+          },
+        },
+      },
+    },
+    data: {
+      labels: desktopData.map((row) => new Date(parseInt(row.timestamp))),
+      datasets: [
+        {
+          label: "Mobile",
+          data: mobileData.map((row) => parseFloat(row.percent).toFixed(1)),
+        },
+        {
+          label: "Desktop",
+          data: desktopData.map((row) => parseFloat(row.percent).toFixed(1)),
+        },
+      ],
+    },
+  });
+</script>
