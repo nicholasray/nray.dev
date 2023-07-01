@@ -16,10 +16,14 @@ At the time of this writing, around **35% of mobile websites** are projected to
 **fail** Google's new measurement for interaction responsiveness, **Interaction
 to Next Paint (INP)** when it goes into effect on **March 2024**.
 
+import CruxChart from "./_components/INPCruxChart.astro";
+
+<CruxChart />
+
 Users expect that when they interact with a page by clicking a button, tapping a
 menu item, or pressing a key, visual feedback happens — **and occurs quickly**.
-INP captures the elapsed time each interaction takes to produce a visual update
-and flags interactions that result in a poor user experience.
+INP captures the latency each interaction takes to result in a visual update and
+flags interactions that are slow enough to cause a poor user experience.
 
 Replacing the **Core Web Vital** called **First Input Delay (FID)**, INP will
 factor into your website's search ranking. The upcoming change is expected to
@@ -27,10 +31,6 @@ provide a more accurate assessment of a user's experience on a page compared to
 FID. And the numbers back this up — 99.9% of desktop and 93.2% of mobile sites
 passed FID with flying colors, but this was mostly because it only measured a
 _portion_ of the user's _first interaction_ on a page.
-
-import CruxChart from "./_components/INPCruxChart.astro";
-
-<CruxChart />
 
 This article describes INP and how you can optimize it for your website.
 
@@ -75,11 +75,11 @@ then reported, further reducing noise.
 ## What's a good INP score?
 
 At the **75th percentile** for any given page and segmented across desktop and
-mobile devices, an INP score that is:
+mobile devices:
 
-- \<= **200 milliseconds** indicates a page has **good** responsiveness
-- \<= **500 milliseconds** indicates a page **needs improvement**
-- \> **500 milliseconds** indicates a page has **poor responsiveness**
+- INP \<= **200 milliseconds** indicates a page has **good responsiveness**
+- INP \<= **500 milliseconds** indicates a page **needs improvement**
+- INP \> **500 milliseconds** indicates a page has **poor responsiveness**
 
 import inpScores from "./_assets/interaction-to-next-paint-scores.png";
 
@@ -103,7 +103,7 @@ It does NOT measure:
 INP contains **three phases**:
 
 1. **Input delay**: Begins at the moment a user clicks, taps, or presses a key
-   to the moment at which JavaScript event callbacks start to execute (if any)
+   to the moment at which JavaScript event callbacks start executing
 2. **Processing time**: The total execution time of the event callbacks
 3. **Presentation delay**: Begins at the moment the event callbacks complete to
    the moment that a visual update occurs
@@ -116,11 +116,11 @@ import inpComponents from "./_assets/interaction-to-next-paint-components.png";
   alt="Interaction to Next Paint Components"
 />
 
-Each of these phases takes time and the sum of these phases is the interaction's
-latency. Part of the reason why First Input Delay rarely had a failing result
-was that it only measured the input delay portion of the user's first
-interaction. Because INP measures all the way to the first frame a user can see,
-it is much better indicator of a user's experience.
+Each of these phases can add time to the interaction's latency. Part of the
+reason why First Input Delay rarely failed was because it only measured the
+**input delay** portion of the user's first interaction. Because INP measures
+all the way to the first frame a user can see, it is much better indicator of a
+user's experience.
 
 ## How to Optimize Interaction to Next Paint
 
