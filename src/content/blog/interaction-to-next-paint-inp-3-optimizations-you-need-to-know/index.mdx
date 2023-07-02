@@ -13,7 +13,8 @@ description:
 import Image from "@components/BlogImage.astro";
 
 **Interaction to Next Paint (INP)** will become the next **Core Web Vital** on
-**March 2024**, replacing **First Input Delay (FID)**.
+**March 2024**, replacing **First Input Delay (FID)** as the responsiveness
+metric.
 
 Is your website fast enough?
 
@@ -143,7 +144,17 @@ user's experience.
 
 ## What causes poor responsiveness?
 
-Long tasks are the primary cause of slow interactions.
+Slow interactions are primarily caused by long tasks. These tasks refer to
+discrete units of work carried out by the browser, including rendering, layout,
+and parsing and executing JavaScript.
+
+If there are no long tasks on the main thread, your INP scores (and the user
+experience) and the user experience will improve.
+
+- Always try to do the least amount of work on the main thread
+- Split up long tasks into smaller tasks
+
+JavaScript and rendering are the two biggest contributors of large tasks.
 
 ## How to Optimize Interaction to Next Paint
 
