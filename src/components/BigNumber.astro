@@ -1,0 +1,18 @@
+---
+interface Props {
+  number: string;
+}
+
+const { number } = Astro.props;
+---
+
+<figure>
+  <div
+    class="text-center font-extrabold text-9xl text-slate-600 dark:text-slate-200 tracking-tighter"
+  >
+    {number}
+  </div>
+  <figcaption class="!mt-10">
+    <slot />
+  </figcaption>
+</figure>

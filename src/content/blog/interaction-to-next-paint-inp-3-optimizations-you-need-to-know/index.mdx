@@ -8,53 +8,71 @@ cover:
 description:
   "Everything you need to know about the Interaction to Next Paint (INP) Core
   Web Vital"
+publishedAt: 2023-06-21
 ---
 
 import Image from "@components/BlogImage.astro";
 
-At the time of this writing, around **35% of mobile websites** are projected to
-**fail** Google's new measurement for interaction responsiveness, **Interaction
-to Next Paint (INP)** when it goes into effect on **March 2024**.
+**Interaction to Next Paint (INP)** will become the next **Core Web Vital** on
+**March 2024**, replacing **First Input Delay (FID)**.
 
-import CruxChart from "./_components/INPCruxChart.astro";
+Is your website fast enough?
 
-<CruxChart />
+At the time of this writing, things aren't looking good for about **35% of
+mobile websites**, which are projected to **fail** Google's new web performance
+metric.
 
-Users expect that when they interact with a page by clicking a button, tapping a
-menu item, or pressing a key, visual feedback happens — **and occurs quickly**.
-INP captures the latency each interaction takes to result in a visual update and
-flags interactions that are slow enough to cause a poor user experience.
+import BigNumber from "@components/BigNumber.astro";
 
-Replacing the **Core Web Vital** called **First Input Delay (FID)**, INP will
-factor into your website's search ranking. The upcoming change is expected to
-provide a more accurate assessment of a user's experience on a page compared to
-FID. And the numbers back this up — 99.9% of desktop and 93.2% of mobile sites
-passed FID with flying colors, but this was mostly because it only measured a
-_portion_ of the user's _first interaction_ on a page.
+<BigNumber number={`35.1%`}>
+  <>
+    The percentage of mobile website origins with failing INP scores (> 200ms)
+    as of May 2023. Source: [HTTP
+    Archive](https://httparchive.org/reports/chrome-ux-report#cruxFastInp)
+  </>
+</BigNumber>
 
-This article describes INP and how you can optimize it for your website.
+**90% of a user's time** on a webpage happens after it loads. Users expect that
+when they interact with a page by clicking a button, tapping a menu item, or
+pressing a key, visual feedback happens — **and occurs quickly**. INP captures
+this interaction latency and flags those that are slow enough to cause a
+**negative user experience**.
+[Rage clicking](https://docs.google.com/presentation/d/1Euu4FBL75z0I8UtKf3dTzrLYu6wxfeWnrmXUCn9AQIY/edit?usp=sharing&resourcekey=0-t6sEnmSbzYTO_fcrR8n9Jg)
+is one side effect of interactions that take too long.
+
+This article describes INP and how you can optimize it for your website to
+ensure your users have snappy interactions.
 
 ## What is Interaction to Next Paint (INP)?
 
-INP is a metric that evaluates how fast a page visually responds to eligible
+INP is a metric that evaluates how quickly a page visually responds to certain
 user interactions.
 
 import inpTimeline from "./_assets/interaction-to-next-paint-timeline.png";
 
 <Image background src={inpTimeline} alt="Interaction to Next Paint Timeline" />
 
+As a Core Web Vital, Google will use INP as one of the signals that influence
+your website's search ranking. The upcoming change is expected to provide a more
+accurate assessment of a user's experience on a page compared to FID. And the
+numbers back this up — 99.9% of desktop and 93.2% of mobile sites passed FID
+with flying colors, but this was mostly because it only measured a _portion_ of
+the user's _first interaction_ on a page.
+
 ## How is INP Measured?
 
-Throughout the lifespan of a user's visit to a page, each click, tap, and
-keyboard press is timed from the moment the interaction begins to the moment a
-**visual update** occurs. This elapsed time represents the **interaction's
-latency**. When the user leaves the page, the INP score is calculated based on
-the recorded interaction latencies.
+Throughout the lifespan of a user's visit to a page, each click, tap, and key
+press is timed from its beginning to the moment a **visual update** occurs. This
+elapsed time represents the **interaction's latency**. When the user leaves the
+page, the INP score is calculated based on one of the recorded interaction
+latencies.
 
 Notably, the visual update doesn't _need_ to be the final desired visual state.
-It can be an **intermediate state** like a spinner. As long as the interaction
-results in timely visual feedback that shows progress is occurring, good INP
-scores can be achieved. Just make sure you use the
+INP is only concerned with the time it takes to present the **next frame**
+following an interaction. The frame _can_ show an **intermediate state** like a
+spinner. As long as the interaction results in timely visual feedback that shows
+the user _something_ has happened, good INP scores can be achieved. Just make
+sure you use the
 [best progress indicator for the situation](https://www.nngroup.com/articles/progress-indicators/).
 
 import inpSpinner from "./_assets/inp-progress-indicator.png";
@@ -65,9 +83,11 @@ import inpSpinner from "./_assets/inp-progress-indicator.png";
   alt="Spinner showing after a user interaction"
 />
 
-For pages that do not have over 50 interactions, **the longest interaction
-latency is used as the INP score**. Otherwise, the highest interaction for every
-50 interactions is ignored in an attempt to reduce outliers.
+Intuitively, the page's longest interaction latency is often used as the INP.
+The exception is when a user performs over 50 interactions. In this case, the
+highest interaction for every 50 interactions is ignored, hopefully reducing
+extreme outliers. This might happen with single-page applications (SPAs), for
+example.
 
 As with other Core Web Vitals, the **75th percentile** of all the page views is
 then reported, further reducing noise.
@@ -90,8 +110,8 @@ import inpScores from "./_assets/interaction-to-next-paint-scores.png";
 INP measures the following interactions:
 
 - Mouse clicks
-- Taps on a touchscreen
-- Key presses
+- Taps on touchscreens
+- Key presses (physical and onscreen)
 
 It does NOT measure:
 
@@ -122,9 +142,26 @@ reason why First Input Delay rarely failed was because it only measured the
 all the way to the first frame a user can see, it is much better indicator of a
 user's experience.
 
+## What causes poor responsiveness?
+
+Long tasks are the primary cause of slow interactions.
+
 ## How to Optimize Interaction to Next Paint
 
+A slow INP can be caused by many reasons, but let's go over some of the most
+popular ones.
+
 ## Optimizing Input delay
+
+### Do as little work as possible
+
+### Yield to main thread
+
+### Watch out for recurring long tasks
+
+### Move third party code to web workers
+
+### Task prioritization
 
 ### Be careful with `<script defer>`
 
@@ -132,8 +169,19 @@ user's experience.
 
 ## Optimizing Processing time
 
+### Use debouncing or throttling
+
+E.g. typing into input box
+
 ### Eliminate Layout Thrashing
 
 ### Show progress
 
 ## Optimizing presentation delay
+
+## Conclusion
+
+Case studies:
+
+- [RedBus](https://web.dev/redbus-inp/)
+- Economic Times
