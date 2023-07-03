@@ -1,0 +1,193 @@
+---
+import Layout from "@layouts/Layout.astro";
+import { Icon } from "astro-icon";
+
+const itemCount = 10;
+---
+
+<Layout
+  title={"Slow Interaction to Next Paint (INP) Demo"}
+  description="Web performance demo"
+  noindex={true}
+  nofollow={true}
+>
+  <main>
+    <section class="mt-12 lg:mt-16">
+      <div
+        class="mx-auto max-w-7xl gap-16 md:grid md:grid-cols-2 px-4 sm:px-6 md:px-8"
+      >
+        <div>
+          <h1
+            class="text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white"
+          >
+            Slow Interaction to Next Paint (INP) demo
+          </h1>
+          <ul class="list-disc list-inside mt-8">
+            <li>Up to 100ms of <strong>input delay</strong></li>
+            <li>300ms of <strong>processing time</strong></li>
+            <li>
+              40,000 accordion items to ensure a slow <strong
+                >presentation delay</strong
+              >.
+            </li>
+          </ul>
+        </div>
+        <ul
+          class="accordion divide-y dark:divide-zinc-700 shadow-xl text-zinc-600 dark:text-zinc-300 dark:zinc-200 bg-white dark:bg-zinc-800 rounded-md"
+        >
+          {
+            [...Array(itemCount)].map((_, i) => (
+              <li class="text-3xl divide-y dark:divide-zinc-700 accordion-item">
+                <button class="w-full p-4 font-mono cursor-pointer flex justify-between items-center">
+                  item {i + 1}
+                  <Icon
+                    name="heroicons:chevron-down"
+                    class="chevron w-6 h-6 transition-transform duration-500"
+                  />
+                </button>
+                <div class="accordion-item__content text-lg overflow-hidden hidden transition-[height] duration-500">
+                  <div class="p-6">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                    Duis aute irure dolor in reprehenderit in voluptate velit
+                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+                    occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                  </div>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .accordion-item--open .chevron {
+    transform: rotate(-180deg);
+  }
+
+  .accordion-item--open .accordion-item__content {
+    display: block;
+    height: auto;
+  }
+</style>
+
+<script>
+  function blockMainThread(duration: number) {
+    const t0 = performance.now();
+    while (performance.now() - t0 < duration);
+  }
+
+  function loop() {
+    setTimeout(() => {
+      blockMainThread(100);
+      loop();
+    });
+  }
+
+  function resetHeight(accordionContent: HTMLElement) {
+    accordionContent.style.height = "";
+  }
+
+  // Add accordion logic.
+  const accordion = document.querySelector(".accordion")!;
+  const processingTime = 300;
+
+  accordion.addEventListener("click", (e) => {
+    const el = e.target;
+
+    if (!(el && el instanceof Element && el.closest("button"))) {
+      return;
+    }
+
+    const accordionItem = el.closest(".accordion-item") as HTMLElement;
+    const accordionContent = accordionItem.querySelector(
+      ".accordion-item__content"
+    ) as HTMLElement;
+    const isOpen = accordionItem.classList.contains("accordion-item--open");
+
+    if (isOpen) {
+      // close
+      const height = accordionContent.getBoundingClientRect().height;
+      accordionContent.style.height = `${height}px`;
+      accordionContent.style.display = "block";
+      accordionItem.classList.remove("accordion-item--open");
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          accordionContent.style.height = "0";
+
+          const animations = accordionContent.getAnimations();
+          if (!animations.length) {
+            resetHeight(accordionContent);
+            accordionContent.style.display = "";
+            return;
+          }
+
+          function handleCancel() {
+            animations[0].commitStyles();
+          }
+
+          animations[0].addEventListener("cancel", handleCancel, {
+            once: true,
+          });
+
+          animations[0].addEventListener(
+            "finish",
+            () => {
+              resetHeight(accordionContent);
+              accordionContent.style.display = "";
+              animations[0].removeEventListener("cancel", handleCancel);
+            },
+            { once: true }
+          );
+        });
+      });
+    } else {
+      // open
+      const height = accordionContent.getBoundingClientRect().height;
+      resetHeight(accordionContent);
+      accordionItem.classList.add("accordion-item--open");
+      const scrollHeight = accordionContent.getBoundingClientRect().height;
+      accordionContent.style.height = `${height}px`;
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          accordionContent.style.height = `${scrollHeight}px`;
+
+          // Remove explicit height after animating
+          const animations = accordionContent.getAnimations();
+          if (!animations.length) {
+            resetHeight(accordionContent);
+            return;
+          }
+
+          function handleCancel() {
+            animations[0].commitStyles();
+          }
+
+          animations[0].addEventListener("cancel", handleCancel, {
+            once: true,
+          });
+
+          animations[0].addEventListener(
+            "finish",
+            () => {
+              resetHeight(accordionContent);
+              animations[0].removeEventListener("cancel", handleCancel);
+            },
+            { once: true }
+          );
+        });
+      });
+    }
+
+    // blockMainThread(processingTime);
+  });
+
+  // loop();
+</script>

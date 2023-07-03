@@ -13,8 +13,8 @@ description:
 import Image from "@components/BlogImage.astro";
 
 **Interaction to Next Paint (INP)** will become the next **Core Web Vital** on
-**March 2024**, replacing **First Input Delay (FID)** as the responsiveness
-metric.
+**March 2024**, replacing **First Input Delay (FID)** as the metric that
+measures how quickly a page responds to user interactions.
 
 Is your website fast enough?
 
@@ -118,6 +118,8 @@ It does NOT measure:
 - Hovering
 - Scrolling
 
+## How to measure INP?
+
 ## What can happen during an interaction?
 
 INP contains **three phases**:
@@ -145,8 +147,13 @@ user's experience.
 ## What causes poor responsiveness?
 
 Slow interactions are primarily caused by long tasks. These tasks refer to
-discrete units of work carried out by the browser, including rendering, layout,
-and parsing and executing JavaScript.
+discrete units of work carried out by the browser, including:
+
+- HTML parsing
+- Stylesheet parsing
+- JavaScript execution
+
+rendering, layout, and parsing and executing JavaScript.
 
 If there are no long tasks on the main thread, your INP scores (and the user
 experience) and the user experience will improve.
@@ -162,6 +169,8 @@ A slow INP can be caused by many reasons, but let's go over some of the most
 popular ones.
 
 ## Optimizing Input delay
+
+### Watch out for page load and rehydration
 
 ### Do as little work as possible
 
