@@ -113,12 +113,16 @@ const itemCount = 10;
 
     if (isOpen) {
       // close
+
+      // Get start height.
       const height = accordionContent.getBoundingClientRect().height;
+      // Set start height.
       accordionContent.style.height = `${height}px`;
       accordionContent.style.display = "block";
       accordionItem.classList.remove("accordion-item--open");
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
+          // Set finish height.
           accordionContent.style.height = "0";
 
           const animations = accordionContent.getAnimations();
@@ -149,14 +153,19 @@ const itemCount = 10;
       });
     } else {
       // open
+
+      // Get start height.
       const height = accordionContent.getBoundingClientRect().height;
       resetHeight(accordionContent);
+      // Get finish height.
       accordionItem.classList.add("accordion-item--open");
       const scrollHeight = accordionContent.getBoundingClientRect().height;
+      // Set start height.
       accordionContent.style.height = `${height}px`;
 
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
+          // Set finish height.
           accordionContent.style.height = `${scrollHeight}px`;
 
           // Remove explicit height after animating
