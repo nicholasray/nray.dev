@@ -1,0 +1,14 @@
+---
+interface Props {
+  className?: string;
+  as?: string;
+}
+
+const { className, as = "h3" } = Astro.props;
+
+const Container = as;
+---
+
+<Container class:list={["accordion-header", className]}>
+  <slot />
+</Container>

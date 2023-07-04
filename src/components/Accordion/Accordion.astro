@@ -1,0 +1,175 @@
+---
+interface Props {
+  className?: string;
+}
+
+const { className } = Astro.props;
+---
+
+<nray-accordion class:list={["accordion", className]}>
+  <slot />
+</nray-accordion>
+
+<script>
+  class Accordion extends HTMLElement {
+    constructor() {
+      super();
+
+      this.addEventListener("click", this.bindItemClick);
+    }
+
+    open(accordionItem: HTMLElement) {
+      const accordionContent =
+        accordionItem.querySelector(".accordion-content");
+      const accordionTrigger =
+        accordionItem.querySelector(".accordion-trigger");
+
+      if (
+        !(
+          accordionContent &&
+          accordionTrigger &&
+          accordionContent instanceof HTMLElement
+        )
+      ) {
+        return;
+      }
+
+      // Apply aria attributes
+      accordionTrigger.setAttribute("aria-expanded", "true");
+
+      // Get start height.
+      const height = accordionContent.getBoundingClientRect().height;
+      this.resetHeight(accordionContent);
+      // Get finish height.
+      accordionItem.classList.add("accordion-item--open");
+      const scrollHeight = accordionContent.getBoundingClientRect().height;
+      // Set start height.
+      accordionContent.style.height = `${height}px`;
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // Set finish height.
+          accordionContent.style.height = `${scrollHeight}px`;
+
+          // Remove explicit height after animating
+          const animations = accordionContent.getAnimations();
+          if (!animations.length) {
+            this.resetHeight(accordionContent);
+            return;
+          }
+
+          function handleCancel() {
+            animations[0].commitStyles();
+          }
+
+          animations[0].addEventListener("cancel", handleCancel, {
+            once: true,
+          });
+
+          animations[0].addEventListener(
+            "finish",
+            () => {
+              this.resetHeight(accordionContent);
+              animations[0].removeEventListener("cancel", handleCancel);
+            },
+            { once: true }
+          );
+        });
+      });
+
+      this.dispatchChangeEvent("open");
+    }
+
+    close(accordionItem: HTMLElement) {
+      const accordionContent =
+        accordionItem.querySelector(".accordion-content");
+      const accordionTrigger =
+        accordionItem.querySelector(".accordion-trigger");
+
+      if (
+        !(
+          accordionContent &&
+          accordionTrigger &&
+          accordionContent instanceof HTMLElement
+        )
+      ) {
+        return;
+      }
+
+      // Apply aria attributes
+      accordionTrigger.setAttribute("aria-expanded", "false");
+
+      // Get start height.
+      const height = accordionContent.getBoundingClientRect().height;
+      // Set start height.
+      accordionContent.style.height = `${height}px`;
+      accordionContent.style.display = "block";
+      accordionItem.classList.remove("accordion-item--open");
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          // Set finish height.
+          accordionContent.style.height = "0";
+
+          const animations = accordionContent.getAnimations();
+          if (!animations.length) {
+            this.resetHeight(accordionContent);
+            accordionContent.style.display = "";
+            return;
+          }
+
+          function handleCancel() {
+            animations[0].commitStyles();
+          }
+
+          animations[0].addEventListener("cancel", handleCancel, {
+            once: true,
+          });
+
+          animations[0].addEventListener(
+            "finish",
+            () => {
+              this.resetHeight(accordionContent);
+              accordionContent.style.display = "";
+              animations[0].removeEventListener("cancel", handleCancel);
+            },
+            { once: true }
+          );
+        });
+      });
+
+      this.dispatchChangeEvent("close");
+    }
+
+    dispatchChangeEvent(type: "open" | "close") {
+      const event = new CustomEvent("accordion-change", {
+        detail: {
+          type,
+        },
+      });
+      this.dispatchEvent(event);
+    }
+
+    resetHeight(accordionContent: HTMLElement) {
+      accordionContent.style.height = "";
+    }
+
+    bindItemClick(e: MouseEvent) {
+      const el = e.target;
+
+      if (!(el && el instanceof Element && el.closest("button"))) {
+        return;
+      }
+
+      const accordionItem = el.closest(".accordion-item") as HTMLElement;
+      const isOpen = accordionItem.classList.contains("accordion-item--open");
+
+      if (isOpen) {
+        this.close(accordionItem);
+      } else {
+        this.open(accordionItem);
+      }
+    }
+  }
+
+  customElements.define("nray-accordion", Accordion);
+</script>

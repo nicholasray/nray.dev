@@ -1,0 +1,18 @@
+---
+interface Props {
+  key: string | number;
+  className?: string;
+}
+
+const { key, className } = Astro.props;
+---
+
+<button
+  type="button"
+  aria-expanded="false"
+  class:list={["accordion-trigger", className]}
+  aria-controls=`accordion-content-${key}`
+  id={`accordion-trigger-${key}`}
+>
+  <slot />
+</button>

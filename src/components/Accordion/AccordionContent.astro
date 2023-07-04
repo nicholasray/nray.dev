@@ -1,0 +1,17 @@
+---
+interface Props {
+  key: string | number;
+  className?: string;
+}
+
+const { key, className } = Astro.props;
+---
+
+<div
+  id={`accordion-content-${key}`}
+  role="region"
+  aria-labelledby={`accordion-trigger-${key}`}
+  class:list={["accordion-content", className]}
+>
+  <slot />
+</div>

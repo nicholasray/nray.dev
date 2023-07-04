@@ -1,5 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import * as Accordion from "@components/Accordion";
 import { Icon } from "astro-icon";
 
 const itemCount = 10;
@@ -32,20 +33,28 @@ const itemCount = 10;
             </li>
           </ul>
         </div>
-        <ul
-          class="accordion divide-y dark:divide-zinc-700 shadow-xl text-zinc-600 dark:text-zinc-300 dark:zinc-200 bg-white dark:bg-zinc-800 rounded-md"
+        <Accordion.Root
+          className="divide-y dark:divide-zinc-700 shadow-xl text-zinc-600 dark:text-zinc-300 dark:zinc-200 bg-white dark:bg-zinc-800 rounded-md"
         >
           {
             [...Array(itemCount)].map((_, i) => (
-              <li class="text-3xl divide-y dark:divide-zinc-700 accordion-item">
-                <button class="w-full p-4 font-mono cursor-pointer flex justify-between items-center">
-                  item {i + 1}
-                  <Icon
-                    name="heroicons:chevron-down"
-                    class="chevron w-6 h-6 transition-transform duration-500"
-                  />
-                </button>
-                <div class="accordion-item__content text-lg overflow-hidden hidden transition-[height] duration-500">
+              <Accordion.Item className="text-3xl divide-y dark:divide-zinc-700">
+                <Accordion.Header as="h2">
+                  <Accordion.Trigger
+                    className="w-full p-4 font-mono cursor-pointer flex justify-between items-center"
+                    key={i}
+                  >
+                    item {i + 1}
+                    <Icon
+                      name="heroicons:chevron-down"
+                      class="chevron w-6 h-6 transition-transform duration-500"
+                    />
+                  </Accordion.Trigger>
+                </Accordion.Header>
+                <Accordion.Content
+                  className="text-lg overflow-hidden hidden transition-[height] duration-500"
+                  key={i}
+                >
                   <div class="p-6">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eiusmod tempor incididunt ut labore et dolore magna
@@ -56,11 +65,11 @@ const itemCount = 10;
                     occaecat cupidatat non proident, sunt in culpa qui officia
                     deserunt mollit anim id est laborum.
                   </div>
-                </div>
-              </li>
+                </Accordion.Content>
+              </Accordion.Item>
             ))
           }
-        </ul>
+        </Accordion.Root>
       </div>
     </section>
   </main>
@@ -71,13 +80,14 @@ const itemCount = 10;
     transform: rotate(-180deg);
   }
 
-  .accordion-item--open .accordion-item__content {
+  .accordion-item--open .accordion-content {
     display: block;
     height: auto;
   }
 </style>
 
 <script>
+  const processingTime = 300;
   function blockMainThread(duration: number) {
     const t0 = performance.now();
     while (performance.now() - t0 < duration);
@@ -90,113 +100,10 @@ const itemCount = 10;
     });
   }
 
-  function resetHeight(accordionContent: HTMLElement) {
-    accordionContent.style.height = "";
-  }
-
-  // Add accordion logic.
   const accordion = document.querySelector(".accordion")!;
-  const processingTime = 300;
-
-  accordion.addEventListener("click", (e) => {
-    const el = e.target;
-
-    if (!(el && el instanceof Element && el.closest("button"))) {
-      return;
-    }
-
-    const accordionItem = el.closest(".accordion-item") as HTMLElement;
-    const accordionContent = accordionItem.querySelector(
-      ".accordion-item__content"
-    ) as HTMLElement;
-    const isOpen = accordionItem.classList.contains("accordion-item--open");
-
-    if (isOpen) {
-      // close
-
-      // Get start height.
-      const height = accordionContent.getBoundingClientRect().height;
-      // Set start height.
-      accordionContent.style.height = `${height}px`;
-      accordionContent.style.display = "block";
-      accordionItem.classList.remove("accordion-item--open");
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          // Set finish height.
-          accordionContent.style.height = "0";
-
-          const animations = accordionContent.getAnimations();
-          if (!animations.length) {
-            resetHeight(accordionContent);
-            accordionContent.style.display = "";
-            return;
-          }
-
-          function handleCancel() {
-            animations[0].commitStyles();
-          }
-
-          animations[0].addEventListener("cancel", handleCancel, {
-            once: true,
-          });
-
-          animations[0].addEventListener(
-            "finish",
-            () => {
-              resetHeight(accordionContent);
-              accordionContent.style.display = "";
-              animations[0].removeEventListener("cancel", handleCancel);
-            },
-            { once: true }
-          );
-        });
-      });
-    } else {
-      // open
-
-      // Get start height.
-      const height = accordionContent.getBoundingClientRect().height;
-      resetHeight(accordionContent);
-      // Get finish height.
-      accordionItem.classList.add("accordion-item--open");
-      const scrollHeight = accordionContent.getBoundingClientRect().height;
-      // Set start height.
-      accordionContent.style.height = `${height}px`;
-
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          // Set finish height.
-          accordionContent.style.height = `${scrollHeight}px`;
-
-          // Remove explicit height after animating
-          const animations = accordionContent.getAnimations();
-          if (!animations.length) {
-            resetHeight(accordionContent);
-            return;
-          }
-
-          function handleCancel() {
-            animations[0].commitStyles();
-          }
-
-          animations[0].addEventListener("cancel", handleCancel, {
-            once: true,
-          });
-
-          animations[0].addEventListener(
-            "finish",
-            () => {
-              resetHeight(accordionContent);
-              animations[0].removeEventListener("cancel", handleCancel);
-            },
-            { once: true }
-          );
-        });
-      });
-    }
-
+  accordion.addEventListener("accordion-change", (e) => {
     // blockMainThread(processingTime);
   });
 
-  // loop();
+  // // loop();
 </script>
