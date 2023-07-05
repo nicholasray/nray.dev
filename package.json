@@ -8,7 +8,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "test": "npm run -s lint && tsc",
+    "test": "npm run -s lint && astro check",
     "lint": "eslint --max-warnings=0 --cache .",
     "astro": "astro"
   },

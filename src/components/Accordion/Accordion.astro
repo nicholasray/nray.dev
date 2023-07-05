@@ -34,11 +34,10 @@ const { className } = Astro.props;
         return;
       }
 
-      // Apply aria attributes
-      accordionTrigger.setAttribute("aria-expanded", "true");
-
       // Get start height.
       const height = accordionContent.getBoundingClientRect().height;
+      // Apply aria attributes
+      accordionTrigger.setAttribute("aria-expanded", "true");
       this.resetHeight(accordionContent);
       // Get finish height.
       accordionItem.classList.add("accordion-item--open");
@@ -96,11 +95,10 @@ const { className } = Astro.props;
         return;
       }
 
-      // Apply aria attributes
-      accordionTrigger.setAttribute("aria-expanded", "false");
-
       // Get start height.
       const height = accordionContent.getBoundingClientRect().height;
+      // Apply aria attributes
+      accordionTrigger.setAttribute("aria-expanded", "false");
       // Set start height.
       accordionContent.style.height = `${height}px`;
       accordionContent.style.display = "block";
