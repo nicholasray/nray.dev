@@ -180,7 +180,6 @@ import { Icon } from "astro-icon";
 
     if (desiredCount > accordion.childElementCount) {
       // add more
-
       const nodes = [];
       for (let i = currentCount; i < desiredCount; i++) {
         nodes.push(createItem(i));
@@ -188,8 +187,9 @@ import { Icon } from "astro-icon";
       accordion.append(...nodes);
     } else {
       // remove
+      const children = Array.from(accordion.children);
       for (let i = currentCount - 1; i >= desiredCount; i--) {
-        accordion.children[i].remove();
+        children[i].remove();
       }
     }
   });
