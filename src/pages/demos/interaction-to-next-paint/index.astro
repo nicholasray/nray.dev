@@ -140,6 +140,18 @@ import { Icon } from "astro-icon";
     return template.content.firstChild!;
   }
 
+  function blockMainThread(duration: number) {
+    const t0 = performance.now();
+    while (performance.now() - t0 < duration);
+  }
+
+  function loop() {
+    setTimeout(() => {
+      blockMainThread(parseInt(inputDelayInput.value));
+      loop();
+    });
+  }
+
   [inputDelayInput, processingTimeInput, itemCountInput].forEach((input) => {
     input.addEventListener("input", (e) => {
       if (!(e.target && e.target instanceof HTMLInputElement)) {
@@ -181,18 +193,6 @@ import { Icon } from "astro-icon";
       }
     }
   });
-
-  function blockMainThread(duration: number) {
-    const t0 = performance.now();
-    while (performance.now() - t0 < duration);
-  }
-
-  function loop() {
-    setTimeout(() => {
-      blockMainThread(parseInt(inputDelayInput.value));
-      loop();
-    });
-  }
 
   accordion.addEventListener("accordion-change", () => {
     blockMainThread(parseInt(processingTimeInput.value));
