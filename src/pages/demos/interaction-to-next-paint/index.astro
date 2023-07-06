@@ -2,6 +2,8 @@
 import Layout from "@layouts/Layout.astro";
 import * as Accordion from "@components/Accordion";
 import { Icon } from "astro-icon";
+import { Picture } from "@astrojs/image/components";
+import timeline from "@content/blog/interaction-to-next-paint-inp-3-optimizations-you-need-to-know/_assets/interaction-to-next-paint-components.png";
 ---
 
 <Layout
@@ -21,7 +23,23 @@ import { Icon } from "astro-icon";
           >
             Interaction to Next Paint (INP) demo
           </h1>
-          <div class="space-y-4 mt-8">
+          <div>
+            <a href={timeline.src}>
+              <Picture
+                class="bg-white rounded-md mt-4 md:mt-8"
+                loading="eager"
+                alt="Interaction to Next Paint timeline"
+                src={timeline}
+                aspectRatio={timeline.width / timeline.height}
+                width={timeline.width}
+                height={timeline.height}
+                widths={[400, 800, 1200]}
+                sizes="(min-width: 48rem) 36rem, 100vw"
+                fetchpriority={"high"}
+              />
+            </a>
+          </div>
+          <div class="space-y-4 mt-4 md:mt-8">
             <div>
               <div>
                 Up to <strong><span>100</span>ms</strong> of input delay
@@ -62,7 +80,7 @@ import { Icon } from "astro-icon";
           </div>
         </div>
         <Accordion.Root
-          className="divide-y dark:divide-zinc-700 shadow-xl text-zinc-600 dark:text-zinc-300 dark:zinc-200 bg-white dark:bg-zinc-800 rounded-md"
+          className="divide-y dark:divide-zinc-700 shadow-xl text-zinc-600 dark:text-zinc-300 dark:zinc-200 bg-white dark:bg-zinc-800 rounded-md mt-4 md:mt-0 block"
         >
           {
             [...Array(10)].map((_, i) => (
