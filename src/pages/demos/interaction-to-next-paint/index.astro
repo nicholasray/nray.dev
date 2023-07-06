@@ -148,19 +148,14 @@ import timeline from "@content/blog/interaction-to-next-paint-inp-3-optimization
     ".item-count-input"
   ) as HTMLInputElement;
   const accordion = document.querySelector(".accordion") as HTMLElement;
-  const itemTemplate = accordion.firstElementChild as HTMLElement;
+  const itemTemplate = accordion.firstElementChild!.outerHTML;
   const itemChoices = JSON.parse(itemCountInput.dataset.choices!);
 
-  function createItem(key: number) {
-    const clone = itemTemplate.cloneNode(true) as HTMLElement;
-    const html = clone.outerHTML
+  function createItemString(key: number) {
+    return itemTemplate
       .replaceAll("-0", `-${key}`)
       .replaceAll("item 1", `item ${(key + 1).toLocaleString()}`)
       .trim();
-    const template = document.createElement("template");
-    template.innerHTML = html;
-
-    return template.content.firstChild!;
   }
 
   function blockMainThread(duration: number) {
@@ -205,9 +200,11 @@ import timeline from "@content/blog/interaction-to-next-paint-inp-3-optimization
       // add more
       const nodes = [];
       for (let i = currentCount; i < desiredCount; i++) {
-        nodes.push(createItem(i));
+        nodes.push(createItemString(i));
       }
-      accordion.append(...nodes);
+      const template = document.createElement("template");
+      template.innerHTML = nodes.join("");
+      accordion.append(...template.content.children);
     } else {
       // remove
       const children = Array.from(accordion.children);
