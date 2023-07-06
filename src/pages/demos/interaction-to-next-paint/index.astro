@@ -41,34 +41,39 @@ import timeline from "@content/blog/interaction-to-next-paint-inp-3-optimization
           </div>
           <div class="space-y-4 mt-4 md:mt-8">
             <div>
-              <div>
-                Up to <strong><span>100</span>ms</strong> of input delay
-              </div>
+              <label for="input-delay-input" class="block">
+                Up to <strong><span>0</span>ms</strong> of additional input delay
+              </label>
               <input
+                id="input-delay-input"
                 class="input-delay-input"
                 type="range"
                 min="0"
                 max="300"
-                value="100"
+                value="0"
                 step="50"
               />
             </div>
             <div>
-              <div><strong><span>300</span>ms</strong> of processing time</div>
+              <label for="processing-time-input" class="block">
+                <strong><span>0</span>ms</strong> of additional processing time
+              </label>
               <input
+                id="processing-time-input"
                 class="processing-time-input"
                 type="range"
                 min="0"
                 max="500"
-                value="300"
+                value="0"
                 step="50"
               />
             </div>
             <div>
-              <div>
+              <label for="item-count-input" class="block">
                 <strong><span>10</span></strong> items affecting presentation delay
-              </div>
+              </label>
               <input
+                id="item-count-input"
                 class="item-count-input"
                 type="range"
                 min="0"
