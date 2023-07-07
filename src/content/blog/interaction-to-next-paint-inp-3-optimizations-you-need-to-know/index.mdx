@@ -119,6 +119,30 @@ It does NOT measure:
 - Hovering
 - Scrolling
 
+## What can happen during an interaction?
+
+INP contains **three phases**:
+
+1. **Input delay**: Begins when a user clicks, taps, or presses a key and ends
+   when the JavaScript event callbacks start executing
+2. **Processing time**: The total execution time of the event callbacks
+3. **Presentation delay**: Begins when the event callbacks complete and ends
+   when a visual update occurs
+
+import inpComponents from "./_assets/interaction-to-next-paint-components.png";
+
+<Image
+  background
+  src={inpComponents}
+  alt="Interaction to Next Paint Components"
+/>
+
+Each of these phases can add time to the interaction's latency. Part of the
+reason why First Input Delay rarely failed was because it only measured the
+**input delay** portion of the user's first interaction. Because INP measures
+all the way to the first frame a user can see, it is much better indicator of a
+user's experience.
+
 ## How to measure INP
 
 Since INP requires interactions with the page, the best way to measure it is
@@ -158,7 +182,7 @@ When using this PageSpeeds Insights, you should be aware of the following:
 - There may not be
   [sufficient data](https://developers.google.com/speed/docs/insights/v5/about#crux)
   for the page or website you're testing. If there isn't sufficient data for the
-  page you've entered, PSI will try to use data from all pages of a website —
+  page you've entered, PSI will try to use data from all pages of the website —
   the origin — instead. If the origin doesn't have enough data, no data will be
   shown.
 
@@ -199,30 +223,6 @@ which you can use to derive the `input delay`, `processing time` and
   `processingEnd - processingStart`.
 - `duration`: Total duration of interaction. The `presentation delay` can be
   derived from `startTime + duration - processingEnd`.
-
-## What can happen during an interaction?
-
-INP contains **three phases**:
-
-1. **Input delay**: Begins at the moment a user clicks, taps, or presses a key
-   to the moment at which JavaScript event callbacks start executing
-2. **Processing time**: The total execution time of the event callbacks
-3. **Presentation delay**: Begins at the moment the event callbacks complete to
-   the moment that a visual update occurs
-
-import inpComponents from "./_assets/interaction-to-next-paint-components.png";
-
-<Image
-  background
-  src={inpComponents}
-  alt="Interaction to Next Paint Components"
-/>
-
-Each of these phases can add time to the interaction's latency. Part of the
-reason why First Input Delay rarely failed was because it only measured the
-**input delay** portion of the user's first interaction. Because INP measures
-all the way to the first frame a user can see, it is much better indicator of a
-user's experience.
 
 ## What causes poor responsiveness?
 
