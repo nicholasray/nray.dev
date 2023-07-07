@@ -135,10 +135,10 @@ You can use one of the following tools:
 ### PageSpeed Insights (PSI)
 
 To get a rough idea of the interaction latency your users are experiencing, you
-might be able to use data from the
+may be able to use data from the
 [Chrome UX Report (CrUX)](https://developer.chrome.com/docs/crux/). This is a
 convenient option because it doesn't require adding any tracking script to your
-website. Instead, Chrome will collect this data from
+website. Instead, Chrome collects this data from
 [eligible users](https://developer.chrome.com/docs/crux/methodology/#user-eligibility)
 automatically.
 
@@ -158,11 +158,47 @@ When using this PageSpeeds Insights, you should be aware of the following:
 - There may not be
   [sufficient data](https://developers.google.com/speed/docs/insights/v5/about#crux)
   for the page or website you're testing. If there isn't sufficient data for the
-  page you've entered, PSI will try to use data from all pages of a website (the
-  origin) instead. If the origin doesn't have enough data, no data will be
+  page you've entered, PSI will try to use data from all pages of a website —
+  the origin — instead. If the origin doesn't have enough data, no data will be
   shown.
 
 ### `web-vitals` JavaScript Library
+
+Google released an open source JavaScript library that lets you measure core web
+vitals (including INP) from real users. To use it, you'll need to install it
+from npm:
+
+```bash
+npm install web-vitals
+```
+
+Then, import the `attribution` build into your project so that you can get more
+details about the interaction:
+
+```js
+import { onINP } from "web-vitals/attribution";
+
+onINP(console.log);
+```
+
+The above example produces the following output:
+
+import inpWebVitalsResponse from "./_assets/inp-web-vitals-js-example-response.png";
+
+<Image src={inpWebVitalsResponse} alt="Web Vitals Response Example " />
+
+Importing the `web-vitals/attribution` adds an `attribution` key to the object
+which you can use to derive the `input delay`, `processing time` and
+`presentation delay`:
+
+- `startTime`: Time in milliseconds at which the interaction occurred.
+- `processingStart`: Time at which event callbacks started executing. The input
+  delay can be derived from `processingStart - startTime`.
+- `processingEnd`: Time at which event callbacks finished executing. The
+  `processing time` duration can be derived from
+  `processingEnd - processingStart`.
+- `duration`: Total duration of interaction. The `presentation delay` can be
+  derived from `startTime + duration - processingEnd`.
 
 ## What can happen during an interaction?
 

@@ -15,18 +15,18 @@ import timeline from "@content/blog/interaction-to-next-paint-inp-3-optimization
   <main>
     <section class="mt-12 lg:mt-16">
       <div
-        class="mx-auto max-w-7xl gap-16 md:grid md:grid-cols-2 px-4 sm:px-6 md:px-8"
+        class="mx-auto max-w-7xl gap-16 px-4 sm:px-6 md:grid md:grid-cols-2 md:px-8"
       >
         <div>
           <h1
-            class="text-4xl lg:text-5xl font-extrabold tracking-tight text-zinc-900 dark:text-white"
+            class="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white lg:text-5xl"
           >
             Interaction to Next Paint (INP) demo
           </h1>
           <div>
             <a href={timeline.src}>
               <Picture
-                class="bg-white rounded-md mt-4 md:mt-8"
+                class="mt-4 rounded-md bg-white md:mt-8"
                 loading="eager"
                 alt="Interaction to Next Paint timeline"
                 src={timeline}
@@ -39,7 +39,7 @@ import timeline from "@content/blog/interaction-to-next-paint-inp-3-optimization
               />
             </a>
           </div>
-          <div class="space-y-4 mt-4 md:mt-8">
+          <div class="mt-4 space-y-4 md:mt-8">
             <div>
               <label for="input-delay-input" class="block">
                 Up to <strong><span>0</span>ms</strong> of additional input delay
@@ -89,21 +89,21 @@ import timeline from "@content/blog/interaction-to-next-paint-inp-3-optimization
         >
           {
             [...Array(10)].map((_, i) => (
-              <Accordion.Item className="text-3xl divide-y dark:divide-zinc-700">
+              <Accordion.Item className="divide-y text-3xl dark:divide-zinc-700">
                 <Accordion.Header as="h2">
                   <Accordion.Trigger
-                    className="w-full p-4 font-mono cursor-pointer flex justify-between items-center"
+                    className="flex w-full cursor-pointer items-center justify-between p-4 font-mono"
                     key={i}
                   >
                     item {i + 1}
                     <Icon
                       name="heroicons:chevron-down"
-                      class="chevron w-6 h-6 transition-transform duration-500"
+                      class="chevron h-6 w-6 transition-transform duration-500"
                     />
                   </Accordion.Trigger>
                 </Accordion.Header>
                 <Accordion.Content
-                  className="text-lg overflow-hidden hidden transition-[height] duration-500"
+                  className="hidden overflow-hidden text-lg transition-[height] duration-500"
                   key={i}
                 >
                   <div class="p-6">
