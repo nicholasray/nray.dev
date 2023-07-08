@@ -252,7 +252,7 @@ including:
 
 Note that the duration of long tasks is often dependent on the user's device.
 Low-powered devices like mobile phones with relatively slow CPUs tend to be most
-prone to responsiveness issues because tasks take longer to execute.
+prone to responsiveness issues because the tasks take longer to execute.
 
 In general, if the browser's main thread doesn't have long tasks, it will be
 more responsive to user input, and you will get a good INP score.
@@ -276,10 +276,15 @@ understands. Once the browser determines the events associated with an
 interaction, it can run any event callbacks registered with the events — unless
 there is a task blocking that from happening.
 
+import inpBlockedTask from "./_assets/inp-input-delay-blocked-task.png";
+
+<Image background src={inpBlockedTask} alt="Blocked task" />
+
 ### Long tasks during startup
 
-The main thread is often the most congested when a page loads and starts up.
-Script evaluation, rendering work, and painting commonly occur here.
+The main thread is often the most **congested** when a page loads and
+initializes. Script evaluation, rendering work, and painting commonly occur
+here.
 
 import inpLongTasksStartup from "./_assets/inp-long-tasks-startup.png";
 
@@ -288,32 +293,19 @@ import inpLongTasksStartup from "./_assets/inp-long-tasks-startup.png";
 While there can be a variety of causes for these long tasks, some common
 culprits include:
 
-- Having a single `<script>` tag (without `type=module`) that loads a huge
-  amount of JavaScript. Since each `<script>` executes a task to evaluate the
-  JavaScript once loaded, this can become problematic if the evaluation takes a
-  long time since it can become a potential source of input delay. Instead, try
-  to reduce the amount of JavaScript you are loading. Also, consider having
-  multiple script tags so that each one kicks off its own _smaller_ task that
-  can cause less of an input delay.
-- Recurring timers
-- JavaScript that creates or mutates large DOM trees. Pages with lots of
-  elements are often associated with very costly rendering and paint tasks.
-
-### Watch out for page load and rehydration
-
-### Do as little work as possible
-
-### Yield to main thread
-
-### Watch out for recurring long tasks
-
-### Move third party code to web workers
-
-### Task prioritization
-
-### Be careful with `<script defer>`
-
-### Reduce recurring timers
+- A single `<script>` tag (without `type=module`) that loads a huge amount of
+  JavaScript. Since each `<script>` kicks off a task that evaluates the
+  JavaScript when it has been loaded, this can become problematic if the
+  evaluation takes a long time. Instead, try to reduce the amount of JavaScript
+  you are loading. Also, consider having multiple script tags so that each one
+  kicks off its own _smaller_ task that can cause less of an input delay.
+- JavaScript that creates or mutates large DOM trees. Pages with a lot of
+  elements can lead to very costly rendering tasks. Try to reduce the size of
+  your DOM or lazily render elements that are offscreen with
+  [`content-visibility`](https://web.dev/content-visibility/)
+- [Animations that run on the main thread](https://www.nray.dev/blog/using-chrome-profiler-to-fix-performance-issues/#animations-that-run-on-the-main-thread).
+  Instead, animate only `transform` and `opacity` properties so the animation
+  can run on the compositor thread.
 
 ## Optimize Processing time
 
