@@ -164,6 +164,8 @@ may be able to use data from the
 convenient option because it doesn't require adding any tracking script to your
 website. Instead, Chrome collects this data from
 [eligible users](https://developer.chrome.com/docs/crux/methodology/#user-eligibility)
+and
+[eligible pages](https://developer.chrome.com/docs/crux/methodology/#eligibility)
 automatically.
 
 Google's [PageSpeed Insights (PSI)](https://pagespeed.web.dev/) tool is one tool
@@ -202,7 +204,13 @@ details about the interaction:
 ```js
 import { onINP } from "web-vitals/attribution";
 
-onINP(console.log);
+function sendToAnalytics(metric) {
+  // Instead of logging the output as done below, send desired data to an analytics
+  // provider.
+  console.log(metric);
+}
+
+onINP(sendToAnalytics);
 ```
 
 The above example produces the following output:
@@ -211,7 +219,7 @@ import inpWebVitalsResponse from "./_assets/inp-web-vitals-js-example-response.p
 
 <Image src={inpWebVitalsResponse} alt="Web Vitals Response Example " />
 
-Importing the `web-vitals/attribution` adds an `attribution` key to the object
+Importing the `web-vitals/attribution` adds an `attribution.eventEntry` object
 which you can use to derive the `input delay`, `processing time` and
 `presentation delay`:
 
@@ -221,34 +229,75 @@ which you can use to derive the `input delay`, `processing time` and
 - `processingEnd`: Time at which event callbacks finished executing. The
   `processing time` duration can be derived from
   `processingEnd - processingStart`.
-- `duration`: Total duration of interaction. The `presentation delay` can be
-  derived from `startTime + duration - processingEnd`.
+- `duration`: Total duration of interaction rounded to nearest 8 ms. The
+  `presentation delay` can be derived from
+  `startTime + duration - processingEnd`.
+
+You'll want to send this and other information contained in the object to your
+analytics provider.
 
 ## What causes poor responsiveness?
 
-Slow interactions are primarily caused by long tasks on the browser's main
-thread. These tasks refer to discrete units of work carried out by the browser,
+Slow interactions are primarily caused by **long tasks** — tasks that last
+longer than 50 ms — on the browser's
+[main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread).
+These tasks refer to discrete units of work carried out by the browser,
 including:
 
 - HTML parsing
-- Rendering (e.g. recalculating styles, layout)
+- Rendering (e.g. style and layout calculations)
 - Painting
-- JavaScript execution
+- JavaScript parsing, compilation, execution
+- Garbage collection
 
-In short, if you eliminate long tasks on the main thread, your INP scores will
-be good.
+Note that the duration of long tasks is often dependent on the user's device.
+Low-powered devices like mobile phones with relatively slow CPUs tend to be most
+prone to responsiveness issues because tasks take longer to execute.
 
-- Always try to do the least amount of work on the main thread
-- Split up long tasks into smaller tasks
-
-JavaScript and rendering are the two biggest contributors of large tasks.
+In general, if the browser's main thread doesn't have long tasks, it will be
+more responsive to user input, and you will get a good INP score.
 
 ## How to Optimize Interaction to Next Paint
 
-A slow INP can be caused by many reasons, but let's go over some of the most
-popular ones.
+Since INP involves [three phases](#what-can-happen-during-an-interaction), each
+interaction has three opportunities to be slow. Let's examine some of the most
+common reasons why **input delay**, **processing time**, and **presentation
+delay** can become sluggish and what you can do about it.
 
-## Optimizing Input delay
+## Optimize Input delay
+
+import inpInputDelay from "./_assets/inp-input-delay.png";
+
+<Image src={inpInputDelay} alt="Input delay" />
+
+The first part of each interaction always involves a small, often unnoticeable,
+delay that involves converting the interaction into an event that the browser
+understands. Once the browser determines the events associated with an
+interaction, it can run any event callbacks registered with the events — unless
+there is a task blocking that from happening.
+
+### Long tasks during startup
+
+The main thread is often the most congested when a page loads and starts up.
+Script evaluation, rendering work, and painting commonly occur here.
+
+import inpLongTasksStartup from "./_assets/inp-long-tasks-startup.png";
+
+<Image src={inpLongTasksStartup} alt="Long tasks during startup" />
+
+While there can be a variety of causes for these long tasks, some common
+culprits include:
+
+- Having a single `<script>` tag (without `type=module`) that loads a huge
+  amount of JavaScript. Since each `<script>` executes a task to evaluate the
+  JavaScript once loaded, this can become problematic if the evaluation takes a
+  long time since it can become a potential source of input delay. Instead, try
+  to reduce the amount of JavaScript you are loading. Also, consider having
+  multiple script tags so that each one kicks off its own _smaller_ task that
+  can cause less of an input delay.
+- Recurring timers
+- JavaScript that creates or mutates large DOM trees. Pages with lots of
+  elements are often associated with very costly rendering and paint tasks.
 
 ### Watch out for page load and rehydration
 
@@ -266,7 +315,11 @@ popular ones.
 
 ### Reduce recurring timers
 
-## Optimizing Processing time
+## Optimize Processing time
+
+import inpProcessingTime from "./_assets/inp-processing-time.png";
+
+<Image src={inpProcessingTime} alt="Processing time" />
 
 ### Use debouncing or throttling
 
@@ -276,7 +329,11 @@ E.g. typing into input box
 
 ### Show progress
 
-## Optimizing presentation delay
+## Optimize presentation delay
+
+import inpPresentationDelay from "./_assets/inp-presentation-delay.png";
+
+<Image src={inpPresentationDelay} alt="Presentation delay" />
 
 ## Conclusion
 

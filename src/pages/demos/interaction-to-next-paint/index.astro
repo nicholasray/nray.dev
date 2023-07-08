@@ -2,8 +2,6 @@
 import Layout from "@layouts/Layout.astro";
 import * as Accordion from "@components/Accordion";
 import { Icon } from "astro-icon";
-import { Picture } from "@astrojs/image/components";
-import timeline from "@content/blog/interaction-to-next-paint-inp-3-optimizations-you-need-to-know/_assets/interaction-to-next-paint-components.png";
 ---
 
 <Layout
@@ -18,28 +16,7 @@ import timeline from "@content/blog/interaction-to-next-paint-inp-3-optimization
         class="mx-auto max-w-7xl gap-16 px-4 sm:px-6 md:grid md:grid-cols-2 md:px-8"
       >
         <div>
-          <h1
-            class="text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white lg:text-5xl"
-          >
-            Interaction to Next Paint (INP) demo
-          </h1>
-          <div>
-            <a href={timeline.src}>
-              <Picture
-                class="mt-4 rounded-md bg-white md:mt-8"
-                loading="eager"
-                alt="Interaction to Next Paint timeline"
-                src={timeline}
-                aspectRatio={timeline.width / timeline.height}
-                width={timeline.width}
-                height={timeline.height}
-                widths={[400, 800, 1200]}
-                sizes="(min-width: 48rem) 36rem, 100vw"
-                fetchpriority={"high"}
-              />
-            </a>
-          </div>
-          <div class="mt-4 space-y-4 md:mt-8">
+          <div class="space-y-4">
             <div>
               <label for="input-delay-input" class="block">
                 Up to <strong><span>0</span>ms</strong> of additional input delay
