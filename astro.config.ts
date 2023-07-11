@@ -73,7 +73,11 @@ export default defineConfig({
       serviceEntryPoint: "@astrojs/image/sharp",
     }),
     sitemap({
-      filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
+      filter: (page) =>
+        !page.startsWith("https://www.nray.dev/rss.xml") &&
+        !page.startsWith(
+          "https://www.nray.dev/demos/interaction-to-next-paint"
+        ),
     }),
   ],
 });
