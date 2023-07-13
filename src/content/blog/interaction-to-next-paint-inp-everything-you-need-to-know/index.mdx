@@ -277,11 +277,12 @@ longer than **50 ms** — on the browser's
 These tasks refer to discrete units of work carried out by the browser,
 including:
 
-- **HTML parsing**
-- **Rendering** (e.g. style and layout calculations)
-- **Painting**
-- **JavaScript** parsing, compilation, execution
-- **Garbage collection**
+- **HTML parsing**: Convert raw HTML into a DOM tree
+- **Style and layout**: Matching elements to selectors and calculating an
+  element's computed styles and its geometric properties
+- **Painting**: Process of filling in pixels
+- **JavaScript**: Work that typically results in visual changes
+- **Garbage collection**: Reclaiming memory
 
 Any of these can be responsible for a long task.
 
@@ -461,10 +462,9 @@ work** into **smaller tasks** that each take less than **50 ms** to execute and
 prioritizing the work that is user-facing. The benefits of doing this are
 two-fold:
 
-1. It allows the browser to render critical work as quickly as possible in the
-   next frame, providing the user with fast visual feedback. Remember, the INP
-   measurement even allows for intermediate visual feedback states like a
-   spinner.
+1. It allows the browser to render user-visible work as quickly as possible in
+   the next frame, providing the user with fast visual feedback that _something_
+   has happened.
 2. Deferring non-essential work to another task in a `setTimeout` callback gives
    the main thread the opportunity to handle higher priority tasks like
    subsequent user input _before_ the `setTimeout`callback is executed.
