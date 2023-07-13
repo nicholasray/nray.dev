@@ -35,13 +35,12 @@ when they interact with a page by clicking a button, tapping a menu item, or
 pressing a key, visual feedback happens — **and occurs quickly**. INP captures
 this interaction latency and flags interactions that are slow enough to cause a
 **negative user experience**.
-[Rage clicking](https://docs.google.com/presentation/d/1Euu4FBL75z0I8UtKf3dTzrLYu6wxfeWnrmXUCn9AQIY/edit?usp=sharing&resourcekey=0-t6sEnmSbzYTO_fcrR8n9Jg)
-is one side effect of interactions that take too long.
 
-Although a relatively new metric, improving INP has demonstrated to be important
-for user happiness and business success:
+Although a relatively new metric, **improving INP** has demonstrated to be
+important for **user happiness** and **business success**:
 
-- [redBus increased sales by 7%](https://web.dev/redbus-inp/)
+- [Rage clicking is one side effect of poor INP](https://docs.google.com/presentation/d/1Euu4FBL75z0I8UtKf3dTzrLYu6wxfeWnrmXUCn9AQIY/edit?usp=sharing&resourcekey=0-t6sEnmSbzYTO_fcrR8n9Jg)
+- [redBus increased sales by 7% after improving their INP](https://web.dev/redbus-inp/)
 - [Economic times decreased bounce rate by 50% and increased pageviews by 43% by reducing INP nearly 4x](https://web.dev/economic-times-inp/)
 
 This article describes INP and how you can optimize it for your website to
@@ -69,21 +68,28 @@ As a Core Web Vital, INP is intended to measure one important aspect of a user's
 experience — interactivity and responsiveness. Google will use INP as one of the
 signals that influence your website's search ranking.
 
-## How is INP different than First Input Delay (FID)?
+## What is the difference between First Input Delay (FID) and INP?
 
-INP is expected to provide a more complete assessment of a user's experience on
-a page compared to FID by:
+The INP metric is First Input Delay's successor and will replace FID as a Core
+Web Vital on March 2024. Although both metrics were intended to measure a page's
+interactivity and responsiveness, INP is expected to provide a more complete
+assessment of a user's experience on a page compared to FID by:
 
 - Observing _all_ interactions throughout the lifetime of a page instead of only
   the first interaction
 - Measuring the time it takes from the start of the interaction to moment the
-  first frame appears instead of the moment that event callbacks can start
-  executing
+  first frame appears instead of only measuring the time it takes for the
+  browser to be able to respond to the interaction (input delay portion)
 
-The numbers back this up — as of May 2023,
-[99.9% of desktop sites and 93.2% of mobile sites passed FID](https://httparchive.org/reports/chrome-ux-report#cruxFastFid)
-with flying colors, compared to
-[96.6% of desktop sites and 64.9% of mobile sites passing INP](https://httparchive.org/reports/chrome-ux-report#cruxFastInp).
+import inpFid from "./_assets/inp-vs-fid.png";
+
+<Image background src={inpFid} alt="INP vs FID" />
+
+Websites have much worse INP scores compared to FID particularly on mobile
+devices — as of May 2023,
+[99.9% of desktop sites and 93.2% of mobile sites passed FID](https://httparchive.org/reports/chrome-ux-report#cruxFastFid),
+compared to
+[96.6% of desktop sites and just **64.9%** of mobile sites passing INP](https://httparchive.org/reports/chrome-ux-report#cruxFastInp).
 
 ## How is INP Measured?
 
@@ -92,14 +98,6 @@ press is timed from its beginning to the moment a **visual update** occurs. This
 elapsed time represents the **interaction's latency**. When the user leaves the
 page, the INP score is calculated based on one of the recorded interaction
 latencies.
-
-Notably, the visual update doesn't _need_ to be the final desired visual state.
-INP is only concerned with the time it takes to present the **next frame**
-following an interaction. The frame _can_ be an **intermediate state** like a
-spinner. As long as the interaction results in timely visual feedback that shows
-the user _something_ has happened, you can get good INP scores. For the best
-user experience, make sure you use the
-[appropriate progress indicator for the situation](https://www.nngroup.com/articles/progress-indicators/).
 
 import inpSpinner from "./_assets/inp-progress-indicator.png";
 
@@ -118,6 +116,14 @@ example.
 As with other Core Web Vitals, the **75th percentile** of all the page views is
 then reported, further reducing noise.
 
+Notably, the visual update doesn't _need_ to be the final desired visual state.
+INP is only concerned with the time it takes to present the **next frame**
+following an interaction. The frame _can_ be an **intermediate state** like a
+spinner. As long as the interaction results in timely visual feedback that shows
+the user _something_ has happened, you can get good INP scores. For the best
+user experience, make sure you use the
+[appropriate progress indicator for the situation](https://www.nngroup.com/articles/progress-indicators/).
+
 ## What's a good INP score?
 
 At the **75th percentile** for any given page and segmented across desktop and
@@ -135,9 +141,9 @@ import inpScores from "./_assets/interaction-to-next-paint-scores.png";
 
 INP measures the following interactions:
 
-- Mouse clicks
-- Taps on touchscreens
-- Key presses (physical and onscreen)
+- **Mouse clicks**
+- **Taps on touchscreens**
+- **Key presses** (physical and onscreen)
 
 It does NOT measure:
 
@@ -146,7 +152,7 @@ It does NOT measure:
 
 ## What can happen during an interaction?
 
-INP contains **three phases**:
+INP contains **three critical phases**:
 
 1. **Input delay**: Begins when a user clicks, taps, or presses a key and ends
    when the JavaScript event callbacks start executing
@@ -165,7 +171,7 @@ import inpComponents from "./_assets/interaction-to-next-paint-components.png";
 Each of these phases can add time to the interaction's latency. Part of the
 reason why First Input Delay rarely failed was because it only measured the
 **input delay** portion of the user's first interaction. Because INP measures
-_all_ the way to the first frame after an interaction, it is much better
+_all_ the way to the first frame after an interaction, it's a much better
 indicator of a user's experience.
 
 ## How to measure INP
@@ -266,7 +272,7 @@ and other information contained in the object to your analytics provider.
 ## What causes poor responsiveness?
 
 Slow interactions are primarily caused by **long tasks** — tasks that last
-longer than 50 ms — on the browser's
+longer than **50 ms** — on the browser's
 [**main thread**](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread).
 These tasks refer to discrete units of work carried out by the browser,
 including:
@@ -450,8 +456,9 @@ which will improve responsiveness.
 
 If you can't reduce the amount of work that JavaScript does on the main thread,
 the next best option is to **yield to the main thread** by **spliting up the
-work** into smaller tasks and prioritizing the work that is user-facing. The
-benefits of doing this are two-fold:
+work** into smaller tasks that take less than **50 ms** to execute and
+prioritizing the work that is user-facing. The benefits of doing this are
+two-fold:
 
 1. It allows the browser to render critical work as quickly as possible in the
    next frame, providing the user with fast visual feedback. Remember, the INP
@@ -460,6 +467,10 @@ benefits of doing this are two-fold:
 2. Deferring non-essential work to another task in a `setTimeout` callback gives
    the main thread the opportunity to handle higher priority tasks like
    subsequent user input _before_ the `setTimeout`callback is executed.
+   Alternatively, you could use
+   [`requestIdleCallback`](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback),
+   but note that it has less much
+   [browser support](https://caniuse.com/requestidlecallback).
 
 ```js
 accordion.addEventListener("click", (event) => {
@@ -494,13 +505,13 @@ section.scrollHeight;
 This is particularly expensive when multiple forced synchronous layouts in quick
 succession are involved. When this happens, it's called
 “[layout thrashing](/blog/using-chrome-profiler-to-fix-performance-issues/#layout-thrashing)"
-and can significantly increase processing time. This can happen when a read and
-write are inside a loop, for example:
+and can significantly increase processing time. This often happens when a read
+and write are inside a loop, for example:
 
 ```js
 const sections = documet.querySelectorAll("section");
 
-// Each iteration causes a forced synchronous layout which results in layout
+// Each iteration causes a forced synchronous layout that results in layout
 // thrashing.
 sections.forEach((element) => {
   // Write
@@ -573,10 +584,3 @@ import hiddenUntilFound from "./_assets/wikipedia-mobile-hidden-until-found-attr
 A more advanced technique involves using the
 [`content-visibility: auto`](https://web.dev/content-visibility/) CSS style to
 lazily render off-screen elements.
-
-## Conclusion
-
-Case studies:
-
-- [RedBus](https://web.dev/redbus-inp/)
-- Economic Times
