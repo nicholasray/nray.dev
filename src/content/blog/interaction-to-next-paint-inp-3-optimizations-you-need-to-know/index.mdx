@@ -71,9 +71,10 @@ latencies.
 Notably, the visual update doesn't _need_ to be the final desired visual state.
 INP is only concerned with the time it takes to present the **next frame**
 following an interaction. The frame _can_ be an **intermediate state** like a
-spinner. As long as the interaction results in timely visual feedback that shows
-the user _something_ has happened, you can get good INP scores. Just make sure
-you use the
+spinner or even the letter within an input field that corresponds to a
+keystroke. As long as the interaction results in timely visual feedback that
+shows the user _something_ has happened, you can get good INP scores. Just make
+sure you use the
 [best progress indicator for the situation](https://www.nngroup.com/articles/progress-indicators/).
 
 import inpSpinner from "./_assets/inp-progress-indicator.png";
@@ -140,15 +141,16 @@ import inpComponents from "./_assets/interaction-to-next-paint-components.png";
 Each of these phases can add time to the interaction's latency. Part of the
 reason why First Input Delay rarely failed was because it only measured the
 **input delay** portion of the user's first interaction. Because INP measures
-all the way to the first frame a user can see, it is much better indicator of a
-user's experience.
+_all_ the way to the first frame after an interaction, it is much better
+indicator of a user's experience.
 
 ## How to measure INP
 
 Since INP requires interactions with the page, the best way to measure it is
-with real users through Real User Monitoring (RUM). Usually, this involes adding
-a small piece of JavaScript to your website that tracks the responsiveness of
-each interaction on a page (PageSpeed Insights is a notable exception).
+with real users through **Real User Monitoring (RUM)**. Usually, this involes
+adding a small piece of JavaScript to your website that tracks the
+responsiveness of each interaction on a page (PageSpeed Insights is a notable
+exception).
 
 You can use one of the following tools:
 
@@ -158,9 +160,9 @@ You can use one of the following tools:
 
 ### PageSpeed Insights (PSI)
 
-To get a rough idea of the interaction latency your users are experiencing, you
-may be able to use data from the
-[Chrome UX Report (CrUX)](https://developer.chrome.com/docs/crux/). This is a
+If your site has enough traffic, you may be able to use data from Google's
+[Chrome UX Report (CrUX)](https://developer.chrome.com/docs/crux/) to get a
+rough idea of the interaction latency your users are experiencing. This is a
 convenient option because it doesn't require adding any tracking script to your
 website. Instead, Chrome collects this data from
 [eligible users](https://developer.chrome.com/docs/crux/methodology/#user-eligibility)
@@ -233,14 +235,15 @@ which you can use to derive the `input delay`, `processing time` and
   `presentation delay` can be derived from
   `startTime + duration - processingEnd`.
 
-You'll want to send this and other information contained in the object to your
-analytics provider.
+You'll want to
+[send this](https://github.com/GoogleChrome/web-vitals#send-the-results-to-an-analytics-endpoint)
+and other information contained in the object to your analytics provider.
 
 ## What causes poor responsiveness?
 
 Slow interactions are primarily caused by **long tasks** — tasks that last
 longer than 50 ms — on the browser's
-[main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread).
+[**main thread**](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread).
 These tasks refer to discrete units of work carried out by the browser,
 including:
 
@@ -250,12 +253,26 @@ including:
 - JavaScript parsing, compilation, execution
 - Garbage collection
 
-Note that the duration of long tasks is often dependent on the user's device.
-Low-powered devices like mobile phones with relatively slow CPUs tend to be most
-prone to responsiveness issues because the tasks take longer to execute.
+Any of these can be responsible for a long task.
 
-In general, if the browser's main thread doesn't have long tasks, it will be
-more responsive to user input, and you will get a good INP score.
+The browser's main thread can only execute one task at a time, and that task
+must
+[run to completion](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop#run-to-completion)
+before another task can start. Devices that have lower power, such as mobile
+phones with slower CPUs, are more likely to have responsiveness issues because
+tasks take longer to complete. That's why it's a good idea to test interactions
+on devices that resemble the lower-end devices used by most of your users.
+
+import inpLongTaskSeries from "./_assets/inp-series-of-long-tasks.png";
+
+<Image
+  caption="Chrome's performance profiler showing a series of long tasks"
+  src={inpLongTaskSeries}
+  alt="Series of long tasks"
+/>
+
+**In general, if the browser's main thread doesn't have long tasks, it will be
+responsive to user input, and interactions will be fast**.
 
 ## How to Optimize Interaction to Next Paint
 
@@ -273,18 +290,18 @@ import inpInputDelay from "./_assets/inp-input-delay.png";
 The first part of each interaction always involves a small, often unnoticeable,
 delay that involves converting the interaction into an event that the browser
 understands. Once the browser determines the events associated with an
-interaction, it can run any event callbacks registered with the events — unless
-there is a task blocking that from happening.
+interaction, it can run any registered event callbacks — unless there is a task
+blocking that from happening.
 
 import inpBlockedTask from "./_assets/inp-input-delay-blocked-task.png";
 
 <Image background src={inpBlockedTask} alt="Blocked task" />
 
-### Long tasks during startup
+### Long tasks during page startup
 
-The main thread is often the most **congested** when a page loads and
-initializes. Script evaluation, rendering work, and painting commonly occur
-here.
+The main thread is often the **most congested** when a page loads and
+initializes. During this time, the browser is busy parsing HTML, evaluating
+scripts, rendering, and painting.
 
 import inpLongTasksStartup from "./_assets/inp-long-tasks-startup.png";
 
@@ -296,36 +313,241 @@ culprits include:
 - A single `<script>` tag (without `type=module`) that loads a huge amount of
   JavaScript. Since each `<script>` kicks off a task that evaluates the
   JavaScript when it has been loaded, this can become problematic if the
-  evaluation takes a long time. Instead, try to reduce the amount of JavaScript
-  you are loading. Also, consider having multiple script tags so that each one
-  kicks off its own _smaller_ task that can cause less of an input delay.
+  evaluation takes a long time. Instead, first try to reduce the amount of
+  JavaScript you are loading. Next, consider having multiple script tags so that
+  each one kicks off its own _smaller_ task or executing expensive logic in a
+  [web worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API).
 - JavaScript that creates or mutates large DOM trees. Pages with a lot of
   elements can lead to very costly rendering tasks. Try to reduce the size of
   your DOM or lazily render elements that are offscreen with
   [`content-visibility`](https://web.dev/content-visibility/)
-- [Animations that run on the main thread](https://www.nray.dev/blog/using-chrome-profiler-to-fix-performance-issues/#animations-that-run-on-the-main-thread).
-  Instead, animate only `transform` and `opacity` properties so the animation
-  can run on the compositor thread.
 
-## Optimize Processing time
+### Rapid interactions
+
+Interactions that occur rapidly, like typing into an autocomplete field, can
+cause a high input delay for subsequent interactions.
+
+import inpRapidInteractions from "./_assets/inp-input-delay-rapid-interactions.png";
+
+<Image
+  background
+  src={inpRapidInteractions}
+  alt="Rapid interactions"
+  caption='Interactions that happen in close proximity like typing "A" into an input box quickly followed by "B" can cause interaction overlap and a high input delay'
+/>
+
+First, try to reduce the callback's JavaScript logic as much as possible. Then,
+to avoid a "death by a thousand cuts" problem that can arise from the
+accumulation of multiple small callbacks:
+
+- Debounce input handlers
+- Cancel any pending `xhr` or `fetch` requests
+- If the interaction involves an animation, only animate `transform` and/or
+  `opacity` CSS properties so the
+  [animation doesn't run on the main thread](https://www.nray.dev/blog/using-chrome-profiler-to-fix-performance-issues/#animations-that-run-on-the-main-thread).
+
+```js
+/**
+ * An example showing how to debounce input events and cancel pending fetch
+ * requests to avoid a high input delay from rapid input events.
+ */
+const input = document.querySelector("input");
+let controller;
+let signal;
+let timeoutId;
+
+const handler = async (e) => {
+  // Cancel any pending requests.
+  if (controller) {
+    controller.abort();
+  }
+
+  controller = new AbortController();
+  signal = controller.signal;
+
+  try {
+    const response = await fetch(`?q=${e.target.value}`, {
+      signal,
+    });
+    // ...remaining callback logic
+  } catch (err) {
+    if (err.name === "AbortError") {
+      // Ignore "errors" from cancelled requests.
+      return;
+    }
+
+    throw err;
+  }
+};
+
+input.addEventListener("input", (e) => {
+  // Cancel any pending callbacks.
+  clearTimeout(timeoutId);
+
+  // Wait 50 ms before executing callbacks.
+  timeoutId = setTimeout(() => handler(e), 50);
+});
+```
+
+## Optimize processing time
+
+The positive effects of an optimized input delay will be mitigated if the event
+callbacks associated with an interaction take forever to execute. But optimizing
+your JavaScript execution can help.
 
 import inpProcessingTime from "./_assets/inp-processing-time.png";
 
 <Image src={inpProcessingTime} alt="Processing time" />
 
-### Use debouncing or throttling
+### Long tasks from JavaScript execution
 
-E.g. typing into input box
+One of the most common reasons for a high processing time is from JavaScript
+that takes too long to execute. This results in a long task on the main thread
+that delays important rendering updates.
 
-### Eliminate Layout Thrashing
+import inpLongTask from "./_assets/inp-long-task-processing-time.png";
 
-### Show progress
+<Image
+  caption="In Chrome's performance profiler, long tasks are designated by red diagonal stripes"
+  src={inpLongTask}
+  alt="Long task"
+/>
+
+What can be done about this?
+
+First, investigate the JavaScript responsible for the long task and see if there
+is any low-hanging fruit. Sometimes, this will reveal
+[unnecessary JS that can be removed](/blog/300ms-faster-reducing-wikipedias-total-blocking-time#step-1-remove-unnecessary-javascript)
+or
+[inefficient JS that can be optimized](/blog/300ms-faster-reducing-wikipedias-total-blocking-time#step-2-optimize-existing-javascript).
+You may also be able to move some JavaScript off the main thread with
+[Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API),
+which will improve responsiveness.
+
+If you can't reduce the amount of work that JavaScript does on the main thread,
+the next best option is to **yield to the main thread** by **spliting up the
+work** into smaller tasks and prioritizing the work that is user-facing. The
+benefits of doing this are two-fold:
+
+1. It allows the browser to render critical work as quickly as possible in the
+   next frame, providing the user with fast visual feedback. Remember, the INP
+   measurement even allows for intermediate visual feedback states like a
+   spinner.
+2. Deferring non-essential work to another task in a `setTimeout` callback gives
+   the main thread the opportunity to handle higher priority tasks like
+   subsequent user input _before_ the `setTimeout`callback is executed.
+
+```js
+accordion.addEventListener("click", (event) => {
+  // Critical user-visible work that needs to happen before next frame.
+  toggleSection(event);
+
+  // Defer less important work to the next frame in another task.
+  requesetAnimationFrame(() => {
+    setTimeout(() => {
+      updateAnalytics(event);
+    });
+  });
+});
+```
+
+### Layout Thrashing
+
+When you read
+[properties that trigger layout](https://gist.github.com/paulirish/5d52fb081b3570c81e3a),
+such as `element.getBoundingClientRect()`, after making style changes, like
+adding a class to an element, the browser will need to perform a
+[forced synchronous layout](https://www.nray.dev/blog/using-chrome-profiler-to-fix-performance-issues/#forced-synchronous-layouts)
+to calculate the new layout metrics.
+
+```js
+// Write
+section.classList.add("expanded");
+// Read (causing a forced synchronous layout)
+section.scrollHeight;
+```
+
+This is particularly expensive when multiple forced synchronous layouts in quick
+succession are involved. When this happens, it's called
+“[layout thrashing](/blog/using-chrome-profiler-to-fix-performance-issues/#layout-thrashing)"
+and can significantly increase processing time. This can happen when a read and
+write are inside a loop, for example:
+
+```js
+const sections = documet.querySelectorAll("section");
+
+// Each iteration causes a forced synchronous layout which results in layout
+// thrashing.
+sections.forEach((element) => {
+  // Write
+  section.classList.add("expanded");
+  // Read (causing a forced synchronous layout)
+  section.scrollHeight;
+});
+```
+
+To eliminate forced synchronous layouts and layout thrashing, batch and perform
+all reads before any writes:
+
+```js
+const sections = documet.querySelectorAll("section");
+
+// Perform all reads first.
+sections.forEach((element) => {
+  // Read
+  section.scrollHeight;
+});
+
+// Then perform all writes.
+sections.forEach((element) => {
+  // Write
+  section.classList.add("expanded");
+});
+```
 
 ## Optimize presentation delay
+
+The last phase that can go wrong is the presentation delay portion which is the
+phase that starts after the completion of the event callbacks to the moment the
+frame is presented to the user. It also happens to be one of the hardest phases
+to optimize.
 
 import inpPresentationDelay from "./_assets/inp-presentation-delay.png";
 
 <Image src={inpPresentationDelay} alt="Presentation delay" />
+
+### Large DOM size
+
+Large presentation delays are often the result of large DOM trees. The rendering
+work that the browser must do in order to produce a frame correlates with the
+size of the DOM. As a result, in general, the larger the DOM size, the longer it
+takes for the browser to render updates.
+
+To minimize, the effects of a large DOM size, you can hide certain elements by
+default with one of the following methods:
+
+- `display: none` CSS style
+- [`hidden=until-found`](https://developer.chrome.com/articles/hidden-until-found/)
+  HTML attribute
+
+This pattern can work well for collapsing sections that are part of an accordion
+component, for example. While the elements are hidden, they are removed from the
+browser's rendering tree which eliminates their rendering costs. Then, you can
+programmatically show an element after an interaction — like clicking on an
+accordion section, which adds it to the rendering tree. Wikipedia uses this
+technique on their mobile site for the page's section.
+
+import hiddenUntilFound from "./_assets/wikipedia-mobile-hidden-until-found-attribute.png";
+
+<Image
+  src={hiddenUntilFound}
+  alt="Hidden until found"
+  caption="Wikipedia's mobile site uses the `hidden=until-found` attribute to hide most of an article's sections by default. This helps reduce the page's presentation delay."
+/>
+
+A more advanced technique involves using the
+[`content-visibility: auto`](https://web.dev/content-visibility/) CSS style to
+lazily render off-screen elements.
 
 ## Conclusion
 
