@@ -16,9 +16,8 @@ import Image from "@components/BlogImage.astro";
 **March 2024**, replacing **First Input Delay (FID)** as the metric that
 measures how quickly a page responds to user interactions.
 
-At the time of this writing, things aren't looking good for about **35% of
-mobile websites**, which are projected to **fail** Google's new web performance
-metric.
+Around **35% of mobile websites** are falling short of Google's latest web
+performance standard.
 
 import BigNumber from "@components/BigNumber.astro";
 
@@ -33,22 +32,21 @@ import BigNumber from "@components/BigNumber.astro";
 **90% of a user's time** on a webpage happens after it loads. Users expect that
 when they interact with a page by clicking a button, tapping a menu item, or
 pressing a key, visual feedback happens — **and occurs quickly**. INP captures
-this interaction latency and flags interactions that are slow enough to cause a
-**negative user experience**.
+this latency and flags interactions that are slow enough to cause a **negative
+user experience**.
 
-Although a relatively new metric, **improving INP** has demonstrated to be
-important for **user happiness** and **business success**:
+A fast INP is essential for both user satisfaction and business success:
 
 - [Rage clicking is one side effect of poor INP](https://docs.google.com/presentation/d/1Euu4FBL75z0I8UtKf3dTzrLYu6wxfeWnrmXUCn9AQIY/edit?usp=sharing&resourcekey=0-t6sEnmSbzYTO_fcrR8n9Jg)
 - [redBus increased sales by 7% after improving their INP](https://web.dev/redbus-inp/)
-- [Economic times decreased bounce rate by 50% and increased pageviews by 43% by reducing INP nearly 4x](https://web.dev/economic-times-inp/)
+- [The Economic Times decreased bounce rate by 50% and increased pageviews by 43% by reducing INP nearly 4x](https://web.dev/economic-times-inp/)
 
-This article describes INP and how you can optimize it for your website to
-ensure your users have snappy interactions.
+In this article, you will learn about INP and how to optimize it for your
+website to provide your users with fast and responsive interactions.
 
 ## What is Interaction to Next Paint (INP)?
 
-INP is a metric that evaluates how quickly a page visually responds to certain
+INP is a metric that evaluates how quickly a page visually responds to specific
 user interactions.
 
 import inpTimeline from "./_assets/interaction-to-next-paint-timeline.png";
@@ -62,23 +60,23 @@ For example:
 - When you type something into an input field, INP measures how long it takes
   for that character to appear in the field
 - When you tap the close button of a slideshow, INP measures how long it takes
-  for the slideshow to visually exit
+  for the slideshow to no longer appear on the screen
 
-As a Core Web Vital, INP is intended to measure one important aspect of a user's
-experience — interactivity and responsiveness. Google will use INP as one of the
-signals that influence your website's search ranking.
+As a Core Web Vital, INP measures a critical aspect of a user's experience —
+**interactivity** and **responsiveness**. Google will use INP as a user
+experience signal that influences your website's search ranking.
 
 ## What is the difference between First Input Delay (FID) and INP?
 
 The INP metric is First Input Delay's successor and will replace FID as a Core
-Web Vital on March 2024. Although both metrics are intended to measure a page's
-interactivity and responsiveness, INP is expected to provide a more complete
-assessment of a user's experience on a page compared to FID by:
+Web Vital on March 2024. Although both metrics measure a page's interactivity
+and responsiveness, INP provides a more complete assessment of a user's
+experience on a page compared to FID by:
 
 - Observing _all_ interactions throughout the lifetime of a page instead of only
   the first interaction
-- Measuring the time it takes from the start of the interaction to moment the
-  first frame appears instead of only measuring the time it takes for the
+- Measuring the time it takes from the start of the interaction to the moment
+  the first frame appears instead of only measuring the time it takes for the
   browser to be able to respond to the interaction (input delay portion)
 
 import inpFid from "./_assets/inp-vs-fid.png";
@@ -93,35 +91,34 @@ compared to
 
 ## How is INP Measured?
 
-Throughout the lifespan of a user's visit to a page, each click, tap, and key
-press is timed from its beginning to the moment a **visual update** occurs. This
-elapsed time represents the **interaction's latency**. When the user leaves the
-page, the INP score is calculated based on one of the recorded interaction
-latencies.
+During a user's visit to a web page, INP measures the time elapsed between every
+click, tap, and keypress until a visual change occurs. This elapsed time
+represents the **interaction's latency**. When the user leaves the page, the INP
+score is calculated based on one of the recorded interaction latencies.
 
 import inpSpinner from "./_assets/inp-progress-indicator.png";
 
 <Image
   background
   src={inpSpinner}
-  alt="Spinner showing after a user interaction"
+  alt="Spinner showing after a user interaction."
 />
 
-Intuitively, the page's longest interaction latency is often used as the INP.
-The exception is when a user performs over 50 interactions. In this case, the
-highest interaction for every 50 interactions is ignored, hopefully reducing
-extreme outliers. This might happen with single-page applications (SPAs), for
-example.
+Most of the time, INP becomes the page's **longest interaction latency**. The
+exception is when a user performs over 50 interactions on a page. In this case,
+INP ignores the most prolonged interaction for every 50 interactions, hopefully
+reducing extreme outliers. Single-page applications (SPAs) are particularly
+prone to many interactions since the user doesn't navigate away from the page.
 
-As with other Core Web Vitals, the **75th percentile** of all the page views is
-then reported, further reducing noise.
+As with other Core Web Vitals, the **75th percentile** of all page views is
+reported, further reducing noise.
 
-Notably, the visual update doesn't _need_ to be the final desired visual state.
-INP is only concerned with the time it takes to present the **next frame**
-following an interaction. The frame _can_ be an **intermediate state** like a
-spinner. As long as the interaction results in timely visual feedback that shows
-the user _something_ has happened, you can get good INP scores. For the best
-user experience, make sure you use the
+Notably, the visual update doesn't _need_ to be the final visual state. INP is
+only concerned with the time it takes to present the next frame after an
+interaction. The frame _can_ be an **intermediate state** like a spinner or
+progress bar. As long as the interaction results in timely visual feedback that
+shows the user _something_ has happened, you can get good INP scores. For the
+best user experience, use the
 [appropriate progress indicator for the situation](https://www.nngroup.com/articles/progress-indicators/).
 
 ## What's a good INP score?
@@ -155,10 +152,10 @@ It does NOT measure:
 INP contains **three critical phases**:
 
 1. **Input delay**: Begins when a user clicks, taps, or presses a key and ends
-   when the JavaScript event callbacks start executing
+   when the first JavaScript event callback start executing
 2. **Processing time**: The total execution time of the event callbacks
-3. **Presentation delay**: Begins when the event callbacks complete and ends
-   when a visual update occurs
+3. **Presentation delay**: Begins when the last event callback completes and
+   ends when a visual update occurs
 
 import inpComponents from "./_assets/interaction-to-next-paint-components.png";
 
@@ -171,7 +168,7 @@ import inpComponents from "./_assets/interaction-to-next-paint-components.png";
 Each of these phases can add time to the interaction's latency. Part of the
 reason why First Input Delay rarely failed was because it only measured the
 **input delay** portion of the user's first interaction. Because INP measures
-_all_ the way to the first frame after an interaction, it's a much better
+_all_ the way up to the first frame after an interaction, it's a much better
 indicator of a user's experience.
 
 ## How to measure INP
