@@ -1,5 +1,5 @@
 ---
-title: "Interaction to Next Paint (INP): 3 Optimizations You Need to Know"
+title: "Interaction to Next Paint (INP): Everything You Need to Know"
 cover:
   src: ./_assets/interaction-to-next-paint-stroke.jpg
   alt: "Blue paint stroke on white canvas"
@@ -15,8 +15,6 @@ import Image from "@components/BlogImage.astro";
 **Interaction to Next Paint (INP)** will become the next **Core Web Vital** on
 **March 2024**, replacing **First Input Delay (FID)** as the metric that
 measures how quickly a page responds to user interactions.
-
-Is your website fast enough?
 
 At the time of this writing, things aren't looking good for about **35% of
 mobile websites**, which are projected to **fail** Google's new web performance
@@ -40,6 +38,12 @@ this interaction latency and flags interactions that are slow enough to cause a
 [Rage clicking](https://docs.google.com/presentation/d/1Euu4FBL75z0I8UtKf3dTzrLYu6wxfeWnrmXUCn9AQIY/edit?usp=sharing&resourcekey=0-t6sEnmSbzYTO_fcrR8n9Jg)
 is one side effect of interactions that take too long.
 
+Although a relatively new metric, improving INP has demonstrated to be important
+for user happiness and business success:
+
+- [redBus increased sales by 7%](https://web.dev/redbus-inp/)
+- [Economic times decreased bounce rate by 50% and increased pageviews by 43% by reducing INP nearly 4x](https://web.dev/economic-times-inp/)
+
 This article describes INP and how you can optimize it for your website to
 ensure your users have snappy interactions.
 
@@ -52,13 +56,34 @@ import inpTimeline from "./_assets/interaction-to-next-paint-timeline.png";
 
 <Image background src={inpTimeline} alt="Interaction to Next Paint Timeline" />
 
-As a Core Web Vital, Google will use INP as one of the signals that influence
-your website's search ranking. The upcoming change is expected to provide a more
-accurate assessment of a user's experience on a page compared to FID. And the
-numbers back this up — as of May 2023,
+For example:
+
+- When you click a menu button, INP measures how long it takes for the menu to
+  appear.
+- When you type something into an input field, INP measures how long it takes
+  for that character to appear in the field
+- When you tap the close button of a slideshow, INP measures how long it takes
+  for the slideshow to exit
+
+As a Core Web Vital, INP is intended to measure one important aspect of a user's
+experience — interactivity and responsiveness. Google will use INP as one of the
+signals that influence your website's search ranking.
+
+## How is INP different than First Input Delay (FID)?
+
+INP is expected to provide a more complete assessment of a user's experience on
+a page compared to FID by:
+
+- Observing _all_ interactions throughout the lifetime of a page instead of only
+  the first interaction
+- Measuring the time it takes from the start of the interaction to moment the
+  first frame appears instead of the moment that event callbacks can start
+  executing
+
+The numbers back this up — as of May 2023,
 [99.9% of desktop sites and 93.2% of mobile sites passed FID](https://httparchive.org/reports/chrome-ux-report#cruxFastFid)
-with flying colors, but this was mostly because it only measured a _portion_ of
-the user's _first interaction_ on a page.
+with flying colors, compared to
+[96.6% of desktop sites and 64.9% of mobile sites passing INP](https://httparchive.org/reports/chrome-ux-report#cruxFastInp).
 
 ## How is INP Measured?
 
@@ -71,11 +96,10 @@ latencies.
 Notably, the visual update doesn't _need_ to be the final desired visual state.
 INP is only concerned with the time it takes to present the **next frame**
 following an interaction. The frame _can_ be an **intermediate state** like a
-spinner or even the letter within an input field that corresponds to a
-keystroke. As long as the interaction results in timely visual feedback that
-shows the user _something_ has happened, you can get good INP scores. Just make
-sure you use the
-[best progress indicator for the situation](https://www.nngroup.com/articles/progress-indicators/).
+spinner. As long as the interaction results in timely visual feedback that shows
+the user _something_ has happened, you can get good INP scores. For the best
+user experience, make sure you use the
+[appropriate progress indicator for the situation](https://www.nngroup.com/articles/progress-indicators/).
 
 import inpSpinner from "./_assets/inp-progress-indicator.png";
 
@@ -247,11 +271,11 @@ longer than 50 ms — on the browser's
 These tasks refer to discrete units of work carried out by the browser,
 including:
 
-- HTML parsing
-- Rendering (e.g. style and layout calculations)
-- Painting
-- JavaScript parsing, compilation, execution
-- Garbage collection
+- **HTML parsing**
+- **Rendering** (e.g. style and layout calculations)
+- **Painting**
+- **JavaScript** parsing, compilation, execution
+- **Garbage collection**
 
 Any of these can be responsible for a long task.
 
@@ -417,9 +441,9 @@ What can be done about this?
 
 First, investigate the JavaScript responsible for the long task and see if there
 is any low-hanging fruit. Sometimes, this will reveal
-[unnecessary JS that can be removed](/blog/300ms-faster-reducing-wikipedias-total-blocking-time#step-1-remove-unnecessary-javascript)
+[**unnecessary JS that can be removed**](/blog/300ms-faster-reducing-wikipedias-total-blocking-time#step-1-remove-unnecessary-javascript)
 or
-[inefficient JS that can be optimized](/blog/300ms-faster-reducing-wikipedias-total-blocking-time#step-2-optimize-existing-javascript).
+[**inefficient JS that can be optimized**](/blog/300ms-faster-reducing-wikipedias-total-blocking-time#step-2-optimize-existing-javascript).
 You may also be able to move some JavaScript off the main thread with
 [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API),
 which will improve responsiveness.
@@ -486,8 +510,8 @@ sections.forEach((element) => {
 });
 ```
 
-To eliminate forced synchronous layouts and layout thrashing, batch and perform
-all reads before any writes:
+To eliminate forced synchronous layouts and layout thrashing, **perform all
+reads before any writes**:
 
 ```js
 const sections = documet.querySelectorAll("section");
@@ -518,10 +542,11 @@ import inpPresentationDelay from "./_assets/inp-presentation-delay.png";
 
 ### Large DOM size
 
-Large presentation delays are often the result of large DOM trees. The rendering
-work that the browser must do in order to produce a frame correlates with the
-size of the DOM. As a result, in general, the larger the DOM size, the longer it
-takes for the browser to render updates.
+Large presentation delays are often the result of large DOM trees — pages with
+more than 1,500 elements. The rendering work that the browser must do in order
+to produce a frame correlates with the size of the DOM. As a result and in
+general, **the larger the DOM size, the longer it takes for the browser to
+render updates**.
 
 To minimize, the effects of a large DOM size, you can hide certain elements by
 default with one of the following methods:
@@ -534,8 +559,8 @@ This pattern can work well for collapsing sections that are part of an accordion
 component, for example. While the elements are hidden, they are removed from the
 browser's rendering tree which eliminates their rendering costs. Then, you can
 programmatically show an element after an interaction — like clicking on an
-accordion section, which adds it to the rendering tree. Wikipedia uses this
-technique on their mobile site for the page's section.
+accordion section — which adds it to the rendering tree. Wikipedia uses this
+technique on its mobile site for most sections on the page.
 
 import hiddenUntilFound from "./_assets/wikipedia-mobile-hidden-until-found-attribute.png";
 
