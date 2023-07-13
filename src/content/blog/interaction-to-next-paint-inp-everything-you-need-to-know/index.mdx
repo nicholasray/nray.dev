@@ -340,17 +340,18 @@ import inpLongTasksStartup from "./_assets/inp-long-tasks-startup.png";
 While there can be a variety of causes for these long tasks, some common
 culprits include:
 
-- A single `<script>` tag (without `type=module`) that loads a huge amount of
-  JavaScript. Since each `<script>` kicks off a task that evaluates the
-  JavaScript when it has been loaded, this can become problematic if the
-  evaluation takes a long time. Instead, first try to reduce the amount of
-  JavaScript you are loading. Next, consider having multiple script tags so that
-  each one kicks off its own _smaller_ task or executing expensive logic in a
+- A single `<script>` tag (without the `type=module` attribute) that loads a
+  huge amount of JavaScript. Since each `<script>` kicks off a task that
+  evaluates the JavaScript when it has been loaded, this can become problematic
+  if the evaluation takes a long time. Instead, first try to reduce the amount
+  of JavaScript you are loading. Next, consider having multiple script tags so
+  that each one kicks off its own _smaller_ task or executing expensive logic in
+  a
   [web worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API).
 - JavaScript that creates or mutates large DOM trees. Pages with a lot of
-  elements can lead to very costly rendering tasks. Try to reduce the size of
-  your DOM or lazily render elements that are offscreen with
-  [`content-visibility`](https://web.dev/content-visibility/)
+  elements can lead to very costly rendering tasks. Instead of using JavaScript
+  to mutate the DOM during startup, try to make your server generate the desired
+  HTML.
 
 ### Rapid interactions
 
