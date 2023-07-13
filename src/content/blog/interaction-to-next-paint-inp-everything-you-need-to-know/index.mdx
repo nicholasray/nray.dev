@@ -62,7 +62,7 @@ For example:
 - When you type something into an input field, INP measures how long it takes
   for that character to appear in the field
 - When you tap the close button of a slideshow, INP measures how long it takes
-  for the slideshow to exit
+  for the slideshow to visually exit
 
 As a Core Web Vital, INP is intended to measure one important aspect of a user's
 experience — interactivity and responsiveness. Google will use INP as one of the
@@ -71,7 +71,7 @@ signals that influence your website's search ranking.
 ## What is the difference between First Input Delay (FID) and INP?
 
 The INP metric is First Input Delay's successor and will replace FID as a Core
-Web Vital on March 2024. Although both metrics were intended to measure a page's
+Web Vital on March 2024. Although both metrics are intended to measure a page's
 interactivity and responsiveness, INP is expected to provide a more complete
 assessment of a user's experience on a page compared to FID by:
 
@@ -432,8 +432,8 @@ import inpProcessingTime from "./_assets/inp-processing-time.png";
 ### Long tasks from JavaScript execution
 
 One of the most common reasons for a high processing time is from JavaScript
-that takes too long to execute. This results in a long task on the main thread
-that delays important rendering updates.
+that **takes too long to execute**. This results in a long task on the main
+thread that delays important rendering updates.
 
 import inpLongTask from "./_assets/inp-long-task-processing-time.png";
 
@@ -452,11 +452,11 @@ or
 [**inefficient JS that can be optimized**](/blog/300ms-faster-reducing-wikipedias-total-blocking-time#step-2-optimize-existing-javascript).
 You may also be able to move some JavaScript off the main thread with
 [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API),
-which will improve responsiveness.
+which will free up the main thread to handle interactions.
 
 If you can't reduce the amount of work that JavaScript does on the main thread,
 the next best option is to **yield to the main thread** by **spliting up the
-work** into smaller tasks that take less than **50 ms** to execute and
+work** into **smaller tasks** that each take less than **50 ms** to execute and
 prioritizing the work that is user-facing. The benefits of doing this are
 two-fold:
 
@@ -469,7 +469,7 @@ two-fold:
    subsequent user input _before_ the `setTimeout`callback is executed.
    Alternatively, you could use
    [`requestIdleCallback`](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback),
-   but note that it has less much
+   but note that it has much less
    [browser support](https://caniuse.com/requestidlecallback).
 
 ```js
@@ -487,6 +487,9 @@ accordion.addEventListener("click", (event) => {
 ```
 
 ### Layout Thrashing
+
+**The order of your JavaScript calls can dramatically influence how long it
+takes to execute**.
 
 When you read
 [properties that trigger layout](https://gist.github.com/paulirish/5d52fb081b3570c81e3a),
