@@ -242,7 +242,7 @@ function sendToAnalytics(metric) {
 onINP(sendToAnalytics);
 ```
 
-The above example produces the following output:
+The above example produces the following output when the page unloads:
 
 import inpWebVitalsResponse from "./_assets/inp-web-vitals-js-example-response.png";
 
@@ -563,14 +563,16 @@ costs:
 - [`hidden=until-found`](https://developer.chrome.com/articles/hidden-until-found/)
   HTML attribute
 
-For example, this pattern can work well for accordion sections. While the
-elements are hidden, they are removed from the browser's rendering tree and
-won't contribute to presentation delay. Then, you can programmatically show an
-element after an interaction, like clicking on an accordion section. Although
-this will add the element back to the rendering tree where it can contribute to
-presentation delay, this technique typically reduces the number of elements in
-the rendering tree. Wikipedia uses this technique on its mobile site for most
-sections on the page.
+An excellent approach to improve the performance of long accordion sections is
+to hide the sections that are not open using one of the above methods. Hiding
+the sections removes them from the browser's rendering tree, reducing the
+presentation delay.
+
+When a user interacts with a closed accordion section, such as by clicking it,
+you can programmatically show the hidden element. Although this will add it back
+to the rendering tree and will cause some delay, it reduces the rendering costs
+unless the user toggles all sections. Wikipedia uses this technique on its
+mobile site for most sections on the page.
 
 import hiddenUntilFound from "./_assets/wikipedia-mobile-hidden-until-found-attribute.png";
 
