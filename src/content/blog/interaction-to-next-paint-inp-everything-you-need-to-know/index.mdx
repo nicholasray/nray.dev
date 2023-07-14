@@ -303,9 +303,9 @@ responsive to user input, and interactions will be fast**.
 
 ## How to Optimize Interaction to Next Paint
 
-Since INP involves [three phases](#what-can-happen-during-an-interaction), each
-interaction has three opportunities to be slow. Let's examine some of the most
-common reasons why **input delay**, **processing time**, and **presentation
+Since INP involves [**three phases**](#what-can-happen-during-an-interaction),
+each interaction has three opportunities to be slow. Let's examine some of the
+most common reasons why **input delay**, **processing time**, and **presentation
 delay** can become sluggish and what you can do about it.
 
 ## Optimize Input delay
@@ -420,7 +420,8 @@ input.addEventListener("input", (e) => {
 ## Optimize processing time
 
 Slow event callbacks will mitigate any positive effects of an optimized input
-delay. Fortunately, optimizing your JavaScript will prevent this from happening.
+delay. Fortunately, there are optimizations you can make to ensure this doesn't
+happen.
 
 import inpProcessingTime from "./_assets/inp-processing-time.png";
 
