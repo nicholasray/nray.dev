@@ -326,9 +326,9 @@ users.
 import inpLongTaskSeries from "./_assets/inp-series-of-long-tasks.png";
 
 <Image
-  caption="Chrome's performance profiler showing a series of long tasks"
+  caption="Chrome's performance profiler showing a series of long tasks designated by red diagonal stripes."
   src={inpLongTaskSeries}
-  alt="Series of long tasks"
+  alt="Chrome's performance profiler showing a series of long tasks designated by red diagonal stripes."
 />
 
 **In general, if the browser's main thread doesn't have long tasks, it will be
@@ -345,7 +345,11 @@ delay** can become sluggish and what you can do about it.
 
 import inpInputDelay from "./_assets/inp-input-delay.png";
 
-<Image src={inpInputDelay} alt="Input delay" />
+<Image
+  src={inpInputDelay}
+  alt="Interaction timeline highlighting the input delay portion."
+  caption="Input delay measures how long it takes the browser to begin executing event callbacks."
+/>
 
 The first part of each interaction always involves a small, often unnoticeable,
 delay that involves converting the interaction into an event that the browser
@@ -355,7 +359,12 @@ blocking that from happening.
 
 import inpBlockedTask from "./_assets/inp-input-delay-blocked-task.png";
 
-<Image background src={inpBlockedTask} alt="Blocked task" />
+<Image
+  background
+  src={inpBlockedTask}
+  alt="Interaction timeline showing a button click interaction being blocked by a JS task which contributes to a high input delay."
+  caption="Long JS tasks can prevent event callbacks from executing resulting in a high input delay."
+/>
 
 ### Long tasks during page startup
 
@@ -365,7 +374,11 @@ renders, and paints.
 
 import inpLongTasksStartup from "./_assets/inp-long-tasks-startup.png";
 
-<Image src={inpLongTasksStartup} alt="Long tasks during startup" />
+<Image
+  src={inpLongTasksStartup}
+  alt="Chrome's performance profiler showing many long tasks during page startup."
+  caption="The main thread is typically very busy during page startup which can cause a high input delay."
+/>
 
 While there can be a variety of causes for these long tasks, some common
 culprits include:
@@ -393,8 +406,8 @@ import inpRapidInteractions from "./_assets/inp-input-delay-rapid-interactions.p
 <Image
   background
   src={inpRapidInteractions}
-  alt="Rapid interactions"
-  caption='Interactions that happen frequently, like typing "A" into an input box quickly followed by "B", can cause interaction overlap and a high input delay'
+  alt={`Interaction timeline showing an "A" keypress followed by a "B" keypress resulting in a input delay from the execution of event callbacks related to the "A" keypress.`}
+  caption='Interactions that happen frequently, like typing "A" into an input box quickly followed by "B", can cause interaction overlap and a high input delay.'
 />
 
 First, try to reduce the callback's JavaScript logic as much as possible. Then,
@@ -458,7 +471,11 @@ happen.
 
 import inpProcessingTime from "./_assets/inp-processing-time.png";
 
-<Image src={inpProcessingTime} alt="Processing time" />
+<Image
+  src={inpProcessingTime}
+  alt="Interaction timeline highlighting the processing time portion."
+  caption="Processing time  measures how long it takes the browser to execute event callbacks."
+/>
 
 ### Long tasks from JavaScript execution
 
@@ -469,9 +486,9 @@ that delays important rendering updates.
 import inpLongTask from "./_assets/inp-long-task-processing-time.png";
 
 <Image
-  caption="In Chrome's performance profiler, long tasks are designated by red diagonal stripes"
+  caption="The execution of event handlers like this click handler can cause long tasks on the main thread."
   src={inpLongTask}
-  alt="Long task"
+  alt="Chrome's performance profiler showing a long task from a click callback"
 />
 
 How do we solve this?
@@ -580,7 +597,11 @@ hardest phases to optimize.
 
 import inpPresentationDelay from "./_assets/inp-presentation-delay.png";
 
-<Image src={inpPresentationDelay} alt="Presentation delay" />
+<Image
+  src={inpPresentationDelay}
+  alt="Interaction timeline highlighting the presentation delay portion."
+  caption="Presentation delay  measures how long it takes the browser to render, paint, and composite a visual update."
+/>
 
 ### Large DOM size
 
@@ -612,8 +633,8 @@ import hiddenUntilFound from "./_assets/wikipedia-mobile-hidden-until-found-attr
 
 <Image
   src={hiddenUntilFound}
-  alt="Hidden until found"
-  caption="Wikipedia's mobile site uses the `hidden=until-found` attribute to hide most of an article's sections by default, helping reduce the page's presentation delay."
+  alt={`Screenshot of Wikipedia's mobile site showing many collapsed article sections. Chrome DevTools shows that the sections are hidden with a "hidden=until-found" attribute.`}
+  caption={`Wikipedia's mobile site uses the \`hidden="until-found"\` attribute to hide most of an article's sections by default, helping reduce the page's presentation delay.`}
 />
 
 A more advanced technique involves using the
