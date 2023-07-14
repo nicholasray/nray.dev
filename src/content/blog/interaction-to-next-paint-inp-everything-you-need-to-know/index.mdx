@@ -230,7 +230,12 @@ section.
 
 import inpPsi from "./_assets/inp-page-speed-insights.png";
 
-<Image background src={inpPsi} alt="Interaction to Next Paint PSI" />
+<Image
+  background
+  src={inpPsi}
+  alt={`Screenshot of PageSpeed Insights report showing a passing Interaction to Next Paint under a "Discover what your real users are experiencing" section`}
+  caption="A PageSpeed Insights report can show how real users are experiencing your website."
+/>
 
 When using this PageSpeeds Insights, you should be aware of the following:
 
@@ -271,7 +276,10 @@ The above example produces the following output when the page unloads:
 
 import inpWebVitalsResponse from "./_assets/inp-web-vitals-js-example-response.png";
 
-<Image src={inpWebVitalsResponse} alt="Web Vitals Response Example " />
+<Image
+  src={inpWebVitalsResponse}
+  alt={`An expanded JSON object showing "attribution", "entries", "id", "name", "navigationType", "rating", and "value" top-level keys.`}
+/>
 
 Importing the `web-vitals/attribution` adds an `attribution.eventEntry` object,
 which you can use to derive the `input delay`, `processing time`, and
