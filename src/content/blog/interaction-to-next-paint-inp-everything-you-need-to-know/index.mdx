@@ -127,11 +127,12 @@ import inpSpinner from "./_assets/inp-progress-indicator.png";
   caption="INP only cares about the first frame after an interaction, which can include intermediate visual states like a spinner."
 />
 
-Most of the time, INP becomes the page's **longest interaction latency**. The
-exception is when a user performs over 50 interactions on a page. In this case,
-INP ignores the most prolonged interaction for every 50 interactions, hopefully
-reducing extreme outliers. Single-page applications (SPAs) are particularly
-prone to many interactions since the user doesn't navigate away from the page.
+Most of the time, INP is equal to the page's **longest interaction latency**.
+There's an exception, however, when a user performs over 50 interactions on a
+page. In this case, INP ignores the most prolonged interaction for every 50
+interactions, hopefully reducing extreme outliers. Single-page applications
+(SPAs) are particularly prone to many interactions since the user doesn't
+navigate away from the page.
 
 As with other Core Web Vitals, the **75th percentile** of all page views is
 reported, further reducing noise.
@@ -193,7 +194,7 @@ import inpComponents from "./_assets/interaction-to-next-paint-components.png";
   caption="Each interaction consists of an input delay, processing time, and presentation delay. Interaction latency is the sum of these three components."
 />
 
-Each of these phases can add time to the interaction's latency.
+Each of these phases adds time to the latency of an interaction.
 
 ## How to measure INP
 
@@ -383,7 +384,7 @@ culprits include:
 
 - A single `<script>` tag (without the `type=module` attribute) that loads a
   huge amount of JavaScript. Since each `<script>` kicks off a task that
-  evaluates the JavaScript once loaded, this can become problematic if the
+  evaluates the JavaScript once loaded, it can become problematic if the
   evaluation takes a long time. Instead, first try to reduce the amount of
   JavaScript you are loading. Then, consider having multiple script tags so that
   each one kicks off its own _smaller_ task. Also, consider executing expensive
@@ -602,9 +603,11 @@ import inpPresentationDelay from "./_assets/inp-presentation-delay.png";
 ### Large DOM size
 
 Significant presentation delays are often the result of large DOM trees — pages
-with more than 1,500 elements. The rendering work that the browser must do to
-produce a frame correlates with the size of the DOM. Generally, **the larger the
-DOM size, the longer it takes for the browser to render updates**.
+with more than **1,500 elements**. The rendering work that the browser must do
+to produce a frame correlates with the size of the DOM.
+
+Generally, **the larger the DOM size, the longer it takes for the browser to
+render updates**.
 
 To minimize the effects of a large DOM size, you can hide certain elements by
 default with one of the following methods, effectively removing the rendering
@@ -621,9 +624,10 @@ presentation delay.
 
 When a user interacts with a closed accordion section, such as by clicking it,
 you can programmatically show the hidden element. Although this will add it back
-to the rendering tree and cause some delay, it is more efficient than rendering
-_all_ the sections (unless the user toggles all sections). Wikipedia uses this
-technique on its mobile site for most sections of an article.
+to the rendering tree and cause some delay, it is more efficient than the
+alternative of rendering _all_ the sections (unless the user toggles all
+sections). Wikipedia uses this technique on its mobile site for most sections of
+an article.
 
 import hiddenUntilFound from "./_assets/wikipedia-mobile-hidden-until-found-attribute.png";
 
@@ -649,3 +653,8 @@ Whew! That was a lot. In summary:
 - Slow interactions are the result of long tasks on the main thread
 - Efforts to optimize INP need to consider each interaction's input delay,
   processing time, and presentation delay
+
+It can be overwhelming to focus solely on achieving a perfect INP score.
+However, it's important maintain sight of the main objective, improving a
+website's responsiveness. Ultimately, this will result in happier users and
+better business outcomes.
