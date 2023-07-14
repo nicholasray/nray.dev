@@ -35,7 +35,7 @@ pressing a key, visual feedback happens — **and occurs quickly**. INP captures
 this latency and flags interactions that are slow enough to cause a **negative
 user experience**.
 
-A fast INP is essential for both user satisfaction and business success:
+A fast INP is essential for both **user satisfaction** and **business success**:
 
 - [Rage clicking is one side effect of poor INP](https://docs.google.com/presentation/d/1Euu4FBL75z0I8UtKf3dTzrLYu6wxfeWnrmXUCn9AQIY/edit?usp=sharing&resourcekey=0-t6sEnmSbzYTO_fcrR8n9Jg)
 - [redBus increased sales by 7% after improving their INP](https://web.dev/redbus-inp/)
@@ -88,8 +88,8 @@ Part of the reason why FID rarely failed was because it only measured the
 includes the moment a visual change occurs, it's a better indicator of user
 experience.
 
-Websites have much worse INP scores compared to FID, particularly on mobile
-devices. As of May 2023,
+Websites have worse INP scores compared to FID, particularly on mobile devices.
+As of May 2023,
 [99.9% of desktop sites and 93.2% of mobile sites passed FID](https://httparchive.org/reports/chrome-ux-report#cruxFastFid),
 compared to
 [96.6% of desktop sites and just **64.9%** of mobile sites passing INP](https://httparchive.org/reports/chrome-ux-report#cruxFastInp).
@@ -452,10 +452,9 @@ You may also be able to move some JavaScript off the main thread with
 which will free up the main thread to handle interactions.
 
 If you can't reduce the amount of work that JavaScript does on the main thread,
-the next best option is to **yield to the main thread**. **Split up the work**
-into **smaller tasks** that each take less than **50 ms** to execute and
-prioritize the work that is user-facing. The benefits of doing this are
-two-fold:
+the next best option is to **yield to the main thread**. Split up the work into
+**smaller tasks** that each take less than **50 ms** to execute and prioritize
+the work that is user-facing. The benefits of doing this are two-fold:
 
 1. It allows the browser to render user-visible work as quickly as possible in
    the next frame, providing the user with fast visual feedback that _something_
