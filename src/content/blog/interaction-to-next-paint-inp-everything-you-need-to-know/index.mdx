@@ -16,8 +16,8 @@ import Image from "@components/BlogImage.astro";
 **March 2024**, replacing **First Input Delay (FID)** as the metric that
 measures how quickly a page responds to user interactions.
 
-Unfortunately, **35.1% of mobile websites** are falling short of Google's latest
-web performance standard.
+Currently, **35.1% of mobile websites** fall short of Google's latest web
+performance standard.
 
 import BigNumber from "@components/BigNumber.astro";
 
@@ -77,7 +77,7 @@ import inpSearchRanking from "./_assets/inp-search-ranking.png";
   background
   src={inpSearchRanking}
   alt={`Google Search Central website highlighting that "Google's core ranking systems look to reward content that provides a good page experience" and highlighting a bullet under a "Self-assess your content's page experience" that asks "Do pages have good Core Web Vitals?".`}
-  caption="Google suggests that Core Web Vitals, which INP will become, is a page experience signal that influences search ranking"
+  caption="Google suggests that Core Web Vitals, which INP will become, is a page experience signal that influences search ranking."
 />
 
 ## What is the difference between First Input Delay (FID) and INP?
@@ -98,8 +98,8 @@ import inpFid from "./_assets/inp-vs-fid.png";
 <Image
   background
   src={inpFid}
-  alt="An interaction timeline consisting of input delay, processing time, and presentation delay portions. First Input Delay only measures the input delay portion while Interaction to Next Paint measures all the portions of an interaction."
-  caption="FID only measures the input delay portion of an interaction while INP measures all three components of an interaction."
+  alt="An interaction timeline consisting of input delay, processing time, and presentation delay portions. First Input Delay only measures the input delay portion. In contrast, Interaction to Next Paint measures all the portions of an interaction."
+  caption="FID only measures the input delay portion of an interaction. In contrast, INP measures all three components."
 />
 
 Part of the reason why FID rarely failed was because it only measured the
@@ -125,7 +125,7 @@ import inpSpinner from "./_assets/inp-progress-indicator.png";
 <Image
   background
   src={inpSpinner}
-  alt="An interaction timeline showing the interaction latency between a click, tap, or key press and a visual update consisting of a spinner."
+  alt="An interaction timeline showing the latency between a click, tap, or key press and a visual update consisting of a spinner."
   caption="INP only cares about the first frame after an interaction, which can include intermediate visual states like a spinner."
 />
 
@@ -191,7 +191,7 @@ import inpComponents from "./_assets/interaction-to-next-paint-components.png";
 <Image
   background
   src={inpComponents}
-  alt="Detailed interaction timeline showing that an interaction consists of blocking tasks (input delay), event callbacks like pointerup, mouseup, and click (processing time), and render, paint, and composite (presentation delay). At the end is a visual update."
+  alt="Detailed interaction timeline consisting of blocking tasks (input delay), event callbacks like pointerup, mouseup, and click (processing time), and render, paint, and composite steps (presentation delay). At the end is a visual update."
   caption="Each interaction consists of an input delay, processing time, and presentation delay. Interaction latency is the sum of these three components."
 />
 
@@ -243,9 +243,9 @@ When using this PageSpeeds Insights, you should be aware of the following:
   [most recent 28 days of data](https://web.dev/chrome-ux-report/#pagespeed-insights)
 - There may be
   [insufficient data](https://developers.google.com/speed/docs/insights/v5/about#crux)
-  for the page or website you're testing. If there isn't sufficient data for the
-  page you've entered, PSI will try to use data from all pages of the origin
-  instead. PSI won't show any data if the origin doesn't have enough data.
+  for the page you're testing. If there isn't sufficient data for the page
+  you've entered, PSI will try to use data from all pages of the origin instead.
+  PSI won't show any data if the origin doesn't have enough data.
 
 ### `web-vitals` JavaScript Library
 
@@ -362,22 +362,22 @@ import inpBlockedTask from "./_assets/inp-input-delay-blocked-task.png";
 <Image
   background
   src={inpBlockedTask}
-  alt="Interaction timeline showing a button click interaction being blocked by a JS task which contributes to a high input delay."
-  caption="Long JS tasks can prevent event callbacks from executing resulting in a high input delay."
+  alt="Interaction timeline showing a JS task blocking a button click interaction, which contributes to a high input delay."
+  caption="Long JS tasks can prevent event callbacks from executing, resulting in a high input delay."
 />
 
 ### Long tasks during page startup
 
 The main thread is often the **most congested** when a page loads and
-initializes. During this time, the browser is parses HTML, evaluates scripts,
-renders, and paints.
+initializes. The browser parses HTML, evaluates scripts, renders, and paints
+during this time.
 
 import inpLongTasksStartup from "./_assets/inp-long-tasks-startup.png";
 
 <Image
   src={inpLongTasksStartup}
   alt="Chrome's performance profiler showing many long tasks during page startup."
-  caption="The main thread is typically very busy during page startup which can cause a high input delay."
+  caption="The main thread is typically very busy during page startup, which can cause a high input delay."
 />
 
 While there can be a variety of causes for these long tasks, some common
@@ -388,7 +388,7 @@ culprits include:
   evaluates the JavaScript once loaded, this can become problematic if the
   evaluation takes a long time. Instead, first try to reduce the amount of
   JavaScript you are loading. Then, consider having multiple script tags so that
-  each one kicks off its own _smaller_ task. Also consider executing expensive
+  each one kicks off its own _smaller_ task. Also, consider executing expensive
   logic in a
   [web worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API).
 - JavaScript that creates or mutates large DOM trees. Pages with a lot of
@@ -406,8 +406,8 @@ import inpRapidInteractions from "./_assets/inp-input-delay-rapid-interactions.p
 <Image
   background
   src={inpRapidInteractions}
-  alt={`Interaction timeline showing an "A" keypress followed by a "B" keypress resulting in a input delay from the execution of event callbacks related to the "A" keypress.`}
-  caption='Interactions that happen frequently, like typing "A" into an input box quickly followed by "B", can cause interaction overlap and a high input delay.'
+  alt={`Interaction timeline showing an "A" keypress followed by a "B" keypress resulting in an input delay from the execution of event callbacks related to the "A" keypress.`}
+  caption='Interactions that frequently happen, like typing "A" into an input box quickly followed by "B", can cause interaction overlap and a high input delay.'
 />
 
 First, try to reduce the callback's JavaScript logic as much as possible. Then,
@@ -446,7 +446,7 @@ const handler = async (e) => {
     // ...remaining callback logic
   } catch (err) {
     if (err.name === "AbortError") {
-      // Ignore "errors" from cancelled requests.
+      // Ignore "errors" from canceled requests.
       return;
     }
 
@@ -466,8 +466,7 @@ input.addEventListener("input", (e) => {
 ## Optimize processing time
 
 Slow event callbacks will mitigate any positive effects of an optimized input
-delay. Fortunately, there are optimizations you can make to ensure this doesn't
-happen.
+delay. Fortunately, you can make optimizations to ensure this doesn't happen.
 
 import inpProcessingTime from "./_assets/inp-processing-time.png";
 
@@ -488,7 +487,7 @@ import inpLongTask from "./_assets/inp-long-task-processing-time.png";
 <Image
   caption="The execution of event handlers like this click handler can cause long tasks on the main thread."
   src={inpLongTask}
-  alt="Chrome's performance profiler showing a long task from a click callback"
+  alt="Chrome's performance profiler showing a long task from a click callback."
 />
 
 How do we solve this?
@@ -502,18 +501,18 @@ You may also be able to move some JavaScript off the main thread with
 [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API),
 which will free up the main thread to handle interactions.
 
-If you can't reduce the amount of work that JavaScript does on the main thread,
-the next best option is to **yield to the main thread**. Split up the work into
-**smaller tasks** that each take less than **50 ms** to execute and prioritize
-the work that is user-facing. The benefits of doing this are two-fold:
+If you can't reduce JavaScript work on the main thread, the next best option is
+to **yield to the main thread**. Split up the work into **smaller tasks** that
+each take less than **50 ms** to execute. And prioritize the work that is
+user-facing. The benefits of doing this are two-fold:
 
 1. It allows the browser to render user-visible work as quickly as possible in
    the next frame, providing the user with fast visual feedback that _something_
    has happened.
 2. Deferring non-essential work to another task in a `setTimeout` callback
-   allows the main thread the opportunity to handle higher priority tasks like
-   subsequent user input _before_ the `setTimeout`callback is executed.
-   Alternatively, you could use
+   allows the main thread to handle higher priority tasks like subsequent user
+   input _before_ the `setTimeout`callback is executed. Alternatively, you could
+   use
    [`requestIdleCallback`](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback),
    but note that it has much less
    [browser support](https://caniuse.com/requestidlecallback).
@@ -537,10 +536,9 @@ accordion.addEventListener("click", (event) => {
 **The order of your JavaScript calls can dramatically influence how long it
 takes to execute**.
 
-If you read
-[layout properties](https://gist.github.com/paulirish/5d52fb081b3570c81e3a),
-like `element.getBoundingClientRect()`, after modifying styles, such as by
-adding a class to an element, the browser needs to perform a
+If your JS reads
+[layout properties](https://gist.github.com/paulirish/5d52fb081b3570c81e3a)
+after modifying styles, the browser needs to perform a
 [forced synchronous layout](https://www.nray.dev/blog/using-chrome-profiler-to-fix-performance-issues/#forced-synchronous-layouts)
 to determine the updated layout metrics.
 
@@ -551,8 +549,8 @@ section.classList.add("expanded");
 section.scrollHeight;
 ```
 
-This becomes particularly expensive when multiple forced synchronous layouts are
-invoked in quick succession. When this happens, it's called
+This order becomes particularly expensive if you invoke multiple forced
+synchronous before the browser presents a frame. When this happens, it's called
 “[layout thrashing](/blog/using-chrome-profiler-to-fix-performance-issues/#layout-thrashing)"
 and can significantly increase processing time. Layout thrashing often happens
 when a read and write are inside a loop:
@@ -591,9 +589,9 @@ sections.forEach((element) => {
 
 ## Optimize presentation delay
 
-The last phase that can go wrong is the presentation delay portion that involves
-rendering and presenting the visual changes. It also happens to be one of the
-hardest phases to optimize.
+The last phase that can go wrong is the presentation delay portion which
+involves rendering and presenting the visual changes. It is also one of the most
+challenging phases to optimize.
 
 import inpPresentationDelay from "./_assets/inp-presentation-delay.png";
 
@@ -625,15 +623,15 @@ presentation delay.
 
 When a user interacts with a closed accordion section, such as by clicking it,
 you can programmatically show the hidden element. Although this will add it back
-to the rendering tree and will cause some delay, it reduces the rendering costs
-unless the user toggles all sections. Wikipedia uses this technique on its
-mobile site for most sections on the page.
+to the rendering tree and cause some delay, it is more efficient than rendering
+_all_ the sections (unless the user toggles all sections). Wikipedia uses this
+technique on its mobile site for most sections of an article.
 
 import hiddenUntilFound from "./_assets/wikipedia-mobile-hidden-until-found-attribute.png";
 
 <Image
   src={hiddenUntilFound}
-  alt={`Screenshot of Wikipedia's mobile site showing many collapsed article sections. Chrome DevTools shows that the sections are hidden with a "hidden=until-found" attribute.`}
+  alt={`Screenshot of Wikipedia's mobile site showing many collapsed article sections. Chrome DevTools shows that a "hidden=until-found" attribute hides most of the sections.`}
   caption={`Wikipedia's mobile site uses the \`hidden="until-found"\` attribute to hide most of an article's sections by default, helping reduce the page's presentation delay.`}
 />
 
