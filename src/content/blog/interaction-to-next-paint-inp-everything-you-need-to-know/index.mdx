@@ -7,7 +7,7 @@ cover:
     "Photo by [Dan Cristian Pădureț](https://unsplash.com/photos/hguxpsaUpBk)"
 description:
   "The in-depth guide to understanding and optimizing the Interaction to Next
-  Paint (INP) metric"
+  Paint (INP) Core Web Vital"
 ---
 
 import Image from "@components/BlogImage.astro";
@@ -415,9 +415,6 @@ accumulation of multiple small callbacks:
 
 - Debounce input handlers
 - Cancel any pending `xhr` or `fetch` requests
-- If the interaction involves an animation, only animate `transform` and
-  `opacity` CSS properties so the
-  [animation doesn't run on the main thread](https://www.nray.dev/blog/using-chrome-profiler-to-fix-performance-issues/#animations-that-run-on-the-main-thread).
 
 ```js
 /**
@@ -461,6 +458,13 @@ input.addEventListener("input", (e) => {
   timeoutId = setTimeout(() => handler(e), 50);
 });
 ```
+
+### Inefficient animations
+
+When animating elements, only animate `transform` and `opacity` CSS properties
+so the
+[animation doesn't run on the main thread](https://www.nray.dev/blog/using-chrome-profiler-to-fix-performance-issues/#animations-that-run-on-the-main-thread),
+which can cause an input delay.
 
 ## Optimize processing time
 
