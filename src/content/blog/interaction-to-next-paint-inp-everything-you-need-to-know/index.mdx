@@ -51,7 +51,11 @@ user interactions.
 
 import inpTimeline from "./_assets/interaction-to-next-paint-timeline.png";
 
-<Image background src={inpTimeline} alt="Interaction to Next Paint Timeline" />
+<Image
+  background
+  src={inpTimeline}
+  alt="Timeline measuring interaction latency beginning at a click, tap, or key press and ending at a visual update. "
+/>
 
 For example:
 
@@ -72,8 +76,8 @@ import inpSearchRanking from "./_assets/inp-search-ranking.png";
 <Image
   background
   src={inpSearchRanking}
-  alt="INP search ranking"
-  caption="Google suggests that Core Web Vitals (which INP will become) affect page experience which influences search ranking"
+  alt={`Google Search Central website highlighting that "Google's core ranking systems look to reward content that provides a good page experience" and highlighting a bullet under a "Self-assess your content's page experience" that asks "Do pages have good Core Web Vitals?".`}
+  caption="Google suggests that Core Web Vitals, which INP will become, is a page experience signal that influences search ranking"
 />
 
 ## What is the difference between First Input Delay (FID) and INP?
@@ -91,7 +95,12 @@ on a page compared to FID by:
 
 import inpFid from "./_assets/inp-vs-fid.png";
 
-<Image background src={inpFid} alt="INP vs FID" />
+<Image
+  background
+  src={inpFid}
+  alt="An interaction timeline consisting of input delay, processing time, and presentation delay portions. First Input Delay only measures the input delay portion while Interaction to Next Paint measures all the portions of an interaction."
+  caption="FID only measures the input delay portion of an interaction while INP measures all three components of an interaction."
+/>
 
 Part of the reason why FID rarely failed was because it only measured the
 **input delay** portion of the user's first interaction. Because INP measurement
@@ -116,7 +125,8 @@ import inpSpinner from "./_assets/inp-progress-indicator.png";
 <Image
   background
   src={inpSpinner}
-  alt="Spinner showing after a user interaction."
+  alt="An interaction timeline showing the interaction latency between a click, tap, or key press and a visual update consisting of a spinner."
+  caption="INP only cares about the first frame after an interaction, which can include intermediate visual states like a spinner."
 />
 
 Most of the time, INP becomes the page's **longest interaction latency**. The
@@ -147,7 +157,11 @@ mobile devices:
 
 import inpScores from "./_assets/interaction-to-next-paint-scores.png";
 
-<Image background src={inpScores} alt="Interaction to Next Paint Scores" />
+<Image
+  background
+  src={inpScores}
+  alt="Interaction to Next Paint score diagram showing that 0 - 200 ms is good, 201 ms to 500 ms needs improvement, and greater than 500 ms is poor."
+/>
 
 ## What interactions does INP measure?
 
@@ -177,7 +191,8 @@ import inpComponents from "./_assets/interaction-to-next-paint-components.png";
 <Image
   background
   src={inpComponents}
-  alt="Interaction to Next Paint Components"
+  alt="Detailed interaction timeline showing that an interaction consists of blocking tasks (input delay), event callbacks like pointerup, mouseup, and click (processing time), and render, paint, and composite (presentation delay). At the end is a visual update."
+  caption="Each interaction consists of an input delay, processing time, and presentation delay. Interaction latency is the sum of these three components."
 />
 
 Each of these phases can add time to the interaction's latency.
