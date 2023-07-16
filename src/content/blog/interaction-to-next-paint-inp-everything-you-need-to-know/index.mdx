@@ -59,10 +59,14 @@ For example:
 
 - When you click a menu button, INP measures how long it takes for the menu to
   appear.
+- When you tap the close button of a modal, INP measures how long it takes for
+  the modal to disappear
 - When you type something into an input field, INP measures how long it takes
   for that character to appear in the field
-- When you tap the close button of a slideshow, INP measures how long it takes
-  for the slideshow to no longer appear on the screen
+
+import INPScale from "./_components/INPScale.astro";
+
+<INPScale></INPScale>
 
 As a Core Web Vital, INP measures a critical aspect of a user's experience —
 **interactivity** and **responsiveness**. Google will use INP as a
@@ -128,13 +132,21 @@ import inpSpinner from "./_assets/inp-progress-indicator.png";
 />
 
 Most of the time, INP is equal to the page's **longest interaction latency**.
-There's an exception, however, when a user performs over 50 interactions on a
-page. In this case, INP ignores the most prolonged interaction for every 50
-interactions, hopefully reducing extreme outliers. Single-page applications
-(SPAs) are particularly prone to many interactions since the user doesn't
-navigate away from the page.
+There's an exception, however, when a user performs **50 or more** interactions
+on a page (as can often happen with single-page applications). In this case, INP
+will ignore **one interaction for every 50 interactions** in an effort to reduce
+random outliers. So, for example, when a user views a page:
 
-As with other Core Web Vitals, the **75th percentile** of all page views is
+- If there are **49** interactions, INP will be the slowest interaction
+- If there are **50** interactions, INP will be the second slowest interaction
+- If there are **99** interactions, INP will _still_ be the second slowest
+  interaction
+- If there are **100** interactions, INP will be the third slowest interaction
+- If there are **149** interactions, INP will _still_ be the third slowest
+  interaction
+- If there are **150** interactions, INP will be the fourth slowest interaction
+
+As with other Core Web Vitals, the **75th percentile** of _all_ page views is
 reported, further reducing noise.
 
 Notably, the visual update doesn't _need_ to be the final visual state. INP is
