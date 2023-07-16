@@ -1,0 +1,83 @@
+<div class="mt-4 flex justify-center">
+  <div class="flex max-w-md flex-grow flex-col">
+    <div class="flex justify-between">
+      <label for="inp-text-input">Additional latency:</label>
+      <span class="inp-input-value">0 ms</span>
+    </div>
+    <input
+      class="mt-3 block"
+      id="inp-text-input"
+      type="range"
+      min="0"
+      max="500"
+      value="0"
+      step="50"
+    />
+  </div>
+</div>
+
+<div class="mt-8">
+  <input
+    class="inp-input text-input w-full p-2 shadow-xl"
+    type="text"
+    placeholder="Type something..."
+  />
+</div>
+
+<div class="inp-scale relative mb-12">
+  <div class="flex text-center">
+    <div class="flex-auto basis-[200px] bg-green-200 py-8">GOOD</div>
+    <div class="flex-auto basis-[300px] bg-orange-200 py-8">
+      NEEDS IMPROVEMENT
+    </div>
+    <div class="flex-auto basis-[200px] bg-red-200 py-8">POOR</div>
+  </div>
+  <div
+    class="inp-scale__score absolute bottom-0 left-1/2 flex min-h-[2rem] min-w-[4rem] -translate-x-1/2 translate-y-2/3 items-center justify-center rounded-full bg-white shadow-lg"
+  >
+  </div>
+</div>
+
+<script>
+  import onEachInteraction from "./onEachInteraction";
+  const latencyRange = document.querySelector("input")!;
+  const latencySpan = document.querySelector(".inp-input-value")!;
+  const input = document.querySelector(".inp-input")!;
+  const score = document.querySelector(".inp-scale__score")!;
+  let currentValue: number | null = null;
+
+  latencyRange.addEventListener("input", () => {
+    latencySpan.textContent = `${latencyRange.value} ms`;
+  });
+
+  input.addEventListener("keydown", () => {
+    const t0 = performance.now();
+    // When 0 latency, add at least 16 ms so that the interaction is registered.
+    const delay = Math.max(parseInt(latencyRange.value), 16);
+
+    while (performance.now() - t0 < delay);
+  });
+
+  const observer = new PerformanceObserver((list) =>
+    console.log(list.getEntries())
+  );
+  observer.observe({
+    type: "first-input",
+    // @ts-ignore
+    durationThreshold: 0,
+    buffered: true,
+  });
+
+  onEachInteraction((interaction) => {
+    if (
+      interaction.attribution.eventEntry.target !== input ||
+      (currentValue && interaction.value <= currentValue) ||
+      !["keydown", "keyup"].includes(interaction.attribution.eventType)
+    ) {
+      return;
+    }
+
+    currentValue = interaction.value;
+    score.textContent = interaction.value.toString();
+  });
+</script>
