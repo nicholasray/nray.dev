@@ -1,3 +1,7 @@
+---
+import WebVitalScale from "@src/components/WebVitalScale/WebVitalScale.astro";
+---
+
 <div class="mt-4 flex justify-center">
   <div class="flex max-w-md flex-grow flex-col">
     <div class="flex justify-between">
@@ -23,50 +27,14 @@
     placeholder="Type something..."
   />
 </div>
-
-<div class="inp-scale relative font-sans">
-  <div class="flex overflow-hidden rounded-md text-center font-bold">
-    <div class="flex-auto basis-[200px] bg-green-200 py-8 text-green-950">
-      GOOD
-    </div>
-    <div class="flex-auto basis-[300px] bg-orange-200 py-8 text-orange-950">
-      NEEDS IMPROVEMENT
-    </div>
-    <div class="flex-auto basis-[200px] bg-red-200 py-8 text-red-950">POOR</div>
-  </div>
-  <div class="flex -translate-y-1/4 justify-center">
-    <div
-      class="inp-scale__score relative flex items-center justify-center rounded-lg bg-white px-3 py-1 font-mono text-base font-bold opacity-0 shadow-md"
-    >
-      0
-    </div>
-  </div>
-</div>
-
-<style>
-  .inp-scale__score::before {
-    content: "";
-    display: block;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid white;
-    position: absolute;
-    top: -7px;
-  }
-</style>
+<WebVitalScale range={[200, 500]} />
 
 <script>
-  import { onINP, INPMetric } from "web-vitals";
-  import { animate, spring } from "motion";
-  const scale = document.querySelector(".inp-scale")! as HTMLElement;
+  import { onINP } from "web-vitals";
+  const scale = document.querySelector(".web-vital-scale")! as HTMLElement;
   const latencyRange = document.querySelector("input")!;
   const latencyValue = document.querySelector(".inp-input-value")!;
   const input = document.querySelector(".inp-input")!;
-  const score = document.querySelector(".inp-scale__score")! as HTMLElement;
-  const easing = spring({ damping: 28, stiffness: 600 });
-  const RANGE = 700;
 
   latencyRange.addEventListener("input", () => {
     latencyValue.textContent = `${latencyRange.value}`;
@@ -79,87 +47,10 @@
     while (performance.now() - t0 < delay);
   });
 
-  function getRelativeBox(parent: HTMLElement, child: HTMLElement) {
-    const parentBox = parent.getBoundingClientRect();
-    const childBox = child.getBoundingClientRect();
-
-    return {
-      width: childBox.width,
-      height: childBox.height,
-      x: childBox.x === 0 ? 0 : childBox.x - parentBox.x,
-      y: childBox.y === 0 ? 0 : childBox.y - parentBox.y,
-    };
-  }
-
-  function changeValue(interaction: INPMetric) {
-    score.textContent = `${interaction.value.toLocaleString()} ms`;
-
-    const scaleWidth = scale.getBoundingClientRect().width;
-    const thumbWidth = score.getBoundingClientRect().width;
-
-    const thumbStart = (interaction.value - RANGE / 2) / RANGE;
-    const thumbStartComputed =
-      Math.abs(thumbStart) * scaleWidth + thumbWidth / 2;
-
-    if (thumbStartComputed > scaleWidth / 2) {
-      score.parentElement!.style.justifyContent =
-        thumbStart < 0 ? "flex-start" : "flex-end";
-      score.style.insetInlineStart = "auto";
-
-      return;
-    }
-
-    score.parentElement!.style.justifyContent = "center";
-    score.style.insetInlineStart = `${(thumbStart * 100).toFixed(2)}%`;
-  }
-
-  function animateToNextValue(interaction: INPMetric) {
-    // First
-    const before = getRelativeBox(scale, score);
-
-    // Set change
-    changeValue(interaction);
-
-    // Last
-    const after = getRelativeBox(scale, score);
-
-    // Invert
-    const invert = before.x - after.x;
-
-    animate(
-      score,
-      {
-        x: [invert, 0],
-      },
-      { easing }
-    );
-  }
-
-  function animateEntrance(interaction: INPMetric) {
-    scale.classList.add("inp-scale--active");
-
-    changeValue(interaction);
-
-    animate(
-      score,
-      {
-        opacity: [0, 1],
-        scale: [0.7, 1],
-      },
-      { easing }
-    );
-  }
-
   onINP(
     (interaction) => {
-      const hasEntered = scale.classList.contains("inp-scale--active");
-
-      if (!hasEntered) {
-        animateEntrance(interaction);
-        return;
-      }
-
-      animateToNextValue(interaction);
+      // @ts-ignore
+      scale.value = interaction.value;
     },
     {
       durationThreshold: 0,
