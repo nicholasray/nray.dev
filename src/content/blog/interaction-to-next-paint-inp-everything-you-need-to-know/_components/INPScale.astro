@@ -104,13 +104,15 @@
     if (thumbStartComputed > scaleWidth / 2) {
       console.log("has exceeded");
 
-      score.parentElement!.style.justifyContent = "flex-start";
-      score.style.left = "0";
+      score.parentElement!.style.justifyContent =
+        thumbStart < 0 ? "flex-start" : "flex-end";
+      score.style.insetInlineStart = "auto";
+
       return;
     }
 
     score.parentElement!.style.justifyContent = "center";
-    score.style.left = `${(thumbStart * 100).toFixed(2)}%`;
+    score.style.insetInlineStart = `${(thumbStart * 100).toFixed(2)}%`;
   }
 
   function animateToNextValue(interaction: INPMetric) {
