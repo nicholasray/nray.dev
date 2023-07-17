@@ -1,13 +1,15 @@
 ---
 interface Props {
+  className?: string;
   range: [number, number];
 }
 
-const { range } = Astro.props;
+const { range, className } = Astro.props;
 ---
 
 <nray-web-vital-scale
   class="web-vital-scale relative block font-sans"
+  class:list={["web-vital-scale relative block font-sans", className]}
   data-range={range[0] + range[1]}
 >
   <div class="flex overflow-hidden rounded-md text-center font-bold">
@@ -68,10 +70,10 @@ const { range } = Astro.props;
     };
   }
 
-  class WebVitalScale extends HTMLElement {
+  export class WebVitalScale extends HTMLElement {
+    #value?: number;
     #score: HTMLElement;
     #easing: EasingGenerator;
-    #value?: number;
     #range: number;
 
     constructor() {
