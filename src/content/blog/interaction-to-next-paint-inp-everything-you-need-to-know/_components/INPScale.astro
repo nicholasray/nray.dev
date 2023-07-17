@@ -97,13 +97,11 @@
     const scaleWidth = scale.getBoundingClientRect().width;
     const thumbWidth = score.getBoundingClientRect().width;
 
-    const thumbStart = Math.min((interaction.value - RANGE / 2) / RANGE, 0.5);
+    const thumbStart = (interaction.value - RANGE / 2) / RANGE;
     const thumbStartComputed =
       Math.abs(thumbStart) * scaleWidth + thumbWidth / 2;
 
     if (thumbStartComputed > scaleWidth / 2) {
-      console.log("has exceeded");
-
       score.parentElement!.style.justifyContent =
         thumbStart < 0 ? "flex-start" : "flex-end";
       score.style.insetInlineStart = "auto";
