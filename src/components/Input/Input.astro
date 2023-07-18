@@ -2,10 +2,10 @@
 import type { HTMLAttributes } from "astro/types";
 
 interface Props extends HTMLAttributes<"input"> {
-  className?: string;
+  class?: string;
 }
 
-const { className, ...rest } = Astro.props;
+const { class: className, ...rest } = Astro.props;
 ---
 
 <input

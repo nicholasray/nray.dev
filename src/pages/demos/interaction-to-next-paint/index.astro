@@ -19,7 +19,8 @@ import { Icon } from "astro-icon";
           <div class="space-y-4">
             <div>
               <label for="input-delay-input" class="block">
-                Up to <strong><span>0</span>ms</strong> of additional input delay
+                Up to <strong><span>0</span>ms</strong> of additional input
+                delay
               </label>
               <input
                 id="input-delay-input"
@@ -47,7 +48,8 @@ import { Icon } from "astro-icon";
             </div>
             <div>
               <label for="item-count-input" class="block">
-                <strong><span>10</span></strong> items affecting presentation delay
+                <strong><span>10</span></strong> items affecting presentation
+                delay
               </label>
               <input
                 id="item-count-input"
@@ -62,14 +64,14 @@ import { Icon } from "astro-icon";
           </div>
         </div>
         <Accordion.Root
-          className="divide-y dark:divide-zinc-700 shadow-xl text-zinc-600 dark:text-zinc-300 dark:zinc-200 bg-white dark:bg-zinc-800 rounded-lg mt-4 md:mt-0 block"
+          class="divide-y dark:divide-zinc-700 shadow-xl text-zinc-600 dark:text-zinc-300 dark:zinc-200 bg-white dark:bg-zinc-800 rounded-lg mt-4 md:mt-0 block"
         >
           {
             [...Array(10)].map((_, i) => (
-              <Accordion.Item className="divide-y text-3xl dark:divide-zinc-700">
+              <Accordion.Item class="divide-y text-3xl dark:divide-zinc-700">
                 <Accordion.Header as="h2">
                   <Accordion.Trigger
-                    className="flex w-full cursor-pointer items-center justify-between p-4 font-mono"
+                    class="flex w-full cursor-pointer items-center justify-between p-4 font-mono"
                     key={i}
                   >
                     item {i + 1}
@@ -80,7 +82,7 @@ import { Icon } from "astro-icon";
                   </Accordion.Trigger>
                 </Accordion.Header>
                 <Accordion.Content
-                  className="hidden overflow-hidden text-lg transition-[height] duration-500"
+                  class="hidden overflow-hidden text-lg transition-[height] duration-500"
                   key={i}
                 >
                   <div class="p-6">
@@ -116,13 +118,13 @@ import { Icon } from "astro-icon";
 
 <script>
   const inputDelayInput = document.querySelector(
-    ".input-delay-input"
+    ".input-delay-input",
   ) as HTMLInputElement;
   const processingTimeInput = document.querySelector(
-    ".processing-time-input"
+    ".processing-time-input",
   ) as HTMLInputElement;
   const itemCountInput = document.querySelector(
-    ".item-count-input"
+    ".item-count-input",
   ) as HTMLInputElement;
   const accordion = document.querySelector(".accordion") as HTMLElement;
   const itemTemplate = accordion.firstElementChild!.outerHTML;

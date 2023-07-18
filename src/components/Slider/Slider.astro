@@ -1,11 +1,9 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 
-interface Props extends HTMLAttributes<"input"> {
-  className?: string;
-}
+interface Props extends HTMLAttributes<"input"> {}
 
-const { className, ...rest } = Astro.props;
+const { class: className, ...rest } = Astro.props;
 ---
 
 <input

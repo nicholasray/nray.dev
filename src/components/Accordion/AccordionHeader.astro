@@ -3,10 +3,10 @@ import type { HTMLTag, Polymorphic } from "astro/types";
 
 interface Props extends Polymorphic<{ as: HTMLTag }> {
   as: HTMLTag;
-  className?: string;
+  class?: string;
 }
 
-const { className, as: Tag } = Astro.props;
+const { class: className, as: Tag } = Astro.props;
 ---
 
 <Tag class:list={["accordion-header", className]}>

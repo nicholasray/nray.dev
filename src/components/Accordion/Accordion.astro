@@ -1,9 +1,9 @@
 ---
 interface Props {
-  className?: string;
+  class?: string;
 }
 
-const { className } = Astro.props;
+const { class: className } = Astro.props;
 ---
 
 <nray-accordion class:list={["accordion", className]}>
@@ -71,7 +71,7 @@ const { className } = Astro.props;
               this.resetHeight(accordionContent);
               animations[0].removeEventListener("cancel", handleCancel);
             },
-            { once: true }
+            { once: true },
           );
         });
       });
@@ -130,7 +130,7 @@ const { className } = Astro.props;
               accordionContent.style.display = "";
               animations[0].removeEventListener("cancel", handleCancel);
             },
-            { once: true }
+            { once: true },
           );
         });
       });

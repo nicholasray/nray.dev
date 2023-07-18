@@ -4,38 +4,45 @@ import { Slider } from "@src/components/Slider/index.astro";
 import { Input } from "@src/components/Input/index.astro";
 ---
 
-<div class="mt-4 flex justify-center">
-  <div class="flex max-w-md flex-grow flex-col">
-    <div class="flex justify-between">
-      <label for="inp-text-input">Additional latency:</label>
-      <span class="inp-input-value">0 ms</span>
-    </div>
+<div class="mt-8">
+  <Input
+    class="inp-input"
+    type="text"
+    placeholder="Type something to measure its interaction latency..."
+  />
+</div>
+
+<div class="flex justify-center font-sans mt-2">
+  <div class="flex max-w-xl flex-grow flex-col font-sans">
     <Slider
       class="mt-3 block"
-      id="inp-text-input"
+      id="inp-slider"
       type="range"
       min="0"
       max="500"
       value="0"
       step="50"
     />
+    <div class="flex justify-between text-base mt-2">
+      <label for="inp-slider" class="font-semibold">Keydown latency:</label>
+      <span class="inp-slider-value">0 ms</span>
+    </div>
   </div>
 </div>
 
-<div class="mt-8">
-  <Input className="inp-input" type="text" placeholder="Type something..." />
-</div>
-<WebVitalScale className="mt-8" range={[200, 500]} />
+<WebVitalScale class="mt-10" range={[200, 500]} />
 
 <script>
   import { onINP } from "web-vitals";
   const scale = document.querySelector(".web-vital-scale")! as HTMLElement;
-  const latencyRange = document.querySelector("input")!;
-  const latencyValue = document.querySelector(".inp-input-value")!;
+  const latencyRange = document.querySelector(
+    "#inp-slider",
+  )! as HTMLInputElement;
+  const latencyValue = document.querySelector(".inp-slider-value")!;
   const input = document.querySelector(".inp-input")!;
 
   latencyRange.addEventListener("input", () => {
-    latencyValue.textContent = `${latencyRange.value}`;
+    latencyValue.textContent = `${latencyRange.value} ms`;
   });
 
   input.addEventListener("keydown", () => {
