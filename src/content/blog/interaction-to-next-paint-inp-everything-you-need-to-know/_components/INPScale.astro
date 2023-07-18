@@ -1,6 +1,7 @@
 ---
-import WebVitalScale from "@src/components/WebVitalScale/WebVitalScale.astro";
+import { WebVitalScale } from "@src/components/WebVitalScale/index.astro";
 import { Slider } from "@src/components/Slider/index.astro";
+import { Input } from "@src/components/Input/index.astro";
 ---
 
 <div class="mt-4 flex justify-center">
@@ -22,11 +23,7 @@ import { Slider } from "@src/components/Slider/index.astro";
 </div>
 
 <div class="mt-8">
-  <input
-    class="inp-input text-input w-full p-2"
-    type="text"
-    placeholder="Type something..."
-  />
+  <Input className="inp-input" type="text" placeholder="Type something..." />
 </div>
 <WebVitalScale className="mt-8" range={[200, 500]} />
 

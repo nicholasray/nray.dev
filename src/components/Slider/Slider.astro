@@ -8,16 +8,18 @@ interface Props extends HTMLAttributes<"input"> {
 const { className, ...rest } = Astro.props;
 ---
 
-<input class:list={["slider", className]} type="range" {...rest} />
+<input
+  class:list={[
+    "slider appearance-none bg-transparent cursor-pointer outline-offset-6",
+    className,
+  ]}
+  type="range"
+  {...rest}
+/>
 
 <style>
   /*********** Baseline, reset styles ***********/
   .slider {
-    appearance: none;
-    background: transparent;
-    cursor: pointer;
-    outline-offset: 6px;
-
     --handle-size: 1.5rem;
     --track-size: 8px;
   }
@@ -31,7 +33,7 @@ const { className, ...rest } = Astro.props;
   }
 
   :global(.dark) .slider::-webkit-slider-runnable-track {
-    @apply bg-zinc-600;
+    @apply bg-zinc-800;
   }
 
   /* slider thumb */
@@ -48,11 +50,11 @@ const { className, ...rest } = Astro.props;
     @apply bg-zinc-200;
   }
 
-  .slider:focus::-webkit-slider-thumb {
+  .slider:focus-visible::-webkit-slider-thumb {
     @apply bg-zinc-500;
   }
 
-  :global(.dark) .slider:focus::-webkit-slider-thumb {
+  :global(.dark) .slider:focus-visible::-webkit-slider-thumb {
     @apply bg-white;
   }
 
@@ -65,7 +67,7 @@ const { className, ...rest } = Astro.props;
   }
 
   :global(.dark) .slider::-moz-range-track {
-    @apply bg-zinc-600;
+    @apply bg-zinc-800;
   }
 
   /* slider thumb */
@@ -81,11 +83,11 @@ const { className, ...rest } = Astro.props;
     @apply bg-zinc-200;
   }
 
-  .slider:focus::-moz-range-thumb {
+  .slider:focus-visible::-moz-range-thumb {
     @apply bg-zinc-500;
   }
 
-  :global(.dark) .slider:focus::-moz-range-thumb {
+  :global(.dark) .slider:focus-visible::-moz-range-thumb {
     @apply bg-white;
   }
 </style>
