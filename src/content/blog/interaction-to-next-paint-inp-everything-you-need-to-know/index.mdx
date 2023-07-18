@@ -510,9 +510,9 @@ How do we solve this?
 
 First, investigate the JavaScript responsible for the long task and see if there
 is any low-hanging fruit. Sometimes, this will reveal
-[**unnecessary JS that can be removed**](/blog/300ms-faster-reducing-wikipedias-total-blocking-time#step-1-remove-unnecessary-javascript)
+[**unnecessary JS that can be removed**](/blog/300ms-faster-reducing-wikipedias-total-blocking-time/#step-1-remove-unnecessary-javascript)
 or
-[**inefficient JS that can be optimized**](/blog/300ms-faster-reducing-wikipedias-total-blocking-time#step-2-optimize-existing-javascript).
+[**inefficient JS that can be optimized**](/blog/300ms-faster-reducing-wikipedias-total-blocking-time/#step-2-optimize-existing-javascript).
 You may also be able to move some JavaScript off the main thread with
 [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API),
 which will free up the main thread to handle interactions.
