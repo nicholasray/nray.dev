@@ -516,10 +516,10 @@ You may also be able to move some JavaScript off the main thread with
 [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API),
 which will free up the main thread to handle interactions.
 
-If you can't reduce JavaScript work on the main thread, the next best option is
-to **yield to the main thread**. Split up the work into **smaller tasks** that
-each take less than **50 ms** to execute. And prioritize the work that is
-user-facing. The benefits of doing this are two-fold:
+After reducing JavaScript work, the next best option is to **yield to the main
+thread**. Split up the work into **smaller tasks** that each take less than **50
+ms** to execute. And prioritize the work that is user-facing. The benefits of
+doing this are two-fold:
 
 1. It allows the browser to render user-visible work as quickly as possible in
    the next frame, providing the user with fast visual feedback that _something_
@@ -605,7 +605,7 @@ sections.forEach((element) => {
 ## Optimize presentation delay
 
 The last phase that can go wrong is the presentation delay portion which
-involves rendering and presenting the visual changes. It is also one of the most
+involves rendering and presenting the visual changes. It's also one of the most
 challenging phases to optimize.
 
 import inpPresentationDelay from "./_assets/inp-presentation-delay.png";
@@ -635,12 +635,12 @@ costs:
 
 An excellent approach to improve the performance of long accordion sections is
 to hide the sections that are not open using one of the above methods. Hiding
-the sections removes them from the browser's rendering tree, reducing the
+the sections removes them from the browser's rendering tree, reducing
 presentation delay.
 
 When a user interacts with a closed accordion section, such as by clicking it,
 you can programmatically show the hidden element. Although this will add it back
-to the rendering tree and cause some delay, it is more efficient than the
+to the rendering tree and cause some delay, it's more efficient than the
 alternative of rendering _all_ the sections (unless the user toggles all
 sections). Wikipedia uses this technique on its mobile site for most sections of
 an article.
