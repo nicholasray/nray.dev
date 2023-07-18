@@ -20,10 +20,10 @@
     "@astrojs/mdx": "0.19.7",
     "@astrojs/react": "2.2.1",
     "@astrojs/rss": "2.4.3",
-    "@astrojs/sitemap": "1.4.0",
+    "@astrojs/sitemap": "2.0.0",
     "@astrojs/tailwind": "4.0.0",
     "@tailwindcss/typography": "0.5.9",
-    "astro": "2.8.3",
+    "astro": "2.8.4",
     "astro-icon": "0.8.1",
     "astro-seo": "0.7.5",
     "clsx": "2.0.0",
@@ -53,8 +53,8 @@
     "eslint-plugin-jsx-a11y": "6.7.1",
     "eslint-plugin-react-hooks": "4.6.0",
     "pre-commit": "1.2.2",
-    "prettier": "2.8.8",
-    "prettier-plugin-astro": "0.10.0",
+    "prettier": "3.0.0",
+    "prettier-plugin-astro": "0.11.0",
     "prettier-plugin-tailwindcss": "0.4.1",
     "typescript": "5.1.6"
   }
