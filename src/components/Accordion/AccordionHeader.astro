@@ -1,14 +1,14 @@
 ---
-interface Props {
+import type { HTMLTag, Polymorphic } from "astro/types";
+
+interface Props extends Polymorphic<{ as: HTMLTag }> {
+  as: HTMLTag;
   className?: string;
-  as?: string;
 }
 
-const { className, as = "h3" } = Astro.props;
-
-const Container = as;
+const { className, as: Tag } = Astro.props;
 ---
 
-<Container class:list={["accordion-header", className]}>
+<Tag class:list={["accordion-header", className]}>
   <slot />
-</Container>
+</Tag>

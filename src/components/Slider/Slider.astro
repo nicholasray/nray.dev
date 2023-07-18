@@ -1,0 +1,69 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"input"> {
+  className?: string;
+}
+
+const { className, ...rest } = Astro.props;
+---
+
+<input class:list={["slider", className]} type="range" {...rest} />
+
+<style>
+  /*********** Baseline, reset styles ***********/
+  .slider {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  /* Removes default focus */
+  .slider:focus {
+    outline: none;
+  }
+
+  /******** Chrome, Safari, Opera and Edge Chromium styles ********/
+  /* slider track */
+  .slider::-webkit-slider-runnable-track {
+    background-color: #add8e6;
+    @apply bg-zinc-200;
+    border-radius: 0.5rem;
+    height: 0.5rem;
+  }
+
+  /* slider thumb */
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Override default look */
+    appearance: none;
+    @apply h-6 w-6 -translate-y-1/2 rounded-full bg-white shadow-md;
+  }
+
+  .slider:focus::-webkit-slider-thumb {
+    outline: 3px solid #808080;
+    outline-offset: 0.125rem;
+  }
+
+  /*********** Firefox styles ***********/
+  /* slider track */
+  .slider::-moz-range-track {
+    background-color: #add8e6;
+    border-radius: 0.5rem;
+    height: 0.5rem;
+  }
+
+  /* slider thumb */
+  .slider::-moz-range-thumb {
+    background-color: #808080;
+    border: none; /*Removes extra border that FF applies*/
+    border-radius: 0.5rem;
+    height: 1rem;
+    width: 1rem;
+  }
+
+  .slider:focus::-moz-range-thumb {
+    outline: 3px solid #808080;
+    outline-offset: 0.125rem;
+  }
+</style>
