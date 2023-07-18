@@ -8,7 +8,7 @@ import { Input } from "@src/components/Input/index.astro";
   <Input
     class="inp-input"
     type="text"
-    placeholder="Type something to measure its interaction latency..."
+    placeholder="Type something to see its interaction latency..."
   />
 </div>
 
@@ -52,14 +52,23 @@ import { Input } from "@src/components/Input/index.astro";
     while (performance.now() - t0 < delay);
   });
 
-  onINP(
-    (interaction) => {
-      // @ts-ignore
-      scale.value = interaction.value;
-    },
-    {
-      durationThreshold: 0,
-      reportAllChanges: true,
-    },
-  );
+  if (
+    !(
+      window.PerformanceEventTiming &&
+      "interactionId" in PerformanceEventTiming.prototype
+    )
+  ) {
+    scale.classList.add("hidden");
+  } else {
+    onINP(
+      (interaction) => {
+        // @ts-ignore
+        scale.value = interaction.value;
+      },
+      {
+        durationThreshold: 0,
+        reportAllChanges: true,
+      },
+    );
+  }
 </script>

@@ -473,8 +473,8 @@ input.addEventListener("input", (e) => {
 
 ### Inefficient animations
 
-When animating elements, only animate `transform` and `opacity` CSS properties
-so the
+When animating elements, try to animate only animate `transform` and `opacity`
+CSS properties so the
 [animation doesn't run on the main thread](https://www.nray.dev/blog/using-chrome-profiler-to-fix-performance-issues/#animations-that-run-on-the-main-thread),
 which can cause an input delay.
 
