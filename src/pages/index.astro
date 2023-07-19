@@ -2,7 +2,6 @@
 import { Image, Picture } from "@astrojs/image/components";
 import Layout from "@layouts/Layout.astro";
 import avatar from "@assets/images/avatar.jpg";
-import { Icon } from "astro-icon";
 import ArticleFooter from "@components/ArticleFooter.astro";
 import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
@@ -15,7 +14,7 @@ const title = "Nicholas Ray";
 
 <Layout
   title={title}
-  description="Web performance tips that improve page speed, user happiness, and business goals"
+  description="Web performance tips that improve page speed, user happiness, and business success"
   openGraph={{
     basic: {
       title,
@@ -94,47 +93,36 @@ const title = "Nicholas Ray";
     <section>
       <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <div
-          class="flex items-center justify-between text-zinc-400 dark:text-zinc-700"
+          class="flex max-w-5xl flex-col items-center gap-8 md:flex md:flex-row md:items-center md:gap-16"
         >
-          <Icon class="h-12 w-12" name="js" />
-          <Icon class="h-12 w-12" name="node" />
-          <Icon class="h-12 w-12" name="html" />
-          <Icon class="h-12 w-12" name="css" />
-          <Icon class="h-12 w-12" name="react" />
-        </div>
-        <div class="mt-8 md:mt-20">
-          <div
-            class="flex max-w-5xl flex-col items-center gap-8 md:flex md:flex-row md:items-center md:gap-16"
-          >
-            <Image
-              class="w-[100px] flex-shrink-0 rounded-full border-4 border-zinc-600 dark:border-zinc-300 md:w-[120px]"
-              src={avatar}
-              width={240}
-              alt="Avatar of Nicholas Ray"
-            />
-            <div>
-              <h2
-                class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white md:text-4xl"
-              >
-                Hi! I'm Nicholas Ray.
-              </h2>
-              <p
-                class="mt-5 text-xl text-zinc-600 dark:text-zinc-300 md:text-2xl"
-              >
-                I help you optimize your website's page speed to elevate user
-                experience, increase conversion rates, and drive better business
-                results.
-              </p>
-            </div>
-          </div>
-          <div class="mt-12 flex">
-            <a
-              class="text-xl font-semibold text-zinc-900 dark:text-white md:ml-[calc(120px+4rem)]"
-              href="/about/"
+          <Image
+            class="w-[100px] flex-shrink-0 rounded-full border-4 border-zinc-600 dark:border-zinc-300 md:w-[120px]"
+            src={avatar}
+            width={240}
+            alt="Avatar of Nicholas Ray"
+          />
+          <div>
+            <h2
+              class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white md:text-4xl"
             >
-              Learn more about me &rarr;
-            </a>
+              Hi! I'm Nicholas Ray.
+            </h2>
+            <p
+              class="mt-5 text-xl text-zinc-600 dark:text-zinc-300 md:text-2xl"
+            >
+              I help you optimize your website's page speed to elevate user
+              experience, increase conversion rates, and drive better business
+              results.
+            </p>
           </div>
+        </div>
+        <div class="mt-12 flex">
+          <a
+            class="text-xl font-semibold text-zinc-900 dark:text-white md:ml-[calc(120px+4rem)]"
+            href="/about/"
+          >
+            Learn more about me &rarr;
+          </a>
         </div>
       </div>
     </section>
