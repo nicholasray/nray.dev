@@ -110,10 +110,12 @@ const { range, class: className } = Astro.props;
       const thumbWidth = this.#score.getBoundingClientRect().width;
 
       const thumbStart = (value - this.#range / 2) / this.#range;
-      const thumbStartComputed =
+
+      // See if the end of the thumb is past the end of the scale.
+      const thumbEndComputed =
         Math.abs(thumbStart) * scaleWidth + thumbWidth / 2;
 
-      if (thumbStartComputed > scaleWidth / 2) {
+      if (thumbEndComputed > scaleWidth / 2) {
         this.#score.parentElement!.style.justifyContent =
           thumbStart < 0 ? "flex-start" : "flex-end";
         this.#score.style.insetInlineStart = "auto";
