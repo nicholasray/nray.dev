@@ -14,19 +14,19 @@ const { range, class: className } = Astro.props;
 >
   <div class="flex overflow-hidden rounded-md text-center font-bold">
     <div
-      class="flex-auto bg-green-200 py-8 text-green-950"
+      class="flex-auto bg-green-200 py-8 text-green-950 flex justify-center items-center px-4"
       style={`flex-basis: ${range[0]}px`}
     >
       GOOD
     </div>
     <div
-      class="flex-auto bg-orange-200 py-8 text-orange-950"
+      class="flex-auto bg-orange-200 py-8 text-orange-950 flex justify-center items-center px-4"
       style={`flex-basis: ${range[1] - range[0]}px`}
     >
       NEEDS IMPROVEMENT
     </div>
     <div
-      class="flex-auto bg-red-200 py-8 text-red-950"
+      class="flex-auto bg-red-200 py-8 text-red-950 flex justify-center items-center px-4"
       style={`flex-basis: ${range[0]}px`}
     >
       POOR
