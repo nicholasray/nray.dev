@@ -4,8 +4,8 @@ import { Slider } from "@src/components/Slider/index.astro";
 import { Input } from "@src/components/Input/index.astro";
 ---
 
-<div class="dark:bg-zinc-800 p-4 rounded-lg bg-zinc-100 shadow-md">
-  <WebVitalScale class="mt-10 -mx-4" range={[200, 500]} />
+<figure class="dark:bg-zinc-800 p-4 rounded-lg bg-zinc-100 shadow-md">
+  <WebVitalScale class="pt-10 -mx-4" range={[200, 500]} />
 
   <div class="mt-4">
     <Input
@@ -36,7 +36,7 @@ import { Input } from "@src/components/Input/index.astro";
       </div>
     </div>
   </div>
-</div>
+</figure>
 
 <script>
   import { onINP } from "web-vitals";
