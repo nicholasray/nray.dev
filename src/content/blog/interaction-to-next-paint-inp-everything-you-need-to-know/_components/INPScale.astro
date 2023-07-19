@@ -4,34 +4,36 @@ import { Slider } from "@src/components/Slider/index.astro";
 import { Input } from "@src/components/Input/index.astro";
 ---
 
-<WebVitalScale class="mt-10" range={[200, 500]} />
+<div class="dark:bg-zinc-800 p-4 rounded-lg bg-zinc-100 shadow-md">
+  <WebVitalScale class="mt-10 -mx-4" range={[200, 500]} />
 
-<div class="mt-4">
-  <Input
-    class="inp-input"
-    type="text"
-    placeholder="Press a key to see its interaction latency…"
-  />
-</div>
-
-<div class="flex justify-center font-sans mt-2">
-  <div class="flex max-w-xl flex-grow flex-col font-sans">
-    <Slider
-      class="mt-3 block"
-      id="inp-slider"
-      type="range"
-      min="0"
-      max="500"
-      value="0"
-      step="50"
+  <div class="mt-4">
+    <Input
+      class="inp-input dark:bg-zinc-900"
+      type="text"
+      placeholder="Press a key to see its interaction latency…"
     />
-    <div class="flex justify-between text-base mt-3 items-baseline">
-      <label
-        for="inp-slider"
-        class="font-semibold tracking-wide text-sm uppercase"
-        >Adjust Keypress latency:</label
-      >
-      <span class="inp-slider-value text-lg font-bold">0 ms</span>
+  </div>
+
+  <div class="flex justify-center font-sans mt-2">
+    <div class="flex max-w-xl flex-grow flex-col font-sans">
+      <Slider
+        class="mt-3 block"
+        id="inp-slider"
+        type="range"
+        min="0"
+        max="500"
+        value="0"
+        step="50"
+      />
+      <div class="flex justify-between text-base mt-3 items-baseline">
+        <label
+          for="inp-slider"
+          class="font-semibold tracking-wide text-sm uppercase"
+          >Adjust Keypress latency:</label
+        >
+        <span class="inp-slider-value text-lg font-bold">0 ms</span>
+      </div>
     </div>
   </div>
 </div>

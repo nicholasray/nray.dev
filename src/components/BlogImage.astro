@@ -17,10 +17,9 @@ const { src, alt, caption, shadow, background, ...props } = Astro.props;
     <Picture
       alt={alt}
       class:list={[
-        "w-full rounded-2xl",
+        "w-full rounded-lg",
         { "shadow-xl": shadow, "bg-white": background },
       ]}
-      class="w-full rounded-2xl"
       src={src}
       width={src.width}
       height={src.height}
