@@ -5,6 +5,7 @@ import avatar from "@assets/images/avatar.jpg";
 import ArticleFooter from "@components/ArticleFooter.astro";
 import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
+import { Image as Blah } from "@components/Image/index.astro";
 
 const posts = await getPosts();
 const featured = posts[0];
@@ -32,6 +33,18 @@ const title = "Nicholas Ray";
   }}
 >
   <main class="space-y-20 overflow-hidden sm:space-y-32 md:space-y-40">
+    <Blah
+      responsive={{
+        widths: [500, 1000],
+        sizes: "(min-width: 48rem) 37rem, 100vw",
+      }}
+      loading={"eager"}
+      themes={{
+        lightSrc: featured.data.cover,
+        darkSrc: restOfPosts[0].data.cover,
+      }}
+      src={featured.data.cover.src}
+    />
     <section class="mt-12 lg:mt-16">
       <div
         class="mx-auto max-w-7xl items-center space-y-12 px-4 sm:px-6 md:grid md:grid-cols-[30rem_30rem] md:gap-14 md:space-y-0 md:px-8 lg:grid-cols-[36.25rem_36.25rem]"

@@ -1,3 +1,81 @@
 ---
+import type { GetImageResult, ImageMetadata } from "astro";
+import type { HTMLAttributes } from "astro/types";
+import { getImage } from "astro:assets";
 
+interface Props extends HTMLAttributes<"img"> {
+  themes?: {
+    lightSrc?: ImageMetadata;
+    darkSrc?: ImageMetadata;
+  };
+  responsive?: {
+    widths: number[];
+    sizes: string;
+  };
+}
+
+const props = Astro.props as Props;
+const [light, dark] = await Promise.all([
+  Promise.all(
+    props.responsive!.widths.map((width) => {
+      return getImage({ src: props.themes!.lightSrc!, width });
+    }),
+  ),
+  props.themes &&
+    Promise.all(
+      props.responsive!.widths.map((width) => {
+        return getImage({ src: props.themes!.darkSrc!, width });
+      }),
+    ),
+]);
+const themes = {
+  light: {
+    images: light,
+  },
+  dark: dark && {
+    images: dark,
+  },
+};
+const format = `image/${light[0].options.format}`;
+// eslint-disable-next-line no-unused-vars
+const { responsive, themes: _, src, sizes, ...rest } = props;
+const attributes = {
+  ...themes.light.images[0].attributes,
+  ...rest,
+};
+
+function getSrcSet(images: GetImageResult[]) {
+  return images
+    .reduce((previous, current, index) => {
+      if (!props.responsive) {
+        return [];
+      }
+      previous.push(`${current.src} ${props.responsive.widths[index]}w`);
+
+      return previous;
+    }, [] as string[])
+    .join(", ");
+}
 ---
+
+{
+  themes && themes.dark ? (
+    <picture>
+      <source
+        type={format}
+        srcset={getSrcSet(themes.light.images)}
+        media="(prefers-color-scheme: light)"
+        sizes={sizes}
+      />
+      <source
+        type={format}
+        srcset={getSrcSet(themes.dark.images)}
+        media="(prefers-color-scheme: dark)"
+        sizes={sizes}
+      />
+      <img src={src} {...attributes} />
+    </picture>
+  ) : (
+    <img src={src} srcset={getSrcSet(themes.light.images)} {...attributes} />
+  )
+}
