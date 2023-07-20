@@ -2,7 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import { getPost } from "@src/api";
 import { CollectionEntry, getCollection } from "astro:content";
-import { Image, Picture } from "@astrojs/image/components";
+import { Image } from "@components/Image/index.astro";
 import avatar from "@assets/images/avatar.jpg";
 import { format } from "date-fns";
 import TableOfContents from "@components/TableOfContents.astro";
@@ -69,7 +69,8 @@ const { title, description, cover, publishedAt } = post.data;
                 loading="eager"
                 class="rounded-full"
                 src={avatar}
-                width={72}
+                widths={[48, 96]}
+                sizes="48px"
                 alt="Avatar"
               />
             </div>
@@ -85,15 +86,11 @@ const { title, description, cover, publishedAt } = post.data;
           </div>
         </div>
         <div class="mt-4 rounded-3xl md:mt-6 lg:mt-10">
-          <Picture
-            background={undefined}
+          <Image
             alt={cover.alt}
             loading="eager"
             class="h-80 w-full rounded-3xl object-cover md:h-[32rem]"
-            src={cover.src}
-            aspectRatio={cover.width / cover.height}
-            width={cover.width}
-            height={cover.height}
+            src={cover}
             widths={[400, 800, 1600, 2200]}
             sizes="(min-width: 48rem) 76rem, 100vw"
             fetchpriority={"high"}

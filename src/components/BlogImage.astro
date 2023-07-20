@@ -1,5 +1,5 @@
 ---
-import { Picture } from "@astrojs/image/components";
+import { Image } from "@components/Image/index.astro";
 
 interface Props {
   src: ImageMetadata;
@@ -14,15 +14,13 @@ const { src, alt, caption, shadow, background, ...props } = Astro.props;
 
 <figure>
   <a href={src.src}>
-    <Picture
+    <Image
       alt={alt}
       class:list={[
         "w-full rounded-lg",
         { "shadow-xl": shadow, "bg-white": background },
       ]}
       src={src}
-      width={src.width}
-      height={src.height}
       widths={[400, 800, 1800]}
       sizes="(min-width: 48rem) 55rem, 100vw"
       {...props}

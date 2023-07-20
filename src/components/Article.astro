@@ -1,5 +1,5 @@
 ---
-import { Picture } from "@astrojs/image/components";
+import { Image } from "@components/Image/index.astro";
 import ArticleFooter from "./ArticleFooter.astro";
 import type { Post } from "@src/types";
 
@@ -13,14 +13,10 @@ const { post } = Astro.props;
 <a href={post.url}>
   <article class="flex h-full flex-col">
     <div class="rounded-3xl">
-      <Picture
-        background={undefined}
+      <Image
         alt={post.data.cover.alt}
         class="h-80 w-full rounded-3xl object-cover dark:shadow-lg md:h-[32rem]"
-        src={post.data.cover.src}
-        aspectRatio={post.data.cover.width / post.data.cover.height}
-        width={post.data.cover.width}
-        height={post.data.cover.height}
+        src={post.data.cover}
         widths={[400, 800, 1600]}
         sizes="(min-width: 48rem) 28rem, 100vw"
       />

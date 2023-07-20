@@ -16,7 +16,6 @@
     "test"
   ],
   "dependencies": {
-    "@astrojs/image": "0.17.2",
     "@astrojs/mdx": "0.19.7",
     "@astrojs/react": "2.2.1",
     "@astrojs/rss": "2.4.3",

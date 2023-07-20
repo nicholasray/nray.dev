@@ -1,11 +1,10 @@
 ---
-import { Image, Picture } from "@astrojs/image/components";
 import Layout from "@layouts/Layout.astro";
 import avatar from "@assets/images/avatar.jpg";
 import ArticleFooter from "@components/ArticleFooter.astro";
 import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
-import { Image as Blah } from "@components/Image/index.astro";
+import { Image } from "@components/Image/index.astro";
 
 const posts = await getPosts();
 const featured = posts[0];
@@ -33,18 +32,6 @@ const title = "Nicholas Ray";
   }}
 >
   <main class="space-y-20 overflow-hidden sm:space-y-32 md:space-y-40">
-    <Blah
-      responsive={{
-        widths: [500, 1000],
-        sizes: "(min-width: 48rem) 37rem, 100vw",
-      }}
-      loading={"eager"}
-      themes={{
-        lightSrc: featured.data.cover,
-        darkSrc: restOfPosts[0].data.cover,
-      }}
-      src={featured.data.cover.src}
-    />
     <section class="mt-12 lg:mt-16">
       <div
         class="mx-auto max-w-7xl items-center space-y-12 px-4 sm:px-6 md:grid md:grid-cols-[30rem_30rem] md:gap-14 md:space-y-0 md:px-8 lg:grid-cols-[36.25rem_36.25rem]"
@@ -54,19 +41,14 @@ const title = "Nicholas Ray";
             href={featured.url}
             class="block md:rotate-2 md:hover:rotate-0 md:motion-safe:transition-performant md:motion-safe:duration-300"
           >
-            <Picture
-              background={undefined}
+            <Image
               class="h-80 w-full rounded-3xl object-cover md:h-[34rem]"
               loading="eager"
               alt={featured.data.cover.alt}
-              src={featured.data.cover.src}
-              aspectRatio={featured.data.cover.width /
-                featured.data.cover.height}
-              width={featured.data.cover.width}
-              height={featured.data.cover.height}
+              src={featured.data.cover}
               widths={[400, 800, 1200]}
               sizes="(min-width: 48rem) 37rem, 100vw"
-              fetchpriority={"high"}
+              fetchpriority="high"
             />
           </a>
         </div>
@@ -111,7 +93,8 @@ const title = "Nicholas Ray";
           <Image
             class="w-[100px] flex-shrink-0 rounded-full border-4 border-zinc-600 dark:border-zinc-300 md:w-[120px]"
             src={avatar}
-            width={240}
+            widths={[120, 240]}
+            sizes="120px"
             alt="Avatar of Nicholas Ray"
           />
           <div>

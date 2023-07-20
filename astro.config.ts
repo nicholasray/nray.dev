@@ -1,4 +1,4 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, sharpImageService } from "astro/config";
 
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
@@ -12,9 +12,6 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 // https://astro.build/config
-import image from "@astrojs/image";
-
-// https://astro.build/config
 import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
@@ -23,6 +20,9 @@ export default defineConfig({
   trailingSlash: "always",
   experimental: {
     assets: true,
+  },
+  image: {
+    service: sharpImageService(),
   },
   markdown: {
     syntaxHighlight: false,
@@ -69,9 +69,6 @@ export default defineConfig({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     mdx(),
-    image({
-      serviceEntryPoint: "@astrojs/image/sharp",
-    }),
     sitemap({
       filter: (page) =>
         !page.startsWith("https://www.nray.dev/rss.xml") &&
