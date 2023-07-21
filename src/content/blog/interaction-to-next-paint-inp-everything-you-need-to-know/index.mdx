@@ -96,12 +96,11 @@ in two important ways:
   the first frame appears, while FID only measures the time it takes for the
   browser to be able to respond to the interaction (input delay portion)
 
-import inpFid from "./_assets/inp-vs-fid.svg";
-import inpFidDark from "./_assets/inp-vs-fid-dark.svg";
+import inpFid from "./_assets/inp-vs-fid.png";
 
 <Image
+  background
   src={inpFid}
-  dark={inpFidDark}
   alt="An interaction timeline consisting of input delay, processing time, and presentation delay portions. First Input Delay only measures the input delay portion. In contrast, Interaction to Next Paint measures all the portions of an interaction."
   caption="FID only measures the input delay portion of an interaction. In contrast, INP measures all three components."
 />
