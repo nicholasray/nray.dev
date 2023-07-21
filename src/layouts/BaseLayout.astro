@@ -18,17 +18,16 @@ const { title = "Nicholas Ray", preloadFonts = false, ...rest } = Astro.props;
     <SEO {...rest} />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta
-      class="meta-theme"
       name="theme-color"
       content="#FAFAFA"
-      data-other="#18181B"
+      media="(prefers-color-scheme: light)"
     />
     <meta
-      class="meta-theme"
-      name="color-scheme"
-      content="light"
-      data-other="dark"
+      name="theme-color"
+      content="#18181B"
+      media="(prefers-color-scheme: dark)"
     />
+    <meta name="color-scheme" content="light dark" />
     {
       preloadFonts && (
         <>
@@ -49,25 +48,6 @@ const { title = "Nicholas Ray", preloadFonts = false, ...rest } = Astro.props;
         </>
       )
     }
-    <script is:inline>
-      var theme = localStorage.getItem("theme");
-
-      if (
-        theme === "dark" ||
-        (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        // Switch to dark mode.
-        var metaTags = document.head.querySelectorAll(".meta-theme");
-        for (var i = 0; i < metaTags.length; i++) {
-          var meta = metaTags[i];
-          var other = meta.dataset.other;
-          meta.dataset.other = meta.content;
-          meta.content = other;
-        }
-
-        document.documentElement.classList.add("dark");
-      }
-    </script>
     <script
       is:inline
       defer

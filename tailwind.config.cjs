@@ -11,9 +11,12 @@ module.exports = {
     // Enable auto-link heading styles.
     "./astro.config.ts",
   ],
-  darkMode: "class",
+  darkMode: "media",
   theme: {
     extend: {
+      opacity: {
+        2.5: ".025",
+      },
       fontFamily: {
         serif: ["Merriweather", ...defaultTheme.fontFamily.serif],
       },
