@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "prepublish": "find src -type f -name '*.svg' -print0 | xargs -0 -n 1 -P 6 svgo",
     "build": "astro build",
     "preview": "astro preview",
     "test": "npm run -s lint && astro check && tsc --noEmit",
@@ -55,6 +56,7 @@
     "prettier": "3.0.0",
     "prettier-plugin-astro": "0.11.0",
     "prettier-plugin-tailwindcss": "0.4.1",
+    "svgo": "3.0.2",
     "typescript": "5.1.6"
   }
 }
