@@ -88,12 +88,12 @@ import inpSearchRanking from "./_assets/inp-search-ranking.png";
 The INP metric is FID's successor, replacing it as a Core Web Vital on
 March 2024. Although both metrics measure a page's interactivity and
 responsiveness, INP provides a more thorough assessment of a user's experience
-on a page compared to FID by:
+in two important ways:
 
-- Observing _all_ interactions throughout the lifetime of a page instead of only
-  the first interaction
-- Measuring the time it takes from the start of the interaction to the moment
-  the first frame appears instead of only measuring the time it takes for the
+- INP observes _all_ interactions throughout the lifetime of a page, while FID
+  measures the first interaction
+- INP measures the time it takes from the start of the interaction to the moment
+  the first frame appears, while FID only measures the time it takes for the
   browser to be able to respond to the interaction (input delay portion)
 
 import inpFid from "./_assets/inp-vs-fid.svg";
