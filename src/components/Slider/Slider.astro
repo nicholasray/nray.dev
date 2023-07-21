@@ -32,8 +32,10 @@ const { class: className, ...rest } = Astro.props;
     height: var(--track-size);
   }
 
-  :global(.dark) .slider::-webkit-slider-runnable-track {
-    @apply bg-zinc-900;
+  @media (prefers-color-scheme: dark) {
+    .slider::-webkit-slider-runnable-track {
+      @apply bg-zinc-700;
+    }
   }
 
   /* slider thumb */
@@ -46,16 +48,20 @@ const { class: className, ...rest } = Astro.props;
     transform: translateY(calc((var(--track-size) / 2) - 50%));
   }
 
-  :global(.dark) .slider::-webkit-slider-thumb {
-    @apply bg-zinc-200;
+  @media (prefers-color-scheme: dark) {
+    .slider::-webkit-slider-thumb {
+      @apply bg-zinc-200;
+    }
   }
 
   .slider:focus-visible::-webkit-slider-thumb {
     @apply bg-zinc-500;
   }
 
-  :global(.dark) .slider:focus-visible::-webkit-slider-thumb {
-    @apply bg-white;
+  @media (prefers-color-scheme: dark) {
+    .slider:focus-visible::-webkit-slider-thumb {
+      @apply bg-white;
+    }
   }
 
   /*********** Firefox styles ***********/
@@ -66,8 +72,10 @@ const { class: className, ...rest } = Astro.props;
     height: var(--track-size);
   }
 
-  :global(.dark) .slider::-moz-range-track {
-    @apply bg-zinc-900;
+  @media (prefers-color-scheme: dark) {
+    .slider::-moz-range-track {
+      @apply bg-zinc-700;
+    }
   }
 
   /* slider thumb */
@@ -79,15 +87,19 @@ const { class: className, ...rest } = Astro.props;
     /* transform: translateY(calc((var(--track-size) / 2) - 50%)); */
   }
 
-  :global(.dark) .slider::-moz-range-thumb {
-    @apply bg-zinc-200;
+  @media (prefers-color-scheme: dark) {
+    .slider::-moz-range-thumb {
+      @apply bg-zinc-200;
+    }
   }
 
   .slider:focus-visible::-moz-range-thumb {
     @apply bg-zinc-500;
   }
 
-  :global(.dark) .slider:focus-visible::-moz-range-thumb {
-    @apply bg-white;
+  @media (prefers-color-scheme: dark) {
+    .slider:focus-visible::-moz-range-thumb {
+      @apply bg-white;
+    }
   }
 </style>

@@ -21,8 +21,10 @@ const { src, alt, caption, shadow, background, ...props } = Astro.props;
         { "shadow-xl": shadow, "bg-white": background },
       ]}
       src={src}
-      widths={[400, 800, 1800]}
-      sizes="(min-width: 48rem) 55rem, 100vw"
+      widths={src.format !== "svg" ? [400, 800, 1800] : undefined}
+      sizes={src.format !== "svg"
+        ? "(min-width: 48rem) 55rem, 100vw"
+        : undefined}
       {...props}
     />
   </a>

@@ -8,25 +8,31 @@ type Img = Omit<HTMLAttributes<"img">, "src">;
 interface Props extends Img {
   src: ImageMetadata | string;
   dark?: ImageMetadata | string;
-  widths: number[];
-  sizes: string;
+  widths?: number[];
+  sizes?: string;
   alt: string;
 }
 
 const props = Astro.props as Props;
-const [light, dark] = await Promise.all([
-  Promise.all(
-    props.widths.map((width) => {
-      return getImage({ src: props.src, width });
-    }),
-  ),
-  props.dark &&
-    Promise.all(
-      props.widths.map((width) => {
-        return getImage({ src: props.dark!, width });
-      }),
-    ),
-]);
+const [light, dark] =
+  props.widths && props.sizes
+    ? await Promise.all([
+        Promise.all(
+          props.widths.map((width) => {
+            return getImage({ src: props.src, width });
+          }),
+        ),
+        props.dark &&
+          Promise.all(
+            props.widths.map((width) => {
+              return getImage({ src: props.dark!, width });
+            }),
+          ),
+      ])
+    : await Promise.all([
+        Promise.all([getImage({ src: props.src })]),
+        props.dark ? Promise.all([getImage({ src: props.dark })]) : null,
+      ]);
 
 const format = `image/${light[0].options.format}`;
 // eslint-disable-next-line no-unused-vars
@@ -38,9 +44,13 @@ const attributes = {
 const original = light[light.length - 1].src;
 
 function getSrcSet(images: GetImageResult[]) {
+  if (!props.widths) {
+    return null;
+  }
+
   return images
     .reduce((previous, current, index) => {
-      previous.push(`${current.src} ${props.widths[index]}w`);
+      previous.push(`${current.src} ${props.widths![index]}w`);
 
       return previous;
     }, [] as string[])
@@ -52,14 +62,18 @@ function getSrcSet(images: GetImageResult[]) {
   dark ? (
     <picture>
       <source
-        type={format}
-        srcset={getSrcSet(light)}
+        srcset={
+          format === "image/svg"
+            ? light[light.length - 1].src
+            : getSrcSet(light)
+        }
         media="(prefers-color-scheme: light)"
         sizes={sizes}
       />
       <source
-        type={format}
-        srcset={getSrcSet(dark)}
+        srcset={
+          format === "image/svg" ? dark[dark.length - 1].src : getSrcSet(dark)
+        }
         media="(prefers-color-scheme: dark)"
         sizes={sizes}
       />
