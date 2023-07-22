@@ -11,7 +11,7 @@
     "test": "npm run -s lint && astro check && tsc --noEmit",
     "lint": "eslint --max-warnings=0 --cache .",
     "astro": "astro",
-    "optimize-svg": "svgo src/content/blog/ --recursive --config=.svgo.config.js "
+    "optimize-svg": "svgo --recursive --config=.svgo.config.cjs src/content/blog/"
   },
   "pre-commit": [
     "test"
