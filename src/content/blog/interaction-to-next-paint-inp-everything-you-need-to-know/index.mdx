@@ -199,11 +199,12 @@ INP contains **three critical phases**:
 3. **Presentation delay**: Begins when the last event callback completes and
    ends when a visual update occurs
 
-import inpComponents from "./_assets/interaction-to-next-paint-components.png";
+import inpComponents from "./_assets/interaction-to-next-paint-components.svg";
+import inpComponentsDark from "./_assets/interaction-to-next-paint-components-dark.svg";
 
 <Image
-  background
   src={inpComponents}
+  dark={inpComponentsDark}
   alt="Detailed interaction timeline consisting of blocking tasks (input delay), event callbacks like pointerup, mouseup, and click (processing time), and render, paint, and composite steps (presentation delay). At the end is a visual update."
   caption="Each interaction consists of an input delay, processing time, and presentation delay. Interaction latency is the sum of these three components."
 />
