@@ -168,11 +168,12 @@ mobile devices:
 - INP \<= **500 milliseconds** indicates a page **needs improvement**
 - INP \> **500 milliseconds** indicates a page has **poor responsiveness**
 
-import inpScores from "./_assets/interaction-to-next-paint-scores.png";
+import inpScores from "./_assets/interaction-to-next-paint-scores.svg";
+import inpScoresDark from "./_assets/interaction-to-next-paint-scores-dark.svg";
 
 <Image
-  background
   src={inpScores}
+  dark={inpScoresDark}
   alt="Interaction to Next Paint score diagram showing that 0 - 200 ms is good, 201 ms to 500 ms needs improvement, and greater than 500 ms is poor."
 />
 
