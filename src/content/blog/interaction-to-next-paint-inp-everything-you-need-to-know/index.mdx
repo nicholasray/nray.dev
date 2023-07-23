@@ -412,13 +412,14 @@ culprits include:
 Interactions that occur rapidly, like typing into an autocomplete field, can
 cause a high input delay for subsequent interactions.
 
-import inpRapidInteractions from "./_assets/inp-input-delay-rapid-interactions.png";
+import inpRapidInteractions from "./_assets/inp-input-delay-rapid-interactions.svg";
+import inpRapidInteractionsDark from "./_assets/inp-input-delay-rapid-interactions-dark.svg";
 
 <Image
-  background
   src={inpRapidInteractions}
+  dark={inpRapidInteractionsDark}
   alt={`Interaction timeline showing an "A" keypress followed by a "B" keypress resulting in an input delay from the execution of event callbacks related to the "A" keypress.`}
-  caption='Interactions that frequently happen, like typing "A" into an input box quickly followed by "B", can cause interaction overlap and a high input delay.'
+  caption='Interactions that happen close together, like typing "A" into an input box quickly followed by "B", can cause interaction overlap and a high input delay.'
 />
 
 First, try to reduce the callback's JavaScript logic as much as possible. Then,
