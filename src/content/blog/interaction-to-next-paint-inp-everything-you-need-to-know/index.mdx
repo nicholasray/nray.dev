@@ -484,12 +484,14 @@ which can cause an input delay.
 Slow event callbacks will mitigate any positive effects of an optimized input
 delay. Fortunately, you can make optimizations to ensure this doesn't happen.
 
-import inpProcessingTime from "./_assets/inp-processing-time.png";
+import inpProcessingTime from "./_assets/inp-processing-time.svg";
+import inpProcessingTimeDark from "./_assets/inp-processing-time-dark.svg";
 
 <Image
   src={inpProcessingTime}
+  dark={inpProcessingTimeDark}
   alt="Interaction timeline highlighting the processing time portion."
-  caption="Processing time  measures how long it takes the browser to execute event callbacks."
+  caption="Processing time measures how long it takes to execute the event callbacks associated with an interaction."
 />
 
 ### Long tasks from JavaScript execution
