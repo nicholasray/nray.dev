@@ -6,6 +6,7 @@ interface Props {
   alt: string;
   caption?: string;
   shadow?: boolean;
+  fullWidth?: boolean;
   rounded?: boolean;
   background?: boolean;
 }
@@ -16,26 +17,35 @@ const {
   caption,
   shadow,
   background,
+  fullWidth = true,
   rounded = true,
   ...props
 } = Astro.props;
 ---
 
 <figure>
-  <a href={src.src}>
-    <Image
-      alt={alt}
-      class:list={[
-        "w-full",
-        { "shadow-xl": shadow, "bg-white": background, "rounded-lg": rounded },
-      ]}
-      src={src}
-      widths={src.format !== "svg" ? [400, 800, 1800] : undefined}
-      sizes={src.format !== "svg"
-        ? "(min-width: 48rem) 55rem, 100vw"
-        : undefined}
-      {...props}
-    />
-  </a>
-  {caption && <figcaption>{caption}</figcaption>}
+  <div>
+    <a href={src.src}>
+      <Image
+        alt={alt}
+        pictureClass={fullWidth ? undefined : "flex justify-center"}
+        class:list={[
+          "flex justify-center",
+          {
+            "w-full": fullWidth,
+            "shadow-xl": shadow,
+            "bg-white": background,
+            "rounded-lg": rounded,
+          },
+        ]}
+        src={src}
+        widths={src.format !== "svg" ? [400, 800, 1800] : undefined}
+        sizes={src.format !== "svg"
+          ? "(min-width: 48rem) 55rem, 100vw"
+          : undefined}
+        {...props}
+      />
+    </a>
+    {caption && <figcaption>{caption}</figcaption>}
+  </div>
 </figure>

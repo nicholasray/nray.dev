@@ -10,6 +10,7 @@ interface Props extends Img {
   dark?: ImageMetadata | string;
   widths?: number[];
   sizes?: string;
+  pictureClass?: string;
   alt: string;
 }
 
@@ -36,7 +37,7 @@ const [light, dark] =
 
 const format = `image/${light[0].options.format}`;
 // eslint-disable-next-line no-unused-vars
-const { src, dark: _, widths: __, sizes, ...rest } = props;
+const { src, pictureClass, dark: _, widths: __, sizes, ...rest } = props;
 const attributes = {
   ...light[0].attributes,
   ...rest,
@@ -60,7 +61,7 @@ function getSrcSet(images: GetImageResult[]) {
 
 {
   dark ? (
-    <picture>
+    <picture class={pictureClass}>
       <source
         srcset={
           format === "image/svg"

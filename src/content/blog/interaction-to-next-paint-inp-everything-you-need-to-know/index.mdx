@@ -124,11 +124,13 @@ click, tap, and keypress until a visual change occurs. This elapsed time
 represents the **interaction's latency**. When the user leaves the page, the INP
 score is calculated based on one of the recorded interaction latencies.
 
-import inpSpinner from "./_assets/inp-progress-indicator.png";
+import inpSpinner from "./_assets/inp-progress-indicator.svg";
+import inpSpinnerDark from "./_assets/inp-progress-indicator-dark.svg";
 
 <Image
-  background
   src={inpSpinner}
+  dark={inpSpinnerDark}
+  fullWidth={false}
   alt="An interaction timeline showing the latency between a click, tap, or key press and a visual update consisting of a spinner."
   caption="INP only cares about the first frame after an interaction, which can include intermediate visual states like a spinner."
 />
