@@ -361,27 +361,20 @@ delay** can become sluggish and what you can do about it.
 
 ## Optimize Input delay
 
-import inpInputDelay from "./_assets/inp-input-delay.png";
-
-<Image
-  src={inpInputDelay}
-  alt="Interaction timeline highlighting the input delay portion."
-  caption="Input delay measures how long it takes the browser to begin executing event callbacks."
-/>
-
 The first part of each interaction always involves a small, often unnoticeable,
 delay that involves converting the interaction into an event that the browser
 understands. Once the browser determines the events associated with an
 interaction, it can run any registered event callbacks — unless there is a task
 blocking that from happening.
 
-import inpBlockedTask from "./_assets/inp-input-delay-blocked-task.png";
+import inpInputDelay from "./_assets/inp-input-delay.svg";
+import inpInputDelayDark from "./_assets/inp-input-delay-dark.svg";
 
 <Image
-  background
-  src={inpBlockedTask}
-  alt="Interaction timeline showing a JS task blocking a button click interaction, which contributes to a high input delay."
-  caption="Long JS tasks can prevent event callbacks from executing, resulting in a high input delay."
+  src={inpInputDelay}
+  dark={inpInputDelayDark}
+  alt="Interaction timeline highlighting the input delay portion."
+  caption="Input delay measures how long it takes the browser to begin executing event callbacks."
 />
 
 ### Long tasks during page startup
