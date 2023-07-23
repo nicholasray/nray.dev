@@ -312,8 +312,8 @@ and other information contained in the object to your analytics provider.
 
 ## What causes slow interactions?
 
-The main reason for slow interactions are **long tasks** — tasks that take
-longer than **50 ms** — on the browser's
+The main reason for slow interactions are **long tasks** — tasks that take **50
+ms or longer ** — on the browser's
 [**main thread**](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread).
 These tasks refer to discrete units of work carried out by the browser,
 including:
@@ -343,7 +343,7 @@ import longTaskDark from "./_assets/long-task-dark.svg";
   src={longTask}
   dark={longTaskDark}
   alt="A gray task with a red highlighted portion over 50 ms."
-  caption={`Tasks that execute for more than 50 ms are considered long tasks.`}
+  caption={`Tasks that execute for 50 ms or longer are considered long tasks.`}
 />
 
 **If you have a poor INP score, it's highly likely that long tasks on the main
