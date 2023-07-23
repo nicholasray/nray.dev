@@ -30,8 +30,8 @@ const {
         alt={alt}
         pictureClass={fullWidth ? undefined : "flex justify-center"}
         class:list={[
-          "flex justify-center",
           {
+            "!mt-0": !fullWidth,
             "w-full": fullWidth,
             "shadow-xl": shadow,
             "bg-white": background,
