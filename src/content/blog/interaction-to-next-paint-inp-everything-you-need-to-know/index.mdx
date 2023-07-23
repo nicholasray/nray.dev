@@ -336,12 +336,14 @@ because tasks take longer to complete. That's why it's a good idea to test
 interactions on devices that resemble the lower-end devices used by most of your
 users.
 
-import inpLongTaskSeries from "./_assets/inp-series-of-long-tasks.png";
+import longTask from "./_assets/long-task.svg";
+import longTaskDark from "./_assets/long-task-dark.svg";
 
 <Image
-  caption="Chrome's performance profiler showing a series of long tasks designated by red diagonal stripes."
-  src={inpLongTaskSeries}
-  alt="Chrome's performance profiler showing a series of long tasks designated by red diagonal stripes."
+  src={longTask}
+  dark={longTaskDark}
+  alt="A gray task with a red highlighted portion over 50 ms."
+  caption={`Tasks that execute for more than 50 ms are considered long tasks.`}
 />
 
 **If you have a poor INP score, it's highly likely that long tasks on the main
