@@ -1,6 +1,6 @@
 module.exports = {
   proseWrap: "always",
-  plugins: [require.resolve("prettier-plugin-astro")],
+  plugins: ["prettier-plugin-tailwindcss", "prettier-plugin-astro"],
   overrides: [
     {
       files: "*.mdx",
