@@ -7,7 +7,6 @@ import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import { remarkReadingTime } from "./remark/remarkReadingTime";
 import rehypePrettyCode from "rehype-pretty-code";
-import ayu from "./ayu.theme.json";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
@@ -31,7 +30,7 @@ export default defineConfig({
       [
         rehypePrettyCode,
         {
-          theme: ayu,
+          theme: "css-variables",
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onVisitLine(node: any) {
             // Prevent lines from collapsing in `display: grid` mode, and
