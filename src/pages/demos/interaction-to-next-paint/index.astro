@@ -2,104 +2,150 @@
 import Layout from "@layouts/Layout.astro";
 import * as Accordion from "@components/Accordion/index.astro";
 import { Icon } from "astro-icon";
+import { WebVitalScale } from "@src/components/WebVitalScale/index.astro";
+import Slider from "@src/components/Slider/Slider.astro";
 ---
 
 <Layout
   title={"Interaction to Next Paint (INP) Demo"}
-  description="Interactive demo of INP using an accordion with the ability to change input delay, processing time, and presentation delay."
-  noindex={true}
-  nofollow={true}
+  description="Interactive demo of Interaction to Next Paint metric with the ability to change input delay, processing time, and presentation delay."
 >
   <main>
     <section class="mt-12 lg:mt-16">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
+        <WebVitalScale range={[200, 500]} />
+
+        <div
+          class="prose prose-zinc max-w-none mt-4 h-44 overflow-auto dark:prose-invert bg-zinc-50 rounded-lg dark:bg-zinc-800 p-3"
+        >
+          <table class="interaction-table w-full">
+            <thead>
+              <tr>
+                <th class="text-start">Interaction ID</th>
+                <th class="text-start">Event Type</th>
+                <th class="text-end">Duration (ms)</th>
+                <th class="text-end">Timestamp</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    <section class="mt-10 lg:mt-14">
       <div
         class="mx-auto max-w-7xl gap-16 px-4 sm:px-6 md:grid md:grid-cols-2 md:px-8"
       >
         <div>
-          <div class="space-y-4 sticky top-9">
+          <div class="sticky top-9">
             <div>
-              <label for="input-delay-input" class="block">
-                Up to <strong><span>0</span>ms</strong> of additional input
-                delay
-              </label>
-              <input
-                id="input-delay-input"
-                class="input-delay-input"
-                type="range"
-                min="0"
-                max="300"
-                value="0"
-                step="50"
-              />
+              <h2
+                class="text-3xl font-bold tracking-tight text-zinc-900 dark:text-white"
+              >
+                Instructions
+              </h2>
+              <ol class="mt-6 list-decimal list-inside space-y-3">
+                <li>
+                  Adjust the controls below to add interaction latency to the
+                  accordion
+                </li>
+                <li>Interact with the accordion by clicking on a section</li>
+                <li>
+                  Watch how each interaction affects the INP score (<a
+                    href="https://caniuse.com/?search=interactionid"
+                    >only on Chromium browsers)</a>
+                </li>
+                <li>Refresh the page to clear the score and start over</li>
+              </ol>
             </div>
-            <div>
-              <label for="processing-time-input" class="block">
-                <strong><span>0</span>ms</strong> of additional processing time
-              </label>
-              <input
-                id="processing-time-input"
-                class="processing-time-input"
-                type="range"
-                min="0"
-                max="500"
-                value="0"
-                step="50"
-              />
-            </div>
-            <div>
-              <label for="item-count-input" class="block">
-                <strong><span>10</span></strong> items affecting presentation
-                delay
-              </label>
-              <input
-                id="item-count-input"
-                class="item-count-input"
-                type="range"
-                min="0"
-                max="4"
-                data-choices="[10,5000,10000,15000,20000]"
-                value={0}
-              />
+            <div class="space-y-4 mt-14">
+              <div>
+                <label for="input-delay-input" class="block">
+                  Up to <strong><span>0</span>ms</strong> of additional input
+                  delay
+                </label>
+                <Slider
+                  id="input-delay-input"
+                  class="input-delay-input w-full"
+                  type="range"
+                  min="0"
+                  max="300"
+                  value="0"
+                  step="50"
+                />
+              </div>
+              <div>
+                <label for="processing-time-input" class="block">
+                  <strong><span>0</span>ms</strong> of additional processing
+                  time
+                </label>
+                <Slider
+                  id="processing-time-input"
+                  class="processing-time-input w-full"
+                  type="range"
+                  min="0"
+                  max="500"
+                  value="0"
+                  step="50"
+                />
+              </div>
+              <div>
+                <label for="item-count-input" class="block">
+                  <strong><span>10</span></strong> items affecting presentation
+                  delay
+                </label>
+                <Slider
+                  id="item-count-input"
+                  class="item-count-input w-full"
+                  type="range"
+                  min="0"
+                  max="4"
+                  data-choices="[10,5000,10000,15000,20000]"
+                  value={0}
+                />
+              </div>
             </div>
           </div>
         </div>
-        <Accordion.Root
-          class="divide-y dark:divide-zinc-700 shadow-xl text-zinc-600 dark:text-zinc-300 dark:zinc-200 bg-white dark:bg-zinc-800 rounded-lg mt-4 md:mt-0 block"
-        >
-          {
-            [...Array(10)].map((_, i) => (
-              <Accordion.Item class="divide-y text-3xl dark:divide-zinc-700">
-                <Accordion.Header as="h2">
-                  <Accordion.Trigger
-                    class="flex w-full cursor-pointer items-center justify-between p-4 font-mono"
+        <div>
+          <Accordion.Root
+            class="divide-y dark:divide-zinc-700 shadow-xl text-zinc-600 dark:text-zinc-300 dark:zinc-200 bg-white dark:bg-zinc-800 rounded-lg mt-4 md:mt-0 block"
+          >
+            {
+              [...Array(10)].map((_, i) => (
+                <Accordion.Item class="divide-y text-3xl dark:divide-zinc-700">
+                  <Accordion.Header as="h2">
+                    <Accordion.Trigger
+                      class="flex w-full cursor-pointer items-center justify-between p-4 font-mono"
+                      key={i}
+                    >
+                      item {i + 1}
+                      <Icon
+                        name="heroicons:chevron-down"
+                        class="chevron h-6 w-6 transition-transform duration-500"
+                      />
+                    </Accordion.Trigger>
+                  </Accordion.Header>
+                  <Accordion.Content
+                    class="hidden overflow-hidden text-lg transition-[height] duration-500"
                     key={i}
                   >
-                    item {i + 1}
-                    <Icon
-                      name="heroicons:chevron-down"
-                      class="chevron h-6 w-6 transition-transform duration-500"
-                    />
-                  </Accordion.Trigger>
-                </Accordion.Header>
-                <Accordion.Content
-                  class="hidden overflow-hidden text-lg transition-[height] duration-500"
-                  key={i}
-                >
-                  <div class="p-6">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
-                  </div>
-                </Accordion.Content>
-              </Accordion.Item>
-            ))
-          }
-        </Accordion.Root>
+                    <div class="p-6">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna
+                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      Duis aute irure dolor in reprehenderit in voluptate velit
+                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                      sint occaecat cupidatat non proident, sunt in culpa qui
+                      officia deserunt mollit anim id est laborum.
+                    </div>
+                  </Accordion.Content>
+                </Accordion.Item>
+              ))
+            }
+          </Accordion.Root>
+        </div>
       </div>
     </section>
   </main>
@@ -117,6 +163,11 @@ import { Icon } from "astro-icon";
 </style>
 
 <script>
+  import { onINP } from "web-vitals";
+  const scale = document.querySelector(".web-vital-scale")! as HTMLElement;
+  const interactionTable = document.querySelector(
+    ".interaction-table tbody",
+  ) as HTMLElement;
   const inputDelayInput = document.querySelector(
     ".input-delay-input",
   ) as HTMLInputElement;
@@ -129,6 +180,20 @@ import { Icon } from "astro-icon";
   const accordion = document.querySelector(".accordion") as HTMLElement;
   const itemTemplate = accordion.firstElementChild!.outerHTML;
   const itemChoices = JSON.parse(itemCountInput.dataset.choices!);
+
+  /**
+   * A hacky attempt to prevent changes to the input range controls from
+   * influencing INP.
+   */
+  async function deferToNextFrame(): Promise<void> {
+    return new Promise((resolve) => {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          resolve();
+        });
+      });
+    });
+  }
 
   function createItemString(key: number) {
     return itemTemplate
@@ -149,29 +214,36 @@ import { Icon } from "astro-icon";
     });
   }
 
-  [inputDelayInput, processingTimeInput, itemCountInput].forEach((input) => {
-    input.addEventListener("input", (e) => {
-      if (!(e.target && e.target instanceof HTMLInputElement)) {
-        return;
-      }
+  [inputDelayInput, processingTimeInput, itemCountInput].forEach(
+    async (input) => {
+      input.addEventListener("input", async (e) => {
+        if (!(e.target && e.target instanceof HTMLInputElement)) {
+          return;
+        }
 
-      const span = e.target.parentElement?.querySelector("span");
-      if (!span) {
-        return;
-      }
+        await deferToNextFrame();
 
-      const value = parseInt(e.target.value);
+        const span = e.target.parentElement?.querySelector("span");
+        if (!span) {
+          return;
+        }
 
-      span.innerText = e.target.dataset.choices
-        ? itemChoices[value].toLocaleString()
-        : value;
-    });
-  });
+        const value = parseInt(e.target.value);
 
-  itemCountInput.addEventListener("change", (e) => {
+        span.innerText = e.target.dataset.choices
+          ? itemChoices[value].toLocaleString()
+          : value;
+      });
+    },
+  );
+
+  itemCountInput.addEventListener("change", async (e) => {
     if (!(e.target && e.target instanceof HTMLInputElement)) {
       return;
     }
+
+    await deferToNextFrame();
+
     const desiredCount = itemChoices[parseInt(e.target.value)];
     const currentCount = accordion.childElementCount;
 
@@ -198,4 +270,64 @@ import { Icon } from "astro-icon";
   });
 
   loop();
+
+  interface PerformanceEventTimingExperimental extends PerformanceEventTiming {
+    interactionId: number;
+  }
+
+  function handleEntries(list: PerformanceObserverEntryList) {
+    const entries = list
+      .getEntries()
+      .filter(
+        (entry) => (entry as PerformanceEventTimingExperimental).interactionId,
+      ) as PerformanceEventTimingExperimental[];
+
+    entries.forEach((entry) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="text-start">${entry.interactionId}</td>
+        <td class="text-start">${entry.name}</td>
+        <td class="text-end">${entry.duration.toLocaleString()}</td>
+        <td class="text-end">${new Date(entry.startTime)
+          .toISOString()
+          .slice(11)}</td>
+      `;
+
+      interactionTable.prepend(tr);
+    });
+  }
+
+  const inpObserver = new PerformanceObserver(handleEntries);
+  const fidObserver = new PerformanceObserver(handleEntries);
+
+  inpObserver.observe({
+    type: "event",
+    buffered: true,
+    durationThreshold: 0,
+  });
+  fidObserver.observe({
+    type: "first-input",
+    buffered: true,
+    durationThreshold: 0,
+  });
+
+  if (
+    !(
+      window.PerformanceEventTiming &&
+      "interactionId" in PerformanceEventTiming.prototype
+    )
+  ) {
+    scale.classList.add("hidden");
+  } else {
+    onINP(
+      (interaction) => {
+        // @ts-ignore
+        scale.value = interaction.value;
+      },
+      {
+        durationThreshold: 16,
+        reportAllChanges: true,
+      },
+    );
+  }
 </script>
