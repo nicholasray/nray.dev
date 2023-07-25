@@ -10,6 +10,9 @@ import Slider from "@src/components/Slider/Slider.astro";
   title={"Interaction to Next Paint (INP) Demo"}
   description="Interactive demo of Interaction to Next Paint metric with the ability to change input delay, processing time, and presentation delay."
 >
+  <script slot="before-styles">
+    TEST;
+  </script>
   <main>
     <section class="mt-12 lg:mt-16">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
@@ -45,8 +48,8 @@ import Slider from "@src/components/Slider/Slider.astro";
                 Interaction to Next Paint (INP) Demo
               </h1>
               <p class="mt-4">
-                First, read the <a
-                  class="underline font-bold text-zinc-800"
+                First, read the associated <a
+                  class="underline font-bold text-zinc-800 dark:text-white"
                   href="/blog/interaction-to-next-paint-inp-everything-you-need-to-know/"
                   >blog post</a
                 >.
@@ -67,7 +70,7 @@ import Slider from "@src/components/Slider/Slider.astro";
               </ol>
               <p class="mt-4 text-sm">
                 Demo inspired by <a
-                  class="underline font-bold"
+                  class="underline font-bold dark:text-white"
                   href="https://inp-demo-ff.glitch.me/">Phil Walton</a
                 >.
               </p>
