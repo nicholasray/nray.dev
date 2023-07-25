@@ -31,8 +31,20 @@
       min-height: 400px;
     }
 
+    .figure-demo {
+      margin-top: 2em;
+      margin-bottom: 2em;
+    }
+
+    @media (min-width: 64rem) {
+      .figure-demo {
+        margin-top: 1.7777778em;
+        margin-bottom: 1.7777778em;
+      }
+    }
+
     [data-rehype-pretty-code-title] {
-      @apply py-1.5 pl-[calc(1rem+4px)] pr-0.5 font-mono text-sm flex items-center min-h-[2.5rem];
+      @apply flex min-h-[2.5rem] items-center py-1.5 pl-[calc(1rem+4px)] pr-0.5 font-mono text-sm;
     }
 
     [data-rehype-pretty-code-fragment] {
