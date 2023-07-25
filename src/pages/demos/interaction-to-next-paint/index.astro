@@ -53,12 +53,13 @@ import Slider from "@src/components/Slider/Slider.astro";
                 <li>
                   Watch how each interaction affects the INP score (<a
                     href="https://caniuse.com/?search=interactionid"
-                    >only on Chromium browsers)</a>
+                    >only on Chromium browsers)</a
+                  >
                 </li>
                 <li>Refresh the page to clear the score and start over</li>
               </ol>
             </div>
-            <div class="space-y-4 mt-14">
+            <div class="space-y-4 mt-10">
               <div>
                 <label for="input-delay-input" class="block">
                   Up to <strong><span>0</span>ms</strong> of additional input
@@ -109,7 +110,7 @@ import Slider from "@src/components/Slider/Slider.astro";
         </div>
         <div>
           <Accordion.Root
-            class="divide-y dark:divide-zinc-700 shadow-xl text-zinc-600 dark:text-zinc-300 dark:zinc-200 bg-white dark:bg-zinc-800 rounded-lg mt-4 md:mt-0 block"
+            class="divide-y dark:divide-zinc-700 shadow-xl text-zinc-600 dark:text-zinc-300 dark:zinc-200 bg-white dark:bg-zinc-800 rounded-lg mt-10 md:mt-0 block"
           >
             {
               [...Array(10)].map((_, i) => (
