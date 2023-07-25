@@ -7,6 +7,9 @@ const FORM_URL = "https://app.convertkit.com/forms/3512386/subscriptions";
 ---
 
 <BaseLayout {...Astro.props}>
+  <Fragment slot="before-styles">
+    <slot name="before-styles" />
+  </Fragment>
   <Header />
   <slot />
   <section class="my-20 sm:my-32 md:my-40">

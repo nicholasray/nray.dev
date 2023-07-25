@@ -3,13 +3,19 @@ import { SEO, Props as SeoProps } from "astro-seo";
 
 export interface Props extends SeoProps {
   preloadFonts?: boolean;
+  htmlClass?: string;
 }
 
-const { title = "Nicholas Ray", preloadFonts = false, ...rest } = Astro.props;
+const {
+  title = "Nicholas Ray",
+  htmlClass,
+  preloadFonts = false,
+  ...rest
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class={htmlClass}>
   <head>
     <slot name="after-head" />
     <meta charset="UTF-8" />
@@ -48,6 +54,7 @@ const { title = "Nicholas Ray", preloadFonts = false, ...rest } = Astro.props;
         </>
       )
     }
+    <slot name="before-styles" />
     <script
       is:inline
       defer

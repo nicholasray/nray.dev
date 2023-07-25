@@ -4,14 +4,27 @@ import * as Accordion from "@components/Accordion/index.astro";
 import { Icon } from "astro-icon";
 import { WebVitalScale } from "@src/components/WebVitalScale/index.astro";
 import Slider from "@src/components/Slider/Slider.astro";
+const supportsINPClass = "supports-inp";
 ---
 
 <Layout
   title={"Interaction to Next Paint (INP) Demo"}
   description="Interactive demo of Interaction to Next Paint metric with the ability to change input delay, processing time, and presentation delay."
+  htmlClass={supportsINPClass}
 >
+  <script slot="before-styles" define:vars={{ supportsINPClass }}>
+    if (
+      !(
+        window.PerformanceObserver &&
+        window.PerformanceEventTiming &&
+        "interactionId" in PerformanceEventTiming.prototype
+      )
+    ) {
+      document.documentElement.classList.remove(supportsINPClass);
+    }
+  </script>
   <main>
-    <section class="mt-12 lg:mt-16">
+    <section class="mt-12 lg:mt-16 inp-measurements">
       <div class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
         <WebVitalScale range={[200, 500]} />
 
@@ -60,8 +73,8 @@ import Slider from "@src/components/Slider/Slider.astro";
                 <li>
                   Watch how each interaction affects the INP score (<a
                     href="https://caniuse.com/?search=interactionid"
-                    >only on Chromium browsers)</a
-                  >
+                    ><strong>only on Chromium browsers</strong></a
+                  >)
                 </li>
                 <li>Refresh the page to clear the score and start over</li>
               </ol>
@@ -173,6 +186,14 @@ import Slider from "@src/components/Slider/Slider.astro";
   .accordion-item--open .accordion-content {
     display: block;
     height: auto;
+  }
+
+  .inp-measurements {
+    display: none;
+  }
+
+  :global(.supports-inp) .inp-measurements {
+    display: block;
   }
 </style>
 
@@ -311,15 +332,7 @@ import Slider from "@src/components/Slider/Slider.astro";
     });
   }
 
-  if (
-    !(
-      window.PerformanceObserver &&
-      window.PerformanceEventTiming &&
-      "interactionId" in PerformanceEventTiming.prototype
-    )
-  ) {
-    scale.classList.add("hidden");
-  } else {
+  if (document.documentElement.classList.contains("supports-inp")) {
     onINP(
       (interaction) => {
         // @ts-ignore
