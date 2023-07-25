@@ -5,12 +5,26 @@ import { Icon } from "astro-icon";
 import { WebVitalScale } from "@src/components/WebVitalScale/index.astro";
 import Slider from "@src/components/Slider/Slider.astro";
 const supportsINPClass = "supports-inp";
+const title = "Interaction to Next Paint (INP) Demo";
+import cover from "./_assets/cover.png";
 ---
 
 <Layout
-  title={"Interaction to Next Paint (INP) Demo"}
+  title={title}
   description="Interactive demo of Interaction to Next Paint metric with the ability to change input delay, processing time, and presentation delay."
   htmlClass={supportsINPClass}
+  openGraph={{
+    basic: {
+      title,
+      type: "article",
+      image: new URL(cover.src, Astro.url),
+    },
+    image: {
+      width: cover.width,
+      height: cover.height,
+      alt: "Interaction to Next Paint Scale showing a 64 ms score.",
+    },
+  }}
 >
   <script slot="before-styles" define:vars={{ supportsINPClass }}>
     if (
