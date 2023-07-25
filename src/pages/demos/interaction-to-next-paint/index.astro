@@ -198,6 +198,10 @@ import Slider from "@src/components/Slider/Slider.astro";
   const itemTemplate = accordion.firstElementChild!.outerHTML;
   const itemChoices = JSON.parse(itemCountInput.dataset.choices!);
 
+  interface PerformanceEventTimingExperimental extends PerformanceEventTiming {
+    interactionId: number;
+  }
+
   /**
    * A hacky attempt to prevent changes to the input range controls from
    * influencing INP.
@@ -288,10 +292,6 @@ import Slider from "@src/components/Slider/Slider.astro";
 
   loop();
 
-  interface PerformanceEventTimingExperimental extends PerformanceEventTiming {
-    interactionId: number;
-  }
-
   function handleEntries(list: PerformanceObserverEntryList) {
     const entries = list
       .getEntries()
@@ -314,20 +314,6 @@ import Slider from "@src/components/Slider/Slider.astro";
     });
   }
 
-  const inpObserver = new PerformanceObserver(handleEntries);
-  const fidObserver = new PerformanceObserver(handleEntries);
-
-  inpObserver.observe({
-    type: "event",
-    buffered: true,
-    durationThreshold: 0,
-  });
-  fidObserver.observe({
-    type: "first-input",
-    buffered: true,
-    durationThreshold: 0,
-  });
-
   if (
     !(
       window.PerformanceEventTiming &&
@@ -346,5 +332,19 @@ import Slider from "@src/components/Slider/Slider.astro";
         reportAllChanges: true,
       },
     );
+
+    const inpObserver = new PerformanceObserver(handleEntries);
+    const fidObserver = new PerformanceObserver(handleEntries);
+
+    inpObserver.observe({
+      type: "event",
+      buffered: true,
+      durationThreshold: 0,
+    });
+    fidObserver.observe({
+      type: "first-input",
+      buffered: true,
+      durationThreshold: 0,
+    });
   }
 </script>
