@@ -14,19 +14,19 @@ const { range, class: className } = Astro.props;
 >
   <div class="flex text-center font-bold">
     <div
-      class="dark:ring-[#3F8862] dark:ring-1 dark:bg-[#1D2A24] dark:text-emerald-100 flex-auto bg-green-200 py-8 text-green-950 flex justify-center items-center px-4"
+      class="dark:ring-[#3F8862] dark:ring-1 dark:bg-[#1D2A24] dark:text-emerald-100 flex-auto bg-emerald-100 py-8 text-green-950 flex justify-center items-center px-4"
       style={`flex-basis: ${range[0]}px`}
     >
       GOOD
     </div>
     <div
-      class="dark:bg-[#2A261D] dark:text-amber-100 dark:ring-1 dark:ring-[#B68F25] flex-auto bg-orange-200 py-8 text-orange-950 flex justify-center items-center px-4"
+      class="dark:bg-[#2A261D] dark:text-amber-100 dark:ring-1 dark:ring-[#B68F25] flex-auto bg-orange-100 py-8 text-orange-950 flex justify-center items-center px-4"
       style={`flex-basis: ${range[1] - range[0]}px`}
     >
       NEEDS IMPROVEMENT
     </div>
     <div
-      class="dark:ring-1 dark:ring-[#775050] dark:bg-[#2A1D1D] dark:text-red-100 flex-auto bg-red-200 py-8 text-red-950 flex justify-center items-center px-4"
+      class="dark:ring-1 dark:ring-[#775050] dark:bg-[#2A1D1D] dark:text-red-100 flex-auto bg-red-100 py-8 text-red-950 flex justify-center items-center px-4"
       style={`flex-basis: ${range[0]}px`}
     >
       POOR
