@@ -569,7 +569,8 @@ section.scrollHeight;
 ```
 
 This order becomes particularly expensive if you invoke multiple forced
-synchronous before the browser presents a frame. When this happens, it's called
+synchronous layouts before the browser presents a frame. When this happens, it's
+called
 “[layout thrashing](/blog/using-chrome-profiler-to-fix-performance-issues/#layout-thrashing)"
 and can significantly increase processing time. Layout thrashing often happens
 when a read and write are inside a loop:
