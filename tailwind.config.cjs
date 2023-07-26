@@ -18,7 +18,10 @@ module.exports = {
         2.5: ".025",
       },
       fontFamily: {
-        serif: ["Merriweather", ...defaultTheme.fontFamily.serif],
+        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+      },
+      fontWeight: {
+        normal: "430",
       },
       transitionProperty: {
         performant: "opacity, transform",

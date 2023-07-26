@@ -2,16 +2,10 @@
 import { SEO, Props as SeoProps } from "astro-seo";
 
 export interface Props extends SeoProps {
-  preloadFonts?: boolean;
   htmlClass?: string;
 }
 
-const {
-  title = "Nicholas Ray",
-  htmlClass,
-  preloadFonts = false,
-  ...rest
-} = Astro.props;
+const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -34,26 +28,13 @@ const {
       media="(prefers-color-scheme: dark)"
     />
     <meta name="color-scheme" content="light dark" />
-    {
-      preloadFonts && (
-        <>
-          <link
-            as="font"
-            crossorigin="anonymous"
-            href="/fonts/merriweather/400.woff2"
-            rel="preload"
-            type="font/woff2"
-          />
-          <link
-            as="font"
-            crossorigin="anonymous"
-            href="/fonts/merriweather/700.woff2"
-            rel="preload"
-            type="font/woff2"
-          />
-        </>
-      )
-    }
+    <link
+      as="font"
+      crossorigin="anonymous"
+      href="/fonts/inter/variable.woff2"
+      rel="preload"
+      type="font/woff2"
+    />
     <slot name="before-styles" />
     <script
       is:inline
@@ -62,6 +43,17 @@ const {
       data-api="https://analytics.nray.dev/api/event"
       src="/js/analytics.js"></script>
     <style is:inline>
+      @font-face {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 400 800;
+        src: url(/fonts/inter/variable.woff2) format("woff2");
+        font-display: fallback;
+        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6,
+          U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC,
+          U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+
       html,
       body {
         height: 100%;
@@ -73,5 +65,5 @@ const {
     class="bg-white text-zinc-500 antialiased dark:bg-zinc-900 dark:text-zinc-400"
   >
     <slot />
-  </body>
+  </body><!-- prettier-ignore-start -->
 </html>
