@@ -14,7 +14,9 @@ const { class: className, ...rest } = Astro.props;
   ]}
   {...rest}
 >
-  <Icon class="h-5" name="heroicons:light-bulb" />
+  <div class="font-bold flex items-center">
+    <Icon class="h-5 inline-block me-1" name="heroicons:light-bulb" /> Demo
+  </div>
   <div class="mt-6">
     <slot />
   </div>
