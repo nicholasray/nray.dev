@@ -2,9 +2,11 @@
 import type { HTMLAttributes } from "astro/types";
 import { Icon } from "astro-icon";
 
-interface Props extends HTMLAttributes<"aside"> {}
+interface Props extends HTMLAttributes<"aside"> {
+  heading: string;
+}
 
-const { class: className, ...rest } = Astro.props;
+const { class: className, heading, ...rest } = Astro.props;
 ---
 
 <aside
@@ -15,7 +17,8 @@ const { class: className, ...rest } = Astro.props;
   {...rest}
 >
   <div class="font-bold flex items-center">
-    <Icon class="h-5 inline-block me-1" name="heroicons:light-bulb" /> Demo
+    <Icon class="h-5 inline-block me-1" name="heroicons:light-bulb" />
+    {heading}
   </div>
   <div class="mt-6">
     <slot />
