@@ -26,7 +26,7 @@ interface Props {
 // 2. When it's time to render, you can get the entry directly from the prop
 const post = await getPost(Astro.props.entry);
 const { Content, headings, readingTime } = post;
-const { title, description, cover, publishedAt } = post.data;
+const { title, description, cover, publishedAt, updatedAt } = post.data;
 ---
 
 <Layout
@@ -63,26 +63,43 @@ const { title, description, cover, publishedAt } = post.data;
         <div
           class="mt-4 flex max-w-5xl items-center text-sm font-medium md:mx-auto md:mt-6 md:justify-center md:text-lg lg:mt-10"
         >
-          <a href="/about/" class="flex items-center">
-            <div class="mr-3 h-10 w-10 rounded-full md:h-12 md:w-12">
-              <Image
-                loading="eager"
-                class="rounded-full"
-                src={avatar}
-                widths={[48, 96]}
-                sizes="48px"
-                alt="Avatar"
-              />
-            </div>
-            <div class="font-bold">Nicholas Ray</div>
-          </a>
           <div class="flex items-center">
-            <span class="mx-3 font-bold">·</span>
-            <time datetime={publishedAt && publishedAt.toISOString()}>
-              {publishedAt ? format(publishedAt, "LLL d, yyyy") : ""}
-            </time>
-            <span class="mx-3 font-bold">·</span>
-            <div>{readingTime}</div>
+            <div class="mr-3 h-10 w-10 rounded-full md:h-12 md:w-12">
+              <a href="/about/" class="flex items-center">
+                <Image
+                  loading="eager"
+                  class="rounded-full"
+                  src={avatar}
+                  widths={[48, 96]}
+                  sizes="48px"
+                  alt="Avatar"
+                />
+              </a>
+            </div>
+
+            <div class="md:flex md:items-center">
+              <div class="font-bold">
+                <a href="/about/" class="flex items-center"> Nicholas Ray</a>
+              </div>
+              <div class="flex items-center mt-0.5 md:mt-0">
+                <span class="mx-3 font-bold hidden md:block">·</span>
+                <time datetime={publishedAt && publishedAt.toISOString()}>
+                  {publishedAt ? format(publishedAt, "LLL d, yyyy") : ""}
+                </time>
+                {
+                  updatedAt && (
+                    <>
+                      &nbsp;— Updated&nbsp;
+                      <time datetime={updatedAt && updatedAt.toISOString()}>
+                        {format(updatedAt, "LLL d, yyyy")}
+                      </time>{" "}
+                    </>
+                  )
+                }
+                <span class="mx-2 md:mx-3 font-bold">·</span>
+                <div>{readingTime}</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="mt-4 rounded-3xl md:mt-6 lg:mt-10">
