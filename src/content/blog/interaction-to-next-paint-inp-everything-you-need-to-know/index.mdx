@@ -206,7 +206,7 @@ import inpComponentsDark from "./_assets/interaction-to-next-paint-components-da
   src={inpComponents}
   dark={inpComponentsDark}
   alt="Detailed interaction timeline consisting of blocking tasks (input delay), event callbacks like pointerup, mouseup, and click (processing time), and render, paint, and composite steps (presentation delay). At the end is a visual update."
-  caption="Each interaction consists of an input delay, processing time, and presentation delay. Interaction latency is the sum of these three components."
+  caption="Each interaction consists of an input delay, processing time, and presentation delay element. Interaction latency is the sum of these three components."
 />
 
 Each of these phases adds time to the latency of an interaction.
@@ -264,8 +264,9 @@ When using this PageSpeeds Insights, you should be aware of the following:
 - There may be
   [insufficient data](https://developers.google.com/speed/docs/insights/v5/about#crux)
   for the page you're testing. If there isn't sufficient data for the page
-  you've entered, PSI will try to use data from all pages of the origin instead.
-  PSI won't show any data if the origin doesn't have enough data.
+  you've entered, PSI will try to use data from all pages of the website's
+  origin instead. PSI won't show any data if the origin doesn't have enough
+  data.
 
 ### `web-vitals` JavaScript Library
 
