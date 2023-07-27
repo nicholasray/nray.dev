@@ -1,7 +1,8 @@
 ---
-import { SEO, Props as SeoProps } from "astro-seo";
+import { SEO } from "astro-seo";
 
-export interface Props extends SeoProps {
+export interface Props {
+  title?: string;
   htmlClass?: string;
 }
 
