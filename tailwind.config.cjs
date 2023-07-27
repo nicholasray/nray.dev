@@ -18,7 +18,12 @@ module.exports = {
         2.5: ".025",
       },
       fontFamily: {
-        sans: ["Inter", ...defaultTheme.fontFamily.sans],
+        sans: [
+          "Inter",
+          "Inter Fallback Arial",
+          "Inter Fallback Roboto",
+          ...defaultTheme.fontFamily.sans,
+        ],
       },
       fontWeight: {
         normal: "430",

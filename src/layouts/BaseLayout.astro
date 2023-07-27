@@ -48,9 +48,24 @@ const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
         font-style: normal;
         font-weight: 400 800;
         src: url(/fonts/inter/variable.woff2) format("woff2");
-        font-display: fallback;
+        font-display: swap;
       }
 
+      @font-face {
+        font-family: "Inter Fallback Arial";
+        src: local("Arial");
+        ascent-override: 90.199%;
+        descent-override: 22.4836%;
+        size-adjust: 107.4014%;
+      }
+
+      @font-face {
+        font-family: "Inter Fallback Roboto";
+        src: local("Roboto");
+        ascent-override: 90.2987%;
+        descent-override: 22.5085%;
+        size-adjust: 107.2828%;
+      }
       html,
       body {
         height: 100%;
