@@ -9,7 +9,7 @@ description:
   "The in-depth guide to understanding and optimizing the upcoming Core Web
   Vital for your website"
 publishedAt: 2023-07-18
-updatedAt: 2023-07-25
+updatedAt: 2023-07-27
 ---
 
 import Image from "@components/BlogImage.astro";
@@ -638,24 +638,18 @@ Generally, **the larger the DOM size, the longer it takes for the browser to
 render updates**.
 
 To minimize the effects of a large DOM size, you can hide certain elements by
-default with one of the following methods, effectively removing the rendering
+default with one of the following methods, effectively removing their rendering
 costs:
 
 - `display: none` CSS style
 - [`hidden=until-found`](https://developer.chrome.com/articles/hidden-until-found/)
   HTML attribute
 
-An excellent approach to improve the performance of long accordion sections is
-to hide the sections that are not open using one of the above methods. Hiding
-the sections removes them from the browser's rendering tree, reducing
-presentation delay.
-
-When a user interacts with a closed accordion section, such as by clicking it,
-you can programmatically show the hidden element. Although this will add it back
-to the rendering tree and cause some delay, it's more efficient than the
-alternative of rendering _all_ the sections (unless the user toggles all
-sections). Wikipedia uses this technique on its mobile site for most sections of
-an article.
+One practical approach for long pages with a lot of content involves collapsing
+and concealing the less popular sections, only revealing them when the user
+clicks on a section title. Wikipedia uses this technique on its mobile site,
+only showing the first section by default. It significantly reduces the overall
+rendering costs of long articles since most users don't read the entire content.
 
 import hiddenUntilFound from "./_assets/wikipedia-mobile-hidden-until-found-attribute.png";
 
@@ -667,7 +661,10 @@ import hiddenUntilFound from "./_assets/wikipedia-mobile-hidden-until-found-attr
 
 A more advanced technique involves using the
 [`content-visibility: auto`](https://web.dev/content-visibility/) CSS style to
-lazily render off-screen elements.
+defer the rendering of off-screen elements. This approach has much less
+[browser support](https://caniuse.com/?search=content-visibility) and is
+typically more challenging to implement well, but it has the potential to gain
+popularity.
 
 ## Conclusion
 
