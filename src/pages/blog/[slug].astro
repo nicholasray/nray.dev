@@ -101,17 +101,6 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
             </div>
           </div>
         </div>
-        <div class="mt-4 rounded-3xl md:mt-6 lg:mt-10">
-          <Image
-            alt={cover.alt}
-            loading="eager"
-            class="h-80 w-full rounded-3xl object-cover md:h-[32rem]"
-            src={cover}
-            widths={[400, 800, 1600, 2200]}
-            sizes="(min-width: 48rem) 76rem, 100vw"
-            fetchpriority={"high"}
-          />
-        </div>
       </section>
       <section
         class="mx-auto mt-8 max-w-7xl px-4 sm:px-6 md:mt-12 md:grid md:grid-cols-[250px_minmax(0,1fr)] md:gap-x-10 md:px-8 lg:mt-14 lg:gap-x-24"
