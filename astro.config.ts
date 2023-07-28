@@ -2,7 +2,7 @@ import { defineConfig, sharpImageService } from "astro/config";
 
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
-import ayu from "./ayu-mirage.theme.json";
+import ayu from "./ayu.theme.json";
 
 // https://astro.build/config
 import mdx from "@astrojs/mdx";
@@ -31,7 +31,6 @@ export default defineConfig({
       [
         rehypePrettyCode,
         {
-          keepBackground: false,
           theme: ayu,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onVisitLine(node: any) {

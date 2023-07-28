@@ -71,37 +71,31 @@
 
   @media (prefers-color-scheme: light) {
     [data-rehype-pretty-code-fragment] {
-      @apply bg-[hsl(167_96%_7%_/_1)];
-
-      pre {
-        @apply bg-[hsl(167_96%_7%_/_1)];
-      }
+      @apply bg-[#0c0e13];
 
       [data-highlighted-line] {
-        @apply !border-l-emerald-400 bg-[#15322c];
+        @apply !border-l-[#3bbae5] bg-[#181c25];
       }
     }
 
     [data-rehype-pretty-code-title] {
-      @apply text-emerald-100;
+      @apply text-zinc-300;
     }
   }
 
   @media (prefers-color-scheme: dark) {
     [data-rehype-pretty-code-fragment] {
       @apply bg-[#0C0E12];
+    }
 
-      pre {
-        @apply bg-[#0C0E12];
-      }
-
+    [data-rehype-pretty-code-fragment] {
       [data-highlighted-line] {
-        @apply !border-l-emerald-200 bg-[#151619];
+        @apply !border-l-[#428fa9] bg-[#181c25];
       }
     }
 
     [data-rehype-pretty-code-title] {
-      @apply bg-[#0C0E12] text-gray-300;
+      @apply text-zinc-300;
     }
   }
 </style>
