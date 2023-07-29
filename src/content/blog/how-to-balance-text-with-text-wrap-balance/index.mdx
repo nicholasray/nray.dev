@@ -2,12 +2,104 @@
 title: "How to Balance Text With text-wrap: balance"
 cover:
   src: ./_assets/balance-scale.jpg
-  alt: "Old balance scale"
-  credit:
-    "Photo by [Dan Cristian Pădureț](https://unsplash.com/photos/hguxpsaUpBk)"
+  alt: "Photo of old balance scale antique."
+  credit: "Photo by [Piret Ilver](https://unsplash.com/photos/98MbUldcDJY)"
 description:
-  "CSS now includes an experimental property that balances headlines and other
-  text without having to manually insert line breaks or use JavaScript."
-publishedAt: 2023-07-18
-updatedAt: 2023-07-27
+  "CSS offers an experimental property that gets rid of awkward-looking
+  headlines."
+publishedAt: 2023-07-28
 ---
+
+So you have headlines on your site that wrap only one or two words to the next
+line, looking uneven and **awkward**. They would look a lot better if they were
+**balanced**.
+
+import Image from "@components/BlogImage.astro";
+import comparison from "./_assets/unbalanced-text-vs-balanced-text.png";
+
+<Image
+  src={comparison}
+  alt="A comparison of an unbalanced heading vs. balanced heading. The unbalanced heading has one word that awkwardly wraps to the next line, while the balanced text has two lines of text closer to the same width."
+/>
+
+Now there's a way with CSS:
+
+```css title="styles.css"
+h1 {
+  text-wrap: balance;
+  /* You need to set a max-width as well, but it doesn't need to be 1000px */
+  max-width: 1000px;
+}
+```
+
+I'm using it for the first heading of my articles.
+
+## Advantages
+
+Before using this, you had to either:
+
+- Do nothing. 🙈 You monster.
+- Use JavaScript like the 2.2 KB
+  [balance-text](https://github.com/adobe/balance-text) library. But JS can
+  [slow down](/blog/300ms-faster-reducing-wikipedias-total-blocking-time/) a
+  page.
+- Manually place
+  [`<wbr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/wbr) or
+  [`&shy;`](https://developer.mozilla.org/en-US/docs/Web/CSS/hyphens) tags at
+  the positions you want the browser to break a line. But that's tedious.
+
+## Limitations
+
+### Browser support
+
+It's an **experimental property** that currently has
+[limited browser support](https://caniuse.com/?search=text-wrap%20balance).
+
+Mainly, only recent versions of Chrome and Edge support it. Still, I'd rather
+half of the population see nice headings than 0%.
+
+### Don't go wild with it
+
+Using this property for a small number of elements is fine. Even the following
+could work:
+
+```css
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+```
+
+But don't try to balance every line of text on the page because it will slow
+down its rendering performance.
+
+The browser needs to do a _lot_ of work to balance the text, so use it
+**sparingly**.
+
+### It only works for a few lines
+
+The [spec](https://www.w3.org/TR/css-text-4/#text-wrap) allows browsers to skip
+balancing if there are more than ten lines of text. Chromium browsers will only
+balance 4 lines or less.
+
+So applying it to headings and pull quotes are the best use case.
+
+### Conflicts with `white-space` property
+
+The following won't work as they are contradicting properties:
+
+```css
+h1 {
+  white-space: nowrap;
+  text-wrap: balance;
+}
+```
+
+The `white-space` property instructs the browser not to wrap the text, while
+`text-wrap` tells the browser it's okay. The result is unbalanced text.
+
+To balance the text, remove the `white-space` property.
