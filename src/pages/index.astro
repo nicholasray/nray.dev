@@ -8,7 +8,9 @@ import { Image } from "@components/Image/index.astro";
 
 const posts = await getPosts();
 const featured = posts.find((post) => post.data.featured) || posts[0];
-const restOfPosts = posts.slice(1);
+const index = posts.indexOf(featured);
+const restOfPosts = [...posts];
+restOfPosts.splice(index, 1);
 const title = "Nicholas Ray";
 ---
 
