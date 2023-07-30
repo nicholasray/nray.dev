@@ -5,16 +5,17 @@ interface Props {
   width: string;
   height: string;
   caption: string;
+  hasShadow?: boolean;
 }
 
-const { src, width, height, caption, description } = Astro.props;
+const { src, hasShadow, width, height, caption, description } = Astro.props;
 const descId = `video-${src[0].split("/").pop()!.split(".").shift()}`;
 ---
 
-<figure>
+<figure class:list={["rounded-lg overflow-hidden", { "shadow-xl": hasShadow }]}>
   <video
     style={`aspect-ratio: ${width} / ${height}`}
-    class="lazy-load rounded-2xl"
+    class="lazy-load"
     aria-describedby={descId}
     width={width}
     height={height}
@@ -59,7 +60,7 @@ const descId = `video-${src[0].split("/").pop()!.split(".").shift()}`;
       },
       {
         rootMargin: "0px 0px 50% 0px",
-      }
+      },
     );
 
     const videos = document.querySelectorAll("video.lazy-load");

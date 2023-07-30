@@ -1,5 +1,5 @@
 ---
-title: "How to Balance Text (Without JavaScript)"
+title: "How to Balance Text With text-wrap: balance"
 cover:
   src: ./_assets/balance-scale.jpg
   alt: "Photo of old balance scale antique."
@@ -17,6 +17,7 @@ look much better if they were **balanced** — the amount of text on each line
 should be about the same when it wraps.
 
 import Image from "@components/BlogImage.astro";
+import Video from "@components/BlogVideo.astro";
 import comparison from "./_assets/unbalanced-text-vs-balanced-text.png";
 
 <Image
@@ -36,6 +37,16 @@ h1 {
 
 I'm using it for the headline of my articles — resize the window to see it in
 action.
+
+import demo from "./_assets/text-wrap-balance-resize-demo.mp4";
+
+<Video
+  description="Browser with a headline on the page that initially spans on line. When the browser decreases its width, the text wraps to two lines with about the same amount of text on each line."
+  width="1864"
+  height="1080"
+  hasShadow={true}
+  src={[demo]}
+/>
 
 ## Advantages
 
