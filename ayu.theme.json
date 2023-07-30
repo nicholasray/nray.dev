@@ -226,7 +226,7 @@
     {
       "scope": ["comment"],
       "settings": {
-        "foreground": "#ACB6BF8C",
+        "foreground": "#d4d9de8c",
         "fontStyle": "italic"
       }
     },
