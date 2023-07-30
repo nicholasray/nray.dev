@@ -13,8 +13,12 @@ interface Props {
 const { heading } = Astro.props;
 ---
 
-<li id={`toc-${heading.slug}`} class:list={[{ "pl-4": heading.depth !== 2 }]}>
-  <a class="flex py-2" href={`#${heading.slug}`}>
+<li
+  class="table-of-contents-item"
+  id={`toc-${heading.slug}`}
+  class:list={[{ "pl-4": heading.depth !== 2 }]}
+>
+  <a class="table-of-contents-link flex py-2" href={`#${heading.slug}`}>
     {heading.text}
   </a>
   {

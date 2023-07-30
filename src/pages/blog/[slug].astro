@@ -5,7 +5,7 @@ import { CollectionEntry, getCollection } from "astro:content";
 import { Image } from "@components/Image/index.astro";
 import avatar from "@assets/images/avatar.jpg";
 import { format } from "date-fns";
-import TableOfContents from "@components/TableOfContents.astro";
+import { TableOfContents } from "@components/TableOfContents/index.astro";
 import Prose from "@components/Prose.astro";
 
 // 1. Generate a new path for every collection entry
@@ -125,3 +125,48 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
     }
   }
 </style>
+
+<script>
+  import sectionObserver from "@components/TableOfContents/sectionObserver";
+
+  (() => {
+    const selectors = ["h2", "h3", "h4", "h5", "h6"].map(
+      (selector) => `.prose > ${selector}`,
+    );
+    selectors.unshift("h1");
+
+    let toc: HTMLElement | null;
+    const observer = sectionObserver({
+      elements: document.querySelectorAll(selectors.join(", ")),
+      topMargin: 40,
+      onIntersection: (element) => {
+        if (!toc) {
+          return;
+        }
+
+        const tocItem = document.getElementById(`toc-${element.id}`);
+        if (!tocItem) {
+          console.warn(`Could not find TOC item toc-${element.id}`);
+          return;
+        }
+
+        // @ts-ignore
+        toc.highlight(tocItem);
+      },
+    });
+
+    // Calculate intersected section during page load.
+    observer.calcIntersection();
+
+    toc = document.querySelector("nray-table-of-contents");
+
+    if (!toc) {
+      return;
+    }
+
+    // TODO: Fill in implementation
+    // toc.addEventListener("item-click", (ev) => {
+    //   //
+    // });
+  })();
+</script>
