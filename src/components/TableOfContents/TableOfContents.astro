@@ -7,6 +7,13 @@ interface Props {
 }
 
 const { headings } = Astro.props;
+
+// Add introduction section.
+headings.unshift({
+  depth: 2,
+  slug: "",
+  text: "Introduction",
+});
 ---
 
 <nray-table-of-contents class="table-of-contents">
