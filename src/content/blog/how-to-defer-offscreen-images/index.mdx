@@ -1,0 +1,265 @@
+---
+title: "How to Defer Offscreen Images (the Modern and Fast Way)"
+cover:
+  src: ./_assets/camera.jpg
+  alt: "Camera lying on book"
+  credit:
+    "Photo by [Glenn Carstens-Peters](https://unsplash.com/photos/loaTW2AfDYU)"
+description: "The detailed guide to lazy loading your website's images"
+publishedAt: 2023-08-02
+---
+
+import Image from "@components/BlogImage.astro";
+
+So you run a Lighthouse or [PageSpeed Insights](https://pagespeed.web.dev/)
+audit on your website, and it complains that you should "**Defer offscreen
+images**", advising you to "**lazy-load offscreen and hidden images**". Great!
+🎉
+
+import lighthouseMessage from "./_assets/lighthouse-defer-offscreen-images-message.png";
+
+<Image
+  src={lighthouseMessage}
+  alt="Lighthouse report that shows a failed 'defer offscreen images' audit."
+  loading="eager"
+  fetchpriority="high"
+/>
+
+But what does that mean? Unfortunately, the "Learn more" link at the end of the
+message takes you to an outdated page.
+
+In this article, I'll explain what lazy-loaded images are and how to fix this
+message with the latest information from **2023**.
+
+## What are lazy-loaded images?
+
+Usually, the browser will load **all** images it finds in your page's HTML or
+CSS when it loads.
+
+But lazy-loaded images don't begin loading until they are within or near the
+browser's viewport — the rectangular area you see on the screen. Their loading
+is **delayed** until they are **needed**.
+
+So if a user visits a website with images that are offscreen, the browser won't
+download them. It will only load a lazy-loaded image when the browser scrolls
+near it.
+
+## Why can't I load all my images during page load
+
+In short, it's a waste of resources. It leads to:
+
+- **Longer load times**
+- **Higher mobile phone data costs for your users**
+- **Higher bandwidth costs for you and the host of your website**
+- **Browser resources that could have potentially been used for other (more
+  important) things**
+
+According to HTTP Archive, images are
+[the most popular asset on the web](https://httparchive.org/reports/state-of-images),
+so it's essential to load them efficiently.
+
+What does that look like?
+
+## How to lazy-load images
+
+### Use native lazy loading
+
+There was a time when JavaScript was the only method for lazy loading images.
+Then browsers implemented a way to do with an HTML attribute. But browser
+support wasn't good, so most websites continued to use JavaScript.
+
+Since then, browser support has increased to
+[93% of global users](https://caniuse.com/loading-lazy-attr), is good enough for
+most websites. All you have to do is add a `loading="lazy"` attribute to each
+image you want lazy-loaded:
+
+```html /loading="lazy"/
+<!-- below-the-fold image -->
+<img src="image.png" loading="lazy" alt="…" width="500" height="500" />
+```
+
+Browsers that don't support the attribute will ignore it and load images the
+default way — during page load — so it
+[degrades gracefully](https://developer.mozilla.org/en-US/docs/Glossary/Graceful_degradation).
+
+As of July 2023, only around
+[27% of desktop and mobile sites](https://httparchive.org/reports/state-of-images#imgLazy)
+are using this feature. The rest either load their images during page load or
+use JavaScript to lazy-load them. But JavaScript can cause
+[responsiveness](/blog/interaction-to-next-paint-inp-everything-you-need-to-know/)
+[issues](/blog/300ms-faster-reducing-wikipedias-total-blocking-time/), so it's
+better to use the HTML attribute when possible.
+
+That's it! Although, keep reading because there are some caveats.
+
+### Don't lazy-load images above the fold
+
+**You should only lazy-load images that are "below the fold" — the part of the
+page that is hidden before scrolling.**
+
+Images that are **above the fold** should load quickly during page load by
+omitting the `loading` attribute:
+
+```html /loading="lazy"/
+<!-- above-the-fold image -->
+<img src="image.png" alt="…" width="500" height="500" />
+```
+
+Why? Using the `loading="lazy"` attribute for images above the fold will
+unnecessarily delay when they start loading since the browser must first load
+all of the page's CSS to determine whether the image is near the viewport.
+Omitting the attribute allows the browser to start loading them as soon as it
+finds them in the HTML, even before loading any CSS, which means the user can
+see them faster.
+
+Finding above-the-fold images can be tricky since "the fold" is relative to the
+device — images that appear above the fold on laptops are not necessarily above
+the fold on mobile devices. My advice? Use your website's most popular viewport
+sizes on desktop and mobile devices and your better judgment to determine which
+images you should lazy-load.
+
+There's one other case you should be aware of.
+
+### Optimize the Largest Contentful Paint (LCP) image
+
+[Largest Contentful Paint](https://web.dev/lcp/) (LCP) is a Core Web Vital
+metric that measures how quickly the largest **image** or **text block** becomes
+visible within the viewport. Images are the
+[most common type of LCP element](https://almanac.httparchive.org/en/2022/performance#lcp-content-types).
+
+Omitting the `loading="lazy"` attribute for above-the-fold images within the
+viewport is a good start to better LCP scores, but you can do more:
+
+1. Find the largest image that is above the fold
+2. Add a `fetchpriority="high"` attribute to it:
+
+```html /fetchpriority="high"/
+<!-- LCP image -->
+<img src="image.png" fetchpriority="high" alt="…" width="200" height="200" />
+```
+
+The `fetchpriority="high"` attribute signals to the browser that the image is an
+important resource. **But only use this attribute for the largest above-the-fold
+image on the page.** Prioritizing many images can lead to bandwidth contention,
+which defeats the purpose of prioritization.
+
+Note that [browser support](https://caniuse.com/?search=fetchpriority) for this
+attribute isn't good right now, but browsers that don't support it will ignore
+it.
+
+### How to lazy-load background images
+
+Native lazy loading **doesn't work** for images in CSS that use the
+`background-image` property:
+
+```css
+.image {
+  /* Can't lazy-load without JS */
+  background-image: url("image.png");
+}
+```
+
+If you want to lazy-load background images, you will need another strategy.
+First, consider replacing the background image with an image that uses the
+`object-fit: cover` CSS property and uses native lazy loading:
+
+```html
+<img
+  class="image"
+  src="image.png"
+  loading="lazy"
+  alt="…"
+  width="200"
+  height="200"
+/>
+```
+
+```css /object-fit: cover/
+.image {
+  /* Mimics background-image property */
+  object-fit: cover;
+}
+```
+
+If this isn't possible (and make sure it isn't because most of the time it is),
+you will need to use JavaScript. The most efficient way to do it is to use
+`IntersecionObserver` to remove a class:
+
+```html
+<div class="bg-image lazy"></div>
+```
+
+```css
+.bg-image {
+  width: 500px;
+  height: 500px;
+  background-image: url("image.png");
+}
+
+.lazy {
+  /* Overrides the preceding `background-image`. */
+  /* Prevents loading the image until IntersectionObserver removes the .lazy class. */
+  background-image: none;
+}
+```
+
+```js
+// Get all background image elements with the .lazy class.
+const images = Array.prototype.slice.call(document.querySelectorAll(".lazy"));
+
+// Check if browser supports IntersectionObserver.
+if (window.IntersectionObserver) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      // If element is within the viewport, load its background image.
+      if (entry.isIntersecting) {
+        // Show background image by removing the .lazy class.
+        entry.target.classList.remove("lazy");
+        // Stop observing an element whose image will already be loaded.
+        observer.unobserve(entry.target);
+      }
+    });
+  });
+
+  images.forEach((image) => {
+    observer.observe(image);
+  });
+}
+```
+
+## Defer offscreen images in WordPress
+
+Since
+[WordPress 5.5](https://make.wordpress.org/core/2020/07/14/lazy-loading-images-in-5-5/),
+images with `width` and `height` attributes are automatically lazy-loaded
+without the need for additional plugins. It uses native lazy loading to
+accomplish this.
+
+## Conclusion
+
+Deferring your offscreen images is now easier than ever with native lazy loading
+in the browser. Just keep in mind these constraints:
+
+- Lazy-load images with the native `loading="lazy"` attribute
+- Only lazy-load below-the-fold images. Above-the-fold images should not have
+  the `loading` attribute.
+- Improve your LCP time (in supporting browsers) by adding
+  `fetchpriority="high"` to the LCP image.
+- Native lazy loading doesn't work for background images. Either replace with an
+  image element or use `IntersectionObserver` to lazy-load those elements.
+
+Here's a **cheatsheet** summarizing most of this:
+
+```html
+<!-- above-the-fold LCP image -->
+<img src="image.png" fetchpriority="high" alt="…" width="500" height="500" />
+
+<!-- above-the-fold image that isn't the LCP -->
+<img src="image.png" alt="…" width="500" height="500" />
+
+<!-- below-the-fold image -->
+<img src="image.png" loading="lazy" alt="…" width="500" height="500" />
+
+<!-- below-the-fold background image, will require additional JS and CSS -->
+<div class="bg-image lazy"></div>
+```
