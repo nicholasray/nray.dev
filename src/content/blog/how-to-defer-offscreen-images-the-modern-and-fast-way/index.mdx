@@ -139,10 +139,10 @@ viewport is a good start to better LCP scores, but you can do more:
 <img src="image.png" fetchpriority="high" alt="…" width="200" height="200" />
 ```
 
-The `fetchpriority="high"` attribute signals to the browser that the image is an
-important resource. **But only use this attribute for the largest above-the-fold
-image on the page.** Prioritizing many images can lead to bandwidth contention,
-which defeats the purpose of prioritization.
+The `fetchpriority="high"` attribute signals to the browser that the image is
+more important than the other images. **But only use this attribute for the
+largest above-the-fold image on the page.** Prioritizing many images can lead to
+bandwidth contention, which defeats the purpose of prioritization.
 
 Note that [browser support](https://caniuse.com/?search=fetchpriority) for this
 attribute isn't good right now, but browsers that don't support it will ignore
