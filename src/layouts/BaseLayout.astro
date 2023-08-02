@@ -28,13 +28,6 @@ const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
       media="(prefers-color-scheme: dark)"
     />
     <meta name="color-scheme" content="light dark" />
-    <link
-      as="font"
-      crossorigin="anonymous"
-      href="/fonts/inter/variable.woff2"
-      rel="preload"
-      type="font/woff2"
-    />
     <slot name="before-styles" />
     <script
       is:inline
@@ -71,6 +64,13 @@ const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
         height: 100%;
       }
     </style>
+    <link
+      as="font"
+      crossorigin="anonymous"
+      href="/fonts/inter/variable.woff2"
+      rel="preload"
+      type="font/woff2"
+    />
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
   <body
