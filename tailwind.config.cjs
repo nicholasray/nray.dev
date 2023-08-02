@@ -50,5 +50,6 @@ module.exports = {
       },
     },
   },
+  blocklist: ["container"],
   plugins: [require("@tailwindcss/typography")],
 };
