@@ -38,7 +38,7 @@ CSS when it loads.
 
 But lazy-loaded images don't begin loading until they are within or near the
 browser's viewport — the rectangular area you see on the screen. Their loading
-is **delayed** until they are **needed**.
+is **deferred** until they are **needed**.
 
 So if a user visits a website with images that are offscreen, the browser won't
 download them. It will only load a lazy-loaded image when the browser scrolls
@@ -68,10 +68,11 @@ There was a time when JavaScript was the only method for lazy loading images.
 Then browsers implemented a way to do with an HTML attribute. But browser
 support wasn't good, so most websites continued to use JavaScript.
 
-Since then, browser support has increased to
-[93% of global users](https://caniuse.com/loading-lazy-attr), is good enough for
-most websites. All you have to do is add a `loading="lazy"` attribute to each
-image you want lazy-loaded:
+Well, times have changed. Now, **all modern browsers support lazy loading**,
+including Safari. Browser support is currently
+[93% of global users](https://caniuse.com/loading-lazy-attr), which is good
+enough for most websites. All you have to do is add a `loading="lazy"` attribute
+to each image you want lazy-loaded:
 
 ```html /loading="lazy"/
 <!-- below-the-fold image -->
