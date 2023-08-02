@@ -213,7 +213,7 @@ if (window.IntersectionObserver) {
     entries.forEach((entry) => {
       // If element is within the viewport, load its background image.
       if (entry.isIntersecting) {
-        // Show background image by removing the .lazy class.
+        // Load background image by removing the .lazy class.
         entry.target.classList.remove("lazy");
         // Stop observing an element whose image will already be loaded.
         observer.unobserve(entry.target);
