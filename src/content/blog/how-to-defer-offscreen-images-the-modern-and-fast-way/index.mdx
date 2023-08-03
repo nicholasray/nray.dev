@@ -200,7 +200,7 @@ First, consider replacing the background image with an image that uses the
 
 ```css /object-fit: cover;/
 .image {
-  /* Mimics background-image property */
+  /* Mimics `background-size: cover` property */
   object-fit: cover;
 }
 ```
@@ -233,23 +233,32 @@ const images = Array.prototype.slice.call(document.querySelectorAll(".lazy"));
 
 // Check if browser supports IntersectionObserver.
 if (window.IntersectionObserver) {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      // If element is within the viewport, load its background image.
-      if (entry.isIntersecting) {
-        // Load background image by removing the .lazy class.
-        entry.target.classList.remove("lazy");
-        // Stop observing an element whose image will already be loaded.
-        observer.unobserve(entry.target);
-      }
-    });
-  });
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        // If element is within the viewport, load its background image.
+        if (entry.isIntersecting) {
+          // Load background image by removing the .lazy class.
+          entry.target.classList.remove("lazy");
+          // Stop observing an element whose image will already be loaded.
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    // Distance from viewport to start loading the image. We don't want to start loading
+    // when the image is in the viewport because then the user has to wait on
+    // the image to download.
+    { rootMargin: "400px" },
+  );
 
   images.forEach((image) => {
     observer.observe(image);
   });
 }
 ```
+
+Check out the
+[full demo](https://codesandbox.io/s/defer-background-images-wdscmw).
 
 ## Defer offscreen images in WordPress
 
