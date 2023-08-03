@@ -38,8 +38,8 @@ Without lazy loading, the browser will load **all** images it finds in your
 page's HTML, even if the user never sees them.
 
 But lazy-loaded images don't begin loading until they are within or near the
-browser's viewport — the rectangular area you see on the screen. Their loading
-is **deferred** until they are **needed**.
+browser's viewport — the rectangular area you see on the screen. They don't load
+until they are **needed**.
 
 import phoneDemo from "./_assets/phone-demo.svg";
 import phoneDemoDark from "./_assets/phone-demo-dark.svg";
@@ -54,8 +54,8 @@ import phoneDemoDark from "./_assets/phone-demo-dark.svg";
   caption="Images outside the viewport don't load until they are near the viewport."
 />
 
-So if a user visits a website with images that are offscreen, the browser won't
-download them until the browser scrolls near it.
+So if a user visits a website with offscreen images, each image will only be
+downloaded if and when the user scrolls near it.
 
 ## Why can't I load all my images during page load?
 
