@@ -11,13 +11,20 @@ const { class: className, heading, ...rest } = Astro.props;
 
 <aside
   class:list={[
-    "callout rounded-lg p-6 md:p-8 bg-sky-100 text-sky-900 dark:bg-sky-500/5 dark:text-sky-200 dark:ring-1 dark:ring-sky-500/30",
+    "relative callout rounded-lg p-6 md:p-8 bg-sky-100 text-sky-900 dark:bg-[#1A1F27] dark:text-sky-200 dark:ring-1 dark:ring-sky-500/30",
     className,
   ]}
   {...rest}
 >
+  <div
+    class="block absolute right-0 top-0 p-1 bg-white dark:bg-zinc-900 md:w-14 md:h-14 w-10 h-10 -translate-y-1/3 translate-x-1/4 rounded-full"
+  >
+    <Icon
+      class="dark:bg-[#1A1F27] bg-sky-100 p-2 md:p-2.5 dark:ring-sky-500/30 dark:ring-1 rounded-full"
+      name="heroicons:light-bulb"
+    />
+  </div>
   <div class="font-bold flex items-center text-md leading-snug">
-    <Icon class="h-5 inline-block me-1" name="heroicons:light-bulb" />
     {heading}
   </div>
   <div class="mt-6">
