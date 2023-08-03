@@ -138,6 +138,7 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
     const observer = sectionObserver({
       elements: document.querySelectorAll(selectors.join(", ")),
       topMargin: 40,
+      throttleMs: 100,
       onIntersection: (element) => {
         if (!toc) {
           return;
