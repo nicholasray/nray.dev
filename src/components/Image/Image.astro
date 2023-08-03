@@ -10,7 +10,7 @@ interface Props extends Img {
   dark?: ImageMetadata | string;
   widths?: number[];
   sizes?: string;
-  pictureClass?: string;
+  centered?: boolean;
   alt: string;
 }
 
@@ -37,7 +37,7 @@ const [light, dark] =
 
 const format = `image/${light[0].options.format}`;
 // eslint-disable-next-line no-unused-vars
-const { src, pictureClass, dark: _, widths: __, sizes, ...rest } = props;
+const { src, centered, dark: _, widths: __, sizes, ...rest } = props;
 const attributes = {
   ...light[0].attributes,
   ...rest,
@@ -57,11 +57,18 @@ function getSrcSet(images: GetImageResult[]) {
     }, [] as string[])
     .join(", ");
 }
+
+const imgAttrs = {
+  src: original,
+  srcset: getSrcSet(light),
+  sizes: sizes,
+  ...attributes,
+};
 ---
 
 {
   dark ? (
-    <picture class={pictureClass}>
+    <picture class={centered ? "flex justify-center" : undefined}>
       <source
         srcset={
           format === "image/svg"
@@ -80,12 +87,11 @@ function getSrcSet(images: GetImageResult[]) {
       />
       <img src={original} {...attributes} />
     </picture>
+  ) : centered ? (
+    <div class="flex justify-center">
+      <img {...imgAttrs} />
+    </div>
   ) : (
-    <img
-      src={original}
-      srcset={getSrcSet(light)}
-      sizes={sizes}
-      {...attributes}
-    />
+    <img {...imgAttrs} />
   )
 }

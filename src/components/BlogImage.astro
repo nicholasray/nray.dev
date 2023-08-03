@@ -27,7 +27,7 @@ const {
   <a href={src.src}>
     <Image
       alt={alt}
-      pictureClass={fullWidth ? undefined : "flex justify-center"}
+      centered={!fullWidth}
       class:list={[
         {
           "!mt-0": !fullWidth,
