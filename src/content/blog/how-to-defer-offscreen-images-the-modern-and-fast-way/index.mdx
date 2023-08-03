@@ -28,14 +28,14 @@ import lighthouseMessage from "./_assets/lighthouse-defer-offscreen-images-messa
 How do you fix it? **You need to add the `loading="lazy"` attribute to all image
 elements below the fold.**
 
-This is the technique used by many of the biggest sites in the world including
+This is the technique used by many of the biggest sites in the world, including
 **Medium**, **LinkedIn**, and **IMDb**. In this article, I'll show you how it's
 done.
 
 ## What are lazy-loaded images?
 
-Usually, the browser will load **all** images it finds in your page's HTML or
-CSS when it loads.
+Usually, the browser will load **all** images it finds in your page's HTML, even
+if the user never sees them.
 
 But lazy-loaded images don't begin loading until they are within or near the
 browser's viewport — the rectangular area you see on the screen. Their loading
