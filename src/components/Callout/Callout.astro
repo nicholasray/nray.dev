@@ -9,26 +9,24 @@ interface Props extends HTMLAttributes<"aside"> {
 const { class: className, heading, ...rest } = Astro.props;
 ---
 
-<aside
-  class:list={[
-    "relative callout rounded-lg p-6 md:p-8 bg-sky-100 text-sky-900 dark:bg-[#1A1F27] dark:text-sky-200 dark:ring-1 dark:ring-sky-500/30",
-    className,
-  ]}
-  {...rest}
->
+<aside class:list={["callout md:pt-4 pt-3", className]} {...rest}>
   <div
-    class="block absolute right-0 top-0 p-1 bg-white dark:bg-zinc-900 md:w-14 md:h-14 w-10 h-10 -translate-y-1/3 translate-x-1/4 rounded-full"
+    class="relative callout rounded-lg p-6 md:p-8 bg-sky-100 text-sky-900 dark:bg-[#1A1F27] dark:text-sky-200 dark:ring-1 dark:ring-sky-500/30"
   >
-    <Icon
-      class="dark:bg-[#1A1F27] bg-sky-100 p-2 md:p-2.5 dark:ring-sky-500/30 dark:ring-1 rounded-full"
-      name="heroicons:light-bulb"
-    />
-  </div>
-  <div class="font-bold flex items-center text-md leading-snug">
-    {heading}
-  </div>
-  <div class="mt-6">
-    <slot />
+    <div
+      class="block absolute right-0 top-0 p-1 bg-white dark:bg-zinc-900 md:w-14 md:h-14 w-10 h-10 -translate-y-1/3 translate-x-1/4 rounded-full"
+    >
+      <Icon
+        class="dark:bg-[#1A1F27] bg-sky-100 p-2 md:p-2.5 dark:ring-sky-500/30 dark:ring-1 rounded-full"
+        name="heroicons:light-bulb"
+      />
+    </div>
+    <div class="font-bold flex items-center text-md leading-snug">
+      {heading}
+    </div>
+    <div class="mt-6">
+      <slot />
+    </div>
   </div>
 </aside>
 
