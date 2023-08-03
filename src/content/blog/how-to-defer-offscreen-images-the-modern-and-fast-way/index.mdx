@@ -13,8 +13,7 @@ import Image from "@components/BlogImage.astro";
 
 So you run a Lighthouse or [PageSpeed Insights](https://pagespeed.web.dev/)
 audit on your website, and it complains that you should "**Defer offscreen
-images**", advising you to "**lazy-load offscreen and hidden images**". Great!
-🎉
+images**", advising you to "**lazy-load offscreen and hidden images**".
 
 import lighthouseMessage from "./_assets/lighthouse-defer-offscreen-images-message.png";
 
@@ -25,11 +24,11 @@ import lighthouseMessage from "./_assets/lighthouse-defer-offscreen-images-messa
   fetchpriority="high"
 />
 
-But what does that mean? Unfortunately, the "Learn more" link at the end of the
-message takes you to an outdated page.
+How do you fix it? **You need to add the `loading="lazy"` attribute to all image
+elements below the fold.**
 
-In this article, I'll explain what lazy-loaded images are and how to fix this
-message with the latest best practices from **2023**.
+This is the technique used by many popular sites including Medium, LinkedIn, and
+IMDB. In this article, I'll show you how it's done.
 
 ## What are lazy-loaded images?
 
@@ -54,8 +53,7 @@ import phoneDemoDark from "./_assets/phone-demo-dark.svg";
 />
 
 So if a user visits a website with images that are offscreen, the browser won't
-download them. It will only load a lazy-loaded image when the browser scrolls
-near it.
+download them until the browser scrolls near it.
 
 ## Why can't I load all my images during page load?
 
