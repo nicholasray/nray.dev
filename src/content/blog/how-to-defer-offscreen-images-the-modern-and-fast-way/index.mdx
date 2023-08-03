@@ -57,6 +57,15 @@ import phoneDemoDark from "./_assets/phone-demo-dark.svg";
 So if a user visits a website with offscreen images, each image will only be
 downloaded if and when the user scrolls near it.
 
+import { Callout } from "@components/Callout/index.astro";
+
+<Callout heading="When do lazy-loaded images start loading?">
+  Usually, lazy load techniques will start loading the image **just before** it
+  has entered the viewport to allow it enough time to be fully loaded when it's
+  in view. That way, the user isn't waiting for each image to download as they
+  scroll.
+</Callout>
+
 ## Why can't I load all my images during page load?
 
 In short, it's a waste of resources. It leads to:
