@@ -32,9 +32,6 @@ module.exports = {
         performant: "opacity, transform",
       },
       screens: screens,
-      // boxShadow: {
-      //   'input': `0 0 0 1px ${defaultTheme.colork}`
-      // },
       keyframes: {
         "transform-zero": {
           "100%": { transform: "translate(0)", opacity: 1 },
@@ -51,5 +48,4 @@ module.exports = {
     },
   },
   blocklist: ["container"],
-  plugins: [require("@tailwindcss/typography")],
 };
