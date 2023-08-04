@@ -68,6 +68,10 @@
     color: var(--tw-prose-headings);
   }
 
+  h1 {
+    @apply mb-8 mt-0 text-4xl leading-[1.1111111] lg:mb-10 lg:text-5xl lg:leading-none;
+  }
+
   h2 {
     @apply mb-6 mt-12 text-2xl leading-[1.3333333] lg:mb-8 lg:mt-14 lg:text-3xl lg:leading-[1.3333333];
   }
