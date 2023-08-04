@@ -101,7 +101,7 @@
   }
 
   ol {
-    @apply list-decimal lg:my-6 lg:ps-7;
+    @apply my-5 list-decimal ps-[1.625rem] lg:my-6 lg:ps-7;
 
     li::marker {
       color: var(--tw-prose-counters);
