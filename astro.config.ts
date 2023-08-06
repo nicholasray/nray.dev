@@ -34,6 +34,7 @@ export default defineConfig({
       [
         rehypePrettyCode,
         {
+          keepBackground: false,
           theme: ayu,
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           onVisitLine(node: any) {
