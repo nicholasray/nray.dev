@@ -54,9 +54,9 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
   <main class="mt-8">
     <article>
       <section
-        class="mx-auto mt-8 md:max-w-2xl lg:max-w-5xl xl:max-w-8xl px-4 sm:px-6 md:mt-12 lg:grid lg:grid-cols-[245px_minmax(0,1fr)_245px] md:gap-x-10 md:px-8 lg:mt-14 lg:gap-x-14"
+        class="mx-auto mt-8 md:max-w-2xl lg:max-w-5xl xl:max-w-7xl px-4 sm:px-6 md:mt-12 lg:grid lg:grid-cols-[minmax(0,42.375rem)_minmax(0,1fr)] md:gap-x-10 md:px-8 lg:mt-14 lg:gap-x-24"
       >
-        <div class="col-start-2 lg:col-end-[-1] xl:col-end-3">
+        <div class="col-start-1 col-end-2">
           <h1
             class="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white md:text-5xl md:max-w-5xl"
           >
@@ -64,7 +64,7 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
           </h1>
         </div>
         <div
-          class="mt-4 col-start-2 lg:col-end-[-1] xl:col-end-3 flex items-center text-sm font-medium md:mx-auto md:mt-6 lg:mx-0 md:text-base lg:mt-10 mb-8 md:mb-10 lg:mb-14"
+          class="mt-4 col-start-1 lg:col-end-[-1] xl:col-end-2 flex items-center text-sm font-medium md:mx-auto md:mt-6 lg:mx-0 md:text-base lg:mt-10 mb-8 md:mb-10 lg:mb-14"
         >
           <div class="flex items-center font-medium">
             <div class="mr-3 h-10 w-10 rounded-full md:h-12 md:w-12">
@@ -105,10 +105,10 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
             </div>
           </div>
         </div>
-        <div class="hidden lg:block md:row-start-3">
+        <div class="hidden lg:block md:row-start-1 col-start-2 md:row-end-4">
           <TableOfContents headings={headings} />
         </div>
-        <Prose>
+        <Prose class="col-start-1 col-end-2">
           <Content />
         </Prose>
       </section>
