@@ -72,15 +72,19 @@ import { Input } from "@src/components/Input/index.astro";
   ) {
     scale.classList.add("hidden");
   } else {
-    onINP(
-      (interaction) => {
-        // @ts-ignore
-        scale.value = interaction.value;
-      },
-      {
-        durationThreshold: 16,
-        reportAllChanges: true,
-      },
-    );
+    (async () => {
+      await customElements.whenDefined(scale.localName);
+
+      onINP(
+        (interaction) => {
+          // @ts-ignore
+          scale.value = interaction.value;
+        },
+        {
+          durationThreshold: 16,
+          reportAllChanges: true,
+        },
+      );
+    })();
   }
 </script>
