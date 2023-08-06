@@ -57,6 +57,17 @@
     }
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    + * {
+      @apply mt-0;
+    }
+  }
+
   h1 {
     @apply mb-8 mt-0 text-4xl leading-[1.1111111] lg:mb-10 lg:text-5xl lg:leading-none;
   }
@@ -176,17 +187,6 @@
 
   > :last-child {
     @apply mb-0 !important;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    + * {
-      @apply mt-0;
-    }
   }
 
   .figure-item {
