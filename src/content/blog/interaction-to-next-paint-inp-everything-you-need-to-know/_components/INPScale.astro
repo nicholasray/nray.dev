@@ -72,6 +72,7 @@ import { Input } from "@src/components/Input/index.astro";
   ) {
     scale.classList.add("hidden");
   } else {
+    await customElements.whenDefined(scale.localName);
     onINP(
       (interaction) => {
         // @ts-ignore
