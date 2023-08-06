@@ -3,10 +3,11 @@ title: "How to Build Tailwind CSS Dark Mode"
 cover:
   src: "./_assets/sea-at-night.jpg"
   alt: "A view of the expansive sea on a cloudy night with a bright moon"
-  credit: "Photo by [Kyle Johnson](https://unsplash.com/photos/8Gl7Ew-q6D8)"
+  credit:
+    "Photo by [Kyle Johnson](https://unsplash.com/photos/8Gl7Ew-q6D8)"
 description:
-  Learn step-by-step instructions on implementing a sleek dark mode theme for
-  your website using Tailwind CSS.
+  Learn step-by-step instructions on implementing a sleek dark mode theme
+  for your website using Tailwind CSS.
 publishedAt: 2023-03-20
 ---
 
@@ -14,38 +15,39 @@ import BlogIframe from "@components/BlogIframe.astro";
 import Image from "@components/BlogImage.astro";
 import Video from "@components/BlogVideo.astro";
 
-Have you ever visited a website in a dark room only to be greeted by thousands
-of blindingly bright white pixels? If so, it probably wasn't a pleasant
-experience.
+Have you ever visited a website in a dark room only to be greeted by
+thousands of blindingly bright white pixels? If so, it probably wasn't a
+pleasant experience.
 
-That's why "dark mode" has become a popular option for websites. It allows users
-to switch a website's color scheme from light to dark, providing a
+That's why "dark mode" has become a popular option for websites. It allows
+users to switch a website's color scheme from light to dark, providing a
 [more comfortable](https://medium.com/dev-channel/let-there-be-darkness-maybe-9facd9c3023d)
-experience in low-light conditions. A website that offers a dark mode option may
-also:
+experience in low-light conditions. A website that offers a dark mode
+option may also:
 
 - [increase reading rates for people with cataracts and other visual disorders](https://www.nngroup.com/articles/dark-mode/)
 - [reduce power use by 63% on AMOLED screens](https://www.techspot.com/news/77340-dark-mode-saves-lot-phone-battery-life-google.html)
 - [promote better sleep by emitting less blue light](https://www.sleepfoundation.org/bedroom-environment/blue-light),
-  although [it's debatable](https://www.eurekalert.org/news-releases/642949)
+  although
+  [it's debatable](https://www.eurekalert.org/news-releases/642949)
 - [look elegant and beautiful](https://medium.com/dev-channel/let-there-be-darkness-maybe-9facd9c3023d)
 
-In this article, you'll learn how to implement a dark mode theme toggle using
-[Tailwind CSS](https://tailwindcss.com/), one of the most popular CSS frameworks
-at the time of this writing. Nevertheless, many concepts presented here can
-apply to other dark mode implementations.
+In this article, you'll learn how to implement a dark mode theme toggle
+using [Tailwind CSS](https://tailwindcss.com/), one of the most popular CSS
+frameworks at the time of this writing. Nevertheless, many concepts
+presented here can apply to other dark mode implementations.
 
 ## Using the dark mode variant class in Tailwind CSS
 
-Tailwind CSS allows you to style elements easily using a set of utility classes
-— and Adding dark mode support is no different. Prefix any supported class name
-with `dark:`, and that class will only become active when the user has enabled
-their operating system's dark mode setting.
+Tailwind CSS allows you to style elements easily using a set of utility
+classes — and Adding dark mode support is no different. Prefix any
+supported class name with `dark:`, and that class will only become active
+when the user has enabled their operating system's dark mode setting.
 
-The following example displays a box that defaults to a white background with
-dark gray text if the user hasn't enabled dark mode on their operating system.
-If they have enabled dark mode, the box will have a dark gray background with
-white text:
+The following example displays a box that defaults to a white background
+with dark gray text if the user hasn't enabled dark mode on their operating
+system. If they have enabled dark mode, the box will have a dark gray
+background with white text:
 
 <BlogIframe class="h-40 w-72" src="/demos/dark-variant/index.html" />
 
@@ -73,14 +75,19 @@ import macAppearancePanelMp4 from "./_assets/mac-os-appearance-panel.mp4";
 
 How does this happen?
 
-Inspect the styles of the `<div>` above when dark mode is active. You'll see
-that the `dark:` prefix adds a `prefers-color-scheme` media query that wraps
-around the `background-color` and `color` properties so that the styles only
-become active when the user has enabled dark mode on their device:
+Inspect the styles of the `<div>` above when dark mode is active. You'll
+see that the `dark:` prefix adds a `prefers-color-scheme` media query that
+wraps around the `background-color` and `color` properties so that the
+styles only become active when the user has enabled dark mode on their
+device:
 
 import prefersMediaQuery from "./_assets/prefers-color-scheme-media-query.png";
 
-<Image src={prefersMediaQuery} alt="Prefers media query screenshot" shadow />
+<Image
+  src={prefersMediaQuery}
+  alt="Prefers media query screenshot"
+  shadow
+/>
 
 ```css
 /** default or light mode styles */
@@ -90,8 +97,8 @@ import prefersMediaQuery from "./_assets/prefers-color-scheme-media-query.png";
 }
 
 /*
-dark mode styles that will only apply if the user has enabled dark mode on
-their system
+dark mode styles that will only apply if the user has enabled dark
+mode on their system
 */
 @media (prefers-color-scheme: dark) {
   .dark\:bg-gray-700 {
@@ -103,30 +110,30 @@ their system
 
 By default, the `dark:` prefix relies on the device's theme setting via the
 `prefers-color-scheme` media query. But what if you wanted to add a toggle
-button to your website that allowed users to switch to themes independent of
-their system's preference?
+button to your website that allowed users to switch to themes independent
+of their system's preference?
 
 ## Using the 'class' strategy
 
-To support switching themes using a toggle button, you need to toggle a `dark`
-class on the `html` element when the user has clicked a toggle. Tailwind calls
-this the `class` strategy.
+To support switching themes using a toggle button, you need to toggle a
+`dark` class on the `html` element when the user has clicked a toggle.
+Tailwind calls this the `class` strategy.
 
 To enable the `class` strategy, modify your `tailwind.config.js` file as
 follows:
 
 ```js title="tailwind.config.js"
 module.exports = {
-  // Determine whether dark mode is enabled from the `dark` class on the `html`
-  // element.
+  // Determine whether dark mode is enabled from the `dark` class on
+  // the `html` element.
   darkMode: "class",
   // ...
 };
 ```
 
-Next, you must implement behavior that adds or removes the `dark` class when the
-user clicks the toggle button. A naive implementation might look like the
-following:
+Next, you must implement behavior that adds or removes the `dark` class
+when the user clicks the toggle button. A naive implementation might look
+like the following:
 
 ```js
 const button = document.querySelector("button");
@@ -136,16 +143,17 @@ button.addEventListener("click", () => {
 });
 ```
 
-Easy, right? Well, there are a couple of additional considerations when toggling
-the theme.
+Easy, right? Well, there are a couple of additional considerations when
+toggling the theme.
 
 ## `theme-color` meta tag
 
-Adding a dark mode toggle to your website won't affect the surrounding color of
-the browser's user interface (UI). But there is a `<meta>` tag that can help
-with that. The `theme-color` meta tag suggests a color for the browser's UI.
-Browsers that [support](https://caniuse.com/?search=theme-color) this meta tag —
-most commonly found on mobile devices — can help make your website's theme look
+Adding a dark mode toggle to your website won't affect the surrounding
+color of the browser's user interface (UI). But there is a `<meta>` tag
+that can help with that. The `theme-color` meta tag suggests a color for
+the browser's UI. Browsers that
+[support](https://caniuse.com/?search=theme-color) this meta tag — most
+commonly found on mobile devices — can help make your website's theme look
 more consistent:
 
 ```html
@@ -163,7 +171,8 @@ import metaThemeColor from "./_assets/meta-theme-color.png";
 
 ## `color-scheme` meta tag
 
-The second `meta` tag, named `color-scheme`, controls the default appearance of
+The second `meta` tag, named `color-scheme`, controls the default
+appearance of
 [form controls, scroll bars, spellcheck underlines, and more](https://color-scheme-demo.glitch.me/):
 
 ```html
@@ -182,21 +191,21 @@ import metaColorScheme from "./_assets/meta-color-scheme.png";
 ## Theme persistence
 
 For the best user experience, when a user selects a theme with a toggle, it
-should "persist" after they reload the page or navigate to a different page of
-your website. You'll need to save their choice in the browser. You can use a
-`cookie` or `localStorage`, but `localStorage` is more commonly used.
+should "persist" after they reload the page or navigate to a different page
+of your website. You'll need to save their choice in the browser. You can
+use a `cookie` or `localStorage`, but `localStorage` is more commonly used.
 
 To support persistence and avoid a
 [flash of unstyled content](https://en.wikipedia.org/wiki/Flash_of_unstyled_content),
-add an inline script in the `<head>`. Why? Inline scripts block the browser from
-parsing more HTML and are
+add an inline script in the `<head>`. Why? Inline scripts block the browser
+from parsing more HTML and are
 [render-blocking](https://developers.google.com/speed/docs/insights/BlockingJS).
-Render-blocking scripts are usually undesirable from a performance perspective
-because they delay the user from seeing anything on the screen, but that's an
-advantage in this case because we don't _want_ the browser to render anything
-until we know which theme the website uses. Fortunately, the inline script we'll
-add is minimal and will only take a few milliseconds to execute, so the
-performance impact will be low:
+Render-blocking scripts are usually undesirable from a performance
+perspective because they delay the user from seeing anything on the screen,
+but that's an advantage in this case because we don't _want_ the browser to
+render anything until we know which theme the website uses. Fortunately,
+the inline script we'll add is minimal and will only take a few
+milliseconds to execute, so the performance impact will be low:
 
 ```html title="index.html"
 <!DOCTYPE html>
@@ -215,34 +224,34 @@ performance impact will be low:
     ...
 ```
 
-It's tempting to think that users who prefer dark mode will flock to any theme
-button you add to the page. But most users
+It's tempting to think that users who prefer dark mode will flock to any
+theme button you add to the page. But most users
 [won't bother customizing their experience](https://www.nngroup.com/articles/customization-of-uis-and-products)
 — they just want to get things done. Therefore, it's essential to have a
-sensible default. We can use the system's color theme as a default if the user
-hasn't used the toggle button:
+sensible default. We can use the system's color theme as a default if the
+user hasn't used the toggle button:
 
 ```html {8} title="index.html"
-    <script>
-      // Check if the user has previously toggled the theme.
-      var theme = localStorage.getItem("theme");
+<script>
+  // Check if the user has previously toggled the theme.
+  var theme = localStorage.getItem("theme");
 
-      if (
-        theme === "dark" ||
-        // Default to the system's setting.
-        (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        // Switch to dark mode.
-        document.documentElement.classList.add("dark");
-      }
-    <script>
-    ...
+  if (
+    theme === "dark" ||
+    // Default to the system's setting.
+    (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) {
+    // Switch to dark mode.
+    document.documentElement.classList.add("dark");
+  }
+<script>
 ```
 
-We can also toggle the theme-relevant `<meta>` tags discussed previously here:
+We can also toggle the theme-relevant `<meta>` tags discussed previously
+here:
 
-```html {4-15, 25-31} title="index.html"
-<!DOCTYPE html>
+```html {4-15, 26-32} title="index.html"
+<!doctype html>
 <html>
   <head>
     <meta
@@ -264,7 +273,8 @@ We can also toggle the theme-relevant `<meta>` tags discussed previously here:
       if (
         theme === "dark" ||
         // Default to the system's setting.
-        (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
+        (!theme &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
       ) {
         // Iterate through the relevant meta tags and change to value for dark mode.
         var metaTags = document.head.querySelectorAll(".meta-theme");
@@ -286,8 +296,8 @@ We can also toggle the theme-relevant `<meta>` tags discussed previously here:
 
 ## Building the toggle
 
-Now let's focus on building the actual toggle. We'll start by writing the HTML
-for a minimal toggle button:
+Now let's focus on building the actual toggle. We'll start by writing the
+HTML for a minimal toggle button:
 
 ```html title="index.html"
 <button
@@ -299,16 +309,16 @@ for a minimal toggle button:
 ```
 
 These classes ensure that either "Light" or "Dark" text is displayed at any
-given time, but the user will never see both simultaneously. The button's "Dark"
-label is shown when light mode is active. When dark mode is enabled, the "Light"
-label is shown by the `dark:block` class, while the `dark:hidden` class hides
-the "Dark" label.
+given time, but the user will never see both simultaneously. The button's
+"Dark" label is shown when light mode is active. When dark mode is enabled,
+the "Light" label is shown by the `dark:block` class, while the
+`dark:hidden` class hides the "Dark" label.
 
 Now we need JavaScript to handle clicks to the toggle button. When the user
-clicks the button when light mode is active, we should add the `dark` class to
-the `<html>` element to enable the website's dark mode. If dark mode is active
-and the user clicks the button, we should remove the `dark` class from the
-`<html>` element.
+clicks the button when light mode is active, we should add the `dark` class
+to the `<html>` element to enable the website's dark mode. If dark mode is
+active and the user clicks the button, we should remove the `dark` class
+from the `<html>` element.
 
 ```js title="script.js"
 function enableLightMode() {
@@ -340,8 +350,8 @@ function init() {
 init();
 ```
 
-The next step is adding persistence so that the user's selected theme remains
-after reloading the page or going to a new page:
+The next step is adding persistence so that the user's selected theme
+remains after reloading the page or going to a new page:
 
 ```js {1-3, 7, 12} title="script.js"
 function persistTheme(theme) {
@@ -359,9 +369,9 @@ function enableDarkMode() {
 }
 ```
 
-As in the `<head>`, we use `localStorage` to handle persistence. But instead of
-retrieving the theme from `localStorage`, we save it. We can also toggle the
-meta tags that we added to the `<head>`:
+As in the `<head>`, we use `localStorage` to handle persistence. But
+instead of retrieving the theme from `localStorage`, we save it. We can
+also toggle the meta tags that we added to the `<head>`:
 
 ```js {1-9, 14, 20} title="script.js"
 function toggleMeta() {
@@ -387,8 +397,8 @@ function enableDarkMode() {
 }
 ```
 
-Finally, it might be nice if the website's theme color changed when the user
-changed their system's theme color. We can do that by using the
+Finally, it might be nice if the website's theme color changed when the
+user changed their system's theme color. We can do that by using the
 [`matchMedia`](/blog/using-media-queries-in-javascript/) API
 
 ```js {1-21, 25} title="script.js"

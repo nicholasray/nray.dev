@@ -1,9 +1,18 @@
 ---
 import "./Prose.css";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
 ---
 
 <div
-  class="prose font-normal prose-zinc max-w-none text-zinc-800 dark:prose-invert lg:prose-lg prose-headings:font-sans prose-headings:font-extrabold prose-headings:tracking-tight prose-pre:mt-0 prose-pre:px-0 dark:text-zinc-300/80 lg:prose-pre:mt-0 lg:prose-pre:rounded-2xl lg:prose-pre:px-0 prose-figcaption:flex prose-figcaption:justify-center prose-figcaption:max-w-2xl prose-figcaption:mt-0 lg:prose-code:text-base prose-pre:bg-emerald-850"
+  class:list={[
+    "prose font-normal prose-zinc max-w-none text-zinc-800 dark:prose-invert lg:prose-lg prose-headings:font-sans prose-headings:font-extrabold prose-headings:tracking-tight prose-pre:mt-0 prose-pre:px-0 dark:text-zinc-300/80 lg:prose-pre:mt-0 lg:prose-pre:rounded-2xl lg:prose-pre:px-0 prose-figcaption:flex prose-figcaption:justify-center prose-figcaption:max-w-2xl prose-figcaption:mt-0 lg:prose-code:text-base prose-pre:bg-emerald-850",
+    className,
+  ]}
 >
   <slot />
 </div>
@@ -27,6 +36,10 @@ import "./Prose.css";
       margin-bottom: 2rem;
     }
 
+    .callout {
+      @apply md:-mx-6;
+    }
+
     [data-highlighted-chars] {
       @apply rounded-md border-b-2 border-emerald-300 bg-[#181c25] bg-emerald-400/25 p-1;
     }
@@ -36,14 +49,14 @@ import "./Prose.css";
     }
 
     [data-rehype-pretty-code-fragment] {
-      @apply -mx-[calc(1rem+4px)] my-8 !max-w-none;
+      @apply -mx-4 my-8 !max-w-none md:-mx-6;
 
       pre {
         @apply mb-0 mt-0 rounded-none;
       }
 
       [data-line] {
-        @apply border-l-4 border-l-transparent px-4;
+        @apply border-l-4 border-l-transparent px-[calc(1rem-4px)] md:px-[calc(1.5rem-4px)];
       }
 
       code {
@@ -58,15 +71,15 @@ import "./Prose.css";
         counter-increment: line;
         content: counter(line);
 
-        @apply mr-6 inline-block w-4 text-center text-zinc-500;
+        @apply mr-4 inline-block w-4 text-center text-zinc-500;
       }
 
       code[data-line-numbers-max-digits="2"] > [data-line]::before {
-        width: 2rem;
+        width: 1.5rem;
       }
 
       code[data-line-numbers-max-digits="3"] > [data-line]::before {
-        width: 3rem;
+        width: 2rem;
       }
     }
 

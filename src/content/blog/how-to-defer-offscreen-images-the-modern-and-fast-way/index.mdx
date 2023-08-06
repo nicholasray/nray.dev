@@ -4,7 +4,8 @@ cover:
   src: ./_assets/camera.jpg
   alt: "Camera lying on book"
   credit:
-    "Photo by [Glenn Carstens-Peters](https://unsplash.com/photos/loaTW2AfDYU)"
+    "Photo by [Glenn
+    Carstens-Peters](https://unsplash.com/photos/loaTW2AfDYU)"
 description: "The detailed guide to lazy loading your website's images"
 publishedAt: 2023-08-02
 updatedAt: 2023-08-03
@@ -25,23 +26,23 @@ import lighthouseMessage from "./_assets/lighthouse-defer-offscreen-images-messa
   fetchpriority="high"
 />
 
-How do you fix it? **You need to add the `loading="lazy"` attribute to all image
-elements below the fold.**
+How do you fix it? **You need to add the `loading="lazy"` attribute to all
+image elements below the fold.**
 
-This is the technique used by some of the biggest sites in the world, including
-[**Medium**](/assets/deferred-offscreen-image/medium.png),
+This is the technique used by some of the biggest sites in the world,
+including [**Medium**](/assets/deferred-offscreen-image/medium.png),
 [**LinkedIn**](/assets/deferred-offscreen-image/linkedin.png), and
-[**IMDb**](/assets/deferred-offscreen-image/imdb.png). In this article, I'll
-show you how it's done.
+[**IMDb**](/assets/deferred-offscreen-image/imdb.png). In this article,
+I'll show you how it's done.
 
 ## What are lazy-loaded images?
 
 Without lazy loading, the browser will load **all** images it finds in your
 page's HTML, even if the user never sees them.
 
-But lazy-loaded images don't begin loading until they are near the browser's
-viewport — the rectangular area you see on the screen. They don't load until
-they are **needed**.
+But lazy-loaded images don't begin loading until they are near the
+browser's viewport — the rectangular area you see on the screen. They don't
+load until they are **needed**.
 
 import phoneDemo from "./_assets/phone-demo.svg";
 import phoneDemoDark from "./_assets/phone-demo-dark.svg";
@@ -54,16 +55,16 @@ import phoneDemoDark from "./_assets/phone-demo-dark.svg";
   caption="Lazy-loaded images don't load until they are near the viewport."
 />
 
-So if a user visits a website with offscreen images, each image will only be
-downloaded if and when the user scrolls near it.
+So if a user visits a website with offscreen images, each image will only
+be downloaded if and when the user scrolls near it.
 
 import { Callout } from "@components/Callout/index.astro";
 
 <Callout heading="When do lazy-loaded images start loading?">
-  Usually, lazy load techniques will start loading the image **just before** it
-  has entered the viewport to allow it enough time to be fully loaded when it's
-  in view. That way, the user isn't waiting for each image to download as they
-  scroll.
+  Usually, lazy load techniques will start loading the image **just
+  before** it has entered the viewport to allow it enough time to be fully
+  loaded when it's in view. That way, the user isn't waiting for each image
+  to download as they scroll.
 </Callout>
 
 ## Why can't I load all my images during page load?
@@ -86,42 +87,43 @@ What does that look like?
 
 ### Use native lazy loading
 
-There was a time when JavaScript was the only method for lazy loading images.
-Then browsers implemented a way to do it using an HTML attribute. But browser
-support wasn't good, so most websites continued to use JavaScript.
+There was a time when JavaScript was the only method for lazy loading
+images. Then browsers implemented a way to do it using an HTML attribute.
+But browser support wasn't good, so most websites continued to use
+JavaScript.
 
-Times have changed. **All modern browsers now support lazy loading**, including
-Safari. Browser support is currently
+Times have changed. **All modern browsers now support lazy loading**,
+including Safari. Browser support is currently
 [93% of global users](https://caniuse.com/loading-lazy-attr), which is good
-enough for most websites. All you have to do is add a `loading="lazy"` attribute
-to each image you want lazy-loaded:
+enough for most websites. All you have to do is add a `loading="lazy"`
+attribute to each image you want lazy-loaded:
 
 ```html /loading="lazy"/
 <!-- below-the-fold image -->
 <img src="image.png" loading="lazy" alt="…" width="500" height="500" />
 ```
 
-Browsers that don't support the attribute will ignore it and load images the
-default way — during page load — so it
+Browsers that don't support the attribute will ignore it and load images
+the default way — during page load — so it
 [degrades gracefully](https://developer.mozilla.org/en-US/docs/Glossary/Graceful_degradation).
 
 As of July 2023, only around
 [27% of desktop and mobile sites](https://httparchive.org/reports/state-of-images#imgLazy)
-are using this feature. The rest either load their images during page load or
-use JavaScript to lazy-load them. But JavaScript can cause
+are using this feature. The rest either load their images during page load
+or use JavaScript to lazy-load them. But JavaScript can cause
 [responsiveness](/blog/interaction-to-next-paint-inp-everything-you-need-to-know/)
-[issues](/blog/300ms-faster-reducing-wikipedias-total-blocking-time/), so it's
-better to use the HTML attribute when possible.
+[issues](/blog/300ms-faster-reducing-wikipedias-total-blocking-time/), so
+it's better to use the HTML attribute when possible.
 
 That's it! But keep reading because there are some caveats.
 
 ### Don't lazy-load images above the fold
 
-**You should only lazy-load images that are "below the fold" — the part of the
-page that is hidden before scrolling.**
+**You should only lazy-load images that are "below the fold" — the part of
+the page that is hidden before scrolling.**
 
-Images that are **above the fold** will load quicker by omitting the `loading`
-attribute:
+Images that are **above the fold** will load quicker by omitting the
+`loading` attribute:
 
 ```html /loading="lazy"/
 <!-- above-the-fold image -->
@@ -129,47 +131,55 @@ attribute:
 ```
 
 Why? Using the `loading="lazy"` attribute for images above the fold will
-unnecessarily delay when they start loading since the browser must first load
-all of the page's CSS to determine whether the image is near the viewport.
-Omitting the attribute allows the browser to start loading them as soon as it
-finds them in the HTML, even before loading any CSS, which means the user can
-see them faster.
+unnecessarily delay when they start loading since the browser must first
+load all of the page's CSS to determine whether the image is near the
+viewport. Omitting the attribute allows the browser to start loading them
+as soon as it finds them in the HTML, even before loading any CSS, which
+means the user can see them faster.
 
-Finding above-the-fold images can be tricky since "the fold" is relative to the
-device — images that appear above the fold on laptops are not necessarily above
-the fold on mobile devices. My advice? Use your website's most popular viewport
-sizes on desktop and mobile devices and your better judgment to determine which
-images you should lazy-load.
+Finding above-the-fold images can be tricky since "the fold" is relative to
+the device — images that appear above the fold on laptops are not
+necessarily above the fold on mobile devices. My advice? Use your website's
+most popular viewport sizes on desktop and mobile devices and your better
+judgment to determine which images you should lazy-load.
 
 Following this advice will make your above-the-fold images load relatively
-quickly, but what if some images above-the-fold are more important than others?
+quickly, but what if some images above-the-fold are more important than
+others?
 
 ### Optimize the Largest Contentful Paint (LCP) image
 
 [Largest Contentful Paint](https://web.dev/lcp/) (LCP) is a Core Web Vital
-metric that measures how quickly the largest **image** or **text block** becomes
-visible within the viewport. Images are the
+metric that measures how quickly the largest **image** or **text block**
+becomes visible within the viewport. Images are the
 [most common type of LCP element](https://almanac.httparchive.org/en/2022/performance#lcp-content-types).
 
-Omitting the `loading="lazy"` attribute for above-the-fold images within the
-viewport is a good start to better LCP scores, but you can do more:
+Omitting the `loading="lazy"` attribute for above-the-fold images within
+the viewport is a good start to better LCP scores, but you can do more:
 
 1. Find the largest image that is above the fold
 2. Add a `fetchpriority="high"` attribute to it:
 
 ```html /fetchpriority="high"/
 <!-- LCP image -->
-<img src="image.png" fetchpriority="high" alt="…" width="200" height="200" />
+<img
+  src="image.png"
+  fetchpriority="high"
+  alt="…"
+  width="200"
+  height="200"
+/>
 ```
 
-The `fetchpriority="high"` attribute signals to the browser that the image is
-more important than the other images. **But only use this attribute for the
-largest above-the-fold image on the page.** Prioritizing many images can lead to
-bandwidth contention, which defeats the purpose of prioritization.
+The `fetchpriority="high"` attribute signals to the browser that the image
+is more important than the other images. **But only use this attribute for
+the largest above-the-fold image on the page.** Prioritizing many images
+can lead to bandwidth contention, which defeats the purpose of
+prioritization.
 
-Note that [browser support](https://caniuse.com/?search=fetchpriority) for this
-attribute isn't good right now, but browsers that don't support it will ignore
-it.
+Note that [browser support](https://caniuse.com/?search=fetchpriority) for
+this attribute isn't good right now, but browsers that don't support it
+will ignore it.
 
 ## How to lazy-load background images
 
@@ -205,9 +215,9 @@ First, consider replacing the background image with an image that uses the
 }
 ```
 
-If this isn't possible (and make sure it isn't because most of the time it is),
-you will need to use JavaScript. The most efficient way to do it is to use
-`IntersecionObserver` to remove a class:
+If this isn't possible (and make sure it isn't because most of the time it
+is), you will need to use JavaScript. The most efficient way to do it is to
+use `IntersecionObserver` to remove a class:
 
 ```html
 <div class="bg-image lazy"></div>
@@ -221,34 +231,40 @@ you will need to use JavaScript. The most efficient way to do it is to use
 }
 
 .lazy {
-  /* Overrides the preceding `background-image`. */
-  /* Prevents loading the image until IntersectionObserver removes the .lazy class. */
+  /* Overrides the preceding `background-image`.  Prevents loading the
+   * image until IntersectionObserver removes the .lazy class. */
   background-image: none;
 }
 ```
 
 ```js
 // Get all background image elements with the .lazy class.
-const images = Array.prototype.slice.call(document.querySelectorAll(".lazy"));
+const images = Array.prototype.slice.call(
+  document.querySelectorAll(".lazy"),
+);
 
 // Check if browser supports IntersectionObserver.
 if (window.IntersectionObserver) {
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        // If element is within the viewport, load its background image.
+        // If element is within the viewport, load its background
+        // image.
         if (entry.isIntersecting) {
           // Load background image by removing the .lazy class.
           entry.target.classList.remove("lazy");
-          // Stop observing an element whose image will already be loaded.
+          // Stop observing an element whose image will already be
+          // loaded.
           observer.unobserve(entry.target);
         }
       });
     },
-    // Distance from viewport to start loading the image. We don't want to start
-    // loading when the image is in the viewport because then the user has to
-    // wait on the image to download.
-    { rootMargin: "400px" },
+    // Distance from viewport to start loading the image. We don't
+    // want to start loading when the image is in the viewport because
+    // then the user has to wait on the image to download.
+    {
+      rootMargin: "400px",
+    },
   );
 
   images.forEach((image) => {
@@ -272,22 +288,28 @@ accomplish this.
 
 ## Conclusion
 
-Deferring your offscreen images is now easier than ever with native lazy loading
-in the browser. Just keep in mind these constraints:
+Deferring your offscreen images is now easier than ever with native lazy
+loading in the browser. Just keep in mind these constraints:
 
 - Lazy-load images with the native `loading="lazy"` attribute
-- Only lazy-load below-the-fold images. Above-the-fold images should not have
-  the `loading` attribute.
+- Only lazy-load below-the-fold images. Above-the-fold images should not
+  have the `loading` attribute.
 - Improve your LCP time (in supporting browsers) by adding
   `fetchpriority="high"` to the LCP image.
-- Native lazy loading doesn't work for background images. Either replace with an
-  image element or use `IntersectionObserver` to lazy-load those.
+- Native lazy loading doesn't work for background images. Either replace
+  with an image element or use `IntersectionObserver` to lazy-load those.
 
 Here's a **cheatsheet** summarizing most of this:
 
 ```html
 <!-- above-the-fold LCP image -->
-<img src="image.png" fetchpriority="high" alt="…" width="500" height="500" />
+<img
+  src="image.png"
+  fetchpriority="high"
+  alt="…"
+  width="500"
+  height="500"
+/>
 
 <!-- above-the-fold image that isn't the LCP -->
 <img src="image.png" alt="…" width="500" height="500" />
@@ -295,6 +317,6 @@ Here's a **cheatsheet** summarizing most of this:
 <!-- below-the-fold image -->
 <img src="image.png" loading="lazy" alt="…" width="500" height="500" />
 
-<!-- below-the-fold background image, will require additional JS and CSS -->
+<!-- below-the-fold background image, requires JS and CSS -->
 <div class="bg-image lazy"></div>
 ```

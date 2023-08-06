@@ -53,14 +53,18 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
 >
   <main class="mt-8">
     <article>
-      <section class="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-        <h1
-          class="mt-6 text-3xl font-extrabold tracking-tight text-zinc-900 [text-wrap:balance] dark:text-white md:mt-10 md:text-center md:text-5xl md:max-w-5xl md:mx-auto lg:mt-14"
-        >
-          {title}
-        </h1>
+      <section
+        class="mx-auto mt-8 md:max-w-2xl lg:max-w-5xl xl:max-w-8xl px-4 sm:px-6 md:mt-12 lg:grid lg:grid-cols-[245px_minmax(0,1fr)_245px] md:gap-x-10 md:px-8 lg:mt-14 lg:gap-x-14"
+      >
+        <div class="col-start-2 lg:col-end-[-1] xl:col-end-3">
+          <h1
+            class="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white md:text-5xl md:max-w-5xl"
+          >
+            {title}
+          </h1>
+        </div>
         <div
-          class="mt-4 flex max-w-5xl items-center text-sm font-medium md:mx-auto md:mt-6 md:justify-center md:text-lg lg:mt-10"
+          class="mt-4 col-start-2 lg:col-end-[-1] xl:col-end-3 flex items-center text-sm font-medium md:mx-auto md:mt-6 lg:mx-0 md:text-base lg:text-lg lg:mt-10 mb-8 md:mb-10 lg:mb-14"
         >
           <div class="flex items-center font-medium">
             <div class="mr-3 h-10 w-10 rounded-full md:h-12 md:w-12">
@@ -101,11 +105,7 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
             </div>
           </div>
         </div>
-      </section>
-      <section
-        class="mx-auto mt-8 max-w-7xl px-4 sm:px-6 md:mt-12 md:grid md:grid-cols-[250px_minmax(0,1fr)] md:gap-x-10 md:px-8 lg:mt-14 lg:gap-x-24"
-      >
-        <div class="hidden md:block">
+        <div class="hidden lg:block md:row-start-3">
           <TableOfContents headings={headings} />
         </div>
         <Prose>
@@ -118,10 +118,7 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
 
 <style is:global>
   .prose {
-    > *,
-    astro-island > * {
-      @apply max-w-2xl;
-    }
+    @apply lg:col-[2/-1] xl:col-[2/3];
   }
 </style>
 

@@ -14,6 +14,9 @@ module.exports = {
   darkMode: "media",
   theme: {
     extend: {
+      maxWidth: {
+        "8xl": "84rem",
+      },
       opacity: {
         2.5: ".025",
       },

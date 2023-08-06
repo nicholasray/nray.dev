@@ -4,7 +4,8 @@ cover:
   src: ./_assets/interaction-to-next-paint-stroke.jpg
   alt: "Blue paint stroke on white canvas"
   credit:
-    "Photo by [Dan Cristian Pădureț](https://unsplash.com/photos/hguxpsaUpBk)"
+    "Photo by [Dan Cristian
+    Pădureț](https://unsplash.com/photos/hguxpsaUpBk)"
 description:
   "The in-depth guide to understanding and optimizing the upcoming Core Web
   Vital for your website"
@@ -14,26 +15,28 @@ updatedAt: 2023-08-01
 
 import Image from "@components/BlogImage.astro";
 
-**Interaction to Next Paint (INP)** will become the next **Core Web Vital** on
-**March 2024**, replacing **First Input Delay (FID)** as the metric that
-measures how quickly a page responds to user interactions. Currently, **35.1% of
-mobile websites** fall short of Google's latest web performance standard.
+**Interaction to Next Paint (INP)** will become the next **Core Web Vital**
+on **March 2024**, replacing **First Input Delay (FID)** as the metric that
+measures how quickly a page responds to user interactions. Currently,
+**35.1% of mobile websites** fall short of Google's latest web performance
+standard.
 
 import BigNumber from "@components/BigNumber.astro";
 
 <BigNumber number={`35.1%`}>
-  The percentage of mobile website origins with failing INP scores (> 200 ms) as
-  of May 2023. Source: [HTTP
+  The percentage of mobile website origins with failing INP scores (> 200
+  ms) as of May 2023. Source: [HTTP
   Archive](https://httparchive.org/reports/chrome-ux-report#cruxFastInp)
 </BigNumber>
 
-About **90% of a user's time** on a webpage happens after it loads. Users expect
-that when they interact with a page by clicking a button, tapping a menu item,
-or pressing a key, visual feedback happens — **and occurs quickly**. INP
-captures this latency and flags interactions that are slow enough to cause a
-**negative user experience**.
+About **90% of a user's time** on a webpage happens after it loads. Users
+expect that when they interact with a page by clicking a button, tapping a
+menu item, or pressing a key, visual feedback happens — **and occurs
+quickly**. INP captures this latency and flags interactions that are slow
+enough to cause a **negative user experience**.
 
-Fast interactions are essential for **user happiness** and **business success**:
+Fast interactions are essential for **user happiness** and **business
+success**:
 
 - [Rage clicking is one side effect of poor INP](https://docs.google.com/presentation/d/1Euu4FBL75z0I8UtKf3dTzrLYu6wxfeWnrmXUCn9AQIY/edit?usp=sharing&resourcekey=0-t6sEnmSbzYTO_fcrR8n9Jg)
 - [redBus increased sales by 7% after improving their INP](https://web.dev/redbus-inp/)
@@ -44,9 +47,9 @@ website to provide your users with smooth interactions.
 
 ## What is Interaction to Next Paint (INP)?
 
-INP is a metric that evaluates how quickly a page visually responds to specific
-user interactions. It measures the **latency** of clicks, taps, and keypresses
-to produce visual updates.
+INP is a metric that evaluates how quickly a page visually responds to
+specific user interactions. It measures the **latency** of clicks, taps,
+and keypresses to produce visual updates.
 
 import inpTimeline from "./_assets/interaction-to-next-paint-timeline.svg";
 import inpTimelineDark from "./_assets/interaction-to-next-paint-timeline-dark.svg";
@@ -59,9 +62,10 @@ import inpTimelineDark from "./_assets/interaction-to-next-paint-timeline-dark.s
 
 For example, when you:
 
-- Click a menu button, INP measures how long it takes for the menu to appear.
-- Tap the close button of a modal, INP measures how long it takes for the modal
-  to disappear
+- Click a menu button, INP measures how long it takes for the menu to
+  appear.
+- Tap the close button of a modal, INP measures how long it takes for the
+  modal to disappear
 - Press a key into an input field, INP measures how long it takes for that
   character to appear in the field
 
@@ -69,8 +73,8 @@ import INPScale from "./_components/INPScale.astro";
 
 <INPScale></INPScale>
 
-As a Core Web Vital, INP measures a critical aspect of a user's experience —
-**interactivity** and **responsiveness**. Google will use INP as a
+As a Core Web Vital, INP measures a critical aspect of a user's experience
+— **interactivity** and **responsiveness**. Google will use INP as a
 [**page experience signal**](https://developers.google.com/search/docs/appearance/page-experience)
 that influences your website's search ranking.
 
@@ -89,11 +93,12 @@ March 2024. Although both metrics measure a page's interactivity and
 responsiveness, INP provides a more comprehensive assessment of a user's
 experience in two important ways:
 
-- INP observes _all_ interactions throughout the lifetime of a page, while FID
-  only measures the first interaction
-- INP measures the time it takes from the start of the interaction to the moment
-  the first frame appears, while FID only measures the time it takes for the
-  browser to be able to respond to the interaction (input delay portion)
+- INP observes _all_ interactions throughout the lifetime of a page, while
+  FID only measures the first interaction
+- INP measures the time it takes from the start of the interaction to the
+  moment the first frame appears, while FID only measures the time it takes
+  for the browser to be able to respond to the interaction (input delay
+  portion)
 
 import inpFid from "./_assets/inp-vs-fid.svg";
 import inpFidDark from "./_assets/inp-vs-fid-dark.svg";
@@ -105,23 +110,24 @@ import inpFidDark from "./_assets/inp-vs-fid-dark.svg";
   caption="FID only measures the input delay portion of an interaction, but INP measures the complete interaction."
 />
 
-Part of the reason why websites rarely had poor FID scores was because it only
-measured the **input delay** portion of the user's first interaction. Because
-INP measurement includes the moment a visual change occurs, it's a better
-indicator of user experience.
+Part of the reason why websites rarely had poor FID scores was because it
+only measured the **input delay** portion of the user's first interaction.
+Because INP measurement includes the moment a visual change occurs, it's a
+better indicator of user experience.
 
-Websites have worse INP scores compared to FID, particularly on mobile devices.
-As of May 2023,
+Websites have worse INP scores compared to FID, particularly on mobile
+devices. As of May 2023,
 [99.9% of desktop sites and 93.2% of mobile sites passed FID](https://httparchive.org/reports/chrome-ux-report#cruxFastFid),
 compared to
 [96.6% of desktop sites and just **64.9%** of mobile sites passing INP](https://httparchive.org/reports/chrome-ux-report#cruxFastInp).
 
 ## How is INP measured?
 
-During a user's visit to a web page, INP measures the time elapsed between every
-click, tap, and keypress until a visual change occurs. This elapsed time
-represents the **interaction's latency**. When the user leaves the page, the INP
-score is calculated based on one of the recorded interaction latencies.
+During a user's visit to a web page, INP measures the time elapsed between
+every click, tap, and keypress until a visual change occurs. This elapsed
+time represents the **interaction's latency**. When the user leaves the
+page, the INP score is calculated based on one of the recorded interaction
+latencies.
 
 import inpSpinner from "./_assets/inp-progress-indicator.svg";
 import inpSpinnerDark from "./_assets/inp-progress-indicator-dark.svg";
@@ -134,33 +140,36 @@ import inpSpinnerDark from "./_assets/inp-progress-indicator-dark.svg";
   caption="INP only measures to the first frame after an interaction, which can be an intermediate visual state like a loading spinner."
 />
 
-Most of the time, INP is equal to the page's **longest interaction latency**.
-There's an exception, however, when a user performs **50 or more** interactions
-on a page (as can often happen with single-page applications). In this case, INP
-will ignore **one interaction for every 50 interactions** in an effort to reduce
-random outliers. So, for example, when a user views a page:
+Most of the time, INP is equal to the page's **longest interaction
+latency**. There's an exception, however, when a user performs **50 or
+more** interactions on a page (as can often happen with single-page
+applications). In this case, INP will ignore **one interaction for every 50
+interactions** in an effort to reduce random outliers. So, for example,
+when a user views a page:
 
 - If there are **49** interactions, INP will be the slowest interaction
-- If there are **50** interactions, INP will be the second slowest interaction
+- If there are **50** interactions, INP will be the second slowest
+  interaction
 - If there are **99** interactions, INP will _still_ be the second slowest
   interaction
-- If there are **100** interactions, INP will be the third slowest interaction
+- If there are **100** interactions, INP will be the third slowest
+  interaction
 
-As with other Core Web Vitals, the **75th percentile** of _all_ page views is
-reported, further reducing noise.
+As with other Core Web Vitals, the **75th percentile** of _all_ page views
+is reported, further reducing noise.
 
-Notably, the visual update doesn't _need_ to be the final visual state. INP is
-only concerned with the time it takes to present the next frame after an
+Notably, the visual update doesn't _need_ to be the final visual state. INP
+is only concerned with the time it takes to present the next frame after an
 interaction. The frame _can_ be an **intermediate state** like a spinner or
-progress bar. As long as the interaction results in timely visual feedback that
-shows the user _something_ has happened, you can get good INP scores. For the
-best user experience, use the
+progress bar. As long as the interaction results in timely visual feedback
+that shows the user _something_ has happened, you can get good INP scores.
+For the best user experience, use the
 [appropriate progress indicator for the situation](https://www.nngroup.com/articles/progress-indicators/).
 
 ## What's a good INP score?
 
-At the **75th percentile** for any given page and segmented across desktop and
-mobile devices:
+At the **75th percentile** for any given page and segmented across desktop
+and mobile devices:
 
 - INP \<= **200 milliseconds** indicates a page has **good responsiveness**
 - INP \<= **500 milliseconds** indicates a page **needs improvement**
@@ -193,11 +202,11 @@ It does NOT measure:
 
 INP contains **three critical phases**:
 
-1. **Input delay**: Begins when a user clicks, taps, or presses a key and ends
-   when the first JavaScript event callback starts executing
+1. **Input delay**: Begins when a user clicks, taps, or presses a key and
+   ends when the first JavaScript event callback starts executing
 2. **Processing time**: The total execution time of the event callbacks
-3. **Presentation delay**: Begins when the last event callback completes and
-   ends when a visual update occurs
+3. **Presentation delay**: Begins when the last event callback completes
+   and ends when a visual update occurs
 
 import inpComponents from "./_assets/interaction-to-next-paint-components.svg";
 import inpComponentsDark from "./_assets/interaction-to-next-paint-components-dark.svg";
@@ -214,17 +223,17 @@ Each of these phases adds time to the latency of an interaction.
 import { Callout } from "@components/Callout/index.astro";
 
 <Callout heading="Demo">
-  Check out my [INP demo](/demos/interaction-to-next-paint/) to experiment with
-  each phase of interaction latency and how it affects the INP score.
+  Check out my [INP demo](/demos/interaction-to-next-paint/) to experiment
+  with each phase of interaction latency and how it affects the INP score.
 </Callout>
 
 ## How to measure INP
 
-Since INP requires interactions with the page, the best way to measure it is
-with real users through **Real User Monitoring (RUM)**. Usually, this involves
-adding a small piece of JavaScript to your website that tracks the
-responsiveness of each interaction on a page (PageSpeed Insights is a notable
-exception).
+Since INP requires interactions with the page, the best way to measure it
+is with real users through **Real User Monitoring (RUM)**. Usually, this
+involves adding a small piece of JavaScript to your website that tracks the
+responsiveness of each interaction on a page (PageSpeed Insights is a
+notable exception).
 
 You can use one of the following tools:
 
@@ -236,18 +245,18 @@ You can use one of the following tools:
 
 If your site has enough traffic, you may be able to use data from Google's
 [Chrome UX Report (CrUX)](https://developer.chrome.com/docs/crux/) to get a
-rough idea of the interaction latency your users are experiencing. Using CrUX
-data can be a convenient option because it doesn't require adding any tracking
-script to your website. Instead, Chrome collects this data from
+rough idea of the interaction latency your users are experiencing. Using
+CrUX data can be a convenient option because it doesn't require adding any
+tracking script to your website. Instead, Chrome collects this data from
 [eligible users](https://developer.chrome.com/docs/crux/methodology/#user-eligibility)
 and
 [eligible pages](https://developer.chrome.com/docs/crux/methodology/#eligibility)
 automatically.
 
-Google's [PageSpeed Insights (PSI)](https://pagespeed.web.dev/) tool is one tool
-that makes this data easily accessible. Enter a URL and click the **Analyze**
-button. Then, look at the "Discover what your real users are experiencing"
-section.
+Google's [PageSpeed Insights (PSI)](https://pagespeed.web.dev/) tool is one
+tool that makes this data easily accessible. Enter a URL and click the
+**Analyze** button. Then, look at the "Discover what your real users are
+experiencing" section.
 
 import inpPsi from "./_assets/inp-page-speed-insights.png";
 
@@ -270,23 +279,23 @@ When using this PageSpeeds Insights, you should be aware of the following:
 
 ### `web-vitals` JavaScript Library
 
-Google released an open-source JavaScript library that lets you measure core web
-vitals (including INP) from real users. To use it, you'll need to install it
-from npm:
+Google released an open-source JavaScript library that lets you measure
+core web vitals (including INP) from real users. To use it, you'll need to
+install it from npm:
 
 ```bash
 npm install web-vitals
 ```
 
-Then, import the `attribution` build into your project so that you can get more
-details about the interaction:
+Then, import the `attribution` build into your project so that you can get
+more details about the interaction:
 
 ```js
 import { onINP } from "web-vitals/attribution";
 
 function sendToAnalytics(metric) {
-  // Instead of logging the output as done below, send desired data to an
-  // analytics provider.
+  // Instead of logging the output as done below, send desired data to
+  // an analytics provider.
   console.log(metric);
 }
 
@@ -302,17 +311,17 @@ import inpWebVitalsResponse from "./_assets/inp-web-vitals-js-example-response.p
   alt={`An expanded JSON object showing "attribution", "entries", "id", "name", "navigationType", "rating", and "value" top-level keys.`}
 />
 
-Importing the `web-vitals/attribution` adds an `attribution.eventEntry` object,
-which you can use to derive the `input delay`, `processing time`, and
-`presentation delay`:
+Importing the `web-vitals/attribution` adds an `attribution.eventEntry`
+object, which you can use to derive the `input delay`, `processing time`,
+and `presentation delay`:
 
 - `startTime`: Time in milliseconds at which the interaction occurred.
-- `processingStart`: Time at which event callbacks started executing. The input
-  delay is `processingStart - startTime`.
+- `processingStart`: Time at which event callbacks started executing. The
+  input delay is `processingStart - startTime`.
 - `processingEnd`: Time at which event callbacks finished executing. The
   `processing time` duration is `processingEnd - processingStart`.
-- `duration`: Total duration of interaction rounded to the nearest 8 ms. The
-  `presentation delay` is `startTime + duration - processingEnd`.
+- `duration`: Total duration of interaction rounded to the nearest 8 ms.
+  The `presentation delay` is `startTime + duration - processingEnd`.
 
 You'll want to
 [send this](https://github.com/GoogleChrome/web-vitals#send-the-results-to-an-analytics-endpoint)
@@ -320,8 +329,8 @@ and other information contained in the object to your analytics provider.
 
 ## What causes slow interactions?
 
-The main reason for slow interactions are **long tasks** — tasks that take **50
-ms or longer** — on the browser's
+The main reason for slow interactions are **long tasks** — tasks that take
+**50 ms or longer** — on the browser's
 [**main thread**](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread).
 These tasks refer to discrete units of work carried out by the browser,
 including:
@@ -335,14 +344,14 @@ including:
 
 Any of these can be responsible for a slow task.
 
-The browser's main thread can only execute one task at a time, and that task
-must
+The browser's main thread can only execute one task at a time, and that
+task must
 [run to completion](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop#run-to-completion)
-before another task can start. Devices with lower hardware capabilities, such as
-mobile phones with slower CPUs, are more likely to have responsiveness issues
-because tasks take longer to complete. That's why it's a good idea to test
-interactions on devices that resemble the lower-end devices used by most of your
-users.
+before another task can start. Devices with lower hardware capabilities,
+such as mobile phones with slower CPUs, are more likely to have
+responsiveness issues because tasks take longer to complete. That's why
+it's a good idea to test interactions on devices that resemble the
+lower-end devices used by most of your users.
 
 import longTask from "./_assets/long-task.svg";
 import longTaskDark from "./_assets/long-task-dark.svg";
@@ -354,23 +363,24 @@ import longTaskDark from "./_assets/long-task-dark.svg";
   caption={`Tasks that execute 50 ms or longer are considered long tasks. They are often responsible for a high INP.`}
 />
 
-**If you have a poor INP score, long tasks on the main thread are likely the
-primary cause.**
+**If you have a poor INP score, long tasks on the main thread are likely
+the primary cause.**
 
 ## How to fix INP
 
-Since INP involves [**three phases**](#what-can-happen-during-an-interaction),
-each interaction has three opportunities to be slow. Let's examine some of the
-most common reasons why **input delay**, **processing time**, and **presentation
-delay** can become sluggish and what you can do about it.
+Since INP involves
+[**three phases**](#what-can-happen-during-an-interaction), each
+interaction has three opportunities to be slow. Let's examine some of the
+most common reasons why **input delay**, **processing time**, and
+**presentation delay** can become sluggish and what you can do about it.
 
 ## Optimize Input delay
 
-The first part of each interaction always involves a small, often unnoticeable,
-delay that involves converting the interaction into an event that the browser
-understands. Once the browser determines the events associated with an
-interaction, it can run any registered event callbacks — unless there is a task
-blocking that from happening.
+The first part of each interaction always involves a small, often
+unnoticeable, delay that involves converting the interaction into an event
+that the browser understands. Once the browser determines the events
+associated with an interaction, it can run any registered event callbacks —
+unless there is a task blocking that from happening.
 
 import inpInputDelay from "./_assets/inp-input-delay.svg";
 import inpInputDelayDark from "./_assets/inp-input-delay-dark.svg";
@@ -386,8 +396,8 @@ import inpInputDelayDark from "./_assets/inp-input-delay-dark.svg";
 ### Long tasks during page startup
 
 The main thread is often the **most congested** when a page loads and
-initializes. The browser parses HTML, evaluates scripts, renders, and paints
-during this time.
+initializes. The browser parses HTML, evaluates scripts, renders, and
+paints during this time.
 
 import inpLongTasksStartup from "./_assets/inp-long-tasks-startup.png";
 
@@ -400,23 +410,23 @@ import inpLongTasksStartup from "./_assets/inp-long-tasks-startup.png";
 While there can be a variety of causes for these long tasks, some common
 culprits include:
 
-- A single `<script>` tag (without the `type=module` attribute) that loads a
-  huge amount of JavaScript. Since each `<script>` kicks off a task that
+- A single `<script>` tag (without the `type=module` attribute) that loads
+  a huge amount of JavaScript. Since each `<script>` kicks off a task that
   evaluates the JavaScript once loaded, it can become problematic if the
   evaluation takes a long time. Instead, first try to reduce the amount of
-  JavaScript you are loading. Then, consider having multiple script tags so that
-  each one kicks off its own _smaller_ task. Also, consider executing expensive
-  logic in a
+  JavaScript you are loading. Then, consider having multiple script tags so
+  that each one kicks off its own _smaller_ task. Also, consider executing
+  expensive logic in a
   [web worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API).
 - JavaScript that creates or mutates large DOM trees. Pages with a lot of
-  elements can lead to very costly rendering tasks. Instead of using JavaScript
-  to mutate the DOM during startup, try to make your server generate the HTML
-  needed by the page.
+  elements can lead to very costly rendering tasks. Instead of using
+  JavaScript to mutate the DOM during startup, try to make your server
+  generate the HTML needed by the page.
 
 ### Rapid interactions
 
-Interactions that occur rapidly, like typing into an autocomplete field, can
-cause a high input delay for subsequent interactions.
+Interactions that occur rapidly, like typing into an autocomplete field,
+can cause a high input delay for subsequent interactions.
 
 import inpRapidInteractions from "./_assets/inp-input-delay-rapid-interactions.svg";
 import inpRapidInteractionsDark from "./_assets/inp-input-delay-rapid-interactions-dark.svg";
@@ -429,16 +439,17 @@ import inpRapidInteractionsDark from "./_assets/inp-input-delay-rapid-interactio
   caption='Interactions that happen close together, like typing "A" into an input box quickly followed by "B", can cause interaction overlap and a high input delay.'
 />
 
-First, try to reduce the callback's JavaScript logic as much as possible. Then,
-to avoid problems that can arise from the accumulation of small callbacks:
+First, try to reduce the callback's JavaScript logic as much as possible.
+Then, to avoid problems that can arise from the accumulation of small
+callbacks:
 
 - Debounce input handlers
 - Cancel any pending `xhr` or `fetch` requests
 
 ```js
 /**
- * An example showing how to debounce input events and cancel pending fetch
- * requests to avoid a high input delay from rapid input events.
+ * An example showing how to debounce input events and cancel pending
+ * fetch requests to avoid a high input delay from rapid input events.
  */
 const input = document.querySelector("input");
 let controller;
@@ -487,8 +498,9 @@ which can cause an input delay.
 
 ## Optimize processing time
 
-Slow event callbacks will mitigate any positive effects of an optimized input
-delay. Fortunately, you can make optimizations to ensure this doesn't happen.
+Slow event callbacks will mitigate any positive effects of an optimized
+input delay. Fortunately, you can make optimizations to ensure this doesn't
+happen.
 
 import inpProcessingTime from "./_assets/inp-processing-time.svg";
 import inpProcessingTimeDark from "./_assets/inp-processing-time-dark.svg";
@@ -516,8 +528,8 @@ import inpLongTask from "./_assets/inp-long-task-processing-time.png";
 
 How do we solve this?
 
-First, investigate the JavaScript responsible for the long task and see if there
-is any low-hanging fruit. Sometimes, this will reveal
+First, investigate the JavaScript responsible for the long task and see if
+there is any low-hanging fruit. Sometimes, this will reveal
 [**unnecessary JS that can be removed**](/blog/300ms-faster-reducing-wikipedias-total-blocking-time/#step-1-remove-unnecessary-javascript)
 or
 [**inefficient JS that can be optimized**](/blog/300ms-faster-reducing-wikipedias-total-blocking-time/#step-2-optimize-existing-javascript).
@@ -525,25 +537,26 @@ You may also be able to move some JavaScript off the main thread with
 [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API),
 which will free up the main thread to handle interactions.
 
-After reducing JavaScript work, the next best option is to **yield to the main
-thread**. Split up the work into **smaller tasks** that each take less than **50
-ms** to execute. And prioritize the work that is user-facing. The benefits of
-doing this are two-fold:
+After reducing JavaScript work, the next best option is to **yield to the
+main thread**. Split up the work into **smaller tasks** that each take less
+than **50 ms** to execute. And prioritize the work that is user-facing. The
+benefits of doing this are two-fold:
 
-1. It allows the browser to render user-visible work as quickly as possible in
-   the next frame, providing the user with fast visual feedback that _something_
-   has happened.
+1. It allows the browser to render user-visible work as quickly as possible
+   in the next frame, providing the user with fast visual feedback that
+   _something_ has happened.
 2. Deferring non-essential work to another task in a `setTimeout` callback
-   allows the main thread to handle higher priority tasks like subsequent user
-   input _before_ the `setTimeout`callback is executed. Alternatively, you could
-   use
+   allows the main thread to handle higher priority tasks like subsequent
+   user input _before_ the `setTimeout`callback is executed. Alternatively,
+   you could use
    [`requestIdleCallback`](https://developer.mozilla.org/en-US/docs/Web/API/Window/requestIdleCallback),
    but note that it has much less
    [browser support](https://caniuse.com/requestidlecallback).
 
 ```js
 accordion.addEventListener("click", (event) => {
-  // Critical user-visible work that needs to happen before next frame.
+  // Critical user-visible work that needs to happen before next
+  // frame.
   toggleSection(event);
 
   // Defer less important work to the next frame in another task.
@@ -574,17 +587,17 @@ section.scrollHeight;
 ```
 
 This order becomes particularly expensive if you invoke multiple forced
-synchronous layouts before the browser presents a frame. When this happens, it's
-called
+synchronous layouts before the browser presents a frame. When this happens,
+it's called
 “[layout thrashing](/blog/using-chrome-profiler-to-fix-performance-issues/#layout-thrashing)"
-and can significantly increase processing time. Layout thrashing often happens
-when a read and write are inside a loop:
+and can significantly increase processing time. Layout thrashing often
+happens when a read and write are inside a loop:
 
 ```js
 const sections = documet.querySelectorAll("section");
 
-// Each iteration causes a forced synchronous layout that results in layout
-// thrashing.
+// Each iteration causes a forced synchronous layout resulting in
+// layout thrashing.
 sections.forEach((element) => {
   // Write
   section.classList.add("expanded");
@@ -615,8 +628,8 @@ sections.forEach((element) => {
 ## Optimize presentation delay
 
 The last phase that can go wrong is the presentation delay portion which
-involves rendering and presenting the visual changes. It's also one of the most
-challenging phases to optimize.
+involves rendering and presenting the visual changes. It's also one of the
+most challenging phases to optimize.
 
 import inpPresentationDelay from "./_assets/inp-presentation-delay.svg";
 import inpPresentationDelayDark from "./_assets/inp-presentation-delay-dark.svg";
@@ -630,26 +643,27 @@ import inpPresentationDelayDark from "./_assets/inp-presentation-delay-dark.svg"
 
 ### Large DOM size
 
-Significant presentation delays are often the result of large DOM trees — pages
-with more than **~1,400 nodes**. The rendering work that the browser must do to
-produce a frame correlates with the size of the DOM.
+Significant presentation delays are often the result of large DOM trees —
+pages with more than **~1,400 nodes**. The rendering work that the browser
+must do to produce a frame correlates with the size of the DOM.
 
-Generally, **the larger the DOM size, the longer it takes for the browser to
-render updates**.
+Generally, **the larger the DOM size, the longer it takes for the browser
+to render updates**.
 
-To minimize the effects of a large DOM size, you can hide certain elements by
-default with one of the following methods, effectively removing their rendering
-costs:
+To minimize the effects of a large DOM size, you can hide certain elements
+by default with one of the following methods, effectively removing their
+rendering costs:
 
 - `display: none` CSS style
 - [`hidden=until-found`](https://developer.chrome.com/articles/hidden-until-found/)
   HTML attribute
 
-One practical approach for long pages with a lot of content involves collapsing
-and concealing the less popular sections, only revealing them when the user
-clicks on a section title. Wikipedia uses this technique on its mobile site,
-only showing the first section by default. It significantly reduces the overall
-rendering costs of long articles since most users don't read the entire content.
+One practical approach for long pages with a lot of content involves
+collapsing and concealing the less popular sections, only revealing them
+when the user clicks on a section title. Wikipedia uses this technique on
+its mobile site, only showing the first section by default. It
+significantly reduces the overall rendering costs of long articles since
+most users don't read the entire content.
 
 import hiddenUntilFound from "./_assets/wikipedia-mobile-hidden-until-found-attribute.png";
 
@@ -660,11 +674,11 @@ import hiddenUntilFound from "./_assets/wikipedia-mobile-hidden-until-found-attr
 />
 
 A more advanced technique involves using the
-[`content-visibility: auto`](https://web.dev/content-visibility/) CSS style to
-defer the rendering of off-screen elements. This approach has much less
+[`content-visibility: auto`](https://web.dev/content-visibility/) CSS style
+to defer the rendering of off-screen elements. This approach has much less
 [browser support](https://caniuse.com/?search=content-visibility) and is
-typically more challenging to implement well, but it has the potential to gain
-popularity.
+typically more challenging to implement well, but it has the potential to
+gain popularity.
 
 ## Conclusion
 
@@ -672,14 +686,16 @@ In summary:
 
 - INP measures the responsiveness of clicks, keypresses, and taps on
   touchscreens to produce a visual update
-- INP will become a Core Web Vital on March 2024, replacing First Input Delay
+- INP will become a Core Web Vital on March 2024, replacing First Input
+  Delay
 - Use real user monitoring to measure your INP and to determine its cause
-  [PageSpeed Insights](https://pagespeed.web.dev/) is the easiest way to start
+  [PageSpeed Insights](https://pagespeed.web.dev/) is the easiest way to
+  start
 - Slow interactions are often the result of long tasks on the main thread
 - Efforts to optimize INP need to consider each interaction's input delay,
   processing time, and presentation delay
 
-Throughout this article, we've explored the significance of INP and various ways
-to optimize it. Armed with actionable tips, you now have strategies to improve
-your INP score, ensuring your website is more responsive and enjoyable for
-everyone.
+Throughout this article, we've explored the significance of INP and various
+ways to optimize it. Armed with actionable tips, you now have strategies to
+improve your INP score, ensuring your website is more responsive and
+enjoyable for everyone.

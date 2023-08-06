@@ -5,15 +5,16 @@ cover:
   alt: "Clock lying on pink and blue pastel background"
   credit: "Photo by [@icons8](https://unsplash.com/photos/dhZtNlvNE8M)"
 description:
-  "How two simple steps improved the responsiveness of Wikipedia's mobile site"
+  "How two simple steps improved the responsiveness of Wikipedia's mobile
+  site"
 publishedAt: 2023-05-21
 ---
 
 import Image from "@components/BlogImage.astro";
 
-Have you ever been frustrated from interacting with a website that was slow to
-respond to your clicks or had jerky scrolling? Performance flaws like these can
-lead to the following:
+Have you ever been frustrated from interacting with a website that was slow
+to respond to your clicks or had jerky scrolling? Performance flaws like
+these can lead to the following:
 
 - [Rage clicking](https://speakerdeck.com/bluesmoon/ux-and-performance-metrics-that-matter-a062d37f-e6c7-4b8a-8399-472ec76bb75e?slide=13)
 - [Increased bounce rates and decreased conversion rates](https://edgemesh.com/blog/time-to-interactive-and-conversion-rate)
@@ -21,20 +22,21 @@ lead to the following:
 
 For more than three years, Wikipedia's mobile site suffered from a piece of
 JavaScript that could take over
-[600ms to execute](https://phabricator.wikimedia.org/T241139) during page load
-on low-end devices, effectively blocking user interactions.
+[600ms to execute](https://phabricator.wikimedia.org/T241139) during page
+load on low-end devices, effectively blocking user interactions.
 
-In this article, we'll walk through a couple of easy steps I took to reduce the
-execution time of this task by about 50%.
+In this article, we'll walk through a couple of easy steps I took to reduce
+the execution time of this task by about 50%.
 
 ## Total Blocking Time: Why long tasks matter
 
-600ms of synchronous JavaScript execution may not sound like a long time, but
-imagine if a user tried to click a button during page load when the JavaScript
-began executing. Because only one task can be processed on the browser's
-[main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread) at
-any given time, the user would need to wait for the following steps to finish
-before they see a visual update:
+600ms of synchronous JavaScript execution may not sound like a long time,
+but imagine if a user tried to click a button during page load when the
+JavaScript began executing. Because only one task can be processed on the
+browser's
+[main thread](https://developer.mozilla.org/en-US/docs/Glossary/Main_thread)
+at any given time, the user would need to wait for the following steps to
+finish before they see a visual update:
 
 1. The 600ms JavaScript task executes
 2. The relevant click handler task executes
@@ -51,12 +53,13 @@ import mainThreadClick from "./_assets/main-thread-click.png";
 />
 
 Each step takes time, and the user can perceive any interaction that takes
-longer than [100ms](https://web.dev/rail/#response-process-events-in-under-50ms)
-to produce a visual update as **slow**. Because of this, Google considers any
+longer than
+[100ms](https://web.dev/rail/#response-process-events-in-under-50ms) to
+produce a visual update as **slow**. Because of this, Google considers any
 task that takes
-[more than 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread) a
-"long task" that can affect the page's responsiveness to user input. They even
-developed a metric for this called "Total Blocking Time" (TBT).
+[more than 50ms](https://web.dev/optimize-long-tasks/#what-is-the-main-thread)
+a "long task" that can affect the page's responsiveness to user input. They
+even developed a metric for this called "Total Blocking Time" (TBT).
 
 import mainThreadTasks from "./_assets/main-thread-tasks.png";
 
@@ -69,10 +72,11 @@ import mainThreadTasks from "./_assets/main-thread-tasks.png";
 
 ## What is Total Blocking Time?
 
-TBT measures the sum of the blocking portion of all long tasks on the browser's
-main thread between [First Contentful Paint](https://web.dev/fcp/) (FCP) and
-[Time to Interactive](https://web.dev/tti/) (TTI). The "blocking portion" is the
-time after 50ms of each long task.
+TBT measures the sum of the blocking portion of all long tasks on the
+browser's main thread between
+[First Contentful Paint](https://web.dev/fcp/) (FCP) and
+[Time to Interactive](https://web.dev/tti/) (TTI). The "blocking portion"
+is the time after 50ms of each long task.
 
 Let's try calculating the TBT in the example below:
 
@@ -80,19 +84,21 @@ import mainThreadTasksTbt from "./_assets/main-thread-tasks-tbt.png";
 
 <Image background src={mainThreadTasksTbt} alt="Main thread tasks" />
 
-1. The 80ms task is **30ms** longer than 50ms so contributes **30ms** to TBT.
-2. The 30ms task doesn't contribute to TBT since it is less than 50ms and NOT a
-   long task.
-3. The 100ms task is **50ms** longer than 50ms so contributes **50ms** to TBT.
+1. The 80ms task is **30ms** longer than 50ms so contributes **30ms** to
+   TBT.
+2. The 30ms task doesn't contribute to TBT since it is less than 50ms and
+   NOT a long task.
+3. The 100ms task is **50ms** longer than 50ms so contributes **50ms** to
+   TBT.
 
-Since TBT is the sum of the time exceeding 50ms of each long task, the TBT for
-this example is 30ms + 50ms = **80ms**.
+Since TBT is the sum of the time exceeding 50ms of each long task, the TBT
+for this example is 30ms + 50ms = **80ms**.
 
 When tested on average mobile hardware, Google
-[recommends](https://web.dev/tbt/#what-is-a-good-tbt-score) sites have a TBT of
-less than **200 milliseconds**. But Wikipedia had one task that could take over
-**600 milliseconds** — roughly 3x the recommended TBT limit for this one task
-alone.
+[recommends](https://web.dev/tbt/#what-is-a-good-tbt-score) sites have a
+TBT of less than **200 milliseconds**. But Wikipedia had one task that
+could take over **600 milliseconds** — roughly 3x the recommended TBT limit
+for this one task alone.
 
 How do we improve TBT?
 
@@ -100,18 +106,18 @@ How do we improve TBT?
 
 To decrease TBT, we need to either:
 
-- Do less work on the main thread between First Contentful Paint and Time to
-  Interactive
-- Do the same amount of work, but break up long tasks into smaller tasks that
-  don't exceed 50ms
+- Do less work on the main thread between First Contentful Paint and Time
+  to Interactive
+- Do the same amount of work, but break up long tasks into smaller tasks
+  that don't exceed 50ms
 
 This article focuses on making gains from the first bullet point.
 
 ## Step 1: Remove unnecessary JavaScript
 
-While many things run on the main thread, including HTML parsing, paints, and
-garbage collection, long JavaScript execution is frequently the culprit of TBT
-problems. After all,
+While many things run on the main thread, including HTML parsing, paints,
+and garbage collection, long JavaScript execution is frequently the culprit
+of TBT problems. After all,
 [JavaScript is the fastest way to slow down a site](https://timkadlec.com/remembers/2020-04-21-the-cost-of-javascript-frameworks/).
 
 import profileBeginning from "./_assets/profile-beginning.png";
@@ -122,20 +128,22 @@ import profileBeginning from "./_assets/profile-beginning.png";
   alt="Chrome performance profile showing that a `_enable` method took 475ms to execute."
 />
 
-When I profiled Wikipedia's mobile site, I found that an `_enable` method was
-responsible for most of the execution time. This method initialized the mobile
-site's section expansion and collapsing behavior. The profile also showed that,
-within the `_enable` method, a call to jQuery's `.on("click")` method was slow.
+When I profiled Wikipedia's mobile site, I found that an `_enable` method
+was responsible for most of the execution time. This method initialized the
+mobile site's section expansion and collapsing behavior. The profile also
+showed that, within the `_enable` method, a call to jQuery's `.on("click")`
+method was slow.
 
-```js {6-15}
+```js {7-16}
 function _enable( $container, prefix, page, isClosed ) {
   ...
-  // Restricted to links created by editors and thus outside our control
-  // T166544 - don't do this for reference links - they will be handled elsewhere
+  // Restricted to links created by editors and thus outside our
+  // control T166544 - don't do this for reference links - they will
+  // be handled elsewhere
   var $link = $container.find("a:not(.reference a)");
   $link.on("click", function () {
-    // the link might be an internal link with a hash.
-    // if it is check if we need to reveal any sections.
+    // the link might be an internal link with a hash.  if it is check
+    // if we need to reveal any sections.
     if (
       $link.attr("href") !== undefined &&
       $link.attr("href").indexOf("#") > -1
@@ -149,18 +157,20 @@ function _enable( $container, prefix, page, isClosed ) {
 }
 ```
 
-The `.on("click")` call attached a click event listener to nearly every link in
-the content so that the corresponding section would open if the clicked link
-contained a hash fragment. For short articles with few links, the performance
-impact was negligible. But long articles like
-"[United States](https://en.wikipedia.org/wiki/United_States)" included over
-4,000 links, leading to over 200ms of execution time on low-end devices.
+The `.on("click")` call attached a click event listener to nearly every
+link in the content so that the corresponding section would open if the
+clicked link contained a hash fragment. For short articles with few links,
+the performance impact was negligible. But long articles like
+"[United States](https://en.wikipedia.org/wiki/United_States)" included
+over 4,000 links, leading to over 200ms of execution time on low-end
+devices.
 
-Worse yet, this behavior was **unnecessary**. The downstream code that listened
-to the `hashchange` event already called the same method that the click event
-listener called. Unless the window's location already pointed at the link's
-destination, clicking a link called the `checkHash` method twice — once for the
-link click event handler and once more for the `hashchange` handler.
+Worse yet, this behavior was **unnecessary**. The downstream code that
+listened to the `hashchange` event already called the same method that the
+click event listener called. Unless the window's location already pointed
+at the link's destination, clicking a link called the `checkHash` method
+twice — once for the link click event handler and once more for the
+`hashchange` handler.
 
 import profileRemoval from "./_assets/profile-removing-unnecessary-code.png";
 
@@ -175,8 +185,8 @@ Therefore, in this case, the best approach was to simply
 and free up nearly 200ms from the main thread with virtually the same
 functionality.
 
-When profiling, always check where the most time is spent. Then, see if there is
-code you can either optimize or, better yet, remove.
+When profiling, always check where the most time is spent. Then, see if
+there is code you can either optimize or, better yet, remove.
 
 **Remember, the fastest way to speed up a site is to _remove_ JavaScript.**
 
@@ -190,10 +200,10 @@ import profileMediaViewer from "./_assets/profile-media-viewer.png";
   alt="Chrome performance profile showing that an `initMediaViewer` method took 114ms to execute."
 />
 
-An additional performance review revealed that an `initMediaViewer` method took
-~100ms to execute . This method was responsible for attaching a click event
-listener to **each** thumbnail in the content so that a click to a thumbnail
-would open a media viewer:
+An additional performance review revealed that an `initMediaViewer` method
+took ~100ms to execute . This method was responsible for attaching a click
+event listener to **each** thumbnail in the content so that a click to a
+thumbnail would open a media viewer:
 
 ```js
 /**
@@ -212,29 +222,32 @@ function onClickImage(ev) {
  *
  * @method
  * @ignore
- * @param {jQuery.Object} [$container] Optional container to search within
+ * @param {jQuery.Object} [$container] Optional container to search
+ * within
  */
 function initMediaViewer($container) {
-  currentPageHTMLParser.getThumbnails($container).forEach(function (thumb) {
-    thumb.$el.off().data("thumb", thumb).on("click", onClickImage);
-  });
+  currentPageHTMLParser
+    .getThumbnails($container)
+    .forEach(function (thumb) {
+      thumb.$el.off().data("thumb", thumb).on("click", onClickImage);
+    });
 }
 ```
 
 Similar to the link example in step 1, attaching an event listener to each
-thumbnail on the page doesn't scale well. Editors of Wikipedia articles can (and
-do) make articles with
+thumbnail on the page doesn't scale well. Editors of Wikipedia articles can
+(and do) make articles with
 [thousands of images](https://en.wikipedia.org/wiki/B8_polytope). When this
-block of code ran, it could take well over 100 milliseconds to execute for pages
-with a lot of images and increase the TBT of the page. What is an alternative
-approach?
+block of code ran, it could take well over 100 milliseconds to execute for
+pages with a lot of images and increase the TBT of the page. What is an
+alternative approach?
 
 Use **event delegation**.
 
 Event delegation is a powerful technique that lets us attach a single event
-listener to an element that is the common ancestor of many elements. Using event
-delegation is often more efficient when dealing with user-generated content that
-could add any number of elements. It takes advantage of
+listener to an element that is the common ancestor of many elements. Using
+event delegation is often more efficient when dealing with user-generated
+content that could add any number of elements. It takes advantage of
 [event bubbling](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_bubbling)
 and works like this:
 
@@ -242,10 +255,10 @@ and works like this:
 2. Using the `event` param in the event handler, check the `event.target`
    property to see the source of the event. Optionally use the
    `event.target.closest(selector)`
-   [API](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest) to
-   check for an ancestor element.
-3. If the source of the event is an element or the child of an element we're
-   interested in, handle it.
+   [API](https://developer.mozilla.org/en-US/docs/Web/API/Element/closest)
+   to check for an ancestor element.
+3. If the source of the event is an element or the child of an element
+   we're interested in, handle it.
 
 The
 [updated code](https://gerrit.wikimedia.org/r/c/mediawiki/skins/MinervaNeue/+/908675/10/resources/skins.minerva.scripts/initMobile.js#66)
@@ -287,26 +300,26 @@ function initMediaViewer(container) {
 
 In this case:
 
-1. I revised the `initMediaViewer` method to attach one click event listener to
-   a single container element that contained all the images.
-2. In the `onClickImage` method, I used the `ev.target.closest(selector)` API to
-   check if the click originated from a thumbnail or a child of a thumbnail
-   element. If it didn't, the code returns early since we only care about clicks
-   to thumbnails. If it did, the code handles the event.
+1. I revised the `initMediaViewer` method to attach one click event
+   listener to a single container element that contained all the images.
+2. In the `onClickImage` method, I used the `ev.target.closest(selector)`
+   API to check if the click originated from a thumbnail or a child of a
+   thumbnail element. If it didn't, the code returns early since we only
+   care about clicks to thumbnails. If it did, the code handles the event.
 
 But what were the results of this work?
 
 ## Conclusion
 
-We released the optimizations outlined in steps 1 and 2 to production in two
-deploys — step 1 followed by step 2.
+We released the optimizations outlined in steps 1 and 2 to production in
+two deploys — step 1 followed by step 2.
 
 According to Wikipedia's
 [synthetic performance test](https://developer.mozilla.org/en-US/docs/Web/Performance/Rum-vs-Synthetic#synthetic_monitoring)
 data, the first deployment resulted in a reduction of TBT by approximately
-200ms, while the second deployment improved TBT by around 80ms when testing on a
-real Moto G (5) phone. Overall, these two steps reduced TBT by nearly **300ms**
-on devices like the Moto G (5) phone visiting long articles.
+200ms, while the second deployment improved TBT by around 80ms when testing
+on a real Moto G (5) phone. Overall, these two steps reduced TBT by nearly
+**300ms** on devices like the Moto G (5) phone visiting long articles.
 
 import tbtResults from "./_assets/total-blocking-time-results.png";
 
@@ -326,15 +339,17 @@ import longTaskDuration from "./_assets/long-task-duration-results.png";
   caption={`Real user monitoring graph of p95 India users showing a roughly 200ms improvement in long task duration before load event`}
 />
 
-While there is still room for further improvement, with the task still exceeding
-the recommended limit on low-end devices, the progress made so far is
-significant. To achieve even greater reductions in TBT, it may be necessary to
+While there is still room for further improvement, with the task still
+exceeding the recommended limit on low-end devices, the progress made so
+far is significant. To achieve even greater reductions in TBT, it may be
+necessary to
 [break up the task into smaller tasks](https://web.dev/optimize-long-tasks/#task-management-strategies).
 
-What this experience demonstrates is that significant performance improvements
-can be achieved through small, targeted optimizations. By removing or optimizing
-specific sections of code, even seemingly minor changes can have a substantial
-impact on a website's overall performance. It serves as a reminder that
-delivering a more responsive browsing experience that can work on any device
-doesn't always require complex and extensive changes to the codebase. Sometimes,
-it's the smaller wins that make the biggest difference.
+What this experience demonstrates is that significant performance
+improvements can be achieved through small, targeted optimizations. By
+removing or optimizing specific sections of code, even seemingly minor
+changes can have a substantial impact on a website's overall performance.
+It serves as a reminder that delivering a more responsive browsing
+experience that can work on any device doesn't always require complex and
+extensive changes to the codebase. Sometimes, it's the smaller wins that
+make the biggest difference.
