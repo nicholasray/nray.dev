@@ -125,36 +125,45 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
 <script>
   import sectionObserver from "@components/TableOfContents/sectionObserver";
 
-  const selectors = ["h2", "h3", "h4", "h5", "h6"].map(
-    (selector) => `.prose > ${selector}`,
-  );
-  selectors.unshift("h1");
+  (() => {
+    const selectors = ["h2", "h3", "h4", "h5", "h6"].map(
+      (selector) => `.prose > ${selector}`,
+    );
+    selectors.unshift("h1");
 
-  const toc = document.querySelector("nray-table-of-contents");
-  const observer = sectionObserver({
-    elements: document.querySelectorAll(selectors.join(", ")),
-    topMargin: 40,
-    throttleMs: 100,
-    onIntersection: (element) => {
-      // @ts-ignore
-      if (!toc || !customElements.get(toc.localName)) {
-        return;
-      }
+    let toc: HTMLElement | null;
+    const observer = sectionObserver({
+      elements: document.querySelectorAll(selectors.join(", ")),
+      topMargin: 40,
+      throttleMs: 100,
+      onIntersection: (element) => {
+        if (!toc) {
+          return;
+        }
 
-      const tocItem = document.getElementById(`toc-${element.id}`);
-      if (!tocItem) {
-        console.warn(`Could not find TOC item toc-${element.id}`);
-        return;
-      }
+        const tocItem = document.getElementById(`toc-${element.id}`);
+        if (!tocItem) {
+          console.warn(`Could not find TOC item toc-${element.id}`);
+          return;
+        }
 
-      // @ts-ignore
-      toc.highlight(tocItem);
-    },
-  });
+        // @ts-ignore
+        toc.highlight(tocItem);
+      },
+    });
 
-  if (toc) {
     // Calculate intersected section during page load.
-    await customElements.whenDefined(toc.localName);
     observer.calcIntersection();
-  }
+
+    toc = document.querySelector("nray-table-of-contents");
+
+    if (!toc) {
+      return;
+    }
+
+    // TODO: Fill in implementation
+    // toc.addEventListener("item-click", (ev) => {
+    //   //
+    // });
+  })();
 </script>

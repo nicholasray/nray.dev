@@ -352,6 +352,17 @@ import cover from "./_assets/cover.png";
   }
 
   if (document.documentElement.classList.contains("supports-inp")) {
+    onINP(
+      (interaction) => {
+        // @ts-ignore
+        scale.value = interaction.value;
+      },
+      {
+        durationThreshold: 16,
+        reportAllChanges: true,
+      },
+    );
+
     const inpObserver = new PerformanceObserver(handleEntries);
     const fidObserver = new PerformanceObserver(handleEntries);
 
@@ -365,17 +376,5 @@ import cover from "./_assets/cover.png";
       buffered: true,
       durationThreshold: 0,
     });
-
-    await customElements.whenDefined(scale.localName);
-    onINP(
-      (interaction) => {
-        // @ts-ignore
-        scale.value = interaction.value;
-      },
-      {
-        durationThreshold: 16,
-        reportAllChanges: true,
-      },
-    );
   }
 </script>
