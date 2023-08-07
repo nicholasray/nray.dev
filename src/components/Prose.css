@@ -234,7 +234,7 @@
   }
 
   [data-highlighted-chars] {
-    @apply rounded-md border-b-2 border-emerald-300 bg-[#181c25] bg-emerald-400/25 p-1;
+    @apply rounded-md border-b-2 border-emerald-300 bg-[#324062] p-1 dark:bg-[#181c25];
   }
 
   [data-highlighted-line] {
