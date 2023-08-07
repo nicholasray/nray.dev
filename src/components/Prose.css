@@ -194,7 +194,7 @@
   }
 
   /* Blog specific items */
-  .callout {
+  .aside {
     @apply md:-mx-6;
   }
 
