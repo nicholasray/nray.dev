@@ -125,18 +125,13 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
 <script>
   import sectionObserver from "@components/TableOfContents/sectionObserver";
 
-  (async () => {
-    const toc = document.querySelector("nray-table-of-contents");
-    if (!toc) {
-      return;
-    }
-
-    await customElements.whenDefined(toc.localName);
-
+  (() => {
     const selectors = ["h2", "h3", "h4", "h5", "h6"].map(
       (selector) => `.prose > ${selector}`,
     );
     selectors.unshift("h1");
+
+    let toc: HTMLElement | null;
     const observer = sectionObserver({
       elements: document.querySelectorAll(selectors.join(", ")),
       topMargin: 40,
@@ -159,5 +154,16 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
 
     // Calculate intersected section during page load.
     observer.calcIntersection();
+
+    toc = document.querySelector("nray-table-of-contents");
+
+    if (!toc) {
+      return;
+    }
+
+    // TODO: Fill in implementation
+    // toc.addEventListener("item-click", (ev) => {
+    //   //
+    // });
   })();
 </script>
