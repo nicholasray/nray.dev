@@ -8,7 +8,7 @@ cover:
     Carstens-Peters](https://unsplash.com/photos/loaTW2AfDYU)"
 description: "The detailed guide to lazy loading your website's images"
 publishedAt: 2023-08-02
-updatedAt: 2023-08-03
+updatedAt: 2023-08-08
 ---
 
 import Image from "@components/BlogImage.astro";
@@ -280,11 +280,18 @@ if (window.IntersectionObserver) {
 
 ## Defer offscreen images in WordPress
 
-Since
-[WordPress 5.5](https://make.wordpress.org/core/2020/07/14/lazy-loading-images-in-5-5/),
-images with `width` and `height` attributes are automatically lazy-loaded
-without the need for additional plugins. It uses native lazy loading to
-accomplish this.
+WordPress has been steadily improving image performance without needing to
+add any plugins:
+
+- [WordPress 5.5+](https://make.wordpress.org/core/2020/07/14/lazy-loading-images-in-5-5/)
+  automatically adds the `loading=lazy` attribute to images with `width`
+  and `height` attributes
+- [WordPress 5.9+](https://make.wordpress.org/core/2021/12/29/enhanced-lazy-loading-performance-in-5-9/)
+  automatically omits the `loading=lazy` attribute for the content's first
+  image, which most of the time appears in the initial viewport
+- [WordPress 6.3+](https://make.wordpress.org/core/2023/07/13/image-performance-enhancements-in-wordpress-6-3/)
+  automatically adds the `fetchpriority=high` attribute to the image it
+  determines is the most likely LCP
 
 ## Conclusion
 
