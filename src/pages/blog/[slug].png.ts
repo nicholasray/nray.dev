@@ -22,7 +22,7 @@ export const get: APIRoute = async function get({ props, url }) {
       fit: "cover",
       ...post.data.cover,
     })
-    .toFormat("png")
+    .png()
     .toBuffer();
 
   return {
