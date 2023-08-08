@@ -15,6 +15,13 @@ interface Props extends Img {
 }
 
 const props = Astro.props as Props;
+if (props.src instanceof Object && props.src.format === "svg") {
+  // Remove responsive image settings if format is svg because that is already
+  // responsive.
+  delete props.widths;
+  delete props.sizes;
+}
+
 const [light, dark] =
   props.widths && props.sizes
     ? await Promise.all([

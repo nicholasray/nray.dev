@@ -7,6 +7,7 @@ import avatar from "@assets/images/avatar.jpg";
 import { format } from "date-fns";
 import { TableOfContents } from "@components/TableOfContents/index.astro";
 import Prose from "@components/Prose.astro";
+import { DIMENSIONS } from "./[slug].png";
 
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
@@ -25,7 +26,7 @@ interface Props {
 
 // 2. When it's time to render, you can get the entry directly from the prop
 const post = await getPost(Astro.props.entry);
-const { Content, headings, readingTime } = post;
+const { Content, headings, readingTime, slug } = post;
 const { title, description, cover, publishedAt, updatedAt } = post.data;
 ---
 
@@ -36,14 +37,14 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
     basic: {
       title,
       type: "article",
-      image: new URL(cover.src, Astro.url),
+      image: new URL(`/blog/${slug}.png`, Astro.url),
     },
     article: {
       authors: ["Nicholas Ray"],
     },
     image: {
-      width: cover.width,
-      height: cover.height,
+      width: DIMENSIONS.width,
+      height: DIMENSIONS.height,
       alt: cover.alt,
     },
   }}

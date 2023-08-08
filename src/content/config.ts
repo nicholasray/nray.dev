@@ -11,7 +11,8 @@ const blogCollection = defineCollection({
       cover: z.object({
         src: image(),
         alt: z.string(),
-        credit: z.string(),
+        credit: z.string().optional(),
+        position: z.string().optional(),
       }),
       featured: z.boolean().optional(),
       publishedAt: z.date().optional(),

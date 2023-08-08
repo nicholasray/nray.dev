@@ -44,13 +44,16 @@ const title = "Nicholas Ray";
             class="block md:rotate-2 md:hover:rotate-0 md:motion-safe:transition-performant md:motion-safe:duration-300"
           >
             <Image
-              class="h-80 w-full rounded-3xl object-cover md:h-[34rem]"
+              class="h-80 w-full rounded-xl object-cover md:h-[34rem]"
               loading="eager"
               alt={featured.data.cover.alt}
               src={featured.data.cover}
               widths={[400, 800, 1200]}
               sizes="(min-width: 48rem) 37rem, 100vw"
               fetchpriority="high"
+              style={featured.data.cover.position
+                ? `object-position: ${featured.data.cover.position}`
+                : undefined}
             />
           </a>
         </div>
