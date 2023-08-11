@@ -77,5 +77,5 @@ export default defineConfig({
       filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
     }),
   ],
-  compressHTML: true,
+  compressHTML: false,
 });
