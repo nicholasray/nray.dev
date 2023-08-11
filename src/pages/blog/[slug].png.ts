@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { CollectionEntry, getCollection } from "astro:content";
 import sharp from "sharp";
+import path from "node:path";
 
 export const DIMENSIONS = {
   width: 1200,
@@ -12,18 +13,20 @@ export const DIMENSIONS = {
 export const get: APIRoute = async function get({ props, url }) {
   const post: CollectionEntry<"blog"> = props.entry;
 
-  const response = await fetch(new URL(post.data.cover.src.src, url));
-  const inputBuffer = Buffer.from(await response.arrayBuffer());
+  console.log(url);
 
-  const buffer = await sharp(inputBuffer)
+  // TODO: Don't hardcode `dist`
+  const buffer = await sharp(path.join("dist", post.data.cover.src.src))
     .resize({
       width: DIMENSIONS.width,
       height: DIMENSIONS.height,
       fit: "cover",
       ...post.data.cover,
     })
-    .png({ quality: 90 })
+    .png()
     .toBuffer();
+
+  console.log(post.slug + " " + "complete");
 
   return {
     body: buffer,
