@@ -10,10 +10,8 @@ export const DIMENSIONS = {
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export const get: APIRoute = async function get({ props, url }) {
+export const get: APIRoute = async function get({ props }) {
   const post: CollectionEntry<"blog"> = props.entry;
-
-  console.log(url);
 
   // TODO: Don't hardcode `dist`
   const buffer = await sharp(path.join("dist", post.data.cover.src.src))
