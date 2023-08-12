@@ -247,7 +247,7 @@ import acceptHeader from "./_assets/accept-header.webp";
 Image services use this header to send back the most optimized and
 compatible image, even if it is in a different format than the one
 requested. This process is called
-[content negotiation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation),
+[**content negotiation**](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation),
 but what this means is that you can save a high-quality image as a JPEG or
 PNG and use that in your HTML. Even if you want responsive images, the
 markup becomes relatively simple:
@@ -331,7 +331,7 @@ import svgBr from "./_assets/svg-br-compression.webp";
   caption="Use HTTP compression like GZIP or Brotli to reduce the transfer size of SVGs"
 />
 
-## WordPress support
+## Serving images in next-gen formats in WordPress
 
 - [WordPress 5.8+](https://make.wordpress.org/core/2021/06/07/wordpress-5-8-adds-webp-support/)
   can upload and use WebP images
@@ -356,7 +356,7 @@ times. Each format has its
 but in general:
 
 - Prefer `<video>` elements over **animated GIFs**. Most of the time,
-  videos will be significantly smaller.
+  compressed video will be significantly smaller.
 - Prefer SVG for images composed of relatively simple lines, points,
   polygons, and text. **Icons**, **logos**, and **simple illustrations**
   are usually good use cases for the SVG format.
