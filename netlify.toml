@@ -5,3 +5,7 @@
     max-age=63072000;
     includeSubDomains;
     preload'''
+
+  for = "/*.woff2
+  [headers.values]
+    Cache-Control: public,max-age=31536000,immutable
