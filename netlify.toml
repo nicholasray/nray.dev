@@ -9,3 +9,8 @@
   for = "*.woff2"
   [headers.values]
     Cache-Control = "public,max-age=31536000,immutable"
+[[redirects]]
+  from = "/blog/how-to-defer-offscreen-images-the-modern-and-fast-way/"
+  to = "/blog/how-to-defer-offscreen-images/"
+  status = 301
+

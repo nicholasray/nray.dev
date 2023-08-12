@@ -1,19 +1,21 @@
 import { defineConfig, sharpImageService } from "astro/config";
-import netlify from '@astrojs/netlify';
+
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import ayu from "./ayu.theme.json";
+
 // https://astro.build/config
 import mdx from "@astrojs/mdx";
 import { remarkReadingTime } from "./remark/remarkReadingTime";
 import rehypePrettyCode from "rehype-pretty-code";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+
 // https://astro.build/config
 import sitemap from "@astrojs/sitemap";
+
 // https://astro.build/config
 export default defineConfig({
-  adapter: netlify(),
   site: "https://www.nray.dev",
   trailingSlash: "always",
   experimental: {
@@ -75,8 +77,5 @@ export default defineConfig({
       filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
     }),
   ],
-  compressHTML: true,
-  redirects: {
-    '/blog/how-to-defer-offscreen-images-the-modern-and-fast-way/': '/blog/how-to-defer-offscreen-images/'
-  }
+  compressHTML: true
 });
