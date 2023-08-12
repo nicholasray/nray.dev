@@ -7,6 +7,7 @@ cover:
 description:
   "The detailed guide to serving your website's images as fast as possible"
 publishedAt: 2023-08-11
+updatedAt: 2023-08-12
 ---
 
 Running a Lighthouse or [PageSpeed Insights](https://pagespeed.web.dev/)
@@ -20,7 +21,7 @@ import psi from "./_assets/page-speed-insights-next-gen-image-formats.webp";
 
 <Image
   src={psi}
-  alt="PageSpeed Insights report showing a failing `serve images next-gen formats` audit"
+  alt="PageSpeed Insights report showing a failing `serve images next-gen formats` audit."
   loading="eager"
   fetchpriority="high"
 />
@@ -64,9 +65,9 @@ Check caniuse for the latest [WebP](https://caniuse.com/avif) and
 ## How do next-gen formats improve performance?
 
 Smaller image file sizes result in faster download times since the browser
-has fewer bytes to download. But how much smaller is WebP and AVIF compared
-to PNG and JPEG? It depends on the image. Several studies show huge
-improvements, though:
+has fewer bytes to download. But how much smaller are WebP and AVIF
+compared to PNG and JPEG? It depends on the image. Several studies show
+huge improvements, though:
 
 - WebP file sizes were
   [23% smaller than PNG](https://developers.google.com/speed/webp/docs/webp_lossless_alpha_study)
@@ -97,9 +98,9 @@ that affects your website's search engine ranking on Google.
 
 ## How do I serve WebP or AVIF?
 
-Ultimately, the strategy you use to serve WebP or AVIF depends on your
-desired optimization level, browser compatibility requirements, and
-technical stack.
+Ultimately, your strategy to serve WebP or AVIF depends on your desired
+optimization level, browser compatibility requirements, and technical
+stack.
 
 ### Option 1: Only use WebP
 
@@ -131,13 +132,13 @@ import noWebPSupport from "./_assets/no-webp-support-experience.webp";
 
 <Image
   src={noWebPSupport}
-  alt="Screenshot of nray.dev page using an emulated Chrome setting that turns off WebP support. As a result, the browser just shows whitespace instead of images. "
+  alt="Screenshot of nray.dev page using an emulated Chrome setting that turns off WebP support. As a result, the browser shows whitespace instead of images. "
   caption="If you exclusively use WebP images, browsers that don't support it won't show any image."
 />
 
 So how can you solve both of these issues?
 
-### Option 2: Offer multiple image formats with HTML
+### Option 2: Serve multiple image formats with HTML
 
 You can save to multiple image formats using the same tools mentioned
 above. For the most optimized image supporting the most extensive set of
@@ -225,16 +226,16 @@ this:
 
 The increased HTML size should compress well if your server supports HTTP
 compression like [GZIP](https://en.wikipedia.org/wiki/Gzip) or
-[Brotli](https://en.wikipedia.org/wiki/Brotli), but saving or converting to
+[Brotli](https://en.wikipedia.org/wiki/Brotli). But saving or converting to
 all of these different sizes and formats can be painful.
 
 What can you do instead?
 
-### Option 3: Use an image service
+### Option 3: Serve multiple image formats with content negotiation
 
-The third option is to use JPEG or PNG and let an image service do the
-heavy lifting. How does this work? When requesting an image, the browser
-tells the server what formats it supports via the `Accept` header.
+The third option is to use JPEG or PNG and have logic on the server to do
+the heavy lifting. How does this work? When requesting an image, the
+browser tells the server what formats it supports via the `Accept` header.
 
 import acceptHeader from "./_assets/accept-header.webp";
 
@@ -244,12 +245,12 @@ import acceptHeader from "./_assets/accept-header.webp";
   caption="The browser tells the server what formats it supports with each image request."
 />
 
-Image services use this header to send back the most optimized and
-compatible image, even if it is in a different format than the one
-requested. This process is called
+The server uses this header to send back the most optimized and compatible
+image, even if it is in a different format than the one requested. This
+process is called
 [**content negotiation**](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation),
 but what this means is that you can save a high-quality image as a JPEG or
-PNG and use that in your HTML. Even if you want responsive images, the
+PNG and just use that in your HTML. Even if you want responsive images, the
 markup becomes relatively simple:
 
 ```html
@@ -268,15 +269,17 @@ markup becomes relatively simple:
 />
 ```
 
-The image service will automatically choose the best compression and
-format, typically a WebP or AVIF, and send _that_ back to the user.
+**With content negotiation, adding extra HTML to support different formats
+is unnecessary**. The server will choose the best compression and format,
+typically a WebP or AVIF, and send _that_ back to the user.
 
-How do you use an image service?
+How do you use content negotiation?
 
-## How to use an image service
+## How to use content negotiation
 
-First, your technical stack may already have an image service you can use.
-For example, the NextJS framework ships with an
+First, your technical stack may already have a service or plugin with
+content negotiation that you can use. For example, the NextJS framework
+ships with an
 [image optimization API](https://nextjs.org/learn/seo/improve/images) that
 uses content negotiation to choose the best format the browser supports.
 
@@ -284,11 +287,11 @@ Although it's not free, you may already be on a CDN like
 [Cloudflare](https://www.cloudflare.com/developer-platform/cloudflare-images/),
 [Fastly](https://www.fastly.com/products/image-optimization), or
 [Akamai](https://www.akamai.com/products/image-and-video-manager) that
-offers an image service.
+offers an image service with content negotiation.
 
 Finally, dedicated image services like
 [Cloudinary](https://cloudinary.com/) or [imgix](https://imgix.com/) are
-also popular options.
+also popular options that use content negotiation.
 
 Ideally, the image's URL should point to the same domain that your website
 uses instead of something like `https://res.cloudinary.com/.../cat.jpg`. If
@@ -355,7 +358,7 @@ times. Each format has its
 [strengths and weaknesses](https://res.cloudinary.com/cloudinary-marketing/image/upload/w_700,c_fill,f_auto,q_auto,dpr_2.0/Web_Assets/blog/Battle-of-the-Codecs_fnl.png),
 but in general:
 
-- Prefer `<video>` elements over **animated GIFs**. Most of the time,
+- Prefer `<video>` elements over **animated GIFs**. Most of the time, the
   compressed video will be significantly smaller.
 - Prefer SVG for images composed of relatively simple lines, points,
   polygons, and text. **Icons**, **logos**, and **simple illustrations**
@@ -365,5 +368,5 @@ but in general:
 
 Finally, how you serve the newer formats depends on your desired
 optimization level, technical stack, and browser compatibility
-requirements. Most people will likely find using an image service the best
-balance of performance and ease.
+requirements. Most people will likely find using an image service with
+content negotiation the best balance of performance and ease.
