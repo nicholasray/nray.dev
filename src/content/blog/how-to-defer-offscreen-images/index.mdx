@@ -1,5 +1,5 @@
 ---
-title: "How to Defer Offscreen Images (the Modern and Fast Way)"
+title: "How to Defer Offscreen Images In 2023"
 cover:
   src: ./_assets/camera.jpg
   alt: "Camera lying on book"
@@ -8,7 +8,7 @@ cover:
     Carstens-Peters](https://unsplash.com/photos/loaTW2AfDYU)"
 description: "The detailed guide to lazy loading your website's images"
 publishedAt: 2023-08-02
-updatedAt: 2023-08-08
+updatedAt: 2023-08-13
 ---
 
 import Image from "@components/BlogImage.astro";
@@ -298,13 +298,14 @@ additional plugins:
 Deferring your offscreen images is now easier than ever with native lazy
 loading in the browser. Just keep in mind these constraints:
 
-- Lazy-load images with the native `loading="lazy"` attribute
+- Lazy-load images with the native `loading="lazy"` attribute.
 - Only lazy-load below-the-fold images. Above-the-fold images should not
   have the `loading` attribute.
 - Improve your LCP time (in supporting browsers) by adding
   `fetchpriority="high"` to the LCP image.
 - Native lazy loading doesn't work for background images. Either replace
   with an image element or use `IntersectionObserver` to lazy-load those.
+- Serve the [best image format](/blog/how-to-serve-images-in-next-gen-formats/) for the fastest load times.
 
 Here's a **cheatsheet** summarizing most of this:
 
