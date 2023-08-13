@@ -24,8 +24,6 @@ export const get: APIRoute = async function get({ props }) {
     .png()
     .toBuffer();
 
-  console.log(post.slug + " " + "complete");
-
   return {
     body: buffer,
     encoding: "binary",
