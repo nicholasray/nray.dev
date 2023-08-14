@@ -5,7 +5,7 @@ import type { AstroIntegration } from "astro";
 import fs from "node:fs/promises";
 import { v2 as cloudinary } from "cloudinary";
 const ASSET_DIR = "_astro";
-const SHOULD_REMOVE_EXTENSION = !!process.env["CLOUDINARY_REDIRECT_ENABLED"];
+const IS_REDIRECT_ENABLED = !!process.env["CLOUDINARY_REDIRECT_ENABLED"];
 
 cloudinary.config({
   cloud_name: "nray",
@@ -14,11 +14,7 @@ cloudinary.config({
   secure: true,
 });
 
-function removeExtensionIfRequired(filename: string) {
-  if (SHOULD_REMOVE_EXTENSION) {
-    return filename;
-  }
-
+function removeExtension(filename: string) {
   return filename.substring(0, filename.lastIndexOf(".")) || filename;
 }
 
@@ -27,6 +23,10 @@ export default (): AstroIntegration => {
     name: "rewriteImagePaths",
     hooks: {
       "astro:build:done": async ({ dir, pages }) => {
+        if (!IS_REDIRECT_ENABLED) {
+          return;
+        }
+
         const files = (await fs.readdir(`${dir.pathname}/${ASSET_DIR}`)).filter(
           (file) => {
             return (
@@ -82,7 +82,7 @@ export default (): AstroIntegration => {
               files.map(async (file) => {
                 contents = contents.replaceAll(
                   file,
-                  removeExtensionIfRequired(`images/${file}`),
+                  removeExtension(`images/${file}`),
                 );
               }),
             );
