@@ -2,7 +2,8 @@
 title: "How To Serve Images in Next-Gen Formats"
 cover:
   src: ./_assets/next-gen-image-formats.svg
-  alt: "Browser showing a passing `serve images in next-gen formats` audit."
+  alt:
+    "Browser showing a passing `serve images in next-gen formats` audit."
   position: "left top"
 description:
   "The detailed guide to serving your website's images as fast as possible"
@@ -84,8 +85,7 @@ huge improvements, though:
 
 The proper image format can significantly improve your website's load time,
 especially when using other techniques like
-[lazy loading images](/blog/how-to-defer-offscreen-images/).
-You can use
+[lazy loading images](/blog/how-to-defer-offscreen-images/). You can use
 [Cloudinary's image analysis tool](https://webspeedtest.cloudinary.com/) on
 your website to see the file size differences you might get from picking
 the correct format and compression.
@@ -162,7 +162,7 @@ following:
     height="200"
     alt="A sitting cat."
     type="image/jpg"
-    srcset="/cat.jpg"
+    src="/cat.jpg"
   />
 </picture>
 ```
@@ -296,8 +296,8 @@ also popular options that use content negotiation.
 Ideally, the image's URL should point to the same domain that your website
 uses instead of something like `https://res.cloudinary.com/.../cat.jpg`. If
 it's different, the browser must spend extra time setting up another
-connection, which can negate the benefits of image optimization.
-One option to get around this is to
+connection, which can negate the benefits of image optimization. One option
+to get around this is to
 [proxy image requests](https://timkadlec.com/remembers/2020-11-17-netlify-proxy-requests/)
 to another domain from your domain.
 
