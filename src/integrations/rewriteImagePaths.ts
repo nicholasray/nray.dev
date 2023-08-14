@@ -5,7 +5,7 @@ import type { AstroIntegration } from "astro";
 import fs from "node:fs/promises";
 import { v2 as cloudinary } from "cloudinary";
 const ASSET_DIR = "_astro";
-const IS_REDIRECT_ENABLED = !!process.env["CLOUDINARY_REDIRECT_ENABLED"];
+const IS_REDIRECT_ENABLED = !!process.env["CLOUDINARY_REDIRECT"];
 
 cloudinary.config({
   cloud_name: "nray",
