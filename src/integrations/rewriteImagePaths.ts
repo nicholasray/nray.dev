@@ -1,6 +1,26 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import type { AstroIntegration } from "astro";
 import fs from "node:fs/promises";
+import { v2 as cloudinary } from "cloudinary";
 const ASSET_DIR = "_astro";
+const SHOULD_REMOVE_EXTENSION = !!process.env["CLOUDINARY_REDIRECT_ENABLED"];
+
+cloudinary.config({
+  cloud_name: "nray",
+  api_key: process.env["CLOUDINARY_API_KEY"],
+  api_secret: process.env["CLOUDINARY_API_SECRET"],
+  secure: true,
+});
+
+function removeExtensionIfRequired(filename: string) {
+  if (SHOULD_REMOVE_EXTENSION) {
+    return filename;
+  }
+
+  return filename.substring(0, filename.lastIndexOf(".")) || filename;
+}
 
 export default (): AstroIntegration => {
   return {
@@ -13,7 +33,6 @@ export default (): AstroIntegration => {
               file.endsWith(".png") ||
               file.endsWith(".jpg") ||
               file.endsWith(".jpeg") ||
-              file.endsWith(".svg") ||
               file.endsWith(".gif") ||
               file.endsWith(".webp")
             );
@@ -28,14 +47,26 @@ export default (): AstroIntegration => {
         // where the image is located without an infinite redirection.
         await Promise.all(
           files.map(async (file) => {
-            await fs.copyFile(
-              `${dir.pathname}/${ASSET_DIR}/${file}`,
-              `${dir.pathname}/${ASSET_DIR}/images/${file}`,
-            );
+            const from = `${dir.pathname}/${ASSET_DIR}/${file}`;
+            const to = `${dir.pathname}/${ASSET_DIR}/images/${file}`;
+            await fs.copyFile(from, to);
+
+            const response = await cloudinary.uploader.upload(to, {
+              eager: [
+                { quality: "auto", format: "" },
+                { fetch_format: "avif", format: "", quality: "auto" },
+                { fetch_format: "webp", format: "", quality: "auto" },
+              ],
+              overwrite: false,
+              use_filename: true,
+              unique_filename: false,
+            });
+
+            console.log(response);
           }),
         );
 
-        // Edit html files point to new image paths.
+        // Edit html files to point to new image paths.
         await Promise.all(
           pages.map(async (page) => {
             const path = `${dir.pathname}${page.pathname}index.html`;
@@ -49,7 +80,10 @@ export default (): AstroIntegration => {
 
             await Promise.all(
               files.map(async (file) => {
-                contents = contents.replaceAll(file, `images/${file}`);
+                contents = contents.replaceAll(
+                  file,
+                  removeExtensionIfRequired(`images/${file}`),
+                );
               }),
             );
 
