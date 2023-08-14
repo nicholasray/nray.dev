@@ -13,4 +13,9 @@
   from = "/blog/how-to-defer-offscreen-images-the-modern-and-fast-way/"
   to = "/blog/how-to-defer-offscreen-images/"
   status = 301
+[[redirects]]
+  from = "/_astro/images/:image"
+  to = "https://res.cloudinary.com/nray/image/fetch/q_auto,f_auto/https://www.nray.dev/_astro/:image"
+  status = 200
+  force = true
 

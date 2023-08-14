@@ -7,7 +7,6 @@ export default (): AstroIntegration => {
     name: "rewriteImagePaths",
     hooks: {
       "astro:build:done": async ({ dir, pages }) => {
-        // Move images from
         const files = (await fs.readdir(`${dir.pathname}/${ASSET_DIR}`)).filter(
           (file) => {
             return (
@@ -24,10 +23,12 @@ export default (): AstroIntegration => {
         // Make directory.
         await fs.mkdir(`${dir.pathname}/${ASSET_DIR}/images`);
 
-        // Move images to new directory.
+        // Copy images to new directory. Copy instead of move because the image
+        // request will proxy from nray.dev to cloudinary and cloudinary to know
+        // where the image is located without an infinite redirection.
         await Promise.all(
           files.map(async (file) => {
-            await fs.rename(
+            await fs.copyFile(
               `${dir.pathname}/${ASSET_DIR}/${file}`,
               `${dir.pathname}/${ASSET_DIR}/images/${file}`,
             );
