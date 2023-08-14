@@ -21,27 +21,32 @@ const {
   rounded = true,
   ...props
 } = Astro.props;
+
+const classList: Record<string, boolean> = {
+  "flex justify-center": !fullWidth,
+  "!mt-0": !fullWidth,
+  "w-full": fullWidth,
+  "shadow-xl": !!shadow,
+  "bg-white": !!background,
+  "rounded-lg": !!rounded,
+};
+
+const classes = Object.keys(classList)
+  .map((key) => {
+    return classList[key] ? key : undefined;
+  })
+  .filter((key) => !!key)
+  .join(" ");
 ---
 
 <figure>
   <a href={src.src}>
     <Image
       alt={alt}
-      centered={!fullWidth}
-      class:list={[
-        {
-          "!mt-0": !fullWidth,
-          "w-full": fullWidth,
-          "shadow-xl": shadow,
-          "bg-white": background,
-          "rounded-lg": rounded,
-        },
-      ]}
+      class={classes}
       src={src}
-      widths={src.format !== "svg" ? [400, 800, 1400] : undefined}
-      sizes={src.format !== "svg"
-        ? "(min-width: 48rem) 42.375rem, 100vw"
-        : undefined}
+      widths={[400, 800, 1400]}
+      sizes={"(min-width: 48rem) 42.375rem, 100vw"}
       {...props}
     />
   </a>

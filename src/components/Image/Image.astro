@@ -6,50 +6,57 @@ import { getImage } from "astro:assets";
 type Img = Omit<HTMLAttributes<"img">, "src">;
 
 interface Props extends Img {
-  src: ImageMetadata | string;
-  dark?: ImageMetadata | string;
+  src: ImageMetadata;
+  dark?: ImageMetadata;
   widths?: number[];
   sizes?: string;
-  centered?: boolean;
   alt: string;
+  class?: string;
 }
 
 const props = Astro.props as Props;
-if (props.src instanceof Object && props.src.format === "svg") {
-  // Remove responsive image settings if format is svg because that is already
-  // responsive.
-  delete props.widths;
-  delete props.sizes;
+
+/* eslint-disable no-unused-vars */
+const {
+  class: className,
+  src: _,
+  dark: __,
+  widths: ___,
+  sizes: ____,
+  ...attrs
+} = props;
+/* eslint-enable no-unused-vars */
+
+interface Variant {
+  src: ImageMetadata;
+  media: string;
 }
 
-const [light, dark] =
-  props.widths && props.sizes
-    ? await Promise.all([
-        Promise.all(
-          props.widths.map((width) => {
-            return getImage({ src: props.src, width });
-          }),
-        ),
-        props.dark &&
-          Promise.all(
-            props.widths.map((width) => {
-              return getImage({ src: props.dark!, width });
-            }),
-          ),
-      ])
-    : await Promise.all([
-        Promise.all([getImage({ src: props.src })]),
-        props.dark ? Promise.all([getImage({ src: props.dark })]) : null,
-      ]);
+const variants: Variant[] = [
+  { src: props.src, media: "(prefers-color-scheme: light)" },
+];
+if (props.dark) {
+  variants.push({ src: props.dark, media: "(prefers-color-scheme: dark)" });
+}
 
-const format = `image/${light[0].options.format}`;
-// eslint-disable-next-line no-unused-vars
-const { src, centered, dark: _, widths: __, sizes, ...rest } = props;
-const attributes = {
-  ...light[0].attributes,
-  ...rest,
-};
-const original = light[light.length - 1].src;
+const images = await Promise.all(
+  variants.map(async (variant) => {
+    const widths = props.widths ?? [undefined];
+
+    return {
+      ...variant,
+      widths: await Promise.all(
+        widths.map((width) => {
+          return getImage({
+            src: variant.src,
+            width,
+            format: variant.src.format,
+          });
+        }),
+      ),
+    };
+  }),
+);
 
 function getSrcSet(images: GetImageResult[]) {
   if (!props.widths) {
@@ -66,40 +73,37 @@ function getSrcSet(images: GetImageResult[]) {
 }
 
 const imgAttrs = {
-  src: original,
-  srcset: getSrcSet(light),
-  sizes: sizes,
-  ...attributes,
-  decoding: undefined,
+  ...images[0].widths[0].attributes,
+  width: props.src.width,
+  height: props.src.height,
+  ...attrs,
 };
 ---
 
 {
-  dark ? (
-    <picture class={centered ? "flex justify-center" : undefined}>
-      <source
-        srcset={
-          format === "image/svg"
-            ? light[light.length - 1].src
-            : getSrcSet(light)
-        }
-        media="(prefers-color-scheme: light)"
-        sizes={sizes}
+  images.length > 1 ? (
+    <picture class={className}>
+      {images.map((image) => {
+        return (
+          <source
+            srcset={getSrcSet(image.widths)}
+            media={image.media}
+            sizes={props.sizes}
+          />
+        );
+      })}
+      <img
+        src={images[0].widths[images[0].widths.length - 1].src}
+        {...imgAttrs}
       />
-      <source
-        srcset={
-          format === "image/svg" ? dark[dark.length - 1].src : getSrcSet(dark)
-        }
-        media="(prefers-color-scheme: dark)"
-        sizes={sizes}
-      />
-      <img src={original} {...attributes} />
     </picture>
-  ) : centered ? (
-    <div class="flex justify-center">
-      <img {...imgAttrs} />
-    </div>
   ) : (
-    <img {...imgAttrs} />
+    <img
+      src={images[0].widths[images[0].widths.length - 1].src}
+      srcset={getSrcSet(images[0].widths)}
+      sizes={props.sizes}
+      class={className}
+      {...imgAttrs}
+    />
   )
 }
