@@ -171,15 +171,15 @@ The order of the `<source>` and `<img>` elements is essential as the
 browser will load the first supported format starting from the top. For
 example:
 
-- If the browser supports AVIF, it will load the AVIF image using the first
-  `<source>` element
-- If the browser doesn't support AVIF but supports WebP, it will load the
-  WebP image using the second `<source>` element
-- If the browser doesn't support AVIF or WebP, it will load the JPEG via
-  the third `<source>` element.
+- If the browser supports AVIF, the AVIF loads from the first `<source>`
+  element.
+- If the browser doesn't support AVIF but supports WebP, the WebP loads
+  from the second `<source>` element.
+- If the browser doesn't support AVIF or WebP, the JPEG loads from the
+  third `<source>` element.
 - If the browser doesn't support the `<picture>` element
-  ([IE11](https://caniuse.com/picture)), it will use the JPEG from the
-  `<img>` element.
+  ([IE11](https://caniuse.com/picture)), the JPEG loads from the `<img>`
+  element.
 
 In practice, offering multiple formats can quickly become complex when you
 want
