@@ -58,10 +58,10 @@ smaller file sizes, faster download times, and less bandwidth consumption.
 
 There was a time when WebP had much lower browser compatibility. But now,
 **all** modern browsers support WebP, including the latest versions of
-Safari. AVIF has also seen steadily increasing support.
+Safari. AVIF has also seen a steady increase of browser support.
 
 Check caniuse for the latest [WebP](https://caniuse.com/avif) and
-[AVIF](https://caniuse.com/avif) browser compatibility.
+[AVIF](https://caniuse.com/avif) compatibility.
 
 ## How do next-gen formats improve performance?
 
@@ -72,19 +72,19 @@ huge improvements, though:
 
 - WebP file sizes were
   [23% smaller than PNG](https://developers.google.com/speed/webp/docs/webp_lossless_alpha_study)
-  with the same visual quality in a study from Google
+  with the same visual quality in a study from Google.
 - WebP file sizes were
   [25%-34% smaller than JPEG](https://developers.google.com/speed/webp/docs/webp_study)
-  with the same visual quality in another study from Google
+  with the same visual quality in another study from Google.
 - AVIF
   [showed much better compression efficiency than JPEG](https://netflixtechblog.com/avif-for-next-generation-image-coding-b1d75675fe4)
   in a study from Netflix.
 - AVIF had
   [significantly better compression](https://storage.googleapis.com/avif-comparison/index.htm)
-  compared to WebP and JPEG in a study from Google
+  compared to WebP and JPEG in a study from Google.
 
 The proper image format can significantly improve your website's load time,
-especially when using other techniques like
+especially when combined with other techniques like
 [lazy loading images](/blog/how-to-defer-offscreen-images/). You can use
 [Cloudinary's image analysis tool](https://webspeedtest.cloudinary.com/) on
 your website to see the file size differences you might get from picking
@@ -123,8 +123,8 @@ Once converted, you can use WebP with the standard image element:
 
 But there are a couple of downsides to this approach:
 
-- By only using WebP, you are likely losing out on (much) smaller file
-  sizes that you might get from the less supported AVIF format.
+- You are likely missing out on (much) smaller file sizes that you might
+  get from the less supported AVIF format.
 - Users with browsers that don't support WebP won't see **any image** that
   uses the WebP format.
 
@@ -140,9 +140,9 @@ So how can you solve both of these issues?
 
 ### Option 2: Serve different formats with HTML
 
-You can save to multiple image formats using the same tools mentioned
-above. For the most optimized image supporting the most extensive set of
-browsers, save to **AVIF**, **WebP**, and **JPEG** (or **PNG**) formats.
+You can save multiple image formats using the same tools mentioned above.
+For the most optimized image supporting the most extensive set of browsers,
+save to **AVIF**, **WebP**, and **JPEG** (or **PNG**) formats.
 
 Then, let the browser decide which format to load using HTML like the
 following:
@@ -155,8 +155,8 @@ following:
   <source type="image/webp" srcset="/cat.webp" />
   <!-- If AVIF and WebP aren't supported, load the JPEG-->
   <source type="image/jpeg" srcset="/cat.jpg" />
-  <!-- If AVIF, WebP, and the picture element aren't supported, load
-  the JPEG using the img element-->
+  <!-- If the picture element isn't supported, load
+  the JPEG from the <img> element -->
   <img
     width="200"
     height="200"
@@ -299,7 +299,7 @@ it's different, the browser must spend extra time setting up another
 connection, which can negate the benefits of image optimization. One option
 to get around this is to
 [proxy image requests](https://timkadlec.com/remembers/2020-11-17-netlify-proxy-requests/)
-to another domain from your domain.
+from your domain to the image service.
 
 ## What about SVGs?
 
