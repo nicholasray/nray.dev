@@ -112,7 +112,9 @@ const imgAttrs = {
   ) : (
     <img
       src={images[0].widths[images[0].widths.length - 1].src}
-      srcset={getSrcSet(images[0].widths)}
+      srcset={
+        images[0].widths.length > 1 ? getSrcSet(images[0].widths) : undefined
+      }
       sizes={props.sizes}
       class={className}
       {...imgAttrs}
