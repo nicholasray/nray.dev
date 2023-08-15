@@ -12,8 +12,12 @@ export default async (request: Request) => {
       .replace("/optimize", "")
       .replace(ext, ext === "" ? "" : format);
 
+    console.log("FROM: " + request.url, "TO: " + url);
+
     return new URL(url);
   }
+
+  console.info("ACCEPTIS: " + accept);
 
   if (accept?.includes("image/avif")) {
     return rewriteUrl("avif");
