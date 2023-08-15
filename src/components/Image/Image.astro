@@ -32,6 +32,12 @@ interface Variant {
   media: string;
 }
 
+if (props.src.format === "svg") {
+  // Remove sizes and widths if svg as there should only be one size.
+  props.widths = undefined;
+  props.sizes = undefined;
+}
+
 const variants: Variant[] = [
   { src: props.src, media: "(prefers-color-scheme: light)" },
 ];
@@ -50,6 +56,8 @@ const images = await Promise.all(
           return getImage({
             src: variant.src,
             width,
+            quality: 100,
+            format: props.src.format,
           });
         }),
       ),
@@ -58,6 +66,10 @@ const images = await Promise.all(
 );
 
 function getSrcSet(images: GetImageResult[]) {
+  if (props.src.format === "svg") {
+    return images[0].src;
+  }
+
   if (!props.widths) {
     return null;
   }
