@@ -50,7 +50,6 @@ const images = await Promise.all(
           return getImage({
             src: variant.src,
             width,
-            format: variant.src.format,
           });
         }),
       ),
