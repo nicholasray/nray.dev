@@ -120,10 +120,13 @@ export default (): AstroIntegration => {
                 { fetch_format: "avif", format: "", quality: "auto" },
                 { fetch_format: "webp", format: "", quality: "auto" },
               ],
+              public_id: `w_${metadata.width}-${to.split("/").pop()}`,
               overwrite: false,
-              use_filename: true,
-              unique_filename: false,
             });
+
+            if (response.width === 400) {
+              console.log("**", response);
+            }
 
             await Promise.all(
               response.eager.map(async (img: CloudinaryEager) => {
