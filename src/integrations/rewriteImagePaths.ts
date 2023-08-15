@@ -124,10 +124,6 @@ export default (): AstroIntegration => {
               overwrite: false,
             });
 
-            if (response.width === 400) {
-              console.log("**", response);
-            }
-
             await Promise.all(
               response.eager.map(async (img: CloudinaryEager) => {
                 // Download optimized image to our directory.
