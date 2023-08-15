@@ -1,6 +1,5 @@
 export default async (request: Request) => {
   const accept = request.headers.get("Accept");
-  const dotIdx = request.url.lastIndexOf(".");
 
   // FROM: /optimize/_astro/images/w_400/inp-search-ranking.1b71b3f5.jpg
   // TO:  /_astro/images/w_400/inp-search-ranking.1b71b3f5.avif
@@ -8,10 +7,13 @@ export default async (request: Request) => {
   // TO:  /_astro/images/w_400/inp-search-ranking.1b71b3f5.jpg
   function rewriteUrl(format: string) {
     let url = request.url.replace("/optimize", "");
+    const dotIdx = url.lastIndexOf(".");
 
     if (format !== "") {
       url = url.substring(0, dotIdx < 0 ? url.length : dotIdx) + `.${format}`;
     }
+
+    console.log("********", dotIdx, url);
 
     return new URL(url);
   }
