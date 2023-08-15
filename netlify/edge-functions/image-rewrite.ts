@@ -13,8 +13,6 @@ export default async (request: Request) => {
       url = url.substring(0, dotIdx < 0 ? url.length : dotIdx) + `.${format}`;
     }
 
-    console.log("********", dotIdx, url);
-
     return new URL(url);
   }
 
