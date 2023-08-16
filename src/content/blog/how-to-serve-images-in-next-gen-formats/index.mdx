@@ -18,7 +18,7 @@ smaller with a newer format like **WebP** or **AVIF**.
 
 import Image from "@components/BlogImage.astro";
 
-import psi from "./_assets/page-speed-insights-next-gen-image-formats.webp";
+import psi from "./_assets/page-speed-insights-next-gen-image-formats.png";
 
 <Image
   src={psi}
@@ -128,7 +128,7 @@ But there are a couple of downsides to this approach:
 - Users with browsers that don't support WebP won't see **any image** that
   uses the WebP format.
 
-import noWebPSupport from "./_assets/no-webp-support-experience.webp";
+import noWebPSupport from "./_assets/no-webp-support-experience.png";
 
 <Image
   src={noWebPSupport}
@@ -237,7 +237,7 @@ The third option is to use JPEG or PNG and have logic on the server to do
 the heavy lifting. How does this work? When requesting an image, the
 browser tells the server what formats it supports via the `Accept` header.
 
-import acceptHeader from "./_assets/accept-header.webp";
+import acceptHeader from "./_assets/accept-header.png";
 
 <Image
   src={acceptHeader}
@@ -326,7 +326,7 @@ possible:
 - Ensure your website's server has HTTP compression like GZIP or Brotli
   enabled for SVGs
 
-import svgBr from "./_assets/svg-br-compression.webp";
+import svgBr from "./_assets/svg-br-compression.png";
 
 <Image
   src={svgBr}
