@@ -12,7 +12,7 @@
 [[headers]]
   for = "/_astro/*.jpg"
   [headers.values]
-    Cache-Control: "private,max-age=31536000,immutable"
+    Cache-Control = "private,max-age=31536000,immutable"
 [[redirects]]
   from = "/blog/how-to-defer-offscreen-images-the-modern-and-fast-way/"
   to = "/blog/how-to-defer-offscreen-images/"
