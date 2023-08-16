@@ -8,7 +8,7 @@ cover:
     Carstens-Peters](https://unsplash.com/photos/loaTW2AfDYU)"
 description: "The detailed guide to lazy loading your website's images"
 publishedAt: 2023-08-02
-updatedAt: 2023-08-13
+updatedAt: 2023-08-16
 ---
 
 import Image from "@components/BlogImage.astro";
@@ -29,8 +29,8 @@ import lighthouseMessage from "./_assets/lighthouse-defer-offscreen-images-messa
 How do you fix it? **You need to add the `loading="lazy"` attribute to all
 image elements below the fold.**
 
-This is the technique used by some of the biggest sites in the world,
-including [**Medium**](/assets/deferred-offscreen-image/medium.webp),
+This technique is used by some of the biggest sites in the world, including
+[**Medium**](/assets/deferred-offscreen-image/medium.webp),
 [**LinkedIn**](/assets/deferred-offscreen-image/linkedin.webp), and
 [**IMDb**](/assets/deferred-offscreen-image/imdb.webp). In this article,
 I'll show you how it's done.
@@ -50,7 +50,7 @@ import phoneDemoDark from "./_assets/phone-demo-dark.svg";
 <Image
   src={phoneDemo}
   dark={phoneDemoDark}
-  alt="Mobile phone with several images in the viewport that have been loaded and a couple images outside the viewport which have not been loaded."
+  alt="Mobile phone with several images in the viewport that have been loaded. A couple of images below the viewport have not been loaded."
   fullWidth={false}
   caption="Lazy-loaded images don't load until they are near the viewport."
 />
@@ -74,12 +74,12 @@ In short, it's a waste of resources. It leads to:
 - **Longer load times**
 - **Higher mobile phone data costs for your users**
 - **Higher bandwidth costs for you and the host of your website**
-- **Browser resources that could have potentially been used for other (more
-  important) things**
+- **Browser resources that could have been used for other (more important)
+  things**
 
 According to HTTP Archive, images are
 [the most popular asset on the web](https://httparchive.org/reports/state-of-images),
-so it's essential to load them efficiently.
+so loading them efficiently is essential.
 
 What does that look like?
 
@@ -88,7 +88,7 @@ What does that look like?
 ### Use native lazy loading
 
 There was a time when JavaScript was the only method for lazy loading
-images. Then browsers implemented a way to do it using an HTML attribute.
+images. Then, browsers implemented a way to do it using an HTML attribute.
 But browser support wasn't good, so most websites continued to use
 JavaScript.
 
@@ -109,8 +109,8 @@ the default way — during page load — so it
 
 As of July 2023, only around
 [27% of desktop and mobile sites](https://httparchive.org/reports/state-of-images#imgLazy)
-are using this feature. The rest either load their images during page load
-or use JavaScript to lazy-load them. But JavaScript can cause
+use this feature. The rest either load their images during page load or use
+JavaScript to lazy-load them. But JavaScript can cause
 [responsiveness](/blog/interaction-to-next-paint-inp-everything-you-need-to-know/)
 [issues](/blog/300ms-faster-reducing-wikipedias-total-blocking-time/), so
 it's better to use the HTML attribute when possible.
@@ -119,8 +119,8 @@ That's it! But keep reading because there are some caveats.
 
 ### Don't lazy-load images above the fold
 
-**You should only lazy-load images that are "below the fold" — the part of
-the page that is hidden before scrolling.**
+**You should only lazy-load images "below the fold" — the part of the page
+that is hidden before scrolling.**
 
 Images that are **above the fold** will load quicker by omitting the
 `loading` attribute:
@@ -144,7 +144,7 @@ most popular viewport sizes on desktop and mobile devices and your better
 judgment to determine which images you should lazy-load.
 
 Following this advice will make your above-the-fold images load relatively
-quickly, but what if some images above-the-fold are more important than
+quickly, but what if some images above the fold are more important than
 others?
 
 ### Optimize the Largest Contentful Paint (LCP) image
@@ -157,8 +157,8 @@ becomes visible within the viewport. Images are the
 Omitting the `loading="lazy"` attribute for above-the-fold images within
 the viewport is a good start to better LCP scores, but you can do more:
 
-1. Find the largest image that is above the fold
-2. Add a `fetchpriority="high"` attribute to it:
+1. Find the largest image that is above the fold.
+2. Add a `fetchpriority="high"` attribute to it.
 
 ```html /fetchpriority="high"/
 <!-- LCP image -->
@@ -172,14 +172,14 @@ the viewport is a good start to better LCP scores, but you can do more:
 ```
 
 The `fetchpriority="high"` attribute signals to the browser that the image
-is more important than the other images. **But only use this attribute for
-the largest above-the-fold image on the page.** Prioritizing many images
-can lead to bandwidth contention, which defeats the purpose of
-prioritization.
+is more important than other images and to prioritize it. **But only use
+this attribute for the largest above-the-fold image on the page.**
+Prioritizing many images can lead to bandwidth contention, defeating the
+purpose of prioritization.
 
 Note that [browser support](https://caniuse.com/?search=fetchpriority) for
-this attribute isn't good right now, but browsers that don't support it
-will ignore it.
+this attribute isn't good right now, but browsers without support will
+ignore it.
 
 ## How to lazy-load background images
 
@@ -285,13 +285,13 @@ additional plugins:
 
 - [WordPress 5.5+](https://make.wordpress.org/core/2020/07/14/lazy-loading-images-in-5-5/)
   automatically adds the `loading=lazy` attribute to images with `width`
-  and `height` attributes
+  and `height` attributes.
 - [WordPress 5.9+](https://make.wordpress.org/core/2021/12/29/enhanced-lazy-loading-performance-in-5-9/)
   automatically omits the `loading=lazy` attribute for the content's first
-  image, which most of the time appears above the fold
+  image, which usually appears above the fold.
 - [WordPress 6.3+](https://make.wordpress.org/core/2023/07/13/image-performance-enhancements-in-wordpress-6-3/)
   automatically adds the `fetchpriority=high` attribute to the image it
-  determines is the most likely LCP
+  determines is the most likely LCP.
 
 ## Conclusion
 
@@ -305,7 +305,9 @@ loading in the browser. Just keep in mind these constraints:
   `fetchpriority="high"` to the LCP image.
 - Native lazy loading doesn't work for background images. Either replace
   with an image element or use `IntersectionObserver` to lazy-load those.
-- Serve the [best image format](/blog/how-to-serve-images-in-next-gen-formats/) for the fastest load times.
+- Serve the
+  [best image format](/blog/how-to-serve-images-in-next-gen-formats/) for
+  the fastest load times.
 
 Here's a **cheatsheet** summarizing most of these points:
 
