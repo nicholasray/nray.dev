@@ -10,7 +10,7 @@
   [headers.values]
     Cache-Control = "public,max-age=31536000,immutable"
 [[headers]]
-  for = "/_astro-optimized/*.jpg"
+  for = "/_astro-optimized/*.avif"
   [headers.values]
     Cache-Control = "private,max-age=31536000,immutable"
 [[redirects]]
