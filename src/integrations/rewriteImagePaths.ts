@@ -7,6 +7,8 @@ import { createWriteStream } from "node:fs";
 import { v2 as cloudinary } from "cloudinary";
 import client from "https";
 const ASSET_DIR = "_astro";
+// Keep in sync with image-rewrite.ts
+const OPTIMIZED_ASSET_DIR = `${ASSET_DIR}-optimized`;
 
 cloudinary.config({
   cloud_name: "nray",
@@ -69,7 +71,7 @@ export default (): AstroIntegration => {
             const dotIdx = file.lastIndexOf(".");
             const ext = file.substring(dotIdx);
             const key = file.substring(0, dotIdx);
-            const to = `${distDir}/${ASSET_DIR}-optimized/${key}${ext}`;
+            const to = `${distDir}/${OPTIMIZED_ASSET_DIR}/${key}${ext}`;
 
             // Make directory for unique transformation and copy image to it.
             await fs.mkdir(to.substring(0, to.lastIndexOf("/")), {
