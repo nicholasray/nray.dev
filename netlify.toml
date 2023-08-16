@@ -15,5 +15,4 @@
   status = 301
 [[edge_functions]]
   pattern = "\/_astro\/.+\.(?:jpg|jpeg|png|webp|avif)"
-  excludedPattern = "\/_astro\/images\/.*"
   function = "image-rewrite"
