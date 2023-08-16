@@ -70,8 +70,8 @@ export default (): AstroIntegration => {
             const from = `${distDir}/${ASSET_DIR}/${file}`;
             const dotIdx = file.lastIndexOf(".");
             const ext = file.substring(dotIdx);
-            const key = file.substring(0, dotIdx);
-            const to = `${distDir}/${OPTIMIZED_ASSET_DIR}/${key}${ext}`;
+            const name = file.substring(0, dotIdx);
+            const to = `${distDir}/${OPTIMIZED_ASSET_DIR}/${name}${ext}`;
 
             // Make directory for unique transformation and copy image to it.
             await fs.mkdir(to.substring(0, to.lastIndexOf("/")), {
@@ -86,7 +86,7 @@ export default (): AstroIntegration => {
                 { fetch_format: "webp", format: "", quality: "auto" },
                 { quality: "auto", format: "" },
               ],
-              public_id: key + ext,
+              public_id: name + ext,
               overwrite: false,
             });
 

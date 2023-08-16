@@ -13,8 +13,8 @@ export default async (request: Request) => {
     const file = url.split("/").pop()!;
     const dotIdx = file.lastIndexOf(".");
     const ext = file.substring(dotIdx);
-    const key = file.substring(0, dotIdx);
-    const newPath = `/${OPTIMIZED_ASSET_DIR}/${key}${`.${format}` || ext}`;
+    const name = file.substring(0, dotIdx);
+    const newPath = `/${OPTIMIZED_ASSET_DIR}/${name}${`.${format}` || ext}`;
 
     return new URL(newPath, request.url);
   }
