@@ -14,6 +14,7 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 // https://astro.build/config
 import sitemap from "@astrojs/sitemap";
 import rewriteImagePaths from "./src/integrations/rewriteImagePaths";
+import conditionalCache from "./src/integrations/conditionalCache";
 
 // https://astro.build/config
 export default defineConfig({
@@ -78,6 +79,7 @@ export default defineConfig({
       filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
     }),
     rewriteImagePaths(),
+    conditionalCache(),
   ],
   compressHTML: true,
 });
