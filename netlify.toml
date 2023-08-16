@@ -14,5 +14,6 @@
   to = "/blog/how-to-defer-offscreen-images/"
   status = 301
 [[edge_functions]]
-  path = "/optimize/_astro/images/*"
+  pattern = "\/_astro\/.+\.(?:jpg|jpeg|png|webp|avif)"
+  excludedPattern = "\/_astro\/images\/.*"
   function = "image-rewrite"

@@ -5,10 +5,8 @@ import type { AstroIntegration } from "astro";
 import fs from "node:fs/promises";
 import { createWriteStream } from "node:fs";
 import { v2 as cloudinary } from "cloudinary";
-import sharp from "sharp";
 import client from "https";
 const ASSET_DIR = "_astro";
-const IS_REDIRECT_ENABLED = true;
 
 cloudinary.config({
   cloud_name: "nray",
@@ -16,11 +14,6 @@ cloudinary.config({
   api_secret: process.env["CLOUDINARY_API_SECRET"],
   secure: true,
 });
-
-interface ImageLocation {
-  from: string;
-  to: string;
-}
 
 interface CloudinaryEager {
   transformation: string;
@@ -56,109 +49,54 @@ export default (): AstroIntegration => {
   return {
     name: "rewriteImagePaths",
     hooks: {
-      "astro:build:done": async ({ dir, pages }) => {
+      "astro:build:done": async ({ dir }) => {
         const distDir = dir.pathname.endsWith("/")
           ? dir.pathname.slice(0, -1)
           : dir.pathname;
 
         const files = (await fs.readdir(`${distDir}/${ASSET_DIR}`)).filter(
           (file) => {
-            return (
-              file.endsWith(".avif") ||
-              file.endsWith(".webp") ||
-              file.endsWith(".png") ||
-              file.endsWith(".jpg") ||
-              file.endsWith(".jpeg") ||
-              file.endsWith(".gif")
-            );
+            return !!file.match(/.+\..+_.+\.(?:jpg|jpeg|png|webp|avif|gif)/);
           },
         );
 
         // Make directory.
         await fs.mkdir(`${distDir}/${ASSET_DIR}/images`);
 
-        const imageLocations: ImageLocation[] = [];
-
         await Promise.all(
           files.map(async (file) => {
-            const prefix = file.substring(0, file.lastIndexOf("_"));
-
-            // Skip if image is original.
-            if (prefix === "") {
-              return null;
-            }
-
             const from = `${distDir}/${ASSET_DIR}/${file}`;
-
-            const image = await sharp(from);
-            const metadata = await image.metadata();
             const dotIdx = file.lastIndexOf(".");
-
-            if (dotIdx === -1) {
-              throw new Error(
-                `File "${file}" did not have an extension when "rewriteImagePaths" integration.`,
-              );
-            }
             const ext = file.substring(dotIdx);
+            const key = file.substring(0, dotIdx);
+            const to = `${distDir}/${ASSET_DIR}/images/${key}/${key}${ext}`;
 
-            const to = `${distDir}/${ASSET_DIR}/images/w_${metadata.width}/${prefix}${ext}`;
-
+            // Make directory for unique transformation and copy image to it.
             await fs.mkdir(to.substring(0, to.lastIndexOf("/")), {
               recursive: true,
             });
-            await fs.rename(from, to);
+            await fs.copyFile(from, to);
 
-            imageLocations.push({
-              from: from.replace(distDir, ""),
-              to: to.replace(distDir, ""),
-            });
-
-            // Upload to Cloudfronts and have it make different optimized formats.
+            // Upload to Cloudinary for optimization.
             const response = await cloudinary.uploader.upload(to, {
               eager: [
-                { quality: "auto", format: "" },
                 { fetch_format: "avif", format: "", quality: "auto" },
                 { fetch_format: "webp", format: "", quality: "auto" },
+                { quality: "auto", format: "" },
               ],
-              public_id: `w_${metadata.width}-${to.split("/").pop()}`,
+              public_id: key + ext,
               overwrite: false,
             });
 
+            // Download optimized images from Cloudinary to our local directory.
             await Promise.all(
               response.eager.map(async (img: CloudinaryEager) => {
-                // Download optimized image to our directory.
                 await downloadImage(
                   img.secure_url,
                   to.replace(ext, "." + img.format),
                 );
               }),
             );
-          }),
-        );
-
-        // Edit html files to point to new image paths.
-        await Promise.all(
-          pages.map(async (page) => {
-            const path = `${distDir}/${page.pathname}index.html`;
-            let contents: string;
-
-            try {
-              contents = await fs.readFile(path, "utf8");
-            } catch (e) {
-              return null;
-            }
-
-            await Promise.all(
-              imageLocations.map(async (imageLocation) => {
-                contents = contents.replaceAll(
-                  imageLocation.from,
-                  (IS_REDIRECT_ENABLED ? "/optimize" : "") + imageLocation.to,
-                );
-              }),
-            );
-
-            await fs.writeFile(path, contents, "utf8");
-            console.info(`Revised html of ${path}`);
           }),
         );
       },

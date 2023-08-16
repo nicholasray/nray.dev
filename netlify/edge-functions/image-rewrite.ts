@@ -1,19 +1,28 @@
+const ASSET_DIR = "_astro";
+
 export default async (request: Request) => {
   const accept = request.headers.get("Accept");
 
-  // FROM: /optimize/_astro/images/w_400/inp-search-ranking.1b71b3f5.jpg
-  // TO:  /_astro/images/w_400/inp-search-ranking.1b71b3f5.avif
-  // TO:  /_astro/images/w_400/inp-search-ranking.1b71b3f5.webp
-  // TO:  /_astro/images/w_400/inp-search-ranking.1b71b3f5.jpg
+  console.log("******", accept);
+
+  // FROM: /_astro/avatar.19c5be45_1jNg6X.jpg
+  // TO:  /_astro/images/avatar.19c5be45_1jNg6X/avatar.19c5be45_1jNg6X.avif
+  // TO:  /_astro/images/avatar.19c5be45_1jNg6X/avatar.19c5be45_1jNg6X.webp
+  // TO:  /_astro/images/avatar.19c5be45_1jNg6X/avatar.19c5be45_1jNg6X.jpg
   function rewriteUrl(format: string) {
-    let url = request.url.replace("/optimize", "");
-    const dotIdx = url.lastIndexOf(".");
+    const url = request.url.replace(ASSET_DIR, `${ASSET_DIR}/images`);
+    const file = url.split("/").pop()!;
+    const dotIdx = file.lastIndexOf(".");
+    const ext = file.substring(dotIdx);
+    const key = file.substring(0, dotIdx);
+    const newPath = `/${ASSET_DIR}/images/${key}/${key}${`.${format}` || ext}`;
 
-    if (format !== "") {
-      url = url.substring(0, dotIdx < 0 ? url.length : dotIdx) + `.${format}`;
-    }
-
-    return new URL(url);
+    console.log(
+      "**************",
+      `FROM: ${request.url}`,
+      `TO: ${new URL(newPath, request.url)}`,
+    );
+    return new URL(newPath, request.url);
   }
 
   if (accept?.includes("image/avif")) {
