@@ -9,6 +9,8 @@ import client from "https";
 const ASSET_DIR = "_astro";
 // Keep in sync with image-rewrite.ts
 const OPTIMIZED_ASSET_DIR = `${ASSET_DIR}-optimized`;
+const IS_CLOUDINARY_ENABLED =
+  !!process.env["CLOUDINARY_API_KEY"] && !!process.env["CLOUDINARY_API_SECRET"];
 
 cloudinary.config({
   cloud_name: "nray",
@@ -78,6 +80,10 @@ export default (): AstroIntegration => {
               recursive: true,
             });
             await fs.copyFile(from, to);
+
+            if (!IS_CLOUDINARY_ENABLED) {
+              return;
+            }
 
             // Upload to Cloudinary for optimization.
             const response = await cloudinary.uploader.upload(to, {
