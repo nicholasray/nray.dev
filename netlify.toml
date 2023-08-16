@@ -14,6 +14,14 @@
   for = "/_astro/*.avif"
   [headers.values]
     Cache-Control = "private, max-age=31536000, immutable"
+[[headers]]
+  for = "/_astro-optimized/*.jpg"
+  [headers.values]
+    Cache-Control = "private, max-age=31536000, immutable"
+[[headers]]
+  for = "/_astro-optimized/*.avif"
+  [headers.values]
+    Cache-Control = "private, max-age=31536000, immutable"
 [[redirects]]
   from = "/blog/how-to-defer-offscreen-images-the-modern-and-fast-way/"
   to = "/blog/how-to-defer-offscreen-images/"
