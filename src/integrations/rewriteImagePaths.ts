@@ -64,9 +64,6 @@ export default (): AstroIntegration => {
           },
         );
 
-        // Make directory.
-        await fs.mkdir(`${distDir}/${ASSET_DIR}/images`);
-
         await Promise.all(
           files.map(async (file) => {
             const from = `${distDir}/${ASSET_DIR}/${file}`;
