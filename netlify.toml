@@ -27,5 +27,5 @@
   to = "/blog/how-to-defer-offscreen-images/"
   status = 301
 [[edge_functions]]
-  pattern = "/_astro/(.+).(?:jpg|jpeg|png|webp|avif)"
+  pattern = "/_astro/(.+)_(.+).(?:jpg|jpeg|png|webp|avif)"
   function = "image-rewrite"
