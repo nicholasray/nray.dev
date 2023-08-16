@@ -5,9 +5,9 @@ export default async (request: Request) => {
   const accept = request.headers.get("Accept");
 
   // FROM: /_astro/avatar.19c5be45_1jNg6X.jpg
-  // TO:  /_astro-optimized/avatar.19c5be45_1jNg6X/avatar.19c5be45_1jNg6X.avif
-  // TO:  /_astro-optimized/avatar.19c5be45_1jNg6X/avatar.19c5be45_1jNg6X.webp
-  // TO:  /_astro-optimized/avatar.19c5be45_1jNg6X/avatar.19c5be45_1jNg6X.jpg
+  // TO:  /_astro-optimized/avatar.19c5be45_1jNg6X.avif
+  // TO:  /_astro-optimized/avatar.19c5be45_1jNg6X.webp
+  // TO:  /_astro-optimized/avatar.19c5be45_1jNg6X.jpg
   function rewriteUrl(format: string) {
     const url = request.url.replace(ASSET_DIR, `${ASSET_DIR}/images`);
     const file = url.split("/").pop()!;
