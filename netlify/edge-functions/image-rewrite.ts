@@ -14,7 +14,9 @@ export default async (request: Request) => {
     const dotIdx = file.lastIndexOf(".");
     const ext = file.substring(dotIdx);
     const name = file.substring(0, dotIdx);
-    const newPath = `/${OPTIMIZED_ASSET_DIR}/${name}${`.${format}` || ext}`;
+    const newPath = `/${OPTIMIZED_ASSET_DIR}/${name}${`.${
+      format || ext.slice(1)
+    }`}`;
 
     return new URL(newPath, request.url);
   }
