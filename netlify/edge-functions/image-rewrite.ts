@@ -9,8 +9,7 @@ export default async (request: Request) => {
   // TO:  /_astro-optimized/avatar.19c5be45_1jNg6X.webp
   // TO:  /_astro-optimized/avatar.19c5be45_1jNg6X.jpg
   function rewriteUrl(format: string) {
-    const url = request.url.replace(ASSET_DIR, `${ASSET_DIR}/images`);
-    const file = url.split("/").pop()!;
+    const file = request.url.split("/").pop()!;
     const dotIdx = file.lastIndexOf(".");
     const ext = file.substring(dotIdx);
     const name = file.substring(0, dotIdx);
