@@ -8,7 +8,7 @@ import { v2 as cloudinary } from "cloudinary";
 import client from "https";
 const ASSET_DIR = "_astro";
 // Keep in sync with image-rewrite.ts
-const OPTIMIZED_ASSET_DIR = `${ASSET_DIR}-optimized`;
+const OPTIMIZED_ASSET_DIR = `${ASSET_DIR}-transformed`;
 const IS_CLOUDINARY_ENABLED =
   !!process.env["CLOUDINARY_API_KEY"] && !!process.env["CLOUDINARY_API_SECRET"];
 

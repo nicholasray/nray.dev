@@ -1,5 +1,5 @@
 const ASSET_DIR = "_astro";
-const OPTIMIZED_ASSET_DIR = `${ASSET_DIR}-optimized`;
+const OPTIMIZED_ASSET_DIR = `${ASSET_DIR}-transformed`;
 
 export default async (request: Request) => {
   const accept = request.headers.get("Accept");
