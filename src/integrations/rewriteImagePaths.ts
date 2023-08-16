@@ -95,7 +95,7 @@ export default (): AstroIntegration => {
               response.eager.map(async (img: CloudinaryEager) => {
                 await downloadImage(
                   img.secure_url,
-                  to.replace(ext, "." + img.format),
+                  to.substring(0, to.lastIndexOf(ext)) + `.${img.format}`,
                 );
               }),
             );
