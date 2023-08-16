@@ -14,15 +14,8 @@ export default async (request: Request) => {
     const dotIdx = file.lastIndexOf(".");
     const ext = file.substring(dotIdx);
     const key = file.substring(0, dotIdx);
-    const newPath = `/${OPTIMIZED_ASSET_DIR}/${key}/${key}${
-      `.${format}` || ext
-    }`;
+    const newPath = `/${OPTIMIZED_ASSET_DIR}/${key}${`.${format}` || ext}`;
 
-    console.log(
-      "**************",
-      `FROM: ${request.url}`,
-      `TO: ${new URL(newPath, request.url)}`,
-    );
     return new URL(newPath, request.url);
   }
 
