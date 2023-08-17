@@ -19,6 +19,9 @@ const { post } = Astro.props;
         src={post.data.cover}
         widths={[400, 800, 1600]}
         sizes="(min-width: 48rem) 28rem, 100vw"
+        style={post.data.cover.position
+          ? `object-position: ${post.data.cover.position}`
+          : undefined}
       />
     </div>
     <h3
