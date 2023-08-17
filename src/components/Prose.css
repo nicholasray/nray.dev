@@ -33,7 +33,7 @@
 }
 
 .prose {
-  @apply text-base leading-[1.75] lg:text-lg lg:leading-[1.7777778];
+  @apply text-base leading-[1.75] lg:text-[1.1875rem] lg:leading-[1.8];
 
   h1,
   h2,
