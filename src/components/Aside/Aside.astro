@@ -9,7 +9,7 @@ interface Props extends HTMLAttributes<"aside"> {
 const { class: className, heading, ...rest } = Astro.props;
 ---
 
-<aside class:list={["aside md:pt-4 pt-3", className]} {...rest}>
+<aside class:list={["aside md:my-6 my-5", className]} {...rest}>
   <div
     class="relative rounded-lg p-6 bg-sky-100 text-sky-900 dark:bg-[#1A1F27] dark:text-sky-200 dark:ring-1 dark:ring-sky-500/30"
   >
