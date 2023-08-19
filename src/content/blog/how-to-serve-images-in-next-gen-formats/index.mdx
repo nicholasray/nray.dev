@@ -162,7 +162,7 @@ following:
   <source type="image/avif" srcset="/cat.avif" />
   <!-- Otherwise, load the WebP, if supported -->
   <source type="image/webp" srcset="/cat.webp" />
-  <!-- Load the JPEG from the <img> element if as last resort -->
+  <!-- Fallback to the JPEG from the <img> element -->
   <img src="/cat.jpg" width="200" height="200" alt="A sitting cat." />
 </picture>
 ```
