@@ -8,7 +8,7 @@ cover:
 description:
   "The detailed guide to serving your website's images as fast as possible"
 publishedAt: 2023-08-11
-updatedAt: 2023-08-18
+updatedAt: 2023-08-19
 ---
 
 Running a Lighthouse or [PageSpeed Insights](https://pagespeed.web.dev/)
@@ -153,17 +153,8 @@ following:
   <source type="image/avif" srcset="/cat.avif" />
   <!-- Otherwise, load the WebP, if supported -->
   <source type="image/webp" srcset="/cat.webp" />
-  <!-- If AVIF and WebP aren't supported, load the JPEG-->
-  <source type="image/jpeg" srcset="/cat.jpg" />
-  <!-- If the picture element isn't supported, load
-  the JPEG from the <img> element -->
-  <img
-    width="200"
-    height="200"
-    alt="A sitting cat."
-    type="image/jpg"
-    src="/cat.jpg"
-  />
+  <!-- Load the JPEG from the <img> element if everything else fails -->
+  <img src="/cat.jpg" width="200" height="200" alt="A sitting cat." />
 </picture>
 ```
 
@@ -210,7 +201,9 @@ this:
     sizes="(max-width: 500px) 100vw, 750px"
     type="image/webp"
   />
-  <source
+  <!-- Add the src attribute for older browsers that don't support `srcset` -->
+  <img
+    src="/cat.jpg"
     srcset="
       /img/cat-1920w.jpg 1920w,
       /img/cat-1280w.jpg 1280w,
@@ -218,9 +211,10 @@ this:
       /img/cat-320w.jpg   320w
     "
     sizes="(max-width: 500px) 100vw, 750px"
-    type="image/jpeg"
+    width="200"
+    height="200"
+    alt="A sitting cat."
   />
-  <img width="200" height="200" alt="A sitting cat." src="/cat.jpg" />
 </picture>
 ```
 
