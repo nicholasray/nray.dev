@@ -165,6 +165,10 @@
     @apply my-8;
   }
 
+  figcaption {
+    @apply mt-8;
+  }
+
   p {
     @apply mb-5 lg:mb-6;
   }

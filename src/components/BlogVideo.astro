@@ -12,10 +12,10 @@ const { src, hasShadow, width, height, caption, description } = Astro.props;
 const descId = `video-${src[0].split("/").pop()!.split(".").shift()}`;
 ---
 
-<figure class:list={["rounded-lg overflow-hidden", { "shadow-xl": hasShadow }]}>
+<figure class:list={["flex flex-col items-center", { "shadow-xl": hasShadow }]}>
   <video
     style={`aspect-ratio: ${width} / ${height}`}
-    class="lazy-load"
+    class="lazy-load rounded-lg"
     aria-describedby={descId}
     width={width}
     height={height}

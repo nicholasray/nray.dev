@@ -5,7 +5,7 @@ module.exports = {
     {
       files: "*.mdx",
       options: {
-        printWidth: 75,
+        printWidth: 70,
       },
     },
     {

@@ -1,0 +1,249 @@
+---
+title: "How To Efficiently Encode Images"
+cover:
+  src: ./_assets/page-speed-insights-efficiently-encode-images.svg
+  alt: "Browser showing a passing `efficiently encode images` audit."
+  position: "left top"
+description:
+  "The guide to compressing your website's images for faster load
+  times."
+
+publishedAt: 2023-08-19
+---
+
+import Image from "@components/BlogImage.astro";
+
+If you run a PageSpeed Insights or Lighthouse audit on your site, you
+might get an "**Efficiently encode images" warning**."
+
+You'll get this warning if you have one or more JPEG or BMP images
+that could have been at least 4 KiB smaller using a compression level
+of 85.
+
+import psi from "./_assets/page-speed-insights-fail-efficiently-encode-images.png";
+
+<Image
+  src={psi}
+  alt="PageSpeed Insights report showing a failing `efficiently encode images` audit."
+  loading="eager"
+  fetchpriority="high"
+/>
+
+Generally, you need to decrease the file size of your images by
+**increasing their compression**. Using compression with
+[next-gen image formats](http://localhost:3000/blog/how-to-serve-images-in-next-gen-formats/)
+will usually give you the best combination of performance and visual
+quality.
+
+In this article, I'll explain your options for passing this audit.
+
+## Why does this matter?
+
+As of July 2023, images are responsible for
+[40% of the total downloaded bytes](https://httparchive.org/reports/page-weight#bytesImg)
+when visiting the median website. And with most pages serving
+[at least one image over 100 KB](https://almanac.httparchive.org/en/2022/media#bytesizes),
+reducing the file size of your images can mean:
+
+- Faster load times
+- Less cellular data that mobile users pay for
+- More bandwidth available to download other assets on the page
+  required for rendering
+- Better [Largest Contentful Paint](https://web.dev/lcp/) times and
+  perceptual performance
+
+## What is compression?
+
+**Compression** is a technique to **make a file size smaller** by
+removing its data. There are two types of compression:
+
+- **Lossless compression**: Removes **redundant** data to **preserve
+  the same visual quality**.
+- **Lossy compression**: Removes less important data to produce an
+  approximation of the original image. Unlike lossless compression,
+  increasing lossy compression _can_ **decrease the visual quality**
+  of an image.
+
+import Video from "@components/BlogVideo.astro";
+
+import squooshCompression from "./_assets/squoosh-compression.mp4";
+
+<Video
+  description="Increasing compression in Squoosh leads to a noticeable loss of image quality. "
+  width="792"
+  height="720"
+  src={[squooshCompression]}
+  caption="As you increase lossy compression, file size decreases but so can visual quality."
+/>
+
+import { Aside } from "@components/Aside/index.astro";
+
+<Aside heading="Just use lossless compression for everything?">
+  **Typically** (but not always), using lossy compression results in
+  **smaller file sizes** with acceptable image quality, so that is
+  generally preferred from a performance standpoint. Of course, it
+  depends on the use case — lossless compression may be the best
+  choice for a photographer who may not want any degradation in their
+  photos. Depending on the image's content, there can be exceptions
+  where using lossless actually results in a smaller file size than
+  lossy.
+</Aside>
+
+[Modern formats like WebP and AVIF](/blog/how-to-serve-images-in-next-gen-formats/)
+typically outperform JPEG and PNG in generating smaller files with
+acceptable quality because they use more efficient compression
+algorithms. Their biggest downside is that they have less browser
+support, so you need a
+[strategy to serve them](/blog/how-to-serve-images-in-next-gen-formats/#how-do-i-serve-webp-or-avif).
+
+| Format | Lossy or Lossless | Browser support                                 |
+| ------ | ----------------- | ----------------------------------------------- |
+| PNG    | Lossless          | ~100%                                           |
+| JPEG   | Lossy             | ~100%                                           |
+| WebP   | Both              | > 96% (See [caniuse](https://caniuse.com/webp)) |
+| AVIF   | Both              | > 84% (See [caniuse](https://caniuse.com/avif)) |
+
+To optimize images with compression, you must find the **right
+balance** of **small file size** and **excellent image quality**. A
+small file size means little if the image is too blurry or pixelated
+to see. And perfect image quality is irrelevant if it takes too long
+to download. In either case, the user doesn't see the image. There
+needs to be a balance.
+
+So how do you compress images?
+
+## How to efficiently encode images
+
+### Option 1: Manually compress each image
+
+If your site has a small number of images, you can use a tool like
+[Squoosh](https://squoosh.app/) to manually adjust the image's format
+(taking into account
+[compatibility issues](/blog/how-to-serve-images-in-next-gen-formats/#how-do-i-serve-webp-or-avif))
+and compression level.
+
+import squooshAvif from "./_assets/squoosh-avif.mp4";
+
+<Video
+  description="An example workflow with Squoosh where a compressed AVIF image is saved."
+  width="1064"
+  height="1080"
+  src={[squooshAvif]}
+  caption="Manual compression with Squoosh is good when you have a simple site with a small number of images."
+/>
+
+Ironically, while manually compressing each image one by one can
+produce small and efficient images, the process itself isn't
+efficient, can take a lot of time, and is easy to forget. Because of
+that, I only recommend manual compression for simple sites with few
+images. Otherwise, using automation is preferable.
+
+### Option 2: Compress images automatically
+
+A step up from manually reviewing each image is to let a tool,
+library, or plugin do it for you. A drag-and-drop tool like
+[ImageOptim](https://imageoptim.com/) (only for Mac) can compress
+multiple files with either lossy or lossless compression.
+
+import imageOptim from "./_assets/image-optim.mp4";
+
+<Video
+  description="An example workflow with ImageOptim where a compressed JPEG image is saved."
+  width="1368"
+  height="1080"
+  src={[imageOptim]}
+  caption="ImageOptim can compress multiple files automatically"
+/>
+
+If you have a CMS like WordPress, an
+[image optimization plugin](https://wordpress.org/plugins/search/optimize+images/)
+that converts to modern formats and compresses uploads can work.
+
+For people who don't mind writing code, an image optimization library
+like [sharp](https://sharp.pixelplumbing.com/) used in a build script
+is another popular option.
+
+### Option 3: Use an image CDN to handle everything
+
+My favorite way to optimize websites with many images is with an image
+CDN.
+
+Image CDNs are typically not free, but they can take a lot off your
+plate while reducing the size of your images by
+[40-80%](https://www.youtube.com/watch?v=YJGCZCaIZkQ&t=1010s). They
+can:
+
+1. Choose the **best compatible format** (AVIF, WebP, JPEG)
+2. **Transform and optimize** with great compression automatically
+3. Serve images **close to your users** to minimize latency
+
+In short, image CDNs specialize in making images fast.
+
+One of the best parts is that you probably don't have to do a huge
+migration process to start using one. Many offer the option to keep
+the images hosted on your server (unless you'd prefer to move them to
+their server). For example, look at the following `img` tag:
+
+```html
+<img
+  src="https://res.cloudinary.com/demo/image/fetch/w_500/f_auto,q_auto/https://upload.wikimedia.org/wikipedia/commons/1/13/Benedict_Cumberbatch_2011.png"
+  alt="Photo of Benedict Cumberbatch"
+  width="500"
+  heihgt="616"
+/>
+```
+
+The URL in the `src` attribute will:
+
+1. Make a request to Cloudinary's server
+   (`https://res.cloudinary.com...`)
+2. Ask Cloudinary to automatically pick the best compatible format
+   (`f_auto`) and quality (`q_auto`) while resizing the image to a
+   width of 500 px (`w_500`)
+3. Fetch the original image from
+   `https://upload.wikimedia.org/wikipedia/commons/1/13/Benedict_Cumberbatch_2011.png`
+
+That image is stored on Wikipedia's server — not on Cloudinary. You'll
+see the result if you copy and paste this URL into your browser. You
+can even change the `w_500` to another number to see it dynamically
+resize.
+
+import cloudinary from "./_assets/cloudinary-demo.mp4";
+
+<Video
+  description="Visiting an address of an image whose width, quality, and format is transformed by Cloudinary."
+  width="1368"
+  height="1080"
+  src={[cloudinary]}
+  caption="Image CDNs like Cloudinary can transform images to a different size using the best format and compression automatically."
+/>
+
+And although the original image was a PNG, Cloudinary sent back an
+AVIF with better compression by using
+[content negotiation](/blog/how-to-serve-images-in-next-gen-formats/#option-3-serve-different-formats-with-content-negotiation):
+
+import cloudinaryAvif from "./_assets/cloudinary-avif-transform.png";
+
+<Image
+  src={cloudinaryAvif}
+  alt="Cloudinary converts a image originally in PNG format to an AVIF."
+  caption="Image CDNs like Cloudinary can convert to modern and smaller image formats if the browser supports them."
+/>
+
+There are many image CDNs out there. Your website may already be on a
+CDN that offers an image optimization service. Some of the more
+popular image CDNs include:
+
+- [Cloudflare](https://developers.cloudflare.com/images/)
+- [Fastly](https://www.fastly.com/products/image-optimization)
+- [Akamai](https://www.akamai.com/products/image-and-video-manager)
+- [Cloudinary](https://cloudinary.com/)
+- [imgix](https://imgix.com/)
+
+## Conclusion
+
+Picking the proper format and compression level results in faster
+loading images and a better user experience. Whether using manual
+tools like Squoosh or automation via libraries, plugins, or image
+CDNs, these strategies ensure a faster, visually appealing, and
+user-friendly website.
