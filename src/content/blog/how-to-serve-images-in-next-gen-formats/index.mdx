@@ -3,18 +3,21 @@ title: "How To Serve Images in Next-Gen Formats"
 cover:
   src: ./_assets/next-gen-image-formats.svg
   alt:
-    "Browser showing a passing `serve images in next-gen formats` audit."
+    "Browser showing a passing `serve images in next-gen formats`
+    audit."
   position: "left top"
 description:
-  "The detailed guide to serving your website's images as fast as possible"
+  "The detailed guide to serving your website's images as fast as
+  possible"
 publishedAt: 2023-08-11
 updatedAt: 2023-08-19
 ---
 
-Running a Lighthouse or [PageSpeed Insights](https://pagespeed.web.dev/)
-audit on your website may warn you to "**Serve images in next-gen
-formats.**" The audit flags images that could have been at least 8 KiB
-smaller with a newer format like **WebP** or **AVIF**.
+Running a Lighthouse or
+[PageSpeed Insights](https://pagespeed.web.dev/) audit on your website
+may warn you to "**Serve images in next-gen formats.**" The audit
+flags images that could have been at least 8 KiB smaller with a newer
+format like **WebP** or **AVIF**.
 
 import Image from "@components/BlogImage.astro";
 
@@ -27,19 +30,20 @@ import psi from "./_assets/page-speed-insights-next-gen-image-formats.png";
   fetchpriority="high"
 />
 
-So how do you fix it? **Generally**, you need to convert your **JPEG** and
-**PNG** images to **WebP** or **AVIF**, as they typically result in faster
-load times while maintaining excellent quality.
+So how do you fix it? **Generally**, you need to convert your **JPEG**
+and **PNG** images to **WebP** or **AVIF**, as they typically result
+in faster load times while maintaining excellent quality.
 
-Using older formats like **JPEG**, **PNG**, or **GIF** for all your images
-will likely slow down your site. In this article, I'll explain your options
-for serving the newer formats.
+Using older formats like **JPEG**, **PNG**, or **GIF** for all your
+images will likely slow down your site. In this article, I'll explain
+your options for serving the newer formats.
 
 ## Why does this matter?
 
-The JPEG and PNG formats were released over **25 years ago**. Since then,
-people developed newer formats with better compression, resulting in
-smaller file sizes, faster download times, and less bandwidth consumption.
+The JPEG and PNG formats were released over **25 years ago**. Since
+then, people developed newer formats with better compression,
+resulting in smaller file sizes, faster download times, and less
+bandwidth consumption.
 
 ## What new formats have the best browser support?
 
@@ -56,19 +60,20 @@ smaller file sizes, faster download times, and less bandwidth consumption.
 | **AVIF**  | **2019**        | **85%**                       |
 | JPEG XL   | 2021            | 0.03%                         |
 
-There was a time when WebP had much lower browser compatibility. But now,
-**all** modern browsers support WebP, including the latest versions of
-Safari. AVIF has also seen a steady increase of browser support.
+There was a time when WebP had much lower browser compatibility. But
+now, **all** modern browsers support WebP, including the latest
+versions of Safari. AVIF has also seen a steady increase of browser
+support.
 
 Check caniuse for the latest [WebP](https://caniuse.com/avif) and
 [AVIF](https://caniuse.com/avif) compatibility.
 
 ## How do next-gen formats improve performance?
 
-Smaller image file sizes result in faster download times since the browser
-has fewer bytes to download. But how much smaller are WebP and AVIF
-compared to PNG and JPEG? It depends on the image. Several studies show
-huge improvements, though:
+Smaller image file sizes result in faster download times since the
+browser has fewer bytes to download. But how much smaller are WebP and
+AVIF compared to PNG and JPEG? It depends on the image. Several
+studies show huge improvements, though:
 
 - WebP file sizes were
   [23% smaller than PNG](https://developers.google.com/speed/webp/docs/webp_lossless_alpha_study)
@@ -83,37 +88,40 @@ huge improvements, though:
   [significantly better compression](https://storage.googleapis.com/avif-comparison/index.htm)
   compared to WebP and JPEG in a study from Google.
 
-The proper image format can significantly improve your website's load time,
-especially when combined with other techniques like
-[lazy loading images](/blog/how-to-defer-offscreen-images/). You can use
-[Cloudinary's image analysis tool](https://webspeedtest.cloudinary.com/) on
-your website to see the file size differences you might get from picking
-the correct format and compression.
+The proper image format can significantly improve your website's load
+time, especially when combined with other techniques like
+[lazy loading images](/blog/how-to-defer-offscreen-images/). You can
+use
+[Cloudinary's image analysis tool](https://webspeedtest.cloudinary.com/)
+on your website to see the file size differences you might get from
+picking the correct format and compression.
 
-Since images are commonly the largest element above the fold, images that
-load fast can also improve your
+Since images are commonly the largest element above the fold, images
+that load fast can also improve your
 [**Largest Contentful Paint (LCP)**](https://web.dev/lcp/) time — a
 [Core Web Vital](https://developers.google.com/search/docs/appearance/core-web-vitals)
 that affects your website's search engine ranking on Google.
 
 ## How do I serve WebP or AVIF?
 
-Ultimately, your strategy to serve WebP or AVIF depends on your desired
-optimization level, browser compatibility requirements, and technical
-stack.
+Ultimately, your strategy to serve WebP or AVIF depends on your
+desired optimization level, browser compatibility requirements, and
+technical stack.
 
 ### Option 1: Only serve WebP
 
-Given that WebP now has good [browser support](https://caniuse.com/webp),
-the simplest option is to always save or convert your
+Given that WebP now has good
+[browser support](https://caniuse.com/webp), the simplest option is to
+always save or convert your
 [raster](https://en.wikipedia.org/wiki/Raster_graphics) images to WebP
 format using one of the following methods:
 
 - Manually save and compress each image to WebP with a tool like
-  [Squoosh](https://squoosh.app/) that lets you see the impact on quality
-  and file size.
-- Bulk convert using a tool like [sharp](https://sharp.pixelplumbing.com/)
-  or [cwebp](https://developers.google.com/speed/webp/docs/cwebp).
+  [Squoosh](https://squoosh.app/) that lets you see the impact on
+  quality and file size.
+- Bulk convert using a tool like
+  [sharp](https://sharp.pixelplumbing.com/) or
+  [cwebp](https://developers.google.com/speed/webp/docs/cwebp).
 
 Once converted, you can use WebP with the standard image element:
 
@@ -123,10 +131,10 @@ Once converted, you can use WebP with the standard image element:
 
 But there are a couple of downsides to this approach:
 
-- You are likely missing out on (much) smaller file sizes that you might
-  get from the less supported AVIF format.
-- Users with browsers that don't support WebP won't see **any image** that
-  uses the WebP format.
+- You are likely missing out on (much) smaller file sizes that you
+  might get from the less supported AVIF format.
+- Users with browsers that don't support WebP won't see **any image**
+  that uses the WebP format.
 
 import noWebPSupport from "./_assets/no-webp-support-experience.png";
 
@@ -140,9 +148,10 @@ So how can you solve both of these issues?
 
 ### Option 2: Serve different formats with HTML
 
-You can save multiple image formats using the same tools mentioned above.
-For the most optimized image supporting the most extensive set of browsers,
-save to **AVIF**, **WebP**, and **JPEG** (or **PNG**) formats.
+You can save multiple image formats using the same tools mentioned
+above. For the most optimized image supporting the most extensive set
+of browsers, save to **AVIF**, **WebP**, and **JPEG** (or **PNG**)
+formats.
 
 Then, let the browser decide which format to load using HTML like the
 following:
@@ -153,30 +162,30 @@ following:
   <source type="image/avif" srcset="/cat.avif" />
   <!-- Otherwise, load the WebP, if supported -->
   <source type="image/webp" srcset="/cat.webp" />
-  <!-- Load the JPEG from the <img> element if everything else fails -->
+  <!-- Load the JPEG from the <img> element if as last resort -->
   <img src="/cat.jpg" width="200" height="200" alt="A sitting cat." />
 </picture>
 ```
 
 The order of the `<source>` and `<img>` elements is essential as the
-browser will load the first supported format starting from the top. For
-example:
+browser will load the first supported format starting from the top.
+For example:
 
-- If the browser supports AVIF, the AVIF loads from the first `<source>`
-  element.
-- If the browser doesn't support AVIF but supports WebP, the WebP loads
-  from the second `<source>` element.
+- If the browser supports AVIF, the AVIF loads from the first
+  `<source>` element.
+- If the browser doesn't support AVIF but supports WebP, the WebP
+  loads from the second `<source>` element.
 - If the browser doesn't support AVIF or WebP, the JPEG loads from the
   third `<source>` element.
 - If the browser doesn't support the `<picture>` element
-  ([IE11](https://caniuse.com/picture)), the JPEG loads from the `<img>`
-  element.
+  ([IE11](https://caniuse.com/picture)), the JPEG loads from the
+  `<img>` element.
 
-In practice, offering multiple formats can quickly become complex when you
-want
+In practice, offering multiple formats can quickly become complex when
+you want
 [responsive images](https://web.dev/learn/design/responsive-images/#responsive-images-with-srcset)
-as well. The relatively simple markup from above turns into something like
-this:
+as well. The relatively simple markup from above turns into something
+like this:
 
 ```html
 <!-- Supporting different image formats is easy and fun 😭 -->
@@ -201,7 +210,10 @@ this:
     sizes="(max-width: 500px) 100vw, 750px"
     type="image/webp"
   />
-  <!-- Add the src attribute for older browsers that don't support `srcset` -->
+  <!-- 
+   Add the src attribute for older browsers that don't support
+  `srcset` 
+  -->
   <img
     src="/cat.jpg"
     srcset="
@@ -218,18 +230,19 @@ this:
 </picture>
 ```
 
-The increased HTML size should compress well if your server supports HTTP
-compression like [GZIP](https://en.wikipedia.org/wiki/Gzip) or
-[Brotli](https://en.wikipedia.org/wiki/Brotli). But saving or converting to
-all of these different sizes and formats can be painful.
+The increased HTML size should compress well if your server supports
+HTTP compression like [GZIP](https://en.wikipedia.org/wiki/Gzip) or
+[Brotli](https://en.wikipedia.org/wiki/Brotli). But saving or
+converting to all of these different sizes and formats can be painful.
 
 What can you do instead?
 
 ### Option 3: Serve different formats with content negotiation
 
-The third option is to use JPEG or PNG and have logic on the server to do
-the heavy lifting. How does this work? When requesting an image, the
-browser tells the server what formats it supports via the `Accept` header.
+The third option is to use JPEG or PNG and have logic on the server to
+do the heavy lifting. How does this work? When requesting an image,
+the browser tells the server what formats it supports via the `Accept`
+header.
 
 import acceptHeader from "./_assets/accept-header.png";
 
@@ -239,13 +252,13 @@ import acceptHeader from "./_assets/accept-header.png";
   caption="The browser tells the server what formats it supports with each image request."
 />
 
-The server uses this header to send back the most optimized and compatible
-image, even if it is in a different format than the one requested. This
-process is called
+The server uses this header to send back the most optimized and
+compatible image, even if it is in a different format than the one
+requested. This process is called
 [**content negotiation**](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation),
-but what this means is that you can save a high-quality image as a JPEG or
-PNG and just use that in your HTML. Even if you want responsive images, the
-markup becomes relatively simple:
+but what this means is that you can save a high-quality image as a
+JPEG or PNG and just use that in your HTML. Even if you want
+responsive images, the markup becomes relatively simple:
 
 ```html
 <img
@@ -263,20 +276,21 @@ markup becomes relatively simple:
 />
 ```
 
-**With content negotiation, adding extra HTML to support different formats
-is unnecessary**. The server will choose the best format, typically a WebP
-or AVIF, and send _that_ back to the user. This is the strategy I'm using
-on this site.
+**With content negotiation, adding extra HTML to support different
+formats is unnecessary**. The server will choose the best format,
+typically a WebP or AVIF, and send _that_ back to the user. This is
+the strategy I'm using on this site.
 
 How do you use content negotiation?
 
 ## How to use content negotiation
 
 First, your technical stack may already have a service or plugin with
-content negotiation that you can use. For example, the NextJS framework
-ships with an
-[image optimization API](https://nextjs.org/learn/seo/improve/images) that
-uses content negotiation to choose the best format the browser supports.
+content negotiation that you can use. For example, the NextJS
+framework ships with an
+[image optimization API](https://nextjs.org/learn/seo/improve/images)
+that uses content negotiation to choose the best format the browser
+supports.
 
 Although it's not free, you may already be on a CDN like
 [Cloudflare](https://developers.cloudflare.com/images/),
@@ -284,42 +298,48 @@ Although it's not free, you may already be on a CDN like
 [Akamai](https://www.akamai.com/products/image-and-video-manager) that
 offers an image service with content negotiation.
 
-Finally, dedicated image CDNs like [Cloudinary](https://cloudinary.com/) or
-[imgix](https://imgix.com/) are also popular options that use content
-negotiation.
+Finally, dedicated image CDNs like
+[Cloudinary](https://cloudinary.com/) or [imgix](https://imgix.com/)
+are also popular options that use content negotiation.
 
-Ideally, the image's URL should point to the same domain that your website
-uses instead of something like `https://res.cloudinary.com/.../cat.jpg`. If
-it's different, the browser must spend extra time setting up another
-connection, which can negate the benefits of image optimization. One option
-to get around this is to
+Ideally, the image's URL should point to the same domain that your
+website uses instead of something like
+`https://res.cloudinary.com/.../cat.jpg`. If it's different, the
+browser must spend extra time setting up another connection, which can
+negate the benefits of image optimization. One option to get around
+this is to
 [proxy image requests](https://timkadlec.com/remembers/2020-11-17-netlify-proxy-requests/)
 from your domain to the image service.
 
 ## What about SVGs?
 
-Despite being over 20 years old, SVGs still have a place on the web for
-images composed of simple lines, points, polygons, and text. **Icons**,
-**logos**, and **simple illustrations** are often good use cases for the
-SVG format.
+Despite being over 20 years old, SVGs still have a place on the web
+for images composed of simple lines, points, polygons, and text.
+**Icons**, **logos**, and **simple illustrations** are often good use
+cases for the SVG format.
 
-Why is this format still relevant? Unlike raster images like AVIF, WebP,
-PNG, JPEG, which encodes pixels in a rectangular grid, the SVG format uses
-points, lines, curves, and polygons to make an image that is sharp at any
-resolution and zoom level. As a result, the HTML for external SVGs is
-simple without needing to add any responsive attributes like `srcset` and
-`sizes`:
+Why is this format still relevant? Unlike raster images like AVIF,
+WebP, PNG, JPEG, which encodes pixels in a rectangular grid, the SVG
+format uses points, lines, curves, and polygons to make an image that
+is sharp at any resolution and zoom level. As a result, the HTML for
+external SVGs is simple without needing to add any responsive
+attributes like `srcset` and `sizes`:
 
 ```html
-<img src="/cat-logo.svg" width="200" height="200" alt="A sitting cat." />
+<img
+  src="/cat-logo.svg"
+  width="200"
+  height="200"
+  alt="A sitting cat."
+/>
 ```
 
-If you use SVG images, be sure to do the following to make SVGs as small as
-possible:
+If you use SVG images, be sure to do the following to make SVGs as
+small as possible:
 
 - Optimize SVGs with a tool like [SVGO](https://github.com/svg/svgo)
-- Ensure your website's server has HTTP compression like GZIP or Brotli
-  enabled for SVGs
+- Ensure your website's server has HTTP compression like GZIP or
+  Brotli enabled for SVGs
 
 import svgBr from "./_assets/svg-br-compression.png";
 
@@ -335,31 +355,33 @@ import svgBr from "./_assets/svg-br-compression.png";
   can upload and use WebP images
 - A
   [proposal](https://make.wordpress.org/core/2022/03/28/enabling-webp-by-default/)
-  to automatically convert JPEGs to WebP and make WebP the default format
-  was [controversial](https://core.trac.wordpress.org/ticket/55443). The
+  to automatically convert JPEGs to WebP and make WebP the default
+  format was
+  [controversial](https://core.trac.wordpress.org/ticket/55443). The
   community raised concerns about  
-  [disk space](https://github.com/WordPress/performance/issues/289) and
+  [disk space](https://github.com/WordPress/performance/issues/289)
+  and
   [compatibility](https://github.com/WordPress/performance/issues/290).
-  Although both tickets associated with these issues are now resolved, it's
-  [unclear](https://github.com/WordPress/performance/issues/22) when or if
-  this will land in the core WordPress platform. For now, using a
-  [plugin](https://wordpress.org/plugins/search/convert+avif/) that does
-  automatic conversion or content negotiation is an option.
+  Although both tickets associated with these issues are now resolved,
+  it's [unclear](https://github.com/WordPress/performance/issues/22)
+  when or if this will land in the core WordPress platform. For now,
+  using a [plugin](https://wordpress.org/plugins/search/convert+avif/)
+  that does automatic conversion or content negotiation is an option.
 
 ## Conclusion
 
-Newer image formats can drastically reduce image sizes and improve load
-times. Each format has its
+Newer image formats can drastically reduce image sizes and improve
+load times. Each format has its
 [strengths and weaknesses](https://res.cloudinary.com/cloudinary-marketing/image/upload/w_700,c_fill,f_auto,q_auto,dpr_2.0/Web_Assets/blog/Battle-of-the-Codecs_fnl.png),
 but in general:
 
-- Prefer `<video>` elements over **animated GIFs**. Most of the time, the
-  compressed video will be significantly smaller.
+- Prefer `<video>` elements over **animated GIFs**. Most of the time,
+  the compressed video will be significantly smaller.
 - Prefer SVG for images composed of relatively simple lines, points,
-  polygons, and text. **Icons**, **logos**, and **simple illustrations**
-  are usually good use cases for the SVG format.
-- Prefer **WebP** and **AVIF** over **JPEG** and **PNG** for photos and
-  screenshots.
+  polygons, and text. **Icons**, **logos**, and **simple
+  illustrations** are usually good use cases for the SVG format.
+- Prefer **WebP** and **AVIF** over **JPEG** and **PNG** for photos
+  and screenshots.
 - Test which format is best with a visual tool like
   [Squoosh](https://squoosh.app/) when in doubt.
 
