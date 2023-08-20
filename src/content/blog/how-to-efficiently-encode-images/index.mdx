@@ -200,7 +200,8 @@ The URL in the `src` attribute will:
 2. Ask Cloudinary to automatically pick the best compatible format
    (`f_auto`) and quality (`q_auto`) at a resized width of 500 pixels
    (`w_500`)
-3. Fetch the original image from `https://upload.wikimedia.org...`
+3. When Cloudinary gets the request, it will fetch the original image
+   from `https://upload.wikimedia.org...`
 
 That image is stored on Wikipedia's server — not on Cloudinary. You'll
 see the result if you copy and paste this URL into your browser. You
