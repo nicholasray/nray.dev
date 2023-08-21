@@ -203,6 +203,15 @@ The URL in the `src` attribute will:
 3. When Cloudinary gets the request, it will fetch the original image
    from `https://upload.wikimedia.org...`
 
+<Aside heading="Be careful with the `src` attribute">
+  Since it is not your domain, using `res.cloudinary.com` for the
+  `src` attribute (as in the example) will cause the browser to set up
+  a new connection, which can easily take over 500 ms. For the fastest
+  load times, try to [set up a
+  proxy](https://timkadlec.com/remembers/2020-11-17-netlify-proxy-requests/)
+  that avoids the extra connection cost.
+</Aside>
+
 That image is stored on Wikipedia's server — not on Cloudinary. You'll
 see the result if you copy and paste this URL into your browser. You
 can even change the `w_500` to another number to see it dynamically
