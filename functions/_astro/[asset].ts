@@ -5,7 +5,7 @@ const OPTIMIZED_ASSET_DIR = `${ASSET_DIR}-transformed`;
 export const onRequest: PagesFunction = async ({ request, next, env }) => {
   const url = new URL(request.url);
 
-  if (!url.pathname.match(/\/_astro\/(.+)_(.+).(?:jpg|jpeg|png|webp|avif)/)) {
+  if (!/\/_astro\/(.+)_(.+).(?:jpg|jpeg|png|webp|avif)/.test(url.pathname)) {
     return next();
   }
 
