@@ -21,6 +21,3 @@ pnpm-debug.log*
 
 .eslintcache
 .astro
-
-# Local Netlify folder
-.netlify
