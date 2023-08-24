@@ -1,4 +1,4 @@
-import type { PagesFunction } from "@cloudflare/workers-types";
+import type { PagesFunction } from "@cloudflare/workers-types/experimental";
 const ASSET_DIR = "_astro";
 const OPTIMIZED_ASSET_DIR = `${ASSET_DIR}-transformed`;
 
