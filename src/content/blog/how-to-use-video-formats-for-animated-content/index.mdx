@@ -1,0 +1,242 @@
+---
+title: "How To Use Video Formats for Animated Content [6 Steps]"
+cover:
+  src: ./_assets/page-speed-insights-fail-animated-content.svg
+  alt:
+    "Browser showing a passing `use video formats for animated
+    content` audit."
+  position: "left top"
+description:
+  "The guide to replacing your animated GIFs with videos for faster
+  load and Largest Contentful Paint times."
+---
+
+import Image from "@components/BlogImage.astro";
+
+Despite the popularity of animated GIFs on the web, they're often
+humongous in file size and terrible for your website's performance.
+Because of this, Lighthouse and
+[PageSpeed Insights](https://pagespeed.web.dev/) audits will flag any
+animated GIF that is
+[over 100 KiB](https://github.com/GoogleChrome/lighthouse/blob/f33cf9375583c384efa4379d55df1f1936406d2b/core/audits/byte-efficiency/efficient-animated-content.js#L63)
+with the warning message "**Use video formats for animated content**".
+
+import psi from "./_assets/page-speed-insights-fail-animated-gif.png";
+
+<Image
+  src={psi}
+  alt="PageSpeed Insights report showing a failing `Use video formats for animated content` audit."
+  loading="eager"
+  fetchpriority="high"
+/>
+
+What's the solution?
+
+1. Replace all animated GIFs with optimized videos
+2. Never use GIFs again
+
+In this post, I'll show you how I cut the size of a **2.5 MB GIF**
+down to a **80 KB video** (97% decrease) while also improving Largest
+Contentful Paint.
+
+## Why does this matter?
+
+Animated GIFs are usually
+[much bigger](https://github.com/GoogleChrome/lighthouse/issues/4696#issuecomment-370979920)
+than videos which results in:
+
+- Longer load times
+- Less bandwidth available to download other assets on the page
+- More cellular data that mobile users pay for
+- Slower [Largest Contentful Paint](https://web.dev/lcp/) (LCP) times
+  (when used above the fold)
+
+How do we fix this? Let's run through an example.
+
+## Step 1: Measure baseline GIF
+
+We'll start with an animated GIF from
+[this demo page](/demos/use-video-instead-of-gif-before/). In the
+demo, I've used a Homer Simpson animated GIF above the fold. There's
+nothing else that captures embarrassment and awkwardness into one
+easy-to-use image. What's not to love?
+
+Unfortunately, it's also responsible for a **14 second** Largest
+Contentful Paint and a PageSpeed Insights warning to use video
+instead.
+
+import animatedGifBaseline from "./_assets/page-speed-insights-animated-gif-baseline.png";
+
+<Image
+  src={animatedGifBaseline}
+  alt="PageSpeed Insights report showing a 75 performance score, 14.2 second Largest Contentful Paint, and a `Use video formats for animated content` warning."
+  caption="Using just one animated GIF above the fold will likely cause a failing Largest Contentful Paint time"
+/>
+
+Let's see how it fares using
+[WebPageTest](https://www.webpagetest.org/). I'll use the following
+settings:
+
+- **Test Location**: Virginia, EC2
+- **Browser**: Chrome on emulated Motorola G (gen 4)
+- **Connection**: 4G (9 Mbps, 170ms RTT)
+- **Number of Test to Run**: 9
+
+The
+[results](https://www.webpagetest.org/result/230825_AiDcCZ_9GD/?test=230825_AiDcCZ_9GD&medianMetric=chromeUserTiming.LargestContentfulPaint)
+show a slow LCP and long load time:
+
+- **Largest Contentful Paint**: 3.646 seconds
+- **Page Weight**: 2,442 KB
+- **Load time**: 3.643 seconds
+
+import webPageTestBaseline from "./_assets/web-page-test-baseline.png";
+
+<Image
+  src={webPageTestBaseline}
+  alt="WebPageTest baseline showing 3.646 Largest Contentful Paint"
+/>
+
+import webPageTestBaselineWaterfall from "./_assets/web-page-test-baseline-waterfall.png";
+
+<Image
+  src={webPageTestBaselineWaterfall}
+  alt="WebPageTest baseline showing 2.7 second load time for the animated GIF"
+  caption="The animated GIF loaded in 2.7 seconds"
+/>
+
+## Step 2: Convert to MP4 and WebM video formats
+
+We need to convert the animated GIF to video. But which format should
+we use? MP4 has the best browser support, but WebM results in smaller
+file sizes with less support.
+
+| Format | Browser support                                    |
+| ------ | -------------------------------------------------- |
+| MP4    | > 96.2% (see [caniuse](https://caniuse.com/mpeg4)) |
+| WebM   | > 95.8% (see [caniuse](https://caniuse.com/webm))  |
+
+You'll need to decide whether solely using WebM offers enough browser
+support for your use case. Or you can offer both options — that's the
+approach we'll take in this example.
+
+### Option 1: Use FFmpeg
+
+[FFmpeg](https://ffmpeg.org/) is a popular command-line tool for
+converting video. We can use the following command to convert to MP4:
+
+```sh
+ffmpeg -i homer-simpson.gif -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -b:v 0 -crf 25 -f mp4 -vcodec libx264 -pix_fmt yuv420p homer-simpson.mp4
+```
+
+And use this command to convert to WebM:
+
+```sh
+ffmpeg -i homer-simpson.gif -c vp9 -b:v 0 -crf 41 homer-simpson.webm
+```
+
+| GIF (KB) | MP4 (KB) | WebM (KB) |
+| -------- | -------- | --------- |
+| 2.5 MB   | 122 KB   | 80 KB     |
+
+By converting the GIF to video with FFMpeg, we reduced the file size
+by **95%** when converted to MP4 and by **97%** when converted to
+WebM.
+
+If you only have a few videos on your site, you can get great results
+by just manually converting GIFs with the preceeding commands. But I
+recommend using automation for anything more than that.
+
+### Option 2: Use an image CDN
+
+Because video and
+[image](/blog/how-to-efficiently-encode-images/#option-3-use-an-image-cdn-to-handle-everything)
+optimization can be a pain at scale, I like to delegate the
+responsibility of video and image optimization to an image CDN service
+like [Cloudinary](https://cloudinary.com/). Although they are
+typically not free, they can save a lot of hassle with media
+management and produce great results.
+
+After uploading the image to Cloudinary, you can dynamically convert
+it to MP4 by replacing the `.gif` file extension with `.mp4`:
+
+```url
+https://res.cloudinary.com/nray/image/upload/homer-simpson_hkeb1w.mp4
+```
+
+Similarly, use the `.webm` extension in the url to convert to WebM:
+
+```url
+https://res.cloudinary.com/nray/image/upload/homer-simpson_hkeb1w.webm
+```
+
+| GIF (KB) | MP4 (KB) | WebM (KB) |
+| -------- | -------- | --------- |
+| 2.5 MB   | 88 KB    | 71 KB     |
+
+By converting the GIF to video with Cloudinary, we reduced the file
+size by **96%** when converted to MP4 and by over **97%** when
+converted to WebM.
+
+## Step 3: Replace `img` element with `video` element
+
+Instead of using the `<img>` element to serve a GIF, we'll use the
+`<video>` element:
+
+```html
+<video>
+  <source src="/homer-simpson.webm" type="video/webm" />
+  <source src="/homer-simpson.mp4" type="video/mp4" />
+</video>
+```
+
+By using two `source` elements, we allow the browser to use the WebM
+format if it supports it and fallback to MP4 if it doesn't.
+
+import { Aside } from "@components/Aside/index.astro";
+
+<Aside heading="Order matters">
+
+Placing the MP4 `<source>` element on top of the WebM would cause
+browsers that support both formats to use MP4. It's important to put
+the lightest format on top.
+
+</Aside>
+
+GIF offers the ability to autoplay, loop, and play silently which we
+can replicate in video with the `autoplay`, `loop`, and `muted`
+attributes:
+
+```html {/autoplay loop muted/}
+<video autoplay loop muted style="width: 100%">
+  <source src="/homer-simpson.webm" type="video/webm" />
+  <source src="/homer-simpson.mp4" type="video/mp4" />
+</video>
+```
+
+I also added the `style` attribute to let the video expand to the
+width of the content.
+
+## Step 4: Add aspect ratio
+
+- Using width and height attributes
+  [doesn't work](https://github.com/w3c/csswg-drafts/issues/7524) for
+  videos like it does for images
+
+## Step 5: Add poster
+
+## Step 6: Measure impact
+
+## Conclusion
+
+## Resources
+
+- The first frame painted for autoplaying `<video>` elements (as of
+  August 2023)
+
+- The first frame of an animated image format, such as animated GIFs
+  (as of August 2023)
+
+- https://chromium.googlesource.com/chromium/src/+/refs/heads/main/docs/speed/metrics_changelog/2023_04_lcp.md
+
+* https://simonhearne.com/2021/fast-responsive-videos/
