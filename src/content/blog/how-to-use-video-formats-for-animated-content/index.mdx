@@ -12,6 +12,7 @@ description:
 ---
 
 import Image from "@components/BlogImage.astro";
+import Video from "@components/BlogVideo.astro";
 
 Despite the popularity of animated GIFs on the web, they're often
 humongous in file size and terrible for your website's performance.
@@ -181,7 +182,8 @@ converted to WebM.
 ## Step 3: Replace `img` element with `video` element
 
 Instead of using the `<img>` element to serve a GIF, we'll use the
-`<video>` element:
+`<video>` element which supports different formats using the
+[source element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source):
 
 ```html
 <video>
@@ -197,9 +199,10 @@ import { Aside } from "@components/Aside/index.astro";
 
 <Aside heading="Order matters">
 
-Placing the MP4 `<source>` element on top of the WebM would cause
-browsers that support both formats to use MP4. It's important to put
-the lightest format on top.
+It's important to put the lightest format on top as the browser will
+use the first supported format. Placing the MP4 `<source>` element on
+top of the WebM would cause browsers that support both formats to use
+MP4.
 
 </Aside>
 
@@ -217,13 +220,63 @@ attributes:
 I also added the `style` attribute to let the video expand to the
 width of the content.
 
-## Step 4: Add aspect ratio
+After doing this, our video looks nearly identical to the original
+GIF, but with one problem — after the video loads, it shifts the text
+down, resulting in a [Cumulative Layout Shift](https://web.dev/cls/):
 
-- Using width and height attributes
-  [doesn't work](https://github.com/w3c/csswg-drafts/issues/7524) for
-  videos like it does for images
+import CLS from "./_assets/cumulative-layout-shift-video.mp4";
+
+<Video
+  description="Loading the demo page that has a video results in a large Cumulative Layout Shift"
+  width="1368"
+  height="1080"
+  src={[CLS]}
+  caption="The text moves down after the video loads, resulting in a large Cumulative Layout Shift."
+/>
+
+The browser doesn't know the aspect ratio of the video until after
+it's loaded and that causes the layout shift. What can we do about
+this?
+
+## Step 4: Add aspect-ratio CSS
+
+Unlike the `<img>`, we can't just add `width` and `height` attributes
+to the video to let the browser figure out the aspect ratio. Actually,
+this is supposed to work, but it's
+[currently broken](https://github.com/w3c/csswg-drafts/issues/7524).
+To get around this, we can use the
+[`aspect-ratio`](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio)
+CSS property instead.
+
+```html {5}
+<video
+  autoplay
+  loop
+  muted
+  style="width: 100%; aspect-ratio: 480 / 354;"
+>
+  <source src="/homer-simpson.webm" type="video/webm" />
+  <source src="/homer-simpson.mp4" type="video/mp4" />
+</video>
+```
+
+This fixes the CLS problem nicely.
+
+import CLSFix from "./_assets/fix-cls-video.mp4";
+
+<Video
+  description="Loading the demo page that has a video with aspect-ratio CSS prevents CLS."
+  width="1368"
+  height="1080"
+  src={[CLSFix]}
+  caption="Using `aspect-ratio` CSS prevents a Cumulative Layout Shift after the video loads."
+/>
 
 ## Step 5: Add poster
+
+Okay, now we have a video that is a tiny file size, serves different
+formats depending on browser support, and doesn't cause a Cumulative
+Layout Shift. Let's see our progress with WebPageTest:
 
 ## Step 6: Measure impact
 

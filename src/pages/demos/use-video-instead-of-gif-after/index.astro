@@ -5,7 +5,13 @@ import homerWebM from "./_assets/homer-simpson-cloudinary.webm";
 ---
 
 <VideoDemo>
-  <video autoplay loop muted playsinline style="width: 100%">
+  <video
+    autoplay
+    loop
+    muted
+    playsinline
+    style="width: 100%; aspect-ratio: 480 / 354;"
+  >
     <source src={homerWebM} type="video/webm" />
     <source src={homerMp4} type="video/mp4" />
   </video>
