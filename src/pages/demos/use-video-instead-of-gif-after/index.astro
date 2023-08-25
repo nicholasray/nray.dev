@@ -2,6 +2,7 @@
 import VideoDemo from "@src/layouts/demos/use-video-instead-of-gif/VideoDemo.astro";
 import homerMp4 from "./_assets/homer-simpson-cloudinary.mp4";
 import homerWebM from "./_assets/homer-simpson-cloudinary.webm";
+import poster from "./_assets/poster.jpg";
 ---
 
 <VideoDemo>
@@ -10,7 +11,8 @@ import homerWebM from "./_assets/homer-simpson-cloudinary.webm";
     loop
     muted
     playsinline
-    style="width: 100%; aspect-ratio: 480 / 354;"
+    style="width: 100%; aspect-ratio: 480 / 354"
+    poster={poster.src}
   >
     <source src={homerWebM} type="video/webm" />
     <source src={homerMp4} type="video/mp4" />

@@ -152,9 +152,9 @@ recommend using automation for anything more than that.
 
 Because video and
 [image](/blog/how-to-efficiently-encode-images/#option-3-use-an-image-cdn-to-handle-everything)
-optimization can be a pain at scale, I like to delegate the
-responsibility of video and image optimization to an image CDN service
-like [Cloudinary](https://cloudinary.com/). Although they are
+optimization can be a pain at scale, I like to delegate these
+responsibilities to an image CDN service like
+[Cloudinary](https://cloudinary.com/). Although image CDNs are
 typically not free, they can save a lot of hassle with media
 management and produce great results.
 
@@ -253,7 +253,7 @@ CSS property instead.
   autoplay
   loop
   muted
-  style="width: 100%; aspect-ratio: 480 / 354;"
+  style="width: 100%; aspect-ratio: 480 / 354"
 >
   <source src="/homer-simpson.webm" type="video/webm" />
   <source src="/homer-simpson.mp4" type="video/mp4" />
@@ -272,11 +272,23 @@ import CLSFix from "./_assets/fix-cls-video.mp4";
   caption="Using `aspect-ratio` CSS prevents a Cumulative Layout Shift after the video loads."
 />
 
-## Step 5: Add poster
+## Step 5: Add poster attribute
+
+As of
+[August 2023](https://web.dev/lcp/#what-elements-are-considered), the
+first frame of autoplaying videos can be the Largest Contentful Paint
+element.
 
 Okay, now we have a video that is a tiny file size, serves different
-formats depending on browser support, and doesn't cause a Cumulative
-Layout Shift. Let's see our progress with WebPageTest:
+formats based on browser support, and doesn't cause a Cumulative
+Layout Shift after it loads. Let's see our progress with WebPageTest:
+
+import PseudoLCP from "./_assets/pseudo-lcp.png";
+
+<Image
+  src={PseudoLCP}
+  alt="WebPageTest showing a false 1.181 second Largest Contentful Paint."
+/>
 
 ## Step 6: Measure impact
 
