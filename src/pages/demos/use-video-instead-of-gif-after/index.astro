@@ -1,0 +1,14 @@
+---
+import VideoDemo from "@src/layouts/demos/use-video-instead-of-gif/VideoDemo.astro";
+import homer from "./_assets/homer-simpson.gif";
+---
+
+<VideoDemo>
+  <img
+    width="480"
+    height="354"
+    src={homer.src}
+    alt="Homer simpson backing into bush."
+    class="w-full"
+  />
+</VideoDemo>
