@@ -204,14 +204,14 @@ The URL in the `src` attribute will:
    from `https://upload.wikimedia.org...`
 
 <Aside heading="Be careful with the `src` attribute">
-  Using a separate domain (like https://res.cloudinary.com) in the
-  `src` attribute causes the browser to create a new connection, which
-  can easily take over 500 ms. For the fastest load times, try to [set
-  up a
+  Using a different domain (like https://res.cloudinary.com) for the
+  `src` attribute than the domain that served the HTML causes the
+  browser to create a new connection, which can easily take over 500
+  ms. For the fastest load times, try to [set up a
   proxy](https://timkadlec.com/remembers/2020-11-17-netlify-proxy-requests/)
-  that avoids the extra connection cost. In 2022, [more than half of
+  that avoids the extra connection cost. In 2022, [most
   images](https://almanac.httparchive.org/en/2022/media#cross-domain-image-hosts)
-  used a cross-domain host, resulting in a delay.
+  were served from a cross-domain host, resulting in a delay.
 </Aside>
 
 That image is stored on Wikipedia's server — not on Cloudinary. You'll
