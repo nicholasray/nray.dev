@@ -37,8 +37,8 @@ What's the solution?
 2. Never use GIFs again
 
 In this post, I'll show you how I cut the size of a **2.5 MB GIF**
-down to a **80 KB video** (97% decrease) while also improving Largest
-Contentful Paint.
+down to a **80 KB video** (97% decrease) while also improving load and
+Largest Contentful Paint times.
 
 ## Why does this matter?
 
@@ -274,11 +274,6 @@ import CLSFix from "./_assets/fix-cls-video.mp4";
 
 ## Step 5: Add poster attribute
 
-As of
-[August 2023](https://web.dev/lcp/#what-elements-are-considered), the
-first frame of autoplaying videos can be the Largest Contentful Paint
-element.
-
 Okay, now we have a video that is a tiny file size, serves different
 formats based on browser support, and doesn't cause a Cumulative
 Layout Shift after it loads. Let's see our progress with WebPageTest:
@@ -289,6 +284,37 @@ import PseudoLCP from "./_assets/pseudo-lcp.png";
   src={PseudoLCP}
   alt="WebPageTest showing a false 1.181 second Largest Contentful Paint."
 />
+
+Although WebPageTest, reports a 1.181 second LCP, it's using the text
+as the LCP element. But as of
+[August 2023](https://web.dev/lcp/#what-elements-are-considered), the
+first frame of autoplaying videos can be the Largest Contentful Paint
+element. So the actual LCP time should be 1.4 seconds because that's
+when the first frame of the video renders.
+
+Given this, we can try to make the first frame render faster by using
+the
+[`poster` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
+which tells the browser to download and display an image while the
+video is loading.
+
+Using FFMpeg, you can use the following command to extract the first
+frame of the video as an image.
+
+```shell
+ffmpeg -i homer-simpson.gif -ss 00:00:00 -frames:v 1 poster.jpg
+```
+
+And using Cloudinary, you can just set the file extension as a `jpg`
+and decrease the file size by adding the `q_40` to the path which
+decreases the quality of the image.
+
+```url
+https://res.cloudinary.com/nray/image/upload/q_40/homer-simpson_hkeb1w.jpg
+```
+
+Given that this image will only show initially, we should apply heavy
+compression to it.
 
 ## Step 6: Measure impact
 
