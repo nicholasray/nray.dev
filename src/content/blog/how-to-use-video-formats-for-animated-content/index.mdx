@@ -275,28 +275,29 @@ import CLSFix from "./_assets/fix-cls-video.mp4";
   caption="Using `aspect-ratio` CSS prevents a Cumulative Layout Shift after the video loads."
 />
 
-## Step 5: Add poster attribute
-
 Okay, now we have a video that is a tiny file size, serves different
 formats based on browser support, and doesn't cause a Cumulative
-Layout Shift after it loads. Let's see our progress with WebPageTest:
+Layout Shift after it loads. Let's examine the WebPageTest timeline at
+this point.
 
-import PseudoLCP from "./_assets/pseudo-lcp.png";
+import WPTTimelineVideo from "./_assets/web-page-test-timeline-video.png";
 
 <Image
-  src={PseudoLCP}
-  alt="WebPageTest showing a false 1.181 second Largest Contentful Paint."
+  src={WPTTimelineVideo}
+  alt="WebPageTest timeline showing the first frame of the video doesn't render until after the video has been loaded."
 />
 
-Although WebPageTest, reports a 1.181 second LCP, it's using the text
-as the LCP element. But as of
-[August 2023](https://web.dev/lcp/#what-elements-are-considered), the
-first frame of autoplaying videos can be the Largest Contentful Paint
-element. So the actual LCP time should be 1.4 seconds because that's
-when the first frame of the video renders.
+Many of the timelines showed that the video's first frame didn't paint
+until the entire video had finished downloading. Ideally, we want that
+to render as quickly as possible to indicate visual progress. As of
+[August 2023](https://web.dev/lcp/#what-elements-are-considered), this
+also affects the Largest Contentful Paint time since its the first
+frame of an autoplaying video. Luckily, there's another trick we can
+use for this.
 
-Given this, we can try to make the first frame render faster by using
-the
+## Step 5: Add poster attribute
+
+We can try to make the first frame render faster by using the
 [`poster` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
 which tells the browser to download and display an image while the
 video is loading.
@@ -317,7 +318,7 @@ https://res.cloudinary.com/nray/image/upload/q_40/homer-simpson_hkeb1w.jpg
 ```
 
 Given that this image will only show initially, we should apply heavy
-compression to it.
+compression to it and aim to make it < 10 KB.
 
 Next, add the poster attribute using the new image.
 
