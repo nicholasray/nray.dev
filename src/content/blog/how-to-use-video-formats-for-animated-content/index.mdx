@@ -15,10 +15,9 @@ import Image from "@components/BlogImage.astro";
 import Video from "@components/BlogVideo.astro";
 
 Despite the popularity of animated GIFs on the web, they're often
-humongous in file size and terrible for your website's performance.
-Because of this, Lighthouse and
-[PageSpeed Insights](https://pagespeed.web.dev/) audits will flag any
-animated GIF that is
+humongous in file size and slow to load. Because of this, Lighthouse
+and [PageSpeed Insights](https://pagespeed.web.dev/) audits will flag
+any animated GIF that is
 [over 100 KiB](https://github.com/GoogleChrome/lighthouse/blob/f33cf9375583c384efa4379d55df1f1936406d2b/core/audits/byte-efficiency/efficient-animated-content.js#L63)
 with the warning message "**Use video formats for animated content**".
 
@@ -62,16 +61,13 @@ demo, I've used a Homer Simpson animated GIF above the fold. There's
 nothing else that captures embarrassment and awkwardness into one
 easy-to-use image. What's not to love?
 
-Unfortunately, it's also responsible for a **14 second** Largest
-Contentful Paint and a PageSpeed Insights warning to use video
-instead.
+Unfortunately, PageSpeed Insights doesn't find it amusing.
 
 import animatedGifBaseline from "./_assets/page-speed-insights-animated-gif-baseline.png";
 
 <Image
   src={animatedGifBaseline}
   alt="PageSpeed Insights report showing a 75 performance score, 14.2 second Largest Contentful Paint, and a `Use video formats for animated content` warning."
-  caption="Using just one animated GIF above the fold will likely cause a failing Largest Contentful Paint time"
 />
 
 Let's see how it fares using
@@ -118,8 +114,8 @@ file sizes with less support.
 | WebM   | > 95.8% (see [caniuse](https://caniuse.com/webm))  |
 
 You'll need to decide whether solely using WebM offers enough browser
-support for your use case. Or you can offer both options — that's the
-approach we'll take in this example.
+support for your use case. Or you can offer both options and let the
+browser decide — that's the approach we'll take in this example.
 
 ### Option 1: Use FFmpeg
 
@@ -199,16 +195,16 @@ import { Aside } from "@components/Aside/index.astro";
 
 <Aside heading="Order matters">
 
-It's important to put the lightest format on top as the browser will
-use the first supported format. Placing the MP4 `<source>` element on
-top of the WebM would cause browsers that support both formats to use
-MP4.
+It's important to put the lightest format **on top** as the browser
+will use the first supported format (from top to bottom). Placing the
+MP4 `<source>` element on top of the WebM would undesirably cause
+browsers that support both formats to use MP4.
 
 </Aside>
 
 GIF offers the ability to autoplay, loop, and play silently which we
-can replicate in video with the `autoplay`, `loop`, and `muted`
-attributes:
+can replicate with the `autoplay`, `loop`, and `muted` attributes for
+video:
 
 ```html {/autoplay loop muted/}
 <video autoplay loop muted style="width: 100%">
@@ -221,9 +217,9 @@ I also added the `style` attribute to let the video expand to the
 width of the content.
 
 After doing this, our video looks nearly identical to the original
-GIF, but with one problem — after the video loads, it shifts the text
-down, resulting in a [Cumulative Layout Shift](https://web.dev/cls/)
-(CLS):
+GIF, but with one jarring problem — after the video loads, it shifts
+the text down, resulting in a
+[Cumulative Layout Shift](https://web.dev/cls/) (CLS):
 
 import CLS from "./_assets/cumulative-layout-shift-video.mp4";
 
@@ -236,8 +232,8 @@ import CLS from "./_assets/cumulative-layout-shift-video.mp4";
 />
 
 The browser doesn't know the aspect ratio of the video until after
-it's loaded and that causes the layout shift. What can we do about
-this?
+it's loaded and that's what causes the layout shift. What can we do
+about this?
 
 ## Step 4: Add aspect-ratio CSS
 
@@ -263,7 +259,7 @@ CSS property instead.
 
 With the `aspect-ratio` CSS, the browser knows how much space to
 allocate for the video before it has even downloaded. As a result,
-there is no more CLS.
+we've eliminated the shift.
 
 import CLSFix from "./_assets/fix-cls-video.mp4";
 
@@ -310,15 +306,18 @@ ffmpeg -i homer-simpson.gif -ss 00:00:00 -frames:v 1 poster.jpg
 ```
 
 And using Cloudinary, you can just set the file extension as a `jpg`
-and decrease the file size by adding the `q_40` to the path which
+and decrease the file size by adding the `q_10` to the path which
 decreases the quality of the image.
 
 ```url
-https://res.cloudinary.com/nray/image/upload/q_40/homer-simpson_hkeb1w.jpg
+https://res.cloudinary.com/nray/image/upload/q_10/homer-simpson_hkeb1w.jpg
 ```
 
 Given that this image will only show initially, we should apply heavy
-compression to it and aim to make it < 10 KB.
+compression to it so that it downloads as quickly as possible.
+Remember, its only purpose is to indicate visual progress so its okay
+if the quality is on the low side. The poster image I've generated
+results in a
 
 Next, add the poster attribute using the new image.
 
@@ -333,15 +332,6 @@ Next, add the poster attribute using the new image.
   <source src="/homer-simpson.webm" type="video/webm" />
   <source src="/homer-simpson.mp4" type="video/mp4" />
 </video>
-```
-
-```html
-<link
-  rel="preload"
-  as="image"
-  href="/poster.jpg"
-  fetchpriority="high"
-/>
 ```
 
 ## Step 6: Measure impact
