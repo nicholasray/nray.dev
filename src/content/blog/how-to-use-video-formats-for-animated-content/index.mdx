@@ -9,15 +9,17 @@ cover:
 description:
   "The guide to replacing your animated GIFs with videos for faster
   load and Largest Contentful Paint times."
+publishedAt: 2023-08-25
 ---
 
 import Image from "@components/BlogImage.astro";
 import Video from "@components/BlogVideo.astro";
+import { Aside } from "@components/Aside/index.astro";
 
 Despite the popularity of animated GIFs on the web, they're often
 humongous in file size and slow to load. Because of this, Lighthouse
 and [PageSpeed Insights](https://pagespeed.web.dev/) audits will flag
-any animated GIF that is
+any animated GIF that's
 [over 100 KiB](https://github.com/GoogleChrome/lighthouse/blob/f33cf9375583c384efa4379d55df1f1936406d2b/core/audits/byte-efficiency/efficient-animated-content.js#L63)
 with the warning message "**Use video formats for animated content**".
 
@@ -32,24 +34,23 @@ import psi from "./_assets/page-speed-insights-fail-animated-gif.png";
 
 What's the solution?
 
-1. Replace all animated GIFs with optimized videos
-2. Never use GIFs again
+1. **Replace all animated GIFs with optimized videos**.
+2. **Never use GIFs again**.
 
-In this post, I'll show you how I cut the size of a **2.5 MB GIF**
-down to a **80 KB video** (97% decrease) while also improving load and
-Largest Contentful Paint times.
+In this post, I'll show you how to cut the size of a **2.5 MB GIF**
+down to a **69 KB video** while also improving load and
+[Largest Contentful Paint](https://web.dev/lcp/) (LCP) times.
 
 ## Why does this matter?
 
 Animated GIFs are usually
 [much bigger](https://github.com/GoogleChrome/lighthouse/issues/4696#issuecomment-370979920)
-than videos which results in:
+than videos which can result in:
 
+- Slower LCP times
 - Longer load times
 - Less bandwidth available to download other assets on the page
 - More cellular data that mobile users pay for
-- Slower [Largest Contentful Paint](https://web.dev/lcp/) (LCP) times
-  (when used above the fold)
 
 How do we fix this? Let's run through an example.
 
@@ -79,14 +80,6 @@ settings:
 - **Connection**: 4G (9 Mbps, 170ms RTT)
 - **Number of Test to Run**: 9
 
-The
-[results](https://www.webpagetest.org/result/230825_AiDcCZ_9GD/?test=230825_AiDcCZ_9GD&medianMetric=chromeUserTiming.LargestContentfulPaint)
-show a slow LCP and long load time:
-
-- **Largest Contentful Paint**: 3.646 seconds
-- **Page Weight**: 2,442 KB
-- **Load time**: 3.643 seconds
-
 import webPageTestBaseline from "./_assets/web-page-test-baseline.png";
 
 <Image
@@ -102,6 +95,22 @@ import webPageTestBaselineWaterfall from "./_assets/web-page-test-baseline-water
   caption="The animated GIF loaded in 2.7 seconds"
 />
 
+The [results](https://www.webpagetest.org/result/230826_AiDc13_9FX/)
+show:
+
+- **Largest Contentful Paint**: 1.3 seconds
+- **Page Weight**: 2,442 KB
+- **Load time**: 3.616 seconds
+
+<Aside heading="Largest Contentful Paint for autoplaying video">
+  As of [August
+  2023](https://web.dev/lcp/#what-elements-are-considered), the first
+  frame of an autoplaying video can be the Largest Contentful Paint
+  element. But WebPageTest erroneously reports the LCP as 3.646
+  seconds for these results. Presumably, this is because it's using an
+  older definition.
+</Aside>
+
 ## Step 2: Convert to MP4 and WebM video formats
 
 We need to convert the animated GIF to video. But which format should
@@ -113,7 +122,7 @@ file sizes with less support.
 | MP4    | > 96.2% (see [caniuse](https://caniuse.com/mpeg4)) |
 | WebM   | > 95.8% (see [caniuse](https://caniuse.com/webm))  |
 
-You'll need to decide whether solely using WebM offers enough browser
+You'll need to decide whether only serving WebM offers enough browser
 support for your use case. Or you can offer both options and let the
 browser decide — that's the approach we'll take in this example.
 
@@ -178,8 +187,8 @@ converted to WebM.
 ## Step 3: Replace `img` element with `video` element
 
 Instead of using the `<img>` element to serve a GIF, we'll use the
-`<video>` element which supports different formats using the
-[source element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source):
+`<video>` element which supports serving different formats using the
+[source element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source).
 
 ```html
 <video>
@@ -191,15 +200,11 @@ Instead of using the `<img>` element to serve a GIF, we'll use the
 By using two `source` elements, we allow the browser to use the WebM
 format if it supports it and fallback to MP4 if it doesn't.
 
-import { Aside } from "@components/Aside/index.astro";
-
 <Aside heading="Order matters">
-
 It's important to put the lightest format **on top** as the browser
-will use the first supported format (from top to bottom). Placing the
+will use the first supported format starting from the top. Placing the
 MP4 `<source>` element on top of the WebM would undesirably cause
 browsers that support both formats to use MP4.
-
 </Aside>
 
 GIF offers the ability to autoplay, loop, and play silently which we
@@ -207,7 +212,7 @@ can replicate with the `autoplay`, `loop`, and `muted` attributes for
 video:
 
 ```html {/autoplay loop muted/}
-<video autoplay loop muted style="width: 100%">
+<video autoplay loop muted playsinline style="width: 100%">
   <source src="/homer-simpson.webm" type="video/webm" />
   <source src="/homer-simpson.mp4" type="video/mp4" />
 </video>
@@ -232,7 +237,7 @@ import CLS from "./_assets/cumulative-layout-shift-video.mp4";
 />
 
 The browser doesn't know the aspect ratio of the video until after
-it's loaded and that's what causes the layout shift. What can we do
+it's loaded, and that's what causes the layout shift. What can we do
 about this?
 
 ## Step 4: Add aspect-ratio CSS
@@ -245,11 +250,12 @@ To get around this, we can use the
 [`aspect-ratio`](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio)
 CSS property instead.
 
-```html {5}
+```html {6}
 <video
   autoplay
   loop
   muted
+  playsinline
   style="width: 100%; aspect-ratio: 480 / 354"
 >
   <source src="/homer-simpson.webm" type="video/webm" />
@@ -259,7 +265,7 @@ CSS property instead.
 
 With the `aspect-ratio` CSS, the browser knows how much space to
 allocate for the video before it has even downloaded. As a result,
-we've eliminated the shift.
+we've eliminated the layout shift.
 
 import CLSFix from "./_assets/fix-cls-video.mp4";
 
@@ -271,10 +277,10 @@ import CLSFix from "./_assets/fix-cls-video.mp4";
   caption="Using `aspect-ratio` CSS prevents a Cumulative Layout Shift after the video loads."
 />
 
-Okay, now we have a video that is a tiny file size, serves different
-formats based on browser support, and doesn't cause a Cumulative
-Layout Shift after it loads. Let's examine the WebPageTest timeline at
-this point.
+Okay, now we have a video that's a much smaller file size, serves
+different formats based on browser support, and doesn't cause a
+Cumulative Layout Shift after it loads. Let's examine the WebPageTest
+waterfall chart at this point.
 
 import WPTTimelineVideo from "./_assets/web-page-test-timeline-video.png";
 
@@ -283,13 +289,14 @@ import WPTTimelineVideo from "./_assets/web-page-test-timeline-video.png";
   alt="WebPageTest timeline showing the first frame of the video doesn't render until after the video has been loaded."
 />
 
-Many of the timelines showed that the video's first frame didn't paint
-until the entire video had finished downloading. Ideally, we want that
-to render as quickly as possible to indicate visual progress. As of
+Many of the waterfalls show that the video's first frame doesn't paint
+until the entire video finishes downloading. Ideally, we want that to
+render as quickly as possible to indicate visual progress. As of
 [August 2023](https://web.dev/lcp/#what-elements-are-considered), this
-also affects the Largest Contentful Paint time since its the first
-frame of an autoplaying video. Luckily, there's another trick we can
-use for this.
+also affects the Largest Contentful Paint time since it's the first
+frame of an autoplaying video.
+
+Luckily, there's another trick we can use for this.
 
 ## Step 5: Add poster attribute
 
@@ -302,8 +309,11 @@ Using FFMpeg, you can use the following command to extract the first
 frame of the video as an image.
 
 ```shell
-ffmpeg -i homer-simpson.gif -ss 00:00:00 -frames:v 1 poster.jpg
+ffmpeg -i homer-simpson.gif -ss 0 -qscale:v 31 -frames:v 1 poster.jpg
 ```
+
+You can raise the quality by lowering the `qscale:v` param (31 is the
+lowest quality while 2 is the best).
 
 And using Cloudinary, you can just set the file extension as a `jpg`
 and decrease the file size by adding the `q_10` to the path which
@@ -315,17 +325,18 @@ https://res.cloudinary.com/nray/image/upload/q_10/homer-simpson_hkeb1w.jpg
 
 Given that this image will only show initially, we should apply heavy
 compression to it so that it downloads as quickly as possible.
-Remember, its only purpose is to indicate visual progress so its okay
+Remember, its only purpose is to indicate visual progress so it's okay
 if the quality is on the low side. The poster image I've generated
-results in a
+with Cloudinary results in a **4 KB image**.
 
-Next, add the poster attribute using the new image.
+Next, add the image to the poster attribute:
 
-```html {6}
+```html {7}
 <video
   autoplay
   loop
   muted
+  playsinline
   style="width: 100%; aspect-ratio: 480 / 354"
   poster="/poster.jpg"
 >
@@ -334,20 +345,57 @@ Next, add the poster attribute using the new image.
 </video>
 ```
 
+Now WebPageTest shows the first frame rendering about **100ms
+earlier** for most runs:
+
+import WPTPoster from "./_assets/web-page-test-poster-timeline.png";
+
+<Image
+  src={WPTPoster}
+  alt="WebPageTest timeline showing the first frame of the video rendering after the poster image has loaded and before the video has finished loading."
+/>
+
+Now let's compare the overall peformance impact of using video instead
+of GIF.
+
 ## Step 6: Measure impact
 
-[results](https://www.webpagetest.org/result/230826_BiDc7T_KJ/?test=230826_BiDc7T_KJ&medianMetric=chromeUserTiming.LargestContentfulPaint#run6)
+Testing the video with PageSpeed Insights results in a perfect score
+(25 point improvement).
+
+import PSIResults from "./_assets/psi-results.png";
+
+<Image
+  src={PSIResults}
+  alt="PageSpeed Insights showing a perfect score when testing the video."
+/>
+
+When we compare the GIF and video results from WebPageTest, we see the
+following improvements:
+
+- **97% decrease** in **file size** (2,392 KB GIF down to 69 KB video
+  with 4 KB poster)
+- **95% decrease** in **page weight** (2,442 KB down to 122 KB)
+- **100 ms improvement** in **Largest Contentful Paint**
+- **65% decrease** in **page load time** (3.616 seconds down to 1.247
+  seconds)
+
+import WPTFimstripResults from "./_assets/web-page-test-results-filmstrip.png";
+
+<Image
+  src={WPTFimstripResults}
+  alt="WebPageTest filmstrip showing the first frame of the video rendering earlier than the first frame of the GIF."
+  caption="WebPageTest showing a 100 ms improvement in Largest Contentful Paint for most runs by using a video with a low quality poster instead of a GIF."
+/>
 
 ## Conclusion
 
-## Resources
+Replacing animated GIFs with optimized videos can significantly
+improve your website's performance. To recap, we did the following:
 
-- The first frame painted for autoplaying `<video>` elements (as of
-  August 2023)
-
-- The first frame of an animated image format, such as animated GIFs
-  (as of August 2023)
-
-- https://chromium.googlesource.com/chromium/src/+/refs/heads/main/docs/speed/metrics_changelog/2023_04_lcp.md
-
-* https://simonhearne.com/2021/fast-responsive-videos/
+- converted GIF to MP4 and WebM formats
+- replaced the `<img>` element with a `<video>` element using multiple
+  `<source>` elements for browser compatibility
+- added `aspect-ratio` CSS to eliminate CLS issues
+- added a low quality poster image to show visual progress before the
+  video is finished loading and improve LCP
