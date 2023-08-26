@@ -222,7 +222,8 @@ width of the content.
 
 After doing this, our video looks nearly identical to the original
 GIF, but with one problem — after the video loads, it shifts the text
-down, resulting in a [Cumulative Layout Shift](https://web.dev/cls/):
+down, resulting in a [Cumulative Layout Shift](https://web.dev/cls/)
+(CLS):
 
 import CLS from "./_assets/cumulative-layout-shift-video.mp4";
 
@@ -260,7 +261,9 @@ CSS property instead.
 </video>
 ```
 
-This fixes the CLS problem nicely.
+With the `aspect-ratio` CSS, the browser knows how much space to
+allocate for the video before it has even downloaded. As a result,
+there is no more CLS.
 
 import CLSFix from "./_assets/fix-cls-video.mp4";
 
@@ -315,6 +318,30 @@ https://res.cloudinary.com/nray/image/upload/q_40/homer-simpson_hkeb1w.jpg
 
 Given that this image will only show initially, we should apply heavy
 compression to it.
+
+Next, add the poster attribute using the new image.
+
+```html {6}
+<video
+  autoplay
+  loop
+  muted
+  style="width: 100%; aspect-ratio: 480 / 354"
+  poster="/poster.jpg"
+>
+  <source src="/homer-simpson.webm" type="video/webm" />
+  <source src="/homer-simpson.mp4" type="video/mp4" />
+</video>
+```
+
+```html
+<link
+  rel="preload"
+  as="image"
+  href="/poster.jpg"
+  fetchpriority="high"
+/>
+```
 
 ## Step 6: Measure impact
 

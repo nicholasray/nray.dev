@@ -6,6 +6,9 @@ import poster from "./_assets/poster.jpg";
 ---
 
 <VideoDemo>
+  <Fragment slot="before-styles">
+    <link rel="preload" as="image" href={poster.src} fetchpriority="high" />
+  </Fragment>
   <video
     autoplay
     loop
