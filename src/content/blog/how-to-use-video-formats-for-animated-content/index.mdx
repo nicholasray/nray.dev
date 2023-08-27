@@ -166,13 +166,13 @@ management and produce great results.
 After uploading the image to Cloudinary, we can dynamically convert it
 to MP4 by replacing the `.gif` file extension with `.mp4`:
 
-```url
+```text
 https://res.cloudinary.com/nray/image/upload/homer-simpson_hkeb1w.mp4
 ```
 
 Similarly, use the `.webm` extension in the URL to convert to WebM:
 
-```url
+```text
 https://res.cloudinary.com/nray/image/upload/homer-simpson_hkeb1w.webm
 ```
 
@@ -242,7 +242,7 @@ loaded, which causes the layout shift. What can we do about this?
 
 ## Step 4: Add aspect-ratio CSS
 
-Unlike the `<img>` element, we can't just add `width` and `height`
+Unlike the `<img>` element, we can't add `width` and `height`
 attributes to the video to let the browser figure out the aspect
 ratio. That should work, but it's
 [broken](https://github.com/w3c/csswg-drafts/issues/7524). To get
