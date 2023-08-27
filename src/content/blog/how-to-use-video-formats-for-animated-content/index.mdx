@@ -10,6 +10,7 @@ description:
   "The guide to replacing your animated GIFs with videos for faster
   load and Largest Contentful Paint times."
 publishedAt: 2023-08-26
+updatedAt: 2023-08-27
 ---
 
 import Image from "@components/BlogImage.astro";
@@ -52,12 +53,12 @@ than videos, which can result in the following:
 - More cellular data that mobile users pay for
 - Slower LCP
 
-How do we fix this? Let's run through an example.
+How do you fix this? Let's run through an example.
 
 ## Step 1: Measure the baseline GIF
 
-We'll start with an animated GIF from
-[this demo page](/demos/use-video-instead-of-gif-before/). I've used a
+Let's start with an animated GIF from
+[this demo page](/demos/use-video-instead-of-gif-before/). It has a
 Homer Simpson animated GIF above the fold. There's nothing else that
 captures embarrassment and awkwardness in one easy-to-use image.
 What's not to love?
@@ -72,7 +73,7 @@ import animatedGifBaseline from "./_assets/page-speed-insights-animated-gif-base
 />
 
 Let's see how it fares using
-[WebPageTest](https://www.webpagetest.org/). I'll use the following
+[WebPageTest](https://www.webpagetest.org/) using the following
 settings:
 
 - **Test Location**: Virginia, EC2
@@ -114,9 +115,9 @@ show:
 
 ## Step 2: Convert to MP4 and WebM video formats
 
-We need to convert the animated GIF to video. But which format should
-we pick? MP4 has the best browser support, but WebM results in smaller
-file sizes and less support.
+Next, let's convert the animated GIF to video. But which format should
+you pick? MP4 has the best browser support, but WebM results in
+smaller file sizes and less support.
 
 | Format | Browser support                                    |
 | ------ | -------------------------------------------------- |
@@ -125,12 +126,12 @@ file sizes and less support.
 
 You'll need to decide whether only serving WebM offers enough browser
 support for your audience. Or you can offer both options and let the
-browser decide — that's the approach we'll take in this example.
+browser decide — that's the approach this article will take.
 
 ### Option 1: Use FFmpeg
 
 [FFmpeg](https://ffmpeg.org/) is a popular command-line tool for
-converting video. We can use the following command to convert to MP4:
+converting video. You can use the following command to convert to MP4:
 
 ```sh
 ffmpeg -i homer-simpson.gif -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -b:v 0 -crf 25 -f mp4 -vcodec libx264 -pix_fmt yuv420p homer-simpson.mp4
@@ -146,9 +147,8 @@ ffmpeg -i homer-simpson.gif -c vp9 -b:v 0 -crf 41 homer-simpson.webm
 | -------- | -------- | --------- |
 | 2.5 MB   | 122 KB   | 80 KB     |
 
-By converting the GIF to video with FFMpeg, we reduced the file size
-by **95%** when converted to MP4 and by **97%** when converted to
-WebM.
+By converting the GIF to video with FFMpeg, the file size reduced by
+**95%** when converted to MP4 and by **97%** when converted to WebM.
 
 If you only have a few videos on your site, you can get great results
 by manually converting GIFs with the preceding commands. But I
@@ -163,8 +163,8 @@ CDN service like [Cloudinary](https://cloudinary.com/). Although image
 CDNs are typically not free, they can save a lot of hassle with media
 management and produce great results.
 
-After uploading the image to Cloudinary, we can dynamically convert it
-to MP4 by replacing the `.gif` file extension with `.mp4`:
+After uploading the image to Cloudinary, you can dynamically convert
+it to MP4 by replacing the `.gif` file extension with `.mp4`:
 
 ```text
 https://res.cloudinary.com/nray/image/upload/homer-simpson_hkeb1w.mp4
@@ -180,14 +180,14 @@ https://res.cloudinary.com/nray/image/upload/homer-simpson_hkeb1w.webm
 | -------- | -------- | --------- |
 | 2.5 MB   | 88 KB    | 71 KB     |
 
-By converting the GIF to video with Cloudinary, we reduced the file
-size by **96%** when converted to MP4 and by over **97%** when
-converted to WebM.
+By converting the GIF to video with Cloudinary, the file size reduced
+by **96%** when converted to MP4 and by over **97%** when converted to
+WebM.
 
 ## Step 3: Replace the `img` element with a `video` element
 
-Instead of using the `<img>` element to serve a GIF, we'll use the
-`<video>` element, which can serve different formats via the
+Instead of using the `<img>` element to serve a GIF, replace it with
+the `<video>` element, which can serve different formats via the
 [source element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/source).
 
 ```html
@@ -207,7 +207,7 @@ MP4 `<source>` element on top of the WebM would undesirably cause
 browsers that support both formats to use MP4.
 </Aside>
 
-GIF offers the ability to autoplay, loop, and play silently, which we
+GIF offers the ability to autoplay, loop, and play silently, which you
 can replicate with the `autoplay`, `loop`, and `muted` attributes for
 video:
 
@@ -218,11 +218,11 @@ video:
 </video>
 ```
 
-I also added the `style` attribute to let the video expand to the
-width of the content. The `playsinline` attribute is needed on iOS to
-prevent the video from entering fullscreen mode.
+The `style` attribute lets the video expand to the width of the
+content. The `playsinline` attribute is needed on iOS to prevent the
+video from entering fullscreen mode.
 
-After doing this, our video looks nearly identical to the original
+After doing this, the video looks nearly identical to the original
 GIF, but with one jarring problem — after the video loads, it shifts
 the text down, resulting in a
 [Cumulative Layout Shift](https://web.dev/cls/) (CLS):
@@ -238,15 +238,15 @@ import CLS from "./_assets/cumulative-layout-shift-video.mp4";
 />
 
 The browser doesn't know the video's aspect ratio until after it has
-loaded, which causes the layout shift. What can we do about this?
+loaded, which causes the layout shift. What can you do about this?
 
 ## Step 4: Add aspect-ratio CSS
 
-Unlike the `<img>` element, we can't add `width` and `height`
+Unlike the `<img>` element, you can't add `width` and `height`
 attributes to the video to let the browser figure out the aspect
 ratio. That should work, but it's
 [broken](https://github.com/w3c/csswg-drafts/issues/7524). To get
-around this, we can use the
+around this, you can use the
 [`aspect-ratio`](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio)
 CSS property instead.
 
@@ -265,7 +265,7 @@ CSS property instead.
 
 With the `aspect-ratio` CSS, the browser knows how much space to
 allocate for the video before it has even been started downloading. As
-a result, we've eliminated the layout shift.
+a result, you've eliminated the layout shift.
 
 import CLSFix from "./_assets/fix-cls-video.mp4";
 
@@ -277,7 +277,7 @@ import CLSFix from "./_assets/fix-cls-video.mp4";
   caption="Using `aspect-ratio` CSS prevents a Cumulative Layout Shift after the video loads."
 />
 
-Okay, now we have an optimized video that serves different formats
+Okay, now you have an optimized video that serves different formats
 based on browser support and doesn't cause a Cumulative Layout Shift
 after it loads. Let's examine the WebPageTest waterfall chart at this
 point.
@@ -290,39 +290,39 @@ import WPTTimelineVideo from "./_assets/web-page-test-timeline-video.png";
 />
 
 This waterfall shows that the video's first frame only appears after
-the entire video finishes downloading. Ideally, we want that to render
-as quickly as possible to indicate visual progress. As of
+the entire video finishes downloading. Ideally, that should render as
+quickly as possible to indicate visual progress. As of
 [August 2023](https://web.dev/lcp/#what-elements-are-considered), this
 also affects the Largest Contentful Paint time since it's the first
 frame of an autoplaying video.
 
-Luckily, there's another trick we can use for this.
+Luckily, there's another trick you can use for this.
 
 ## Step 5: Add a poster image
 
 Using the
 [`poster` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video)
-with a small image, we can encourage the browser to paint the first
+with a small image, you can encourage the browser to paint the first
 frame faster. That instructs the browser to download and display an
 image while the video is loading.
 
-Given that this image will only show initially, we should apply heavy
+Given that this image will only show initially, you should apply heavy
 compression to it so that it downloads as quickly as possible. Shoot
 for an image file size that's less than 5 KB. Remember, its only
 purpose is to indicate visual progress, so it's okay if the quality is
 low.
 
-Using FFMpeg, we can use the following command to extract the first
+Using FFMpeg, you can use the following command to extract the first
 frame of the video as an image.
 
 ```shell
 ffmpeg -i homer-simpson.gif -ss 0 -qscale:v 31 -frames:v 1 poster.jpg
 ```
 
-We can raise the quality by lowering the `qscale:v` param (1 is the
+You can raise the quality by lowering the `qscale:v` param (1 is the
 highest quality, 31 is the lowest quality).
 
-Using Cloudinary, we can set the file extension as a `jpg` and
+Using Cloudinary, you can set the file extension as a `jpg` and
 decrease the file size by adding the `q_10` to the path, reducing the
 image's quality. This results in a **4 KB image**.
 
@@ -373,8 +373,8 @@ import PSIResults from "./_assets/psi-results.png";
   alt="PageSpeed Insights report showing a perfect score when testing the video."
 />
 
-When we compare the GIF and video results from WebPageTest, we see the
-following improvements:
+When comparing the GIF and video results from WebPageTest, you can see
+the following improvements:
 
 - **97% decrease** in **file size** (2,392 KB GIF down to 69 KB video
   with 4 KB poster)
@@ -394,12 +394,5 @@ import WPTFimstripResults from "./_assets/web-page-test-results-filmstrip.png";
 ## Conclusion
 
 Replacing animated GIFs with optimized videos can improve several
-aspects of your website's performance. Here's how we did it in this
-post:
-
-- converted and compressed GIF to MP4 and WebM formats
-- replaced the `<img>` element with a `<video>` element containing two
-  `<source>` elements for browser compatibility
-- added `aspect-ratio` CSS to eliminate CLS issues
-- added a low-quality poster image to show visual progress and improve
-  LCP
+aspects of your website's performance, including load time, Largest
+Contentful Paint and page weight.
