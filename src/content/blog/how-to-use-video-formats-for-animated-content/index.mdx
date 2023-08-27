@@ -307,6 +307,12 @@ with a small image, we can encourage the browser to paint the first
 frame faster. That instructs the browser to download and display an
 image while the video is loading.
 
+Given that this image will only show initially, we should apply heavy
+compression to it so that it downloads as quickly as possible. Shoot
+for an image file size that's less than 5 KB. Remember, its only
+purpose is to indicate visual progress, so it's okay if the quality is
+low.
+
 Using FFMpeg, we can use the following command to extract the first
 frame of the video as an image.
 
@@ -319,17 +325,11 @@ highest quality, 31 is the lowest quality).
 
 Using Cloudinary, you can set the file extension as a `jpg` and
 decrease the file size by adding the `q_10` to the path, reducing the
-image's quality.
+image's quality. This results in a **4 KB image**.
 
 ```url
 https://res.cloudinary.com/nray/image/upload/q_10/homer-simpson_hkeb1w.jpg
 ```
-
-Given that this image will only show initially, we should apply heavy
-compression to it so that it downloads as quickly as possible.
-Remember, its only purpose is to indicate visual progress, so it's
-okay if the quality is low. To this end, the poster image I've
-generated with Cloudinary results in a **4 KB image**.
 
 Next, add the image to the poster attribute:
 
