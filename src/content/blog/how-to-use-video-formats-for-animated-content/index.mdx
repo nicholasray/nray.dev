@@ -131,7 +131,7 @@ browser decide — that's the approach this article will take.
 ### Option 1: Use FFmpeg
 
 [FFmpeg](https://ffmpeg.org/) is a popular command-line tool for
-converting video. You can use the following command to convert to MP4:
+converting video. Use the following command to convert the GIF to MP4:
 
 ```sh
 ffmpeg -i homer-simpson.gif -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -b:v 0 -crf 25 -f mp4 -vcodec libx264 -pix_fmt yuv420p homer-simpson.mp4
@@ -319,8 +319,8 @@ frame of the video as an image.
 ffmpeg -i homer-simpson.gif -ss 0 -qscale:v 31 -frames:v 1 poster.jpg
 ```
 
-You can raise the quality by lowering the `qscale:v` param (1 is the
-highest quality, 31 is the lowest quality).
+If the quality is too low, raise it by lowering the `qscale:v` param
+(1 is the highest quality, 31 is the lowest quality).
 
 Using Cloudinary, you can set the file extension as a `jpg` and
 decrease the file size by adding the `q_10` to the path, reducing the
