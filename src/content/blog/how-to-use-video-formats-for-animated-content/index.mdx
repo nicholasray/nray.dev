@@ -137,7 +137,7 @@ converting video. Use the following command to convert the GIF to MP4:
 ffmpeg -i homer-simpson.gif -vf "crop=trunc(iw/2)*2:trunc(ih/2)*2" -b:v 0 -crf 25 -f mp4 -vcodec libx264 -pix_fmt yuv420p homer-simpson.mp4
 ```
 
-And use this command to convert to WebM:
+To convert to WebM, use the following command:
 
 ```sh
 ffmpeg -i homer-simpson.gif -c vp9 -b:v 0 -crf 41 homer-simpson.webm
