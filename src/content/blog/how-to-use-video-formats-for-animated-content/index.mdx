@@ -114,8 +114,8 @@ show:
 ## Step 2: Convert to MP4 and WebM video formats
 
 We need to convert the animated GIF to video. But which format should
-we use? MP4 has the best browser support, but WebM results in smaller
-file sizes with less support.
+we pick? MP4 has the best browser support, but WebM results in smaller
+file sizes and less support.
 
 | Format | Browser support                                    |
 | ------ | -------------------------------------------------- |
@@ -123,7 +123,7 @@ file sizes with less support.
 | WebM   | > 95.8% (see [caniuse](https://caniuse.com/webm))  |
 
 You'll need to decide whether only serving WebM offers enough browser
-support for your use case. Or you can offer both options and let the
+support for your audience. Or you can offer both options and let the
 browser decide — that's the approach we'll take in this example.
 
 ### Option 1: Use FFmpeg
@@ -393,7 +393,7 @@ import WPTFimstripResults from "./_assets/web-page-test-results-filmstrip.png";
 Replacing animated GIFs with optimized videos can significantly
 improve your website's performance. Here's how we did it in this post:
 
-- converted GIF to MP4 and WebM formats
+- converted and compressed GIF to MP4 and WebM formats
 - replaced the `<img>` element with a `<video>` element containing two
   `<source>` elements for browser compatibility
 - added `aspect-ratio` CSS to eliminate CLS issues
