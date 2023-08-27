@@ -143,12 +143,12 @@ And use this command to convert to WebM:
 ffmpeg -i homer-simpson.gif -c vp9 -b:v 0 -crf 41 homer-simpson.webm
 ```
 
+When I converted the GIF to video with FFMpeg, the resulting file size
+decreased by 95% for MP4 and 97% for WebM.
+
 | GIF (KB) | MP4 (KB) | WebM (KB) |
 | -------- | -------- | --------- |
 | 2.5 MB   | 122 KB   | 80 KB     |
-
-By converting the GIF to video with FFMpeg, the file size reduced by
-**95%** when converted to MP4 and by **97%** when converted to WebM.
 
 If you only have a few videos on your site, you can get great results
 by manually converting GIFs with the preceding commands. But I
