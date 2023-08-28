@@ -322,9 +322,9 @@ ffmpeg -i homer-simpson.gif -ss 0 -qscale:v 31 -frames:v 1 poster.jpg
 If the quality is too low, raise it by lowering the `qscale:v` param
 (1 is the highest quality, 31 is the lowest quality).
 
-Using Cloudinary, you can set the file extension as a `jpg` and
-decrease the file size by adding the `q_10` to the path, reducing the
-image's quality. This results in a **4 KB image**.
+You can also use Cloudinary to get the first frame of the GIF by
+replacing the `.gif` file extension with `.jpg` in the URL. To lower
+the quality and reduce the image's file size, add `q_10` to the path.
 
 ```url
 https://res.cloudinary.com/nray/image/upload/q_10/homer-simpson_hkeb1w.jpg
@@ -377,7 +377,7 @@ When comparing the GIF and video results from WebPageTest, you can see
 the following improvements:
 
 - **97% decrease** in **file size** (2,392 KB GIF down to 69 KB video
-  with 4 KB poster)
+  with 5 KB poster)
 - **95% decrease** in **page weight** (2,442 KB down to 122 KB)
 - **100 ms improvement** in **LCP**
 - **65% decrease** in **page load time** (3.616 seconds down to 1.247
