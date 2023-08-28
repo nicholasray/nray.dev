@@ -60,7 +60,7 @@ export default (): AstroIntegration => {
 
         const files = (await fs.readdir(`${distDir}/${ASSET_DIR}`)).filter(
           (file) => {
-            return !!file.match(/.+\..+_.+\.(?:jpg|jpeg|png|webp|avif|gif)/);
+            return !!file.match(/.+\..+_.+\.(?:jpg|jpeg|png|webp|avif)/);
           },
         );
 
