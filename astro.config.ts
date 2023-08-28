@@ -73,7 +73,9 @@ export default defineConfig({
     tailwind(),
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    mdx(),
+    mdx({
+      smartypants: false,
+    }),
     sitemap({
       filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
     }),
