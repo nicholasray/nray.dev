@@ -168,13 +168,13 @@ After uploading the image to Cloudinary, you can dynamically convert
 it to MP4 by replacing the `.gif` file extension with `.mp4`:
 
 ```text
-https://res.cloudinary.com/nray/image/upload/homer-simpson_hkeb1w.mp4
+https://res.cloudinary.com/<cloud_name>/image/upload/<file_name>.mp4
 ```
 
 Similarly, use the `.webm` extension in the URL to convert to WebM:
 
 ```text
-https://res.cloudinary.com/nray/image/upload/homer-simpson_hkeb1w.webm
+https://res.cloudinary.com/<cloud_name>/image/upload/<file_name>.webm
 ```
 
 | GIF (KB) | MP4 (KB) | WebM (KB) |
@@ -324,10 +324,10 @@ If the quality is too low, raise it by lowering the `qscale:v` param
 
 You can also use Cloudinary to get the first frame of the GIF by
 replacing the `.gif` file extension with `.jpg` in the URL. To lower
-the quality and reduce the image's file size, add `q_10` to the path.
+the quality and reduce the image's file size, add `q_5` to the path.
 
 ```url
-https://res.cloudinary.com/nray/image/upload/q_10/homer-simpson_hkeb1w.jpg
+https://res.cloudinary.com/<cloud_name>/image/upload/q_5/<file_name>.jpg
 ```
 
 Next, add the image to the poster attribute:
