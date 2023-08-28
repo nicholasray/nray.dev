@@ -316,10 +316,10 @@ Using FFMpeg, you can use the following command to extract the first
 frame of the video as an image.
 
 ```shell
-ffmpeg -i homer-simpson.gif -ss 0 -qscale:v 31 -frames:v 1 poster.jpg
+ffmpeg -i homer-simpson.gif -qscale:v 31 -frames:v 1 poster.jpg
 ```
 
-If the quality is too low, raise it by lowering the `qscale:v` param
+If the quality is too low, raise it by lowering the `qscale:v` option
 (1 is the highest quality, 31 is the lowest quality).
 
 You can also use Cloudinary to get the first frame of the GIF by
