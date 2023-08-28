@@ -2,11 +2,21 @@ import type { PagesFunction } from "@cloudflare/workers-types/experimental";
 const ASSET_DIR = "_astro";
 const OPTIMIZED_ASSET_DIR = `${ASSET_DIR}-transformed`;
 
-export const onRequest: PagesFunction = async ({ request, next, env }) => {
+async function fetchAsset(url: URL, env) {
+  let response = await env.ASSETS.fetch(url);
+  if (response.status === 200) {
+    response = new Response(response.body, response);
+    response.headers.set("Cache-Control", "max-age=31536000,immutable");
+  }
+
+  return response;
+}
+
+export const onRequest: PagesFunction = async ({ request, env }) => {
   const url = new URL(request.url);
 
   if (!/\/_astro\/.+\..+_.+\.(?:jpg|jpeg|png|webp|avif)/.test(url.pathname)) {
-    return next();
+    return fetchAsset(url, env);
   }
 
   const accept = request.headers.get("Accept");
@@ -15,7 +25,7 @@ export const onRequest: PagesFunction = async ({ request, next, env }) => {
   // TO:  /_astro-optimized/avatar.19c5be45_1jNg6X.avif
   // TO:  /_astro-optimized/avatar.19c5be45_1jNg6X.webp
   // TO:  /_astro-optimized/avatar.19c5be45_1jNg6X.jpg
-  function rewriteUrl(format: string) {
+  async function fetchFromOptimized(format: string) {
     const file = request.url.split("/").pop()!;
     const dotIdx = file.lastIndexOf(".");
     const ext = file.substring(dotIdx);
@@ -24,16 +34,16 @@ export const onRequest: PagesFunction = async ({ request, next, env }) => {
       format || ext.slice(1)
     }`}`;
 
-    return env.ASSETS.fetch(new URL(newPath, request.url));
+    return fetchAsset(new URL(newPath, request.url), env);
   }
 
   if (accept?.includes("image/avif")) {
-    return rewriteUrl("avif");
+    return fetchFromOptimized("avif");
   }
 
   if (accept?.includes("image/webp")) {
-    return rewriteUrl("webp");
+    return fetchFromOptimized("webp");
   }
 
-  return rewriteUrl("");
+  return fetchFromOptimized("");
 };
