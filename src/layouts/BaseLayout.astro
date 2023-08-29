@@ -10,7 +10,6 @@ export interface Props extends SeoProps {
 const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
 ---
 
-<!DOCTYPE html>
 <html lang="en" class={htmlClass}>
   <head>
     <meta charset="UTF-8" />
@@ -35,11 +34,11 @@ const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
       defer
       data-domain="nray.dev"
       data-api="https://analytics.nray.dev/api/event"
-      src="/js/analytics.js"></script>
+      src="/assets/js/analytics.js"></script>
     <link
       as="font"
       crossorigin="anonymous"
-      href="/fonts/inter.var.woff2"
+      href="/assets/fonts/inter.var.woff2"
       rel="preload"
       type="font/woff2"
     />

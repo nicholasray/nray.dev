@@ -2,4 +2,4 @@ dist
 node_modules
 .github
 .changeset
-public/js
+public/assets/js
