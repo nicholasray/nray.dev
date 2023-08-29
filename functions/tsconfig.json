@@ -4,6 +4,6 @@
     "module": "esnext",
     "moduleResolution": "NodeNext",
     "lib": ["esnext"],
-    "types": ["@cloudflare/workers-types"]
+    "types": ["@cloudflare/workers-types/experimental"]
   }
 }
