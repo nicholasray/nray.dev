@@ -165,7 +165,9 @@ CDNs are typically not free, they can save a lot of hassle with media
 management and produce great results.
 
 After uploading the image to Cloudinary, you can dynamically convert
-it to MP4 by replacing the `.gif` file extension with `.mp4`:
+it to MP4 by replacing the `.gif` file extension with `.mp4`, making
+sure to replace the `<cloud_name>` and `<file_name>` placeholders with
+your respective Cloudinary info:
 
 ```text
 https://res.cloudinary.com/<cloud_name>/image/upload/<file_name>.mp4
