@@ -215,15 +215,14 @@ can replicate with the `autoplay`, `loop`, and `muted` attributes for
 video:
 
 ```html {/autoplay loop muted/}
-<video autoplay loop muted playsinline style="width: 100%">
+<video autoplay loop muted playsinline>
   <source src="/homer-simpson.webm" type="video/webm" />
   <source src="/homer-simpson.mp4" type="video/mp4" />
 </video>
 ```
 
-The `style` attribute expands the video to the width of the content,
-while the `playsinline` attribute is needed on iOS to prevent the
-video from entering fullscreen mode.
+The `playsinline` attribute is needed on iOS to prevent the video from
+entering fullscreen mode.
 
 After doing this, the video looks nearly identical to the original
 GIF, but with one jarring problem — after the video loads, it shifts
@@ -260,7 +259,7 @@ and height is `354 px`, so the CSS should look like the following:
   loop
   muted
   playsinline
-  style="width: 100%; aspect-ratio: 480 / 354"
+  style="aspect-ratio: 480 / 354"
 >
   <source src="/homer-simpson.webm" type="video/webm" />
   <source src="/homer-simpson.mp4" type="video/mp4" />
@@ -341,7 +340,7 @@ Next, add the image to the poster attribute:
   loop
   muted
   playsinline
-  style="width: 100%; aspect-ratio: 480 / 354"
+  style="aspect-ratio: 480 / 354"
   poster="/poster.jpg"
 >
   <source src="/homer-simpson.webm" type="video/webm" />
