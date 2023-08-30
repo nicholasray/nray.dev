@@ -1,13 +1,14 @@
 ---
 import Layout from "@layouts/Layout.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
 ---
 
-<Layout
-  title={"Use Video Instead of GIF Demo"}
-  description="Interactive demo of Interaction to Next Paint metric with the ability to change input delay, processing time, and presentation delay."
-  noindex={true}
-  nofollow={true}
->
+<Layout title={title} noindex={true} nofollow={true}>
   <main>
     <section class="mt-12 lg:mt-16">
       <div class="mx-auto max-w-3xl px-4 sm:px-6 md:px-8">

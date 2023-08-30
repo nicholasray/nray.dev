@@ -1,0 +1,17 @@
+---
+import Demo from "@layouts/TextDemoLayout.astro";
+import landscape from "../_assets/italy-landscape.jpg";
+---
+
+<Demo
+  title={`How To Fix "Image Elements Have Explicit Width and Height" Issue`}
+>
+  <img
+    src={landscape.src}
+    alt="Boat on lake in Italy."
+    loading="eager"
+    fetchpriority="high"
+    width="704"
+    height="469"
+  />
+</Demo>
