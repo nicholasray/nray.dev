@@ -9,6 +9,8 @@ interface Props {
   fullWidth?: boolean;
   rounded?: boolean;
   background?: boolean;
+  loading?: "eager" | "lazy";
+  fetchpriority?: "high" | "low" | "auto";
 }
 
 const {
