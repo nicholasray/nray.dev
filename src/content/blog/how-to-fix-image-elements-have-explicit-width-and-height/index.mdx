@@ -1,0 +1,123 @@
+---
+title:
+  How To Fix "Image elements do not have explicit width and height"
+cover:
+  src: ./_assets/page-speed-insights-passing-explicit-width-height.svg
+  alt:
+    Browser showing a passing `Image elements do not have explicit
+    width and height` PageSpeed Insights audit.
+  position: "left top"
+description:
+  The guide to fixing unsized images that cause a Cumulative Layout
+  Shift.
+---
+
+import Image from "@components/BlogImage.astro";
+import { Aside } from "@components/Aside/index.astro";
+
+[PageSpeed Insights](https://pagespeed.web.dev/) and Lighthouse audits
+will flag any unsized image with the message, "**Image elements do not
+have explicit width and height**."
+
+import psi from "./_assets/page-speed-insights-fail-explicit-width-and-height.png";
+
+<Image
+  src={psi}
+  alt="PageSpeed Insights report showing a failing `Image elements do not have explicit width and height` audit."
+  loading="eager"
+  fetchpriority="high"
+/>
+
+So how do you fix it?
+
+Generally, **you need to add `width` and `height` attributes to each
+image** so the browser knows its **aspect ratio** before loading it:
+
+```html /width="704" height="469"/
+<img width="704" height="469" src="…" alt="…" />
+```
+
+In this post, I'll demonstrate how to fix an image that is failing
+this audit.
+
+## Why does this matter?
+
+By default, browsers only allocate space for an image **after** it has
+downloaded the image's dimensions. Before that point, the image
+doesn't take up any space on the page.
+
+This becomes a problem if the browser renders a page before it knows
+the aspect ratio of an image in the viewport. Why? After the browser
+figures out its aspect ratio, it will allocate space for it and **push
+down** all the elements and text below it, causing a
+[Cumulative Layout Shift](https://web.dev/cls/) (CLS).
+
+Layout shifts
+[annoy users](https://blog.chromium.org/2020/05/the-science-behind-web-vitals.html).
+Now let's fix it.
+
+## Step 1: Measure the baseline
+
+Let's start by running a PageSpeed Insights audit of
+[this demo page](/demos/how-to-fix-image-elements-have-explicit-width-and-height/before/),
+featuring an image and some text below it. What are the results?
+
+Not good.
+
+## Step 2: Add `width` and `height` attributes and CSS
+
+### Image element
+
+```html
+<img width="704" height="469" src="…" alt="…" />
+```
+
+<Aside heading="`width` and `height` values should be proportional">
+  Although its often easier to use the image's actual dimensions for
+  the `width` and `height` attributes, an accurate **proportion** is
+  what let's the browser determine the image's aspect ratio. In other
+  words, if an image naturally has a `width` of 1000px and a `height`
+  of `500px`, you could also use `width="2"` and `height="1"`.
+</Aside>
+
+And then add some CSS:
+
+```css
+img {
+  height: auto;
+  /* To make the image fill the width of the container, set the width
+   * to 100% */
+  width: 100%;
+}
+```
+
+Alternatively, you can use the
+[`aspect-ratio`](https://developer.mozilla.org/en-US/docs/Web/CSS/aspect-ratio)
+CSS property instead of adding the `width` and `height` attributes:
+
+```html {6}
+<img class="hero" src="…" alt="…" style="aspect-ratio: 704 / 469" />
+```
+
+```css
+.hero {
+  aspect-ratio: 704 / 469;
+}
+```
+
+Both approaches will accomplish the same thing. In fact,
+
+### Picture element
+
+## Step 2: Measure the impact
+
+[after demo page](/demos/how-to-fix-image-elements-have-explicit-width-and-height/after/)
+
+## Conclusion
+
+Note that there is also an `aspect-ratio` CSS property that you can
+use as an alternative. In this example, the
+
+## Resources
+
+- /demos/how-to-fix-image-elements-have-explicit-width-and-height-issue/before/
