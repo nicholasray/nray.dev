@@ -10,7 +10,7 @@ description:
   "The guide to replacing your animated GIFs with videos for faster
   load and Largest Contentful Paint times."
 publishedAt: 2023-08-26
-updatedAt: 2023-08-29
+updatedAt: 2023-08-30
 ---
 
 import Image from "@components/BlogImage.astro";
@@ -221,9 +221,9 @@ video:
 </video>
 ```
 
-The `style` attribute expands the video to the width of the content,
-while the `playsinline` attribute is needed on iOS to prevent the
-video from entering fullscreen mode.
+The inline `style` attribute expands the video to the width of the
+content, while the `playsinline` attribute is needed on iOS to prevent
+the video from entering fullscreen mode.
 
 After doing this, the video looks nearly identical to the original
 GIF, but with one jarring problem — after the video loads, it shifts
@@ -267,9 +267,20 @@ and height is `354 px`, so the CSS should look like the following:
 </video>
 ```
 
-With the `aspect-ratio` CSS, the browser knows how much space to
-allocate for the video before it has even been started downloading. As
-a result, you've eliminated the layout shift.
+<Aside heading="Explicit width + correct aspect ratio = no layout shift">
+  To prevent layout shifts, set an explicit width like `width: 100%`
+  (as done here) or `width: 500px` on the video element **and** set
+  the `aspect-ratio`. If you only apply an aspect ratio, the video
+  will default to a [width of 300px and height of
+  150px](https://html.spec.whatwg.org/multipage/media.html#the-video-element:default-object-size)
+  before it loads. Then, it will switch to the provided aspect ratio
+  **after** the browser downloads its dimensions, which can result in
+  a layout shift.
+</Aside>
+
+With this CSS, the browser knows how much space to allocate for the
+video before it has even been started downloading. As a result, you've
+eliminated the layout shift.
 
 import CLSFix from "./_assets/fix-cls-video.mp4";
 
