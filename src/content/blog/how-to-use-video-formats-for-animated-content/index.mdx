@@ -108,7 +108,7 @@ show:
   As of [August
   2023](https://web.dev/lcp/#what-elements-are-considered), the first
   frame of an autoplaying video or animated GIF can be the LCP
-  element. But WebPageTest erroneously reports the LCP as 3.646
+  element. But WebPageTest incorrectly reports the LCP as 3.646
   seconds for these results. Presumably, this is because it's using an
   older definition.
 </Aside>
@@ -269,9 +269,9 @@ and height is `354 px`, so the CSS should look like the following:
 
 <Aside heading="Explicit width + aspect ratio = no layout shift">
   To prevent layout shifts, set an explicit width like `width: 100%`
-  (as done here) or `width: 500px` on the video element **and** set
-  the `aspect-ratio`. If you only apply an aspect ratio, the video
-  will default to a [width of 300px and height of
+  (as done here) **and** an `aspect-ratio` on the video element. If
+  you only apply an aspect ratio, the video will default to a [width
+  of 300px and height of
   150px](https://html.spec.whatwg.org/multipage/media.html#the-video-element:default-object-size)
   before it loads. Then, it will switch to the provided aspect ratio
   **after** the browser downloads its dimensions, which can result in
