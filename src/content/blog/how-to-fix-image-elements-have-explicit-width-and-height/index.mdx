@@ -8,16 +8,17 @@ cover:
     width and height` PageSpeed Insights audit.
   position: "left top"
 description:
-  The guide to fixing unsized images that cause a Cumulative Layout
-  Shift.
+  The guide to fixing unsized images that cause Cumulative Layout
+  Shifts.
+publishedAt: 2023-08-31
 ---
 
 import Image from "@components/BlogImage.astro";
 import { Aside } from "@components/Aside/index.astro";
 
 [PageSpeed Insights](https://pagespeed.web.dev/) and Lighthouse audits
-will flag any unsized image with the message, "**Image elements do not
-have explicit width and height**."
+will flag any "unsized" image with the message, "**Image elements do
+not have explicit width and height**."
 
 import psi from "./_assets/page-speed-insights-fail-explicit-width-and-height.png";
 
@@ -37,56 +38,75 @@ image** so the browser knows its **aspect ratio** before loading it:
 <img width="704" height="469" src="…" alt="…" />
 ```
 
-In this post, I'll demonstrate how to fix an image that is failing
-this audit.
+In this post, you'll learn how to fix an image failing this audit.
 
 ## Why does this matter?
 
 By default, browsers only allocate space for an image **after** it has
-downloaded the image's dimensions. Before that point, the image
-doesn't take up any space on the page.
+downloaded its dimensions. Before that point, the image doesn't occupy
+any space on the page.
 
-This becomes a problem if the browser renders a page before it knows
-the aspect ratio of an image in the viewport. Why? After the browser
-figures out its aspect ratio, it will allocate space for it and **push
-down** all the elements and text below it, causing a
-[Cumulative Layout Shift](https://web.dev/cls/) (CLS).
+This becomes a problem if the browser renders a page **before** it
+knows the aspect ratio of an image in the viewport. Why? After the
+browser figures out the image's aspect ratio, it will allocate space
+for it by **pushing down** all the elements and text below it, causing
+a [Cumulative Layout Shift](https://web.dev/cls/) (CLS).
 
-Layout shifts
-[annoy users](https://blog.chromium.org/2020/05/the-science-behind-web-vitals.html).
-Now let's fix it.
+You may have experienced annoying layout shifts when visiting websites
+with ads that load late and push down other elements on the page.
+Trying to interact with an element that gets shifted, like a button,
+can be incredibly annoying. Layout shifts
+[frustrate users](https://blog.chromium.org/2020/05/the-science-behind-web-vitals.html).
+
+Now, let's look at an example.
 
 ## Step 1: Measure the baseline
 
 Let's start by running a PageSpeed Insights audit of
 [this demo page](/demos/how-to-fix-image-elements-have-explicit-width-and-height/before/),
-featuring an image and some text below it. What are the results?
+featuring an image and some text below. What are the results?
 
-Not good.
+- **CLS**: 0.223
+- **Total**: 89
+
+import psiBefore from "./_assets/page-speed-insights-before.png";
+
+<Image
+  src={psiBefore}
+  alt="PageSpeed Insights report showing an 89 total score and 0.223 Cumulative Layout Shift."
+/>
 
 ## Step 2: Add `width` and `height` attributes and CSS
 
-### Image element
+### Fixing `<img>` elements
 
-```html
+Get the image's dimensions in pixels and add `width` and `height`
+attributes with these values, leaving the `px` unit off. Because the
+image in the demo has a width of 704 px and a height of 469 px, the
+HTML should look like the following:
+
+```html /width="704" height="469"/
 <img width="704" height="469" src="…" alt="…" />
 ```
 
-<Aside heading="`width` and `height` values should be proportional">
-  Although its often easier to use the image's actual dimensions for
-  the `width` and `height` attributes, an accurate **proportion** is
-  what let's the browser determine the image's aspect ratio. In other
-  words, if an image naturally has a `width` of 1000px and a `height`
-  of `500px`, you could also use `width="2"` and `height="1"`.
+<Aside heading="`width` and `height` values">
+  Although it's usually easier to use the image's actual dimensions
+  for the `width` and `height` attributes, you don't need to. The
+  values just need to be proportional so the browser can calculate the
+  image's aspect ratio. In other words, if an image's natural size has
+  a width of 1000 pixels and a height of 500 pixels, you could also
+  use `width="2"` and `height="1"` because 2 / 1 is proportional to
+  1000 / 500.
 </Aside>
 
 And then add some CSS:
 
 ```css
 img {
+  /* Allow the image's height to scale to the aspect ratio inferred
+   * from the `width` and `height` attributes */
   height: auto;
-  /* To make the image fill the width of the container, set the width
-   * to 100% */
+  /* Make the image fill the width of the container */
   width: 100%;
 }
 ```
@@ -96,28 +116,53 @@ Alternatively, you can use the
 CSS property instead of adding the `width` and `height` attributes:
 
 ```html {6}
-<img class="hero" src="…" alt="…" style="aspect-ratio: 704 / 469" />
+<img class="hero" src="…" alt="…" />
 ```
 
 ```css
 .hero {
   aspect-ratio: 704 / 469;
+  height: auto;
+  width: 100%;
 }
 ```
 
-Both approaches will accomplish the same thing. In fact,
+### Fixing `<picture>` elements
 
-### Picture element
+You can also apply `width` and `height` attributes to the images using
+the `<picture>` element. You might be using the `<picture>` element to
+[serve different formats](/blog/how-to-serve-images-in-next-gen-formats/#option-2-serve-different-formats-with-html),
+for example:
+
+```html
+<picture>
+  <!-- Load the AVIF, if supported  -->
+  <source type="image/avif" srcset="…" />
+  <!-- Otherwise, load the WebP, if supported -->
+  <source type="image/webp" srcset="…" />
+  <!-- Fallback to the JPEG from the <img> element -->
+  <img src="…" width="200" height="200" alt="…" />
+</picture>
+```
 
 ## Step 2: Measure the impact
 
-[after demo page](/demos/how-to-fix-image-elements-have-explicit-width-and-height/after/)
+With the `width`, `height`, and CSS added, let's use PageSpeed
+Insights to measure the impact of a
+[page after these changes](/demos/how-to-fix-image-elements-have-explicit-width-and-height/after/):
 
-## Conclusion
+- **CLS score**: 0
+- **Total score**: 100
 
-Note that there is also an `aspect-ratio` CSS property that you can
-use as an alternative. In this example, the
+import psiAfter from "./_assets/page-speed-insights-after.png";
 
-## Resources
+<Image
+  src={psiAfter}
+  alt="PageSpeed Insights report showing a 100 total score and 0 Cumulative Layout Shift."
+/>
 
-- /demos/how-to-fix-image-elements-have-explicit-width-and-height-issue/before/
+That's better. We've eliminated the Cumulative Layout Shift, and the
+page has a perfect score.
+
+Sometimes, minor CSS and HTML changes can go a long way in improving
+the user's experience.
