@@ -92,9 +92,9 @@ import psiBefore from "./_assets/page-speed-insights-before.png";
 ### Fixing `<img>` elements
 
 Get the image's dimensions in pixels and add `width` and `height`
-attributes with these values, leaving the `px` unit off. Because the
-image in the demo has a width of 704 px and a height of 469 px, the
-HTML should look like the following:
+attributes to the image with these values. Make sure to not include
+the `px` unit. Because the image in the demo has a width of 704 px and
+a height of 469 px, the HTML should look like the following:
 
 ```html /width="704" height="469"/
 <img width="704" height="469" src="…" alt="…" />
