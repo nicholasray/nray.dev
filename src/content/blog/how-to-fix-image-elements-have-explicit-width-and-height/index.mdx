@@ -15,6 +15,7 @@ publishedAt: 2023-08-31
 
 import Image from "@components/BlogImage.astro";
 import { Aside } from "@components/Aside/index.astro";
+import Video from "@components/BlogVideo.astro";
 
 [PageSpeed Insights](https://pagespeed.web.dev/) and Lighthouse audits
 will flag any "unsized" image with the message, "**Image elements do
@@ -51,6 +52,16 @@ knows the aspect ratio of an image in the viewport. Why? After the
 browser figures out the image's aspect ratio, it will allocate space
 for it by **pushing down** all the elements and text below it, causing
 a [Cumulative Layout Shift](https://web.dev/cls/) (CLS).
+
+import CLS from "./_assets/cumulative-layout-shift-example.mp4";
+
+<Video
+  description="Loading a page with an unsized image causes a large Cumulative Layout Shift"
+  width="1368"
+  height="1080"
+  src={[CLS]}
+  caption="Loading a page with an unsized image causes a large Cumulative Layout Shift after the browser renders the image."
+/>
 
 You may have experienced annoying layout shifts when visiting websites
 with ads that load late and push down other elements on the page.
