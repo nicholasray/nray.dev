@@ -141,18 +141,45 @@ CSS property instead of adding the `width` and `height` attributes:
 ### Fixing `<picture>` elements
 
 You can also apply `width` and `height` attributes to the images using
-the `<picture>` element. You might be using the `<picture>` element to
-[serve different formats](/blog/how-to-serve-images-in-next-gen-formats/#option-2-serve-different-formats-with-html),
-for example:
+the `<picture>` element. For example, you could use the `<picture>`
+element to
+[serve different formats](/blog/how-to-serve-images-in-next-gen-formats/#option-2-serve-different-formats-with-html):
 
-```html
+```html /width="704" height="469"/
 <picture>
   <!-- Load the AVIF, if supported  -->
   <source type="image/avif" srcset="…" />
   <!-- Otherwise, load the WebP, if supported -->
   <source type="image/webp" srcset="…" />
   <!-- Fallback to the JPEG from the <img> element -->
-  <img src="…" width="200" height="200" alt="…" />
+  <img src="fallback.jpg" width="704" height="469" alt="…" />
+</picture>
+```
+
+If the aspect ratio remains constant for all the `<source>` elements,
+you don't need to add `width` and `height` attributes to each one. But
+if the aspect ratio changes, there is good
+[browser support](https://caniuse.com/mdn-html_elements_source_width)
+for that, too:
+
+```html {6-7, 13-14}
+<picture>
+  <!-- Use square image on smaller screens  -->
+  <source
+    media="(max-width: 999px)"
+    srcset="…"
+    width="500"
+    height="500"
+  />
+  <!-- Use rectangle image on larger screens  -->
+  <source
+    media="(min-width: 1000px)"
+    srcset="…"
+    width="704"
+    height="469"
+  />
+  <!-- Fallback to using the rectangle image  -->
+  <img src="fallback.jpg" width="704" height="469" alt="…" />
 </picture>
 ```
 
@@ -172,8 +199,6 @@ import psiAfter from "./_assets/page-speed-insights-after.png";
   alt="PageSpeed Insights report showing a 100 total score and 0 Cumulative Layout Shift."
 />
 
-That's better. We've eliminated the Cumulative Layout Shift, and the
-page has a perfect score.
-
-Sometimes, minor CSS and HTML changes can go a long way in improving
-the user's experience.
+That's better! We've eliminated the Cumulative Layout Shift, and the
+page has a perfect score. Sometimes, minor CSS and HTML changes like
+these can go a long way in improving the user's experience.
