@@ -19,9 +19,6 @@ import rewriteImagePaths from "./src/integrations/rewriteImagePaths";
 export default defineConfig({
   site: "https://www.nray.dev",
   trailingSlash: "always",
-  experimental: {
-    assets: true,
-  },
   build: {
     inlineStylesheets: "always",
   },
@@ -81,5 +78,4 @@ export default defineConfig({
     }),
     rewriteImagePaths(),
   ],
-  compressHTML: true,
 });

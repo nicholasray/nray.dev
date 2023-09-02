@@ -55,7 +55,8 @@ const { range, class: className } = Astro.props;
 </style>
 
 <script>
-  import { animate, spring, EasingGenerator } from "motion";
+  import type { EasingGenerator } from "motion";
+  import { animate, spring } from "motion";
 
   function getRelativeBox(parent: HTMLElement, child: HTMLElement) {
     const parentBox = parent.getBoundingClientRect();
