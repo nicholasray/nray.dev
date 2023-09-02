@@ -1,7 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import * as Accordion from "@components/Accordion/index.astro";
-import { Icon } from "astro-icon";
 import { WebVitalScale } from "@src/components/WebVitalScale/index.astro";
 import Slider from "@src/components/Slider/Slider.astro";
 const supportsINPClass = "supports-inp";
@@ -166,10 +165,21 @@ import cover from "./_assets/cover.png";
                       key={i}
                     >
                       item {i + 1}
-                      <Icon
-                        name="heroicons:chevron-down"
+                      <svg
                         class="chevron h-6 w-6 transition-transform duration-500"
-                      />
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="w-6 h-6"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                        />
+                      </svg>
                     </Accordion.Trigger>
                   </Accordion.Header>
                   <Accordion.Content
