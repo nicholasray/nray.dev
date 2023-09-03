@@ -52,4 +52,7 @@ module.exports = {
     },
   },
   blocklist: ["container"],
+  experimental: {
+    optimizeUniversalDefaults: true,
+  },
 };
