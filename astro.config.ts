@@ -19,9 +19,6 @@ import rewriteImagePaths from "./src/integrations/rewriteImagePaths";
 export default defineConfig({
   site: "https://www.nray.dev",
   trailingSlash: "always",
-  build: {
-    inlineStylesheets: "always",
-  },
   image: {
     service: sharpImageService(),
   },
