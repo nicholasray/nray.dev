@@ -55,6 +55,7 @@
     "eslint-plugin-astro": "0.29.0",
     "eslint-plugin-jsx-a11y": "6.7.1",
     "eslint-plugin-react-hooks": "4.6.0",
+    "generate-license-file": "2.0.0",
     "pre-commit": "1.2.2",
     "prettier": "3.0.3",
     "prettier-plugin-astro": "0.12.0",
