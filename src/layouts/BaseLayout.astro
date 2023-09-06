@@ -1,6 +1,9 @@
 ---
 import { SEO, type Props as SeoProps } from "astro-seo";
 import "../global.css";
+import "../styles/global.css";
+import { theme } from "@styles/themes/themes.css";
+import * as t from "@styles/tokens/tokens";
 
 export interface Props extends SeoProps {
   title?: string;
@@ -19,12 +22,12 @@ const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta
       name="theme-color"
-      content="#FAFAFA"
+      content={t.color.zinc[50]}
       media="(prefers-color-scheme: light)"
     />
     <meta
       name="theme-color"
-      content="#18181B"
+      content={t.color.zinc[900]}
       media="(prefers-color-scheme: dark)"
     />
     <meta name="color-scheme" content="light dark" />
@@ -44,9 +47,7 @@ const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
     />
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
-  <body
-    class="bg-white text-zinc-500 antialiased dark:bg-zinc-900 dark:text-zinc-400"
-  >
+  <body class={theme}>
     <slot />
   </body>
 </html>

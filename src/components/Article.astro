@@ -2,6 +2,13 @@
 import { Image } from "@components/Image/index.astro";
 import ArticleFooter from "./ArticleFooter.astro";
 import type { Post } from "@src/types";
+import {
+  article,
+  articleImage,
+  articleTitle,
+  articleBody,
+  articleFooter,
+} from "./Article.css";
 
 export interface Props {
   post: Post;
@@ -11,30 +18,24 @@ const { post } = Astro.props;
 ---
 
 <a href={post.url}>
-  <article class="flex h-full flex-col">
-    <div class="rounded-3xl">
-      <Image
-        alt={post.data.cover.alt}
-        class="h-80 w-full rounded-3xl object-cover dark:shadow-lg md:h-[32rem]"
-        src={post.data.cover}
-        widths={[400, 800, 1600]}
-        sizes="(min-width: 48rem) 28rem, 100vw"
-        style={post.data.cover.position
-          ? `object-position: ${post.data.cover.position}`
-          : undefined}
-      />
-    </div>
-    <h3
-      class="mt-8 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white"
-    >
+  <article class={article}>
+    <Image
+      alt={post.data.cover.alt}
+      class={articleImage}
+      src={post.data.cover}
+      widths={[400, 800, 1600]}
+      sizes="(min-width: 48rem) 28rem, 100vw"
+      style={post.data.cover.position
+        ? `object-position: ${post.data.cover.position}`
+        : undefined}
+    />
+    <h3 class={articleTitle}>
       {post.data.title}
     </h3>
-    <p class="mb-6 mt-4 text-lg text-zinc-600 dark:text-zinc-300">
+    <p class={articleBody}>
       {post.data.description}
     </p>
-    <footer
-      class="mt-auto space-x-2 text-sm uppercase tracking-wide text-zinc-500 dark:text-zinc-400"
-    >
+    <footer class={articleFooter}>
       <ArticleFooter
         publishedAt={post.data.publishedAt}
         readingTime={post.readingTime}

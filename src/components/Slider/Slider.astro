@@ -1,5 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import { slider } from "./Slider.css";
 
 interface Props extends HTMLAttributes<"input"> {}
 
@@ -7,99 +8,8 @@ const { class: className, ...rest } = Astro.props;
 ---
 
 <input
-  class:list={[
-    "slider appearance-none bg-transparent cursor-pointer outline-offset-6",
-    className,
-  ]}
+  class:list={["slider", slider, className]}
   type="range"
   autocomplete="off"
   {...rest}
 />
-
-<style>
-  /*********** Baseline, reset styles ***********/
-  .slider {
-    --handle-size: 1.5rem;
-    --track-size: 8px;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  /******** Chrome, Safari, Opera and Edge Chromium styles ********/
-  /* slider track */
-  .slider::-webkit-slider-runnable-track {
-    @apply my-[calc(var(--handle-size)/2)] rounded-lg bg-zinc-200;
-    width: calc(100% - var(--handle-size));
-    height: var(--track-size);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .slider::-webkit-slider-runnable-track {
-      @apply bg-zinc-700/75;
-    }
-  }
-
-  /* slider thumb */
-  .slider::-webkit-slider-thumb {
-    -webkit-appearance: none; /* Override default look */
-    appearance: none;
-    @apply rounded-full bg-zinc-600 shadow-md;
-    height: var(--handle-size);
-    width: var(--handle-size);
-    transform: translateY(calc((var(--track-size) / 2) - 50%));
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .slider::-webkit-slider-thumb {
-      @apply bg-zinc-200;
-    }
-  }
-
-  .slider:focus-visible::-webkit-slider-thumb {
-    @apply bg-zinc-500;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .slider:focus-visible::-webkit-slider-thumb {
-      @apply bg-white;
-    }
-  }
-
-  /*********** Firefox styles ***********/
-  /* slider track */
-  .slider::-moz-range-track {
-    @apply my-[calc(var(--handle-size)/2)] rounded-lg bg-zinc-200;
-    width: calc(100% - var(--handle-size));
-    height: var(--track-size);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .slider::-moz-range-track {
-      @apply bg-zinc-700;
-    }
-  }
-
-  /* slider thumb */
-  .slider::-moz-range-thumb {
-    @apply rounded-full bg-zinc-600 shadow-md;
-    border: none; /*Removes extra border that FF applies*/
-    height: var(--handle-size);
-    width: var(--handle-size);
-    /* transform: translateY(calc((var(--track-size) / 2) - 50%)); */
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .slider::-moz-range-thumb {
-      @apply bg-zinc-200;
-    }
-  }
-
-  .slider:focus-visible::-moz-range-thumb {
-    @apply bg-zinc-500;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .slider:focus-visible::-moz-range-thumb {
-      @apply bg-white;
-    }
-  }
-</style>

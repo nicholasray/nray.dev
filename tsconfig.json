@@ -9,9 +9,11 @@
       "@pages/*": ["src/pages/*"],
       "@content/*": ["src/content/*"],
       "@layouts/*": ["src/layouts/*"],
-      "@assets/*": ["src/assets/*"]
+      "@assets/*": ["src/assets/*"],
+      "@styles/*": ["src/styles/*"]
     },
     "jsx": "react-jsx",
-    "jsxImportSource": "react"
+    "jsxImportSource": "react",
+    "plugins": [{ "name": "typescript-plugin-css-modules" }]
   }
 }

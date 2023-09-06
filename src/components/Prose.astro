@@ -1,5 +1,5 @@
 ---
-import "./Prose.css";
+import { prose } from "./Prose.css";
 
 interface Props {
   class?: string;
@@ -10,7 +10,7 @@ const { class: className } = Astro.props;
 
 <div
   class:list={[
-    "prose font-normal text-zinc-800 dark:text-zinc-300/80",
+    `prose ${prose} font-normal text-zinc-800 dark:text-zinc-300/80`,
     className,
   ]}
 >

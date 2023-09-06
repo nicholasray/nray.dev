@@ -1,5 +1,14 @@
 ---
-// eslint-disable-next-line no-unused-vars
+import {
+  mailingList,
+  mailingListTitle,
+  mailingListBody,
+  mailingListForm,
+  mailingListInner,
+  mailingListInput,
+  mailingListButton,
+  mailingListFooter,
+} from "./MailingList.css";
 interface Props {
   url: string;
 }
@@ -7,44 +16,24 @@ interface Props {
 const { url } = Astro.props;
 ---
 
-<div
-  class="flex flex-col rounded-lg bg-zinc-200/80 px-6 py-14 dark:bg-zinc-800 md:items-center"
-  id="newsletter"
->
-  <h2
-    class="text-3xl font-extrabold tracking-tight text-zinc-900 dark:text-white md:text-center lg:text-4xl"
-  >
-    Become a page speed expert
-  </h2>
-  <p
-    class="mt-6 max-w-2xl text-lg text-zinc-800 dark:text-zinc-300 md:text-center"
-  >
+<div class={mailingList} id="newsletter">
+  <h2 class={mailingListTitle}>Become a page speed expert</h2>
+  <p class={mailingListBody}>
     Get web performance tips that improve page speed, user happiness, and
     business results 🚀
   </p>
-  <form
-    action={url}
-    method="post"
-    class="mt-14 flex w-full max-w-2xl items-center"
-  >
-    <div class="relative flex w-full items-center">
+  <form action={url} method="post" class={mailingListForm}>
+    <div class={mailingListInner}>
       <input
         type="email"
         name="email_address"
         required
-        class="h-16 w-full rounded-full bg-white py-2 pl-7 pr-40 font-semibold text-zinc-900 placeholder:text-zinc-600 dark:bg-zinc-50"
+        class={mailingListInput}
         placeholder="Email Address"
         aria-label="Email Address"
       />
-      <button
-        type="submit"
-        class="absolute right-1 flex h-14 items-center rounded-full bg-zinc-800 px-5 py-4 font-medium text-white hover:bg-zinc-700/95 hover:text-zinc-50 active:bg-zinc-700 active:text-zinc-300/90"
-      >
-        Subscribe
-      </button>
+      <button type="submit" class={mailingListButton}> Subscribe</button>
     </div>
   </form>
-  <div class="mt-6 text-center text-sm text-zinc-800 dark:text-zinc-300">
-    No spam. Unsubscribe anytime.
-  </div>
+  <div class={mailingListFooter}>No spam. Unsubscribe anytime.</div>
 </div>

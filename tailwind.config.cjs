@@ -13,7 +13,7 @@ module.exports = {
     hoverOnlyWhenSupported: true,
   },
   content: [
-    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue,svg}",
+    "./src/**/*.module.css",
     // Enable auto-link heading styles.
     "./astro.config.ts",
   ],

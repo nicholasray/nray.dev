@@ -15,6 +15,8 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import sitemap from "@astrojs/sitemap";
 import rewriteImagePaths from "./src/integrations/rewriteImagePaths";
 
+import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.nray.dev",
@@ -55,7 +57,7 @@ export default defineConfig({
         {
           properties: {
             "aria-label": "jump link",
-            className: `heading-link opacity-0 no-underline before:content-['#'] absolute -ml-8`,
+            className: `heading-link`,
           },
           content: {
             type: "text",
@@ -78,4 +80,7 @@ export default defineConfig({
     }),
     rewriteImagePaths(),
   ],
+  vite: {
+    plugins: [vanillaExtractPlugin()],
+  },
 });

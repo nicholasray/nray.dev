@@ -1,4 +1,14 @@
 ---
+import {
+  webVitalScale,
+  webVitalScaleInner,
+  webVitalScaleGood,
+  webVitalScaleNeedsImprovement,
+  webVitalScalePoor,
+  webVitalScaleScoreContainer,
+  webVitalScaleScore,
+} from "./WebVitalScale.css";
+
 interface Props {
   class?: string;
   range: [number, number];
@@ -8,51 +18,27 @@ const { range, class: className } = Astro.props;
 ---
 
 <nray-web-vital-scale
-  class:list={["web-vital-scale relative block font-sans", className]}
+  class:list={["web-vital-scale", webVitalScale, className]}
   data-range={range[0] + range[1]}
 >
-  <div class="flex text-center font-bold">
-    <div
-      class="dark:ring-[#3F8862] dark:ring-1 dark:bg-[#1D2A24] dark:text-emerald-100 flex-auto bg-emerald-100 py-8 text-green-950 flex justify-center items-center px-4"
-      style={`flex-basis: ${range[0]}px`}
-    >
+  <div class={webVitalScaleInner}>
+    <div class={webVitalScaleGood} style={`flex-basis: ${range[0]}px`}>
       GOOD
     </div>
     <div
-      class="dark:bg-[#2A261D] dark:text-amber-100 dark:ring-1 dark:ring-[#B68F25] flex-auto bg-orange-100 py-8 text-orange-950 flex justify-center items-center px-4"
+      class={webVitalScaleNeedsImprovement}
       style={`flex-basis: ${range[1] - range[0]}px`}
     >
       NEEDS IMPROVEMENT
     </div>
-    <div
-      class="dark:ring-1 dark:ring-[#775050] dark:bg-[#2A1D1D] dark:text-red-100 flex-auto bg-red-100 py-8 text-red-950 flex justify-center items-center px-4"
-      style={`flex-basis: ${range[0]}px`}
-    >
+    <div class={webVitalScalePoor} style={`flex-basis: ${range[0]}px`}>
       POOR
     </div>
   </div>
-  <div class="flex -translate-y-1/4 justify-center">
-    <div
-      class="web-vital-scale__score relative flex items-center justify-center rounded-lg bg-white px-3 py-1 font-mono text-base font-bold opacity-0 drop-shadow-md dark:text-zinc-900"
-    >
-      0
-    </div>
+  <div class={webVitalScaleScoreContainer}>
+    <div class=`web-vital-scale__score ${webVitalScaleScore}`>0</div>
   </div>
 </nray-web-vital-scale>
-
-<style>
-  .web-vital-scale__score::before {
-    content: "";
-    display: block;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid white;
-    position: absolute;
-    top: -7px;
-  }
-</style>
 
 <script>
   import type { EasingGenerator } from "motion";

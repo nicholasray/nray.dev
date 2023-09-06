@@ -1,5 +1,11 @@
 ---
 import Layout from "@layouts/Layout.astro";
+import {
+  section,
+  sectionInner,
+  slotContainer,
+  content,
+} from "./TextDemoLayout.css";
 
 interface Props {
   title: string;
@@ -10,14 +16,12 @@ const { title } = Astro.props;
 
 <Layout title={title} noindex={true} nofollow={true}>
   <main>
-    <section class="mt-12 lg:mt-16">
-      <div class="mx-auto max-w-3xl px-4 sm:px-6 md:px-8">
-        <div class="flex justify-center">
+    <section class={section}>
+      <div class={sectionInner}>
+        <div class={slotContainer}>
           <slot />
         </div>
-        <div
-          class="flex flex-col gap-8 text-lg dark:text-zinc-200 mt-8 text-zinc-800"
-        >
+        <div class={content}>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae

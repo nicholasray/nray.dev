@@ -1,6 +1,10 @@
 ---
 import type { MarkdownHeading } from "astro";
 import TableOfContentsList from "./TableOfContentsList.astro";
+import {
+  tableOfContentsNav,
+  tableOfContentsTitle,
+} from "./TableOfContents.css";
 
 interface Props {
   headings: MarkdownHeading[];
@@ -17,19 +21,11 @@ headings.unshift({
 ---
 
 <nray-table-of-contents class="table-of-contents">
-  <nav
-    class="sticky top-6 max-h-[calc(100vh-1.5rem)] overflow-y-auto pb-6 pr-6 pt-1.5 text-sm text-zinc-500 dark:text-zinc-400 font-medium"
-  >
-    <div class="mb-3 font-bold uppercase tracking-wide">On this page</div>
+  <nav class={tableOfContentsNav}>
+    <div class={tableOfContentsTitle}>On this page</div>
     <TableOfContentsList headings={headings} />
   </nav>
 </nray-table-of-contents>
-
-<style is:global>
-  .table-of-contents-item--highlighted > .table-of-contents-link {
-    @apply text-zinc-900 dark:text-white;
-  }
-</style>
 
 <script>
   const HIGHLIGHT_CLASS = "table-of-contents-item--highlighted";

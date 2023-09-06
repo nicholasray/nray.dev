@@ -1,5 +1,6 @@
 ---
 import { Image } from "@components/Image/index.astro";
+import "./BlogImage.css";
 
 interface Props {
   src: ImageMetadata;
@@ -25,12 +26,11 @@ const {
 } = Astro.props;
 
 const classList: Record<string, boolean> = {
-  "flex justify-center": !fullWidth,
-  "!mt-0": !fullWidth,
-  "w-full": fullWidth,
-  "shadow-xl": !!shadow,
-  "bg-white": !!background,
-  "rounded-lg": !!rounded,
+  "blog-image--centered": !fullWidth,
+  "blog-image--full-width": fullWidth,
+  "blog-image--shadow": !!shadow,
+  "blog-image--white-background": !!background,
+  "blog-image--rounded": !!rounded,
 };
 
 const classes = Object.keys(classList)
