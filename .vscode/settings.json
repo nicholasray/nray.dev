@@ -4,5 +4,6 @@
     "**/bower_components": true,
     "**/*.code-search": true,
     "src/pages/blog/**/demos": true
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

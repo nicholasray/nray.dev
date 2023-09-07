@@ -1,0 +1,49 @@
+.headerInner {
+  @apply mx-auto 
+		flex 
+		h-24 
+		max-w-8xl 
+		items-center 
+		justify-between 
+		px-4 
+		sm:px-6 
+		md:px-8;
+}
+
+.headerLogoLink {
+  @apply text-2xl 
+		font-semibold 
+		tracking-tight 
+		text-white;
+}
+
+.headerLogo {
+  @apply h-8 
+ 	fill-zinc-900 
+	text-white 
+	dark:fill-white;
+}
+
+.headerNavLinks {
+  @apply flex 
+		items-center 
+		space-x-2 
+		font-semibold 
+		text-zinc-700 
+		dark:text-zinc-300 
+		sm:space-x-4 
+		md:space-x-8;
+}
+
+.headerNavLink {
+  @apply block 
+		rounded-2xl 
+		p-3 
+		hover:bg-zinc-100 
+		dark:hover:bg-zinc-800 
+		dark:hover:text-white;
+}
+
+.headerRSSIcon {
+  @apply h-5 md:h-6;
+}

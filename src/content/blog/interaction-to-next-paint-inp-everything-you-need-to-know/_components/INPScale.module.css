@@ -1,0 +1,67 @@
+.scaleItem {
+  @apply rounded-lg 
+		border-4 
+		border-white 
+		bg-zinc-50 
+		px-4 
+		py-8 
+		shadow-xl 
+		dark:border-transparent 
+		dark:bg-white/2.5 
+		dark:ring-1 
+		dark:ring-white/10;
+}
+
+.scale {
+  @apply relative 
+		-mx-4 
+		block 
+		font-sans;
+}
+
+.scaleInputContainer {
+  @apply pt-4;
+}
+
+.scaleInput {
+  @apply dark:!bg-zinc-900;
+}
+
+.scaleSliderContainer {
+  @apply mt-2 
+		flex 
+		justify-center 
+		font-sans;
+}
+
+.scaleSliderContainerInner {
+  @apply flex 
+		max-w-xl 
+		flex-grow 
+		flex-col 
+		font-sans;
+}
+
+.scaleSlider {
+  @apply mt-3 block;
+}
+
+.scaleSliderInner {
+  @apply mt-3 
+		flex 
+		items-baseline 
+		justify-between 
+		text-base;
+}
+
+.scaleSliderLabel {
+  @apply text-sm 
+		font-semibold 
+		uppercase 
+		tracking-wide;
+}
+
+.scaleSliderValue {
+  @apply text-lg 
+		font-bold;
+}

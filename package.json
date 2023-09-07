@@ -62,6 +62,7 @@
     "prettier-plugin-tailwindcss": "0.5.4",
     "svgo": "3.0.2",
     "typescript": "5.2.2",
+    "typescript-plugin-css-modules": "^5.0.1",
     "wrangler": "3.6.0"
   }
 }

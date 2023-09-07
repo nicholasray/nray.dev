@@ -1,0 +1,7 @@
+.blog-iframe {
+  @apply h-40 w-72;
+}
+
+.blog-iframe-opacity {
+  opacity: 0;
+}

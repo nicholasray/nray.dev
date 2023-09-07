@@ -1,8 +1,9 @@
 ---
+import "./BlogIframe.css";
 const { class: classNames, ...rest } = Astro.props;
 ---
 
-<blog-iframe class:list={["opacity-0", classNames]}>
+<blog-iframe class:list={["blog-iframe", "blog-iframe-opacity", classNames]}>
   <iframe loading="lazy" {...rest}></iframe>
 </blog-iframe>
 
@@ -14,12 +15,12 @@ const { class: classNames, ...rest } = Astro.props;
 
     setMeta() {
       const meta: HTMLMetaElement | null = document.head.querySelector(
-        this.metaSelector
+        this.metaSelector,
       );
 
       if (!meta) {
         throw new Error(
-          `Expected meta[name="color-scheme"] in the document head`
+          `Expected meta[name="color-scheme"] in the document head`,
         );
       }
 
@@ -34,14 +35,14 @@ const { class: classNames, ...rest } = Astro.props;
       const imported = this.child.contentDocument.importNode(this.meta);
 
       const meta = this.child.contentDocument.head.querySelector(
-        this.metaSelector
+        this.metaSelector,
       );
       if (meta) {
         meta.remove();
       }
 
       this.child.contentDocument.head.appendChild(
-        this.child.contentDocument.importNode(imported)
+        this.child.contentDocument.importNode(imported),
       );
     }
 
@@ -52,7 +53,7 @@ const { class: classNames, ...rest } = Astro.props;
 
       this.setMeta();
       this.copyColorSchemeFromParent();
-      this.classList.remove("opacity-0");
+      this.classList.remove("blog-iframe-opacity");
     }
 
     connectedCallback() {

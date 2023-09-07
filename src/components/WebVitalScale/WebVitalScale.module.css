@@ -1,0 +1,95 @@
+.webVitalScale {
+  @apply relative 
+		-mx-4 
+		block 
+		font-sans;
+}
+
+.webVitalScaleInner {
+  @apply flex 
+		text-center 
+		font-bold;
+}
+
+.webVitalScaleGood {
+  @apply flex 
+		flex-auto 
+		items-center 
+		justify-center 
+		bg-emerald-100 
+		px-4 
+		py-8 
+		text-green-950 
+		dark:bg-[#1D2A24] 
+		dark:text-emerald-100 
+		dark:ring-1 
+		dark:ring-[#3F8862];
+}
+
+.webVitalScaleNeedsImprovement {
+  @apply flex 
+		flex-auto 
+		items-center 
+		justify-center 
+		bg-orange-100 
+		px-4 
+		py-8 
+		text-orange-950 
+		dark:bg-[#2A261D] 
+		dark:text-amber-100 
+		dark:ring-1 
+		dark:ring-[#B68F25];
+}
+
+.webVitalScalePoor {
+  @apply flex 
+		flex-auto 
+		items-center 
+		justify-center 
+		bg-red-100 
+		px-4 
+		py-8 
+		text-red-950 
+		dark:bg-[#2A1D1D] 
+		dark:text-red-100 
+		dark:ring-1 
+		dark:ring-[#775050];
+}
+
+.webVitalScaleScoreContainer {
+  @apply flex 
+		-translate-y-1/4 
+		justify-center;
+}
+
+.webVitalScaleScore {
+  @apply relative 
+		flex 
+		items-center 
+		justify-center 
+		rounded-lg 
+		bg-white 
+		px-3 
+		py-1 
+		font-mono 
+		text-base 
+		font-bold 
+		opacity-0 
+		drop-shadow-md 
+		dark:text-zinc-900;
+
+  &::before {
+    @apply absolute 
+				-top-[7px] 
+				block 
+				h-0
+				w-0
+				border-b-[8px]
+				border-l-[8px]
+				border-r-[8px]
+				border-b-white
+				border-l-transparent
+				border-r-transparent;
+    content: "";
+  }
+}

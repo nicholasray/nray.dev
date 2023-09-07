@@ -1,0 +1,21 @@
+.blog-image--centered {
+  @apply mt-0 
+		flex 
+		justify-center;
+}
+
+.blog-image--full-width {
+  @apply w-full;
+}
+
+.blog-image--shadow {
+  @apply shadow-xl;
+}
+
+.blog-image--white-background {
+  @apply bg-white;
+}
+
+.blog-image--rounded {
+  @apply rounded-lg;
+}

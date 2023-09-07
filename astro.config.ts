@@ -1,10 +1,8 @@
 import { defineConfig, sharpImageService } from "astro/config";
-
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import ayu from "./ayu.theme.json";
 
-// https://astro.build/config
 import mdx from "@astrojs/mdx";
 import { remarkReadingTime } from "./remark/remarkReadingTime";
 import rehypePrettyCode from "rehype-pretty-code";
@@ -55,7 +53,7 @@ export default defineConfig({
         {
           properties: {
             "aria-label": "jump link",
-            className: `heading-link opacity-0 no-underline before:content-['#'] absolute -ml-8`,
+            className: `heading-link`,
           },
           content: {
             type: "text",

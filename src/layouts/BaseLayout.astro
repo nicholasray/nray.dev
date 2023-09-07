@@ -1,6 +1,6 @@
 ---
 import { SEO, type Props as SeoProps } from "astro-seo";
-import "../global.css";
+import "../styles/global.css";
 
 export interface Props extends SeoProps {
   title?: string;
@@ -44,9 +44,7 @@ const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
     />
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
-  <body
-    class="bg-white text-zinc-500 antialiased dark:bg-zinc-900 dark:text-zinc-400"
-  >
+  <body>
     <slot />
   </body>
 </html>
