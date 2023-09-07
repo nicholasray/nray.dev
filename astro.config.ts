@@ -1,10 +1,8 @@
 import { defineConfig, sharpImageService } from "astro/config";
-
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import ayu from "./ayu.theme.json";
 
-// https://astro.build/config
 import mdx from "@astrojs/mdx";
 import { remarkReadingTime } from "./remark/remarkReadingTime";
 import rehypePrettyCode from "rehype-pretty-code";
@@ -14,8 +12,6 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
 // https://astro.build/config
 import sitemap from "@astrojs/sitemap";
 import rewriteImagePaths from "./src/integrations/rewriteImagePaths";
-
-import { vanillaExtractPlugin } from "@vanilla-extract/vite-plugin";
 
 // https://astro.build/config
 export default defineConfig({
@@ -80,7 +76,4 @@ export default defineConfig({
     }),
     rewriteImagePaths(),
   ],
-  vite: {
-    plugins: [vanillaExtractPlugin()],
-  },
 });

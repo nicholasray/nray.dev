@@ -2,13 +2,9 @@
 import Article from "@components/Article.astro";
 import Layout from "@layouts/Layout.astro";
 import { getPosts } from "@src/api";
-import {
-  blogSection,
-  blogSectionInner,
-  blogSectionTitle,
-  blogSectionPosts,
-} from "./index.css";
-
+import styles from "./index.module.css";
+const { blogSection, blogSectionInner, blogSectionTitle, blogSectionPosts } =
+  styles;
 const posts = await getPosts();
 ---
 

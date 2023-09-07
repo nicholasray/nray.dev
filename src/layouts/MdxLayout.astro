@@ -1,7 +1,8 @@
 ---
 import Prose from "@components/Prose.astro";
 import Layout from "./Layout.astro";
-import { section, sectionInner } from "./MdxLayout.css.ts";
+import styles from "./MdxLayout.module.css";
+const { section, sectionInner } = styles;
 const { title } = Astro.props.frontmatter;
 ---
 

@@ -1,0 +1,64 @@
+.footer {
+  @apply sticky 
+		top-[100vh] 
+		border-t 
+		border-t-zinc-700/10 
+		py-14 
+		text-zinc-600 
+		dark:border-t-zinc-200/10 
+		dark:text-zinc-200 
+		lg:py-20;
+}
+
+.footerInner {
+  @apply flex 
+		flex-col 
+		items-center 
+		justify-center 
+		text-center;
+}
+
+.footerLogoLink {
+  @apply mb-5 
+		text-xl 
+		font-semibold 
+		tracking-tight;
+}
+
+.footerLogo {
+  @apply h-7 
+		fill-zinc-900 
+		dark:fill-white;
+}
+
+.footerSourceCodeContainer {
+  @apply mb-4;
+}
+
+.footerSourceCodeLink {
+  @apply font-semibold 
+		text-zinc-500 
+		hover:text-zinc-900 
+		dark:text-zinc-400 
+		dark:hover:text-white;
+}
+
+.footerCopyright {
+  @apply mb-12 
+		text-sm 
+		text-zinc-600 
+		dark:text-zinc-400;
+}
+
+.footerLinks {
+  @apply flex 
+		gap-4 
+		text-sm font-bold;
+}
+
+.footerLink {
+  @apply text-zinc-500 
+		hover:text-zinc-900 
+		dark:text-zinc-400 
+		dark:hover:text-white;
+}

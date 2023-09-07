@@ -5,7 +5,9 @@ import ArticleFooter from "@components/ArticleFooter.astro";
 import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
 import { Image } from "@components/Image/index.astro";
-import {
+import styles from "./index.module.css";
+const {
+  main,
   heroSection,
   heroSectionInner,
   heroContainerOne,
@@ -25,8 +27,7 @@ import {
   aboutLink,
   recentlyPublishedTitle,
   recentlyPublishedPosts,
-} from "./index.css";
-import styles from "./index.module.css";
+} = styles;
 
 const posts = await getPosts();
 const featured = posts.find((post) => post.data.featured) || posts[0];
@@ -55,7 +56,7 @@ const title = "Nicholas Ray";
     card: "summary_large_image",
   }}
 >
-  <main class:list={styles.main}>
+  <main class={main}>
     <section class={heroSection}>
       <div class={heroSectionInner}>
         <div class={heroContainerOne}>
@@ -92,7 +93,7 @@ const title = "Nicholas Ray";
               />
             </footer>
           </article>
-          <a href={featured.url} class={heroButton}> Read article</a>
+          <a href={featured.url} class={heroButton}>Read article</a>
         </div>
       </div>
     </section>

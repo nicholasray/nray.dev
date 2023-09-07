@@ -1,0 +1,13 @@
+.blogVideoFigure {
+  @apply flex
+		flex-col
+		items-center;
+}
+
+.blogVideoShadow {
+  @apply shadow-xl;
+}
+
+.blogVideo {
+  @apply rounded-lg;
+}

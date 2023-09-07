@@ -1,10 +1,8 @@
 ---
 import type { MarkdownHeading } from "astro";
 import TableOfContentsList from "./TableOfContentsList.astro";
-import {
-  tableOfContentsNav,
-  tableOfContentsTitle,
-} from "./TableOfContents.css";
+import styles from "./TableOfContents.module.css";
+const { tableOfContentsNav, tableOfContentsTitle } = styles;
 
 interface Props {
   headings: MarkdownHeading[];

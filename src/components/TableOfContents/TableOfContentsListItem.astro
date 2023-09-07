@@ -1,10 +1,8 @@
 ---
 import type { MarkdownHeading } from "astro";
 import TableOfContentsList from "./TableOfContentsList.astro";
-import {
-  tableOfContentsListItem,
-  tableOfContentsListItemLink,
-} from "./TableOfContentsListItem.css";
+import styles from "./TableOfContentsListItem.module.css";
+const { tableOfContentsListItem, tableOfContentsListItemLink } = styles;
 
 interface Heading extends MarkdownHeading {
   children: MarkdownHeading[];

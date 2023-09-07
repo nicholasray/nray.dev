@@ -12,11 +12,7 @@ module.exports = {
   future: {
     hoverOnlyWhenSupported: true,
   },
-  content: [
-    "./src/**/*.module.css",
-    // Enable auto-link heading styles.
-    "./astro.config.ts",
-  ],
+  content: [],
   darkMode: "media",
   theme: {
     extend: {
@@ -52,7 +48,4 @@ module.exports = {
     },
   },
   blocklist: ["container"],
-  experimental: {
-    optimizeUniversalDefaults: true,
-  },
 };

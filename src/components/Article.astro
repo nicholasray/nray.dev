@@ -2,13 +2,9 @@
 import { Image } from "@components/Image/index.astro";
 import ArticleFooter from "./ArticleFooter.astro";
 import type { Post } from "@src/types";
-import {
-  article,
-  articleImage,
-  articleTitle,
-  articleBody,
-  articleFooter,
-} from "./Article.css";
+import styles from "./Article.module.css";
+const { article, articleImage, articleTitle, articleBody, articleFooter } =
+  styles;
 
 export interface Props {
   post: Post;

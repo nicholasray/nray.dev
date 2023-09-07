@@ -1,6 +1,7 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import { input } from "./Input.css";
+import styles from "./Input.module.css";
+const { input } = styles;
 
 interface Props extends HTMLAttributes<"input"> {
   class?: string;

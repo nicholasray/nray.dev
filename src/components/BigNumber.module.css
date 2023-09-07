@@ -1,0 +1,7 @@
+.bigNumber {
+  @apply text-center 
+		text-8xl 
+		font-extrabold 
+		tracking-tighter 
+		md:text-9xl;
+}

@@ -1,13 +1,14 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import {
+import styles from "./Aside.module.css";
+const {
   aside,
   asideInner,
   asideIconContainer,
   asideIcon,
   asideTitle,
   asideBody,
-} from "./Aside.css";
+} = styles;
 
 interface Props extends HTMLAttributes<"aside"> {
   heading: string;

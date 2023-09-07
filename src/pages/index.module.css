@@ -52,16 +52,16 @@
 .heroImageLink {
   @apply block 
 		md:rotate-2 
-		md:hover:rotate-0 
-		md:motion-safe:transition-performant 
-		md:motion-safe:duration-300;
+		md:transition-performant 
+		md:duration-300 
+		md:hover:rotate-0;
 }
 
 .heroImage {
   @apply h-80 
 		w-full 
 		rounded-xl 
-		object-cover 
+		object-cover
 		md:h-[34rem];
 }
 
@@ -93,10 +93,10 @@
 		dark:bg-zinc-50 
 		dark:text-zinc-900 
 		md:w-auto 
+		md:transition-performant 
+		md:duration-300 
 		md:hover:scale-[1.1] 
-		md:active:translate-y-1 
-		md:motion-safe:transition-performant 
-		md:motion-safe:duration-300;
+		md:active:translate-y-1;
 }
 
 .sectionInner {

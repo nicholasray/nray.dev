@@ -1,5 +1,6 @@
 ---
-import { prose } from "./Prose.css";
+import styles from "./Prose.module.css";
+const { prose } = styles;
 
 interface Props {
   class?: string;
@@ -8,11 +9,6 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<div
-  class:list={[
-    `prose ${prose} font-normal text-zinc-800 dark:text-zinc-300/80`,
-    className,
-  ]}
->
+<div class:list={[`prose ${prose}`, className]}>
   <slot />
 </div>

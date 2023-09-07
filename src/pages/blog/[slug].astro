@@ -8,7 +8,8 @@ import { format } from "date-fns";
 import { TableOfContents } from "@components/TableOfContents/index.astro";
 import Prose from "@components/Prose.astro";
 import { DIMENSIONS } from "./[slug].png";
-import {
+import styles from "./_[slug].module.css";
+const {
   main,
   section,
   sectionInner,
@@ -26,7 +27,7 @@ import {
   readingTimeContainer,
   tableOfContentsContainer,
   proseContainer,
-} from "./_[slug].css";
+} = styles;
 
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {

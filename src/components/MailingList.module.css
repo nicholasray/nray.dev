@@ -1,0 +1,83 @@
+.mailingList {
+  @apply flex 
+		flex-col 
+		rounded-lg 
+		bg-zinc-200/80 
+		px-6 py-14 
+		dark:bg-zinc-800 
+		md:items-center;
+}
+
+.mailingListTitle {
+  @apply text-3xl 
+		font-extrabold 
+		tracking-tight 
+		text-zinc-900 
+		dark:text-white 
+		md:text-center 
+		lg:text-4xl;
+}
+
+.mailingListBody {
+  @apply mt-6 
+		max-w-2xl 
+		text-lg 
+		text-zinc-800 
+		dark:text-zinc-300 
+		md:text-center;
+}
+
+.mailingListForm {
+  @apply mt-14 
+		flex 
+		w-full 
+		max-w-2xl 
+		items-center;
+}
+
+.mailingListInner {
+  @apply relative 
+		flex 
+		w-full 
+		items-center;
+}
+
+.mailingListInput {
+  @apply h-16 
+		w-full 
+		rounded-full 
+		bg-white 
+		py-2 
+		pl-7 
+		pr-40 
+		font-semibold 
+		text-zinc-900 
+		placeholder:text-zinc-600 
+		dark:bg-zinc-50;
+}
+
+.mailingListButton {
+  @apply absolute 
+		right-1 
+		flex 
+		h-14 
+		items-center 
+		rounded-full 
+		bg-zinc-800 
+		px-5 
+		py-4 
+		font-medium 
+		text-white 
+		hover:bg-zinc-700/95 
+		hover:text-zinc-50 
+		active:bg-zinc-700 
+		active:text-zinc-300/90;
+}
+
+.mailingListFooter {
+  @apply mt-6 
+		text-center 
+		text-sm 
+		text-zinc-800 
+		dark:text-zinc-300;
+}

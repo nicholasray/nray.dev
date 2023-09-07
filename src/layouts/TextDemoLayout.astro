@@ -1,11 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
-import {
-  section,
-  sectionInner,
-  slotContainer,
-  content,
-} from "./TextDemoLayout.css";
+import styles from "./TextDemoLayout.module.css";
+const { section, sectionInner, slotContainer, content } = styles;
 
 interface Props {
   title: string;

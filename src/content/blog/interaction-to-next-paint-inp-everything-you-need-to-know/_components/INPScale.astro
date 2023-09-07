@@ -2,7 +2,8 @@
 import { WebVitalScale } from "@src/components/WebVitalScale/index.astro";
 import { Slider } from "@src/components/Slider/index.astro";
 import { Input } from "@src/components/Input/index.astro";
-import {
+import styles from "./INPScale.module.css";
+const {
   scaleItem,
   scale,
   scaleInputContainer,
@@ -13,7 +14,7 @@ import {
   scaleSliderInner,
   scaleSliderLabel,
   scaleSliderValue,
-} from "./INPScale.css";
+} = styles;
 ---
 
 <figure>
