@@ -34,5 +34,4 @@ module.exports = {
       screens: screens,
     },
   },
-  blocklist: ["container"],
 };
