@@ -34,3 +34,11 @@
   white-space: nowrap;
   border-width: 0;
 }
+
+body {
+  @apply bg-white 
+    text-zinc-500 
+    antialiased 
+    dark:bg-zinc-900 
+    dark:text-zinc-400;
+}

@@ -58,7 +58,7 @@
   h6 {
     @apply -ml-8 pl-8;
 
-    &:hover .heading-link {
+    &:hover :global(.heading-link) {
       @apply block opacity-100;
     }
   }
@@ -257,5 +257,18 @@
 
   [data-highlighted-line] {
     @apply border-l-[#3bbae5] bg-slate-500/20  dark:border-l-[#428fa9] dark:bg-[#181c25];
+  }
+
+  :global {
+    .heading-link {
+      @apply absolute
+      -ms-8
+        opacity-0;
+      text-decoration-line: none;
+
+      &::before {
+        content: "#";
+      }
+    }
   }
 }
