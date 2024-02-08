@@ -220,7 +220,7 @@
 			text-zinc-300;
   }
 
-  [data-rehype-pretty-code-fragment] {
+  [data-rehype-pretty-code-figure] {
     @apply -mx-4 my-8 bg-slate-900/95 dark:bg-[#0C0E12] md:-mx-6 md:overflow-hidden md:rounded-lg;
 
     code {
