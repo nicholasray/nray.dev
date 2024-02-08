@@ -37,9 +37,9 @@
 		font-normal
 		leading-[1.75]
 		text-zinc-800
-		dark:text-zinc-300/80 
 		lg:text-[1.1875rem] 
-		lg:leading-[1.8];
+		lg:leading-[1.8] 
+		dark:text-zinc-300/80;
 
   h1,
   h2,
@@ -209,19 +209,20 @@
   }
 
   [data-rehype-pretty-code-title] {
-    @apply flex 
+    @apply mt-0 
+			flex 
 			min-h-[2.5rem] 
 			items-center 
 			py-1.5 
 			pl-[calc(1rem+4px)] 
-			pr-0.5 
+      pr-0.5
 			font-mono 
     	text-sm
 			text-zinc-300;
   }
 
   [data-rehype-pretty-code-figure] {
-    @apply -mx-4 my-8 bg-slate-900/95 dark:bg-[#0C0E12] md:-mx-6 md:overflow-hidden md:rounded-lg;
+    @apply -mx-4 my-8 bg-slate-900/95 md:-mx-6 md:overflow-hidden md:rounded-lg dark:bg-[#0C0E12];
 
     code {
       @apply grid;
