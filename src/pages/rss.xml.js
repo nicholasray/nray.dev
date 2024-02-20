@@ -1,7 +1,7 @@
 import rss from "@astrojs/rss";
 import { getPosts } from "@src/api";
 
-export async function get(context) {
+export async function GET(context) {
   // Filter out drafts.
   let blog = (await getPosts()).filter((post) => {
     return !!post.data.publishedAt;

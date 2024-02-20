@@ -17,18 +17,18 @@
     "test"
   ],
   "dependencies": {
-    "@astrojs/check": "^0.5.1",
+    "@astrojs/check": "^0.5.4",
     "@astrojs/mdx": "2.1.1",
     "@astrojs/react": "3.0.10",
     "@astrojs/rss": "4.0.5",
     "@astrojs/sitemap": "3.0.5",
     "@astrojs/tailwind": "5.1.0",
-    "astro": "4.3.5",
-    "astro-seo": "0.8.0",
+    "astro": "4.4.0",
+    "astro-seo": "0.8.2",
     "cloudinary": "2.0.1",
     "clsx": "2.1.0",
     "date-fns": "3.3.1",
-    "dotenv": "16.4.1",
+    "dotenv": "16.4.4",
     "heroicons": "2.1.1",
     "mdast-util-to-string": "4.0.0",
     "motion": "10.17.0",
@@ -38,17 +38,17 @@
     "rehype-autolink-headings": "7.1.0",
     "rehype-pretty-code": "0.13.0",
     "sharp": "0.33.2",
-    "shiki": "1.0.0",
+    "shiki": "1.1.5",
     "tailwindcss": "3.4.1",
     "web-vitals": "3.5.2"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20240129.0",
-    "@types/react": "18.2.55",
+    "@cloudflare/workers-types": "4.20240208.0",
+    "@types/react": "18.2.57",
     "@types/react-dom": "18.2.19",
     "@types/sharp": "0.31.1",
-    "@typescript-eslint/eslint-plugin": "6.21.0",
-    "@typescript-eslint/parser": "6.21.0",
+    "@typescript-eslint/eslint-plugin": "7.0.2",
+    "@typescript-eslint/parser": "7.0.2",
     "autoprefixer": "10.4.17",
     "eslint": "8.56.0",
     "eslint-plugin-astro": "0.31.4",
@@ -61,7 +61,7 @@
     "prettier-plugin-tailwindcss": "0.5.11",
     "svgo": "3.2.0",
     "typescript": "^5.3.3",
-    "typescript-plugin-css-modules": "5.0.2",
-    "wrangler": "3.27.0"
+    "typescript-plugin-css-modules": "5.1.0",
+    "wrangler": "3.28.3"
   }
 }
