@@ -260,6 +260,10 @@
     @apply border-l-[#3bbae5] bg-slate-500/20  dark:border-l-[#428fa9] dark:bg-[#181c25];
   }
 
+  code[data-language="text"] {
+    @apply text-[#bfbdb6];
+  }
+
   :global {
     .heading-link {
       @apply absolute
