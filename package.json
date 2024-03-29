@@ -25,7 +25,7 @@
     "@astrojs/tailwind": "5.1.0",
     "astro": "4.5.12",
     "astro-seo": "0.8.3",
-    "cloudinary": "2.0.3",
+    "cloudinary": "2.1.0",
     "clsx": "2.1.0",
     "date-fns": "3.6.0",
     "dotenv": "16.4.5",
