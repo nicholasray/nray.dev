@@ -20,6 +20,12 @@ export default defineConfig({
   build: {
     inlineStylesheets: "always",
   },
+  prefetch: {
+    prefetchAll: true,
+  },
+  devToolbar: {
+    enabled: false,
+  },
   image: {
     service: sharpImageService(),
   },
