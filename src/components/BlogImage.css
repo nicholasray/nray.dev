@@ -1,7 +1,6 @@
 .blog-image--centered {
-  @apply mt-0 
-		flex 
-		justify-center;
+  @apply mx-auto 
+    mt-0;
 }
 
 .blog-image--full-width {
