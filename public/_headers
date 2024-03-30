@@ -1,5 +1,5 @@
 /_astro/*
-  Cache-Control: public, max-age=3600, immutable
+  Cache-Control: public, max-age=31536000, immutable
 
 https://:project.pages.dev/*
   X-Robots-Tag: noindex
