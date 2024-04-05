@@ -4,7 +4,11 @@
 }
 
 .aside p {
-  @apply m-0 p-0;
+  @apply mb-5 lg:mb-6;
+
+  &:last-child {
+    @apply mb-0;
+  }
 }
 
 .asideInner {
@@ -29,12 +33,12 @@
 		translate-x-1/4 
 		rounded-full 
 		bg-white 
-		p-1 dark:bg-zinc-900 
-		md:h-12 
+		p-1 md:h-12 
 		md:w-12 
 		xl:block 
 		xl:h-14 
-		xl:w-14;
+		xl:w-14 
+		dark:bg-zinc-900;
 }
 
 .asideIcon {
@@ -43,10 +47,10 @@
 		rounded-full 
 		bg-sky-100 
 		p-2 
+		md:p-2.5 
 		dark:bg-[#1A1F27] 
 		dark:ring-1 
-		dark:ring-sky-500/30 
-		md:p-2.5;
+		dark:ring-sky-500/30;
 }
 
 .asideTitle {

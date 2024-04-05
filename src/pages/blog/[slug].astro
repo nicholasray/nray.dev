@@ -28,6 +28,8 @@ const {
   tableOfContentsContainer,
   proseContainer,
 } = styles;
+import BlogImage from "@src/components/BlogImage.astro";
+import { Aside } from "@src/components/Aside/index.astro";
 
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
@@ -124,7 +126,7 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
           <TableOfContents headings={headings} />
         </div>
         <Prose class={proseContainer}>
-          <Content />
+          <Content components={{ Image: BlogImage, Aside }} />
         </Prose>
       </section>
     </article>
@@ -135,7 +137,7 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
   import sectionObserver from "@components/TableOfContents/sectionObserver";
 
   const selectors = ["h2", "h3", "h4", "h5", "h6"].map(
-    (selector) => `.prose > ${selector}`,
+    (selector) => `.prose > ${selector}`
   );
   selectors.unshift("h1");
 

@@ -1,0 +1,181 @@
+---
+title: "Astro vs. Next.js: Why I Prefer Astro For Most Sites"
+cover:
+  src: ./_assets/space.jpg
+  alt: "Night sky over a church"
+  credit:
+    Photo by [Alexander
+    Andrews](https://unsplash.com/@alex_andrews?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash)
+  position: "bottom center"
+description:
+  Why I prefer to use the Astro framework for static, content-heavy
+  websites.
+publishedAt: 2024-04-05
+---
+
+I've been using the [Astro framework](https://astro.build/) to create
+websites (like this one) for a while, dating back to around its 1.0
+release. During this time, I've also spent months experimenting with
+the much more popular Next.js framework, which is used by companies
+like Spotify, OpenAI, Nike, and more.
+
+But I keep returning to Astro.
+
+I have yet to find a better framework for static or content-heavy
+websites. In this post, I'll explain why I prefer Astro (version 4.5)
+and how it outperforms Next.js (version 14.1) for this use case.
+
+## Zero JS, unless you add it
+
+I want a scalable framework.
+
+Something that easily allows me to add interactivity to a page when
+needed but also lets me scale **down** to a primarily static site like
+landing pages, blogs, and portfolios.
+
+I've written about how adding client-side JavaScript to a site is
+[one of the fastest ways to slow it down](/blog/300ms-faster-reducing-wikipedias-total-blocking-time/).
+To that end, a framework shouldn't make assumptions about how much
+JavaScript your site needs. **You should make that call, not the
+framework**.
+
+import blankPage from "./_assets/astro-vs-nextjs-js-on-blank-page.png";
+
+<Image
+  src={blankPage}
+  alt="Chrome Dev Tools Network Tab showing that it takes 87.5 KB of JavaScript to load blank page with Next.js, while it takes 0 KB with AstroJS."
+  caption="Next.js loads 87.5 KB of JavaScript (after compression) on a blank white page. Astro loads zero JavaScript."
+/>
+
+Because of its client-side router and dependence on React.js (among
+other things), Next.js will load a minimum of **87.5 KB** of
+JavaScript (after compression) — _even if your page is blank_. How
+much JavaScript does Astro load for that same page?
+
+Zero. Nada. Zilch.
+
+Astro will only load JS that you tell it to load. And that's what I
+expect.
+
+<Aside heading="Zero JS Next.js?">
+    There's an [open
+    discussion](https://github.com/vercel/next.js/discussions/45174)
+    proposing that Next.js have a zero JS option. Although it has yet to see
+    much traction at the time of this writing, I'd love to see it!
+    
+    It's also worth noting that Next.js *has* made progress towards
+    reducing client-side JavaScript with their recent
+    implementation of [React Server
+    Components](https://nextjs.org/docs/app/building-your-application/rendering/server-components).
+    IMHO, this is a significant step in the right direction.
+
+</Aside>
+
+If you want to add more interactivity to a page, Astro lets you use
+vanilla JS, a UI library like React, Preact, Vue, Svelte, HTMX, or
+even a combination of any of those. It's UI-agnostic and defers that
+decision to you. In contrast, Next.js is a React-first framework that
+advertises itself as "The React Framework for the Web."
+
+## Server first
+
+Astro and Next.js differ in how they handle routing. Next.js
+encourages you to use their
+[`<Link>`](https://nextjs.org/docs/pages/api-reference/components/link)
+component when linking to other pages. It uses client-side JavaScript
+to re-render the part of the page that has changed, avoiding a full
+page refresh. By default, this component can make navigating a website
+feel very snappy because it also **prefetches** the page the link
+points to when the link enters the viewport.
+
+On the other hand, Astro doesn't provide any special link component,
+instead relying on the standard old `<a href="">` tag to leverage the
+browser's innate ability to perform navigation. With this method, the
+browser performs a full page refresh, rendering the HTML _on the
+server_. Astro doesn't prefetch any link by default, but a simple
+[configuration change](https://docs.astro.build/en/guides/prefetch/)
+will enable it. With this change, you can closely mimic Next.js's fast
+page navigations.
+
+So which approach is better?
+
+For simple or content-heavy sites that don't require the app-like
+functionality that client-side navigation offers, I prefer Astro's
+approach:
+
+- By using client-side navigation, Next.js must re-implement
+  navigation features in JavaScript that the standard anchor tag and
+  browser already provide **for free**. These include essential
+  accessibility features like a
+  [route announcer](https://nextjs.org/docs/architecture/accessibility#route-announcements)
+  to notify users with accessibility issues that the page has loaded.
+  And have you ever noticed the loading indicator browsers show you
+  after you click a standard link that tells you the page is loading?
+  Well, with client-side navigation, **you are responsible for adding
+  that behavior**. Otherwise, a user who clicks a link on a slow
+  connection won't be able to tell that anything is happening. In
+  addition to frustrating your users, this lack of feedback may also
+  negatively affect your
+  [Interaction to Next Paint](/blog/interaction-to-next-paint-inp-everything-you-need-to-know/)
+  score. Next.js does let you add a
+  [`loading.js`](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming)
+  file you can use to implement a loading indicator, but why go
+  through the trouble of reinventing these critical features when HTML
+  and the browser already provide robust solutions?
+- On a related note, relying on the browser to perform something as
+  critical as navigation is safer than relying on a JavaScript
+  framework. Even at the time of this writing, Next.js has a
+  [long-standing bug](https://github.com/vercel/next.js/issues/45187)
+  that causes the browser to not scroll to the top of the page after
+  navigation. Meanwhile, browsers have spent decades perfecting the
+  idiosyncrasies like this.
+- Offloading HTML rendering to the server can make your website more
+  responsive to users on low-powered devices like cheap cell phones
+  that can struggle to run heavy JavaScript. Mobile users often
+  comprise most of a website's traffic, so this demographic should be
+  considered unless your analytics suggest otherwise.
+
+<Aside heading="Can't I just use the standard anchor link in Next.js?">
+  You can use the standard anchor element in Next.js
+  instead of the `<Link>` to mitigate these issues. But Next.js will
+  still load all the JavaScript for client-side navigation even if you don't use
+  it. If you choose to do this, you will also lose out on the prefetching feature.
+</Aside>
+
+Even if you find your website needing client-side navigation down the
+road, Astro allows you to imitate this behavior through
+[View transitions](https://docs.astro.build/en/guides/view-transitions/).
+
+## Content first
+
+Try adding a blog to an Astro and Next.js site or compare the
+[Astro docs](https://docs.astro.build/en/guides/content-collections/)
+with the
+[Next.js docs](https://nextjs.org/docs/app/building-your-application/configuring/mdx)
+on the topic, and you'll quickly realize that content is much more of
+a first-class citizen in Astro.
+
+After trying both out, I found that Astro has better out-of-the-box
+support for the following:
+
+- Defining and querying content. Seriously, Astro's
+  [content collections](https://docs.astro.build/en/guides/content-collections/)
+  are fantastic.
+- Using frontmatter
+- Adding image references to frontmatter, such as a cover photo
+- Syntax highlighting
+- Data formats like JSON and YAML. Useful for referential data, like
+  author information or related content, that you don't want to store
+  in a database but that belongs on each piece of content.
+
+Don't get me wrong — you _can_ workaround these issues in Next.js if
+you're motivated enough. But it made me feel like I was jumping
+through hoops that the framework should provide more help with.
+
+## Conclusion
+
+In summary, I love using Astro because it takes advantage of what is
+already built on the web platform, provides an excellent developer
+experience when authoring content, and doesn't load any JavaScript by
+default. If you're creating a mostly static site, I think you should
+definitely consider choosing it.

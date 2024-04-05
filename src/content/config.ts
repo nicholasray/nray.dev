@@ -15,8 +15,28 @@ const blogCollection = defineCollection({
         position: z.string().optional(),
       }),
       featured: z.boolean().optional(),
-      publishedAt: z.date().optional(),
-      updatedAt: z.date().optional(),
+      publishedAt: z
+        .date()
+        .optional()
+        .transform((val) => {
+          if (!val) {
+            return undefined;
+          }
+
+          val.setUTCHours(12, 0, 0, 0);
+          return val;
+        }),
+      updatedAt: z
+        .date()
+        .optional()
+        .transform((val) => {
+          if (!val) {
+            return undefined;
+          }
+
+          val.setUTCHours(12, 0, 0, 0);
+          return val;
+        }),
     }),
 });
 // 3. Export a single `collections` object to register your collection(s)
