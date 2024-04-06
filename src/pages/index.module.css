@@ -37,16 +37,16 @@
 		font-extrabold 
 		tracking-tight 
 		text-zinc-900 
-		dark:text-white 
-		lg:text-5xl;
+		lg:text-5xl 
+		dark:text-white;
 }
 
 .heroBody {
   @apply mt-8 
 		text-xl 
 		text-zinc-600 
-		dark:text-zinc-300 
-		lg:text-2xl;
+		lg:text-2xl 
+		dark:text-zinc-300;
 }
 
 .heroImageLink {
@@ -90,13 +90,13 @@
 		py-5 text-lg 
 		font-semibold 
 		text-white 
-		dark:bg-zinc-50 
-		dark:text-zinc-900 
 		md:w-auto 
 		md:transition-performant 
 		md:duration-300 
 		md:hover:scale-[1.1] 
-		md:active:translate-y-1;
+		md:active:translate-y-1 
+		dark:bg-zinc-50 
+		dark:text-zinc-900;
 }
 
 .sectionInner {
@@ -117,6 +117,10 @@
 		md:flex-row 
 		md:items-center 
 		md:gap-16;
+
+  picture {
+    @apply flex-shrink-0;
+  }
 }
 
 .aboutImage {
@@ -125,8 +129,8 @@
 		rounded-full 
 		border-4 
 		border-zinc-600 
-		dark:border-zinc-300 
-		md:w-[120px];
+		md:w-[120px] 
+		dark:border-zinc-300;
 }
 
 .aboutTitle {
@@ -134,16 +138,16 @@
 		font-bold 
 		tracking-tight 
 		text-zinc-900 
-		dark:text-white 
-		md:text-4xl;
+		md:text-4xl 
+		dark:text-white;
 }
 
 .aboutBody {
   @apply mt-5 
 		text-xl 
 		text-zinc-600 
-		dark:text-zinc-300 
-		md:text-2xl;
+		md:text-2xl 
+		dark:text-zinc-300;
 }
 
 .aboutFooter {
@@ -154,8 +158,8 @@
   @apply text-xl 
 		font-semibold 
 		text-zinc-900 
-		dark:text-white 
-		md:ml-[calc(120px+4rem)];
+		md:ml-[calc(120px+4rem)] 
+		dark:text-white;
 }
 
 .recentlyPublishedTitle {
