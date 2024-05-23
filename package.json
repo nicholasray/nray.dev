@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "npm run optimize-svg && astro build && cp _redirects dist/_redirects",
+    "build": "npm run optimize-svg && astro build",
     "preview": "astro preview",
     "test": "npm run -s lint && astro check && tsc --noEmit",
     "lint": "eslint --max-warnings=0 --cache .",
