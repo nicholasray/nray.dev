@@ -41,9 +41,7 @@ const images = (
   await Promise.all(
     variants.flatMap(async (variant) => {
       const formats =
-        props.src.format === "svg"
-          ? ["svg"]
-          : ["avif", "webp", props.src.format];
+        props.src.format === "svg" ? ["svg"] : ["webp", props.src.format];
 
       return Promise.all(
         formats.map(async (format) => {
