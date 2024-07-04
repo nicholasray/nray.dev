@@ -29,12 +29,6 @@ const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
     />
     <meta name="color-scheme" content="light dark" />
     <slot name="before-styles" />
-    <script
-      is:inline
-      defer
-      data-domain="nray.dev"
-      data-api="https://analytics.nray.dev/api/event"
-      src="/assets/js/analytics.js"></script>
     <link
       as="font"
       crossorigin="anonymous"
