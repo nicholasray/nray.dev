@@ -1,27 +1,13 @@
 .main {
-  @apply space-y-20 
-		overflow-hidden 
-		sm:space-y-32 
-		md:space-y-40;
+  @apply space-y-20 overflow-hidden sm:space-y-32 md:space-y-40;
 }
 
 .heroSection {
-  @apply mt-12
-		lg:mt-16;
+  @apply mt-12 lg:mt-16;
 }
 
 .heroSectionInner {
-  @apply mx-auto 
-			max-w-8xl 
-			items-center 
-			space-y-12 
-			px-4 
-			sm:px-6 
-			md:grid 
-			md:grid-cols-[30rem_30rem] 
-			md:gap-14 md:space-y-0 
-			md:px-8 
-			lg:grid-cols-[38rem_38rem];
+  @apply mx-auto max-w-8xl items-center space-y-12 px-4 sm:px-6 md:grid md:grid-cols-[30rem_30rem] md:gap-14 md:space-y-0 md:px-8 lg:grid-cols-[38rem_38rem];
 }
 
 .heroContainerOne {
@@ -33,90 +19,35 @@
 }
 
 .heroTitle {
-  @apply text-4xl 
-		font-extrabold 
-		tracking-tight 
-		text-zinc-900 
-		lg:text-5xl 
-		dark:text-white;
+  @apply text-4xl font-extrabold tracking-tight text-zinc-900 lg:text-5xl dark:text-white;
 }
 
 .heroBody {
-  @apply mt-8 
-		text-xl 
-		text-zinc-600 
-		lg:text-2xl 
-		dark:text-zinc-300;
+  @apply mt-8 text-xl text-zinc-600 lg:text-2xl dark:text-zinc-300;
 }
 
 .heroImageLink {
-  @apply block 
-		md:rotate-2 
-		md:transition-performant 
-		md:duration-300 
-		md:hover:rotate-0;
+  @apply block md:rotate-2 md:transition-performant md:duration-300 md:hover:rotate-0;
 }
 
 .heroImage {
-  @apply h-80 
-		w-full 
-		rounded-xl 
-		object-cover
-		md:h-[34rem];
+  @apply h-80 w-full rounded-xl object-cover md:h-[34rem];
 }
 
 .heroFooter {
-  @apply mt-8 
-		space-x-2 
-		text-sm 
-		uppercase 
-		tracking-wide 
-		text-zinc-500 
-		dark:text-zinc-400;
+  @apply mt-8 space-x-2 text-sm uppercase tracking-wide text-zinc-500 dark:text-zinc-400;
 }
 
 .heroButton {
-  @apply relative 
-		z-10 
-		mt-12 
-		inline-flex 
-		w-full 
-		min-w-[12rem] 
-		items-center 
-		justify-center 
-		rounded-full 
-		bg-zinc-800 
-		px-6 
-		py-5 text-lg 
-		font-semibold 
-		text-white 
-		md:w-auto 
-		md:transition-performant 
-		md:duration-300 
-		md:hover:scale-[1.1] 
-		md:active:translate-y-1 
-		dark:bg-zinc-50 
-		dark:text-zinc-900;
+  @apply relative z-10 mt-12 inline-flex w-full min-w-[12rem] items-center justify-center rounded-full bg-zinc-800 px-6 py-5 text-lg font-semibold text-white md:w-auto md:transition-performant md:duration-300 md:hover:scale-[1.1] md:active:translate-y-1 dark:bg-zinc-50 dark:text-zinc-900;
 }
 
 .sectionInner {
-  @apply mx-auto 
-		max-w-8xl 
-		px-4 
-		sm:px-6 
-		md:px-8;
+  @apply mx-auto max-w-8xl px-4 sm:px-6 md:px-8;
 }
 
 .about {
-  @apply flex 
-		max-w-5xl 
-		flex-col 
-		items-center 
-		gap-8 
-		md:flex 
-		md:flex-row 
-		md:items-center 
-		md:gap-16;
+  @apply flex max-w-5xl flex-col items-center gap-8 md:flex md:flex-row md:items-center md:gap-16;
 
   picture {
     @apply flex-shrink-0;
@@ -124,30 +55,15 @@
 }
 
 .aboutImage {
-  @apply w-[100px] 
-		flex-shrink-0 
-		rounded-full 
-		border-4 
-		border-zinc-600 
-		md:w-[120px] 
-		dark:border-zinc-300;
+  @apply w-[100px] flex-shrink-0 rounded-full border-4 border-zinc-600 md:w-[120px] dark:border-zinc-300;
 }
 
 .aboutTitle {
-  @apply text-3xl 
-		font-bold 
-		tracking-tight 
-		text-zinc-900 
-		md:text-4xl 
-		dark:text-white;
+  @apply text-3xl font-bold tracking-tight text-zinc-900 md:text-4xl dark:text-white;
 }
 
 .aboutBody {
-  @apply mt-5 
-		text-xl 
-		text-zinc-600 
-		md:text-2xl 
-		dark:text-zinc-300;
+  @apply mt-5 text-xl text-zinc-600 md:text-2xl dark:text-zinc-300;
 }
 
 .aboutFooter {
@@ -155,36 +71,13 @@
 }
 
 .aboutLink {
-  @apply text-xl 
-		font-semibold 
-		text-zinc-900 
-		md:ml-[calc(120px+4rem)] 
-		dark:text-white;
+  @apply text-xl font-semibold text-zinc-900 md:ml-[calc(120px+4rem)] dark:text-white;
 }
 
 .recentlyPublishedTitle {
-  @apply relative 
-		text-base 
-		font-semibold 
-		uppercase 
-		tracking-wide 
-		text-zinc-900 
-		before:absolute 
-		before:-top-2 
-		before:block 
-		before:h-[3px] 
-		before:w-[48px] 
-		before:bg-zinc-400 
-		dark:text-white 
-		dark:before:bg-zinc-400;
+  @apply relative text-base font-semibold uppercase tracking-wide text-zinc-900 before:absolute before:-top-2 before:block before:h-[3px] before:w-[48px] before:bg-zinc-400 dark:text-white dark:before:bg-zinc-400;
 }
 
 .recentlyPublishedPosts {
-  @apply mt-12 
-		space-y-14 
-		md:grid 
-		md:grid-cols-[repeat(auto-fill,minmax(350px,1fr))] 
-		md:gap-x-9 
-		md:gap-y-14 
-		md:space-y-0;
+  @apply mt-12 space-y-14 md:grid md:grid-cols-[repeat(auto-fill,minmax(350px,1fr))] md:gap-x-9 md:gap-y-14 md:space-y-0;
 }

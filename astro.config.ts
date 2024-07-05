@@ -70,7 +70,11 @@ export default defineConfig({
   },
   integrations: [
     react(),
-    tailwind(),
+    tailwind({
+      // Example: Disable injecting a basic `base.css` import on every page.
+      // Useful if you need to define and/or import your own custom `base.css`.
+      applyBaseStyles: false,
+    }),
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     mdx({
