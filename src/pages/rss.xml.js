@@ -12,7 +12,7 @@ export async function GET(context) {
     title: "Nicholas Ray's blog",
     // `<description>` field in output xml
     description:
-      "Front-end development tips that improve page speed, business metrics, and user happiness",
+      "Web development tips that improve page speed, business metrics, and user happiness",
     // Pull in your project "site" from the endpoint context
     // https://docs.astro.build/en/reference/api-reference/#contextsite
     site: context.site,
