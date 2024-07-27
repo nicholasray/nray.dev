@@ -100,6 +100,7 @@ export default defineConfig({
         "util",
         "child_process",
         "fs",
+        "crypto",
       ],
     },
   },
