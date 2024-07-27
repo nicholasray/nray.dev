@@ -102,6 +102,7 @@ export default defineConfig({
         "fs",
         "crypto",
         "url",
+        "readline",
       ],
     },
   },
