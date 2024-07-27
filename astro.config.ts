@@ -89,26 +89,4 @@ export default defineConfig({
       filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
     }),
   ],
-  vite: {
-    ssr: {
-      external: [
-        "node:path",
-        "fs/promises",
-        "path",
-        "os",
-        "events",
-        "util",
-        "child_process",
-        "fs",
-        "crypto",
-        "url",
-        "readline",
-        "node:os",
-        "querystring",
-        "assert",
-        "buffer",
-        "zlib",
-      ],
-    },
-  },
 });
