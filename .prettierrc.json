@@ -1,6 +1,10 @@
 {
   "proseWrap": "always",
-  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-astro"],
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-astro",
+    "prettier-plugin-multiline-arrays"
+  ],
   "overrides": [
     {
       "files": "*.mdx",

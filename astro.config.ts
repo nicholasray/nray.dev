@@ -7,7 +7,6 @@ import { remarkReadingTime } from "./remark/remarkReadingTime";
 import rehypePrettyCode from "rehype-pretty-code";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
-
 import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
@@ -92,7 +91,15 @@ export default defineConfig({
   ],
   vite: {
     ssr: {
-      external: ["node:path", "fs/promises", "path", "os", "events", "util"],
+      external: [
+        "node:path",
+        "fs/promises",
+        "path",
+        "os",
+        "events",
+        "util",
+        "child_process",
+      ],
     },
   },
 });
