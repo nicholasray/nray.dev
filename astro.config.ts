@@ -103,6 +103,7 @@ export default defineConfig({
         "crypto",
         "url",
         "readline",
+        "node:os",
       ],
     },
   },
