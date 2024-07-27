@@ -105,6 +105,7 @@ export default defineConfig({
         "readline",
         "node:os",
         "querystring",
+        "assert",
       ],
     },
   },
