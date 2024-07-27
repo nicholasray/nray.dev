@@ -99,6 +99,7 @@ export default defineConfig({
         "events",
         "util",
         "child_process",
+        "fs",
       ],
     },
   },
