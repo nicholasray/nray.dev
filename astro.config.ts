@@ -104,6 +104,7 @@ export default defineConfig({
         "url",
         "readline",
         "node:os",
+        "querystring",
       ],
     },
   },
