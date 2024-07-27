@@ -2,19 +2,25 @@ import { defineConfig, sharpImageService } from "astro/config";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import ayu from "./ayu.theme.json";
-
 import mdx from "@astrojs/mdx";
 import { remarkReadingTime } from "./remark/remarkReadingTime";
 import rehypePrettyCode from "rehype-pretty-code";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
-// https://astro.build/config
 import sitemap from "@astrojs/sitemap";
+
+// https://astro.build/config
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.nray.dev",
+  output: "hybrid",
+  adapter: cloudflare(),
+  experimental: {
+    serverIslands: true,
+  },
   trailingSlash: "always",
   build: {
     inlineStylesheets: "always",
