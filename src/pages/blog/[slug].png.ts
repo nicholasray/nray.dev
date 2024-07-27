@@ -1,8 +1,6 @@
 import type { APIRoute } from "astro";
-import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import sharp from "sharp";
-import path from "node:path";
 
 export const DIMENSIONS = {
   width: 1200,
@@ -12,17 +10,16 @@ export const DIMENSIONS = {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 export const GET: APIRoute = async function get({ props }) {
-  const post: CollectionEntry<"blog"> = props.entry;
-
+  const post = props.entry;
   const input = import.meta.env.PROD
-    ? path.join("dist", post.data.cover.src.src)
+    ? post.data.cover.src.fsPath
     : new URL(
         post.data.cover.src.src.slice("/@fs".length),
         "https://www.example.com",
       ).pathname;
 
   // TODO: Don't hardcode `dist`
-  const buffer = await sharp(path.join(input))
+  const buffer = await sharp(input)
     .resize({
       width: DIMENSIONS.width,
       height: DIMENSIONS.height,
