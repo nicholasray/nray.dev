@@ -61,6 +61,7 @@
     "prettier": "3.3.3",
     "prettier-plugin-astro": "0.14.1",
     "prettier-plugin-multiline-arrays": "^3.0.6",
+    "prettier-plugin-sql": "0.18.1",
     "prettier-plugin-tailwindcss": "0.6.5",
     "svgo": "3.3.2",
     "typescript": "5.5.4",
