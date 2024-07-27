@@ -106,6 +106,7 @@ export default defineConfig({
         "node:os",
         "querystring",
         "assert",
+        "buffer",
       ],
     },
   },
