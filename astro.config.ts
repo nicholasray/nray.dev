@@ -107,6 +107,7 @@ export default defineConfig({
         "querystring",
         "assert",
         "buffer",
+        "zlib",
       ],
     },
   },
