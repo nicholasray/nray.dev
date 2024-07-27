@@ -92,7 +92,7 @@ export default defineConfig({
   ],
   vite: {
     ssr: {
-      external: ["node:path", "fs/promises", "path"],
+      external: ["node:path", "fs/promises", "path", "os"],
     },
   },
 });
