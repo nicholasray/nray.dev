@@ -1,7 +1,4 @@
 ---
-import styles from "./BlogVideo.module.css";
-const { blogVideoFigure, blogVideoShadow, blogVideo } = styles;
-
 interface Props {
   description: string;
   src: [string];
@@ -15,10 +12,10 @@ const { src, hasShadow, width, height, caption, description } = Astro.props;
 const descId = `video-${src[0].split("/").pop()!.split(".").shift()}`;
 ---
 
-<figure class:list={[blogVideoFigure, { [blogVideoShadow]: hasShadow }]}>
+<figure class:list={["flex flex-col items-center", { "shadow-xl": hasShadow }]}>
   <video
     style={`aspect-ratio: ${width} / ${height}`}
-    class={`lazy-load ${blogVideo}`}
+    class={`lazy-load rounded-lg`}
     aria-describedby={descId}
     width={width}
     height={height}
@@ -62,7 +59,7 @@ const descId = `video-${src[0].split("/").pop()!.split(".").shift()}`;
       },
       {
         rootMargin: "0px 0px 50% 0px",
-      },
+      }
     );
 
     const videos = document.querySelectorAll("video.lazy-load");

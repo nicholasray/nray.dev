@@ -2,47 +2,38 @@
 import { WebVitalScale } from "@src/components/WebVitalScale/index.astro";
 import { Slider } from "@src/components/Slider/index.astro";
 import { Input } from "@src/components/Input/index.astro";
-import styles from "./INPScale.module.css";
-const {
-  scaleItem,
-  scale,
-  scaleInputContainer,
-  scaleInput,
-  scaleSliderContainer,
-  scaleSliderContainerInner,
-  scaleSlider,
-  scaleSliderInner,
-  scaleSliderLabel,
-  scaleSliderValue,
-} = styles;
 ---
 
 <figure>
-  <div class=`figure-item ${scaleItem}`>
-    <WebVitalScale class={scale} range={[200, 500]} />
+  <div
+    class=`figure-item rounded-lg border-4 border-white bg-zinc-50 px-4 py-8 shadow-xl dark:border-transparent dark:bg-white/2.5 dark:ring-1 dark:ring-white/10`
+  >
+    <WebVitalScale class="relative -mx-4 block font-sans" range={[200, 500]} />
 
-    <div class={scaleInputContainer}>
+    <div class="pt-4">
       <Input
-        class={`inp-input ${scaleInput}`}
+        class={`inp-input dark:!bg-zinc-900`}
         placeholder="Press a key to see its interaction latency…"
       />
     </div>
 
-    <div class={scaleSliderContainer}>
-      <div class={scaleSliderContainerInner}>
+    <div class="mt-2 flex justify-center font-sans">
+      <div class="flex max-w-xl flex-grow flex-col font-sans">
         <Slider
-          class={scaleSlider}
+          class="mt-3 block"
           id="inp-slider"
           min="0"
           max="500"
           value="0"
           step="50"
         />
-        <div class={scaleSliderInner}>
-          <label for="inp-slider" class={scaleSliderLabel}
+        <div class="mt-3 flex items-baseline justify-between text-base">
+          <label
+            for="inp-slider"
+            class="text-sm font-semibold uppercase tracking-wide"
             >Adjust Keypress latency:</label
           >
-          <span class={`inp-slider-value ${scaleSliderValue}`}>0 ms</span>
+          <span class={`inp-slider-value text-lg font-bold`}>0 ms</span>
         </div>
       </div>
     </div>
@@ -57,7 +48,7 @@ const {
   import { onINP } from "web-vitals";
   const scale = document.querySelector(".web-vital-scale")! as HTMLElement;
   const latencyRange = document.querySelector(
-    "#inp-slider",
+    "#inp-slider"
   )! as HTMLInputElement;
   const latencyValue = document.querySelector(".inp-slider-value")!;
   const input = document.querySelector(".inp-input")!;
@@ -89,7 +80,7 @@ const {
       {
         durationThreshold: 16,
         reportAllChanges: true,
-      },
+      }
     );
   }
 </script>

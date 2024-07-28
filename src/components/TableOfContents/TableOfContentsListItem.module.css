@@ -1,7 +1,0 @@
-.tableOfContentsListItem {
-  @apply ps-4;
-}
-
-.tableOfContentsListItemLink {
-  @apply flex py-2;
-}

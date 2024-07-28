@@ -1,24 +1,11 @@
----
-import styles from "./Footer.module.css";
-const {
-  footer,
-  footerInner,
-  footerLogoLink,
-  footerLogo,
-  footerSourceCodeContainer,
-  footerSourceCodeLink,
-  footerCopyright,
-  footerLinks,
-  footerLink,
-} = styles;
----
-
-<footer class={footer}>
-  <div class={footerInner}>
-    <a href="/" class={footerLogoLink}>
+<footer
+  class="sticky top-[100vh] border-t border-t-zinc-700/10 py-14 text-zinc-600 lg:py-20 dark:border-t-zinc-200/10 dark:text-zinc-200"
+>
+  <div class="flex flex-col items-center justify-center text-center">
+    <a href="/" class="mb-5 text-xl font-semibold tracking-tight">
       <span class="sr-only">nray.dev home page</span>
       <svg
-        class={footerLogo}
+        class="h-7 fill-zinc-900 dark:fill-white"
         viewBox="0 0 281 85"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -27,19 +14,22 @@ const {
         ></path>
       </svg>
     </a>
-    <div class={footerSourceCodeContainer}>
+    <div class="mb-4">
       <a
-        class={footerSourceCodeLink}
+        class="font-semibold text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
         href="https://github.com/nicholasray/nray.dev"
       >
         View source code
       </a>
     </div>
-    <div class={footerCopyright}>
+    <div class="mb-12 text-sm text-zinc-600 dark:text-zinc-400">
       © 2022 Nicholas Ray. All rights reserved.
     </div>
-    <div class={footerLinks}>
-      <a class={footerLink} href="/privacy/">Privacy</a>
+    <div class="flex gap-4 text-sm font-bold">
+      <a
+        class="text-zinc-500 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white"
+        href="/privacy/">Privacy</a
+      >
     </div>
   </div>
 </footer>

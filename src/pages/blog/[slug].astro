@@ -8,26 +8,6 @@ import { format } from "date-fns";
 import { TableOfContents } from "@components/TableOfContents/index.astro";
 import Prose from "@components/Prose.astro";
 import { DIMENSIONS } from "./[slug].png";
-import styles from "./_[slug].module.css";
-const {
-  main,
-  section,
-  sectionInner,
-  sectionTitle,
-  sectionMeta,
-  sectionMetaInner,
-  avatarContainer,
-  avatarLink,
-  avatarImage,
-  authorInfo,
-  authorLink,
-  publishInfo,
-  publishSeparator,
-  publishSeparatorTwo,
-  readingTimeContainer,
-  tableOfContentsContainer,
-  proseContainer,
-} = styles;
 import BlogImage from "@src/components/BlogImage.astro";
 import { Aside } from "@src/components/Aside/index.astro";
 
@@ -74,21 +54,27 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
     card: "summary_large_image",
   }}
 >
-  <main class={main}>
+  <main class="mt-8">
     <article>
-      <section class={section}>
-        <div class={sectionInner}>
-          <h1 class={sectionTitle}>
+      <section
+        class="mx-auto mt-8 px-4 sm:px-6 md:mt-12 md:max-w-2xl md:gap-x-10 md:px-8 lg:mt-14 lg:grid lg:max-w-5xl lg:grid-cols-[245px_minmax(0,1fr)_245px] lg:gap-x-14 xl:max-w-8xl"
+      >
+        <div class="col-start-2 lg:col-end-[-1] xl:col-end-3">
+          <h1
+            class="text-3xl font-extrabold tracking-tight text-zinc-900 md:max-w-5xl md:text-5xl dark:text-white"
+          >
             {title}
           </h1>
         </div>
-        <div class={sectionMeta}>
-          <div class={sectionMetaInner}>
-            <div class={avatarContainer}>
-              <a href="/about/" class={avatarLink}>
+        <div
+          class="col-start-2 mb-8 mt-4 flex items-center text-sm font-medium md:mx-auto md:mb-10 md:mt-6 md:text-base lg:col-end-[-1] lg:mx-0 lg:mb-14 lg:mt-8 xl:col-end-3"
+        >
+          <div class="flex items-center font-medium">
+            <div class="mr-3 h-10 w-10 rounded-full md:h-12 md:w-12">
+              <a href="/about/" class="flex items-center">
                 <Image
                   loading="eager"
-                  class={avatarImage}
+                  class="rounded-full"
                   src={avatar}
                   widths={[48, 96]}
                   sizes="48px"
@@ -97,12 +83,12 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
               </a>
             </div>
 
-            <div class={authorInfo}>
+            <div class="md:flex md:items-center">
               <div>
-                <a href="/about/" class={authorLink}> Nicholas Ray</a>
+                <a href="/about/" class="flex items-center"> Nicholas Ray</a>
               </div>
-              <div class={publishInfo}>
-                <span class={publishSeparator}>·</span>
+              <div class="mt-0.5 flex items-center md:mt-0">
+                <span class="mx-3 hidden font-bold md:block">·</span>
                 <time datetime={publishedAt && publishedAt.toISOString()}>
                   {publishedAt ? format(publishedAt, "LLL d, yyyy") : ""}
                 </time>
@@ -116,16 +102,18 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
                     </>
                   )
                 }
-                <span class={publishSeparatorTwo}>·</span>
-                <div class={readingTimeContainer}>{readingTime}</div>
+                <span class="mx-2 hidden font-bold sm:block md:mx-3">·</span>
+                <div class="hidden sm:block">{readingTime}</div>
               </div>
             </div>
           </div>
         </div>
-        <div class={tableOfContentsContainer}>
+        <div class="hidden md:row-start-3 lg:block">
           <TableOfContents headings={headings} />
         </div>
-        <Prose class={proseContainer}>
+        <Prose
+          class="font-normal text-zinc-800 lg:col-[2/-1] xl:col-[2/3] dark:text-zinc-300/80"
+        >
           <Content components={{ Image: BlogImage, Aside }} />
         </Prose>
       </section>

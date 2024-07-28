@@ -1,15 +1,4 @@
 ---
-import styles from "./WebVitalScale.module.css";
-const {
-  webVitalScale,
-  webVitalScaleInner,
-  webVitalScaleGood,
-  webVitalScaleNeedsImprovement,
-  webVitalScalePoor,
-  webVitalScaleScoreContainer,
-  webVitalScaleScore,
-} = styles;
-
 interface Props {
   class?: string;
   range: [number, number];
@@ -19,25 +8,35 @@ const { range, class: className } = Astro.props;
 ---
 
 <nray-web-vital-scale
-  class:list={["web-vital-scale", webVitalScale, className]}
+  class:list={["web-vital-scale", "relative -mx-4 block font-sans", className]}
   data-range={range[0] + range[1]}
 >
-  <div class={webVitalScaleInner}>
-    <div class={webVitalScaleGood} style={`flex-basis: ${range[0]}px`}>
+  <div class="flex text-center font-bold">
+    <div
+      class="flex flex-auto items-center justify-center bg-emerald-100 px-4 py-8 text-green-950 dark:bg-[#1D2A24] dark:text-emerald-100 dark:ring-1 dark:ring-[#3F8862]"
+      style={`flex-basis: ${range[0]}px`}
+    >
       GOOD
     </div>
     <div
-      class={webVitalScaleNeedsImprovement}
+      class="flex flex-auto items-center justify-center bg-orange-100 px-4 py-8 text-orange-950 dark:bg-[#2A261D] dark:text-amber-100 dark:ring-1 dark:ring-[#B68F25]"
       style={`flex-basis: ${range[1] - range[0]}px`}
     >
       NEEDS IMPROVEMENT
     </div>
-    <div class={webVitalScalePoor} style={`flex-basis: ${range[0]}px`}>
+    <div
+      class="flex flex-auto items-center justify-center bg-red-100 px-4 py-8 text-red-950 dark:bg-[#2A1D1D] dark:text-red-100 dark:ring-1 dark:ring-[#775050]"
+      style={`flex-basis: ${range[0]}px`}
+    >
       POOR
     </div>
   </div>
-  <div class={webVitalScaleScoreContainer}>
-    <div class=`web-vital-scale__score ${webVitalScaleScore}`>0</div>
+  <div class="flex -translate-y-1/4 justify-center">
+    <div
+      class="web-vital-scale__score relative flex items-center justify-center rounded-lg bg-white px-3 py-1 font-mono text-base font-bold opacity-0 drop-shadow-md before:absolute before:-top-[7px] before:block before:h-0 before:w-0 before:border-b-[8px] before:border-l-[8px] before:border-r-[8px] before:border-b-white before:border-l-transparent before:border-r-transparent dark:text-zinc-900"
+    >
+      0
+    </div>
   </div>
 </nray-web-vital-scale>
 
@@ -128,7 +127,7 @@ const { range, class: className } = Astro.props;
         {
           x: [invert, 0],
         },
-        { easing: this.#easing },
+        { easing: this.#easing }
       );
     }
 
@@ -141,7 +140,7 @@ const { range, class: className } = Astro.props;
           opacity: [0, 1],
           scale: [0.7, 1],
         },
-        { easing: this.#easing },
+        { easing: this.#easing }
       );
     }
   }

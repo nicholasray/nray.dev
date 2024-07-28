@@ -1,6 +1,4 @@
 ---
-import styles from "./BigNumber.module.css";
-const { bigNumber } = styles;
 interface Props {
   number: string;
 }
@@ -9,7 +7,7 @@ const { number } = Astro.props;
 ---
 
 <figure>
-  <div class={bigNumber}>
+  <div class="text-center text-8xl font-extrabold tracking-tighter md:text-9xl">
     {number}
   </div>
   <figcaption><slot /></figcaption>

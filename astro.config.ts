@@ -21,9 +21,6 @@ export default defineConfig({
     serverIslands: true,
   },
   trailingSlash: "always",
-  build: {
-    inlineStylesheets: "always",
-  },
   prefetch: {
     prefetchAll: true,
   },

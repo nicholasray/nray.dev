@@ -1,8 +1,7 @@
 ---
 import type { MarkdownHeading } from "astro";
 import TableOfContentsList from "./TableOfContentsList.astro";
-import styles from "./TableOfContents.module.css";
-const { tableOfContentsNav, tableOfContentsTitle } = styles;
+import "./TableOfContents.module.css";
 
 interface Props {
   headings: MarkdownHeading[];
@@ -19,8 +18,10 @@ headings.unshift({
 ---
 
 <nray-table-of-contents class="table-of-contents">
-  <nav class={tableOfContentsNav}>
-    <div class={tableOfContentsTitle}>On this page</div>
+  <nav
+    class="sticky top-6 max-h-[calc(100vh-1.5rem)] overflow-y-auto pb-6 pr-6 pt-1.5 text-sm font-medium text-zinc-500 dark:text-zinc-400"
+  >
+    <div class="mb-3 font-bold uppercase tracking-wide">On this page</div>
     <TableOfContentsList headings={headings} />
   </nav>
 </nray-table-of-contents>
@@ -51,7 +52,7 @@ headings.unshift({
       }
 
       const closest = ev.target.closest(
-        ".table-of-contents-item",
+        ".table-of-contents-item"
       ) as HTMLElement;
 
       if (!closest) {

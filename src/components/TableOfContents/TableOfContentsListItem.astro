@@ -1,8 +1,6 @@
 ---
 import type { MarkdownHeading } from "astro";
 import TableOfContentsList from "./TableOfContentsList.astro";
-import styles from "./TableOfContentsListItem.module.css";
-const { tableOfContentsListItem, tableOfContentsListItemLink } = styles;
 
 interface Heading extends MarkdownHeading {
   children: MarkdownHeading[];
@@ -18,12 +16,9 @@ const { heading } = Astro.props;
 <li
   class="table-of-contents-item"
   id={`toc-${heading.slug}`}
-  class:list={[{ [tableOfContentsListItem]: heading.depth !== 2 }]}
+  class:list={[{ ["ps-4"]: heading.depth !== 2 }]}
 >
-  <a
-    class={`table-of-contents-link ${tableOfContentsListItemLink}`}
-    href={`#${heading.slug}`}
-  >
+  <a class="table-of-contents-link flex py-2" href={`#${heading.slug}`}>
     {heading.text}
   </a>
   {

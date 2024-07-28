@@ -1,15 +1,5 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import styles from "./Aside.module.css";
-const {
-  aside,
-  asideInner,
-  asideIconContainer,
-  asideIcon,
-  asideTitle,
-  asideBody,
-} = styles;
-
 interface Props extends HTMLAttributes<"aside"> {
   heading: string;
 }
@@ -17,11 +7,15 @@ interface Props extends HTMLAttributes<"aside"> {
 const { class: className, heading, ...rest } = Astro.props;
 ---
 
-<aside class:list={[`aside ${aside}`, className]} {...rest}>
-  <div class={asideInner}>
-    <div class={asideIconContainer}>
+<aside class:list={[`aside my-5 md:my-6`, className]} {...rest}>
+  <div
+    class="relative rounded-lg bg-sky-100 p-6 text-sky-900 dark:bg-[#1A1F27] dark:text-sky-200 dark:ring-1 dark:ring-sky-500/30"
+  >
+    <div
+      class="absolute right-0 top-0 hidden h-10 w-10 -translate-y-1/3 translate-x-1/4 rounded-full bg-white p-1 md:h-12 md:w-12 xl:block xl:h-14 xl:w-14 dark:bg-zinc-900"
+    >
       <svg
-        class={asideIcon}
+        class="h-full w-full rounded-full bg-sky-100 p-2 md:p-2.5 dark:bg-[#1A1F27] dark:ring-1 dark:ring-sky-500/30"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -35,10 +29,10 @@ const { class: className, heading, ...rest } = Astro.props;
         ></path>
       </svg>
     </div>
-    <div class={asideTitle}>
+    <div class="flex items-center font-bold leading-snug">
       {heading}
     </div>
-    <div class={asideBody}>
+    <div class="mt-6">
       <slot />
     </div>
   </div>

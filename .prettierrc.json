@@ -1,10 +1,10 @@
 {
   "proseWrap": "always",
   "plugins": [
-    "prettier-plugin-tailwindcss",
     "prettier-plugin-astro",
     "prettier-plugin-multiline-arrays",
-    "prettier-plugin-sql"
+    "prettier-plugin-sql",
+    "prettier-plugin-tailwindcss"
   ],
   "overrides": [
     {
