@@ -20,7 +20,7 @@ const { results } = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
 
 const count = results[0]?.count ?? 0;
 
-increment();
+await increment();
 ---
 
 <div>{count} {count === 1 ? "view" : "views"}</div>
