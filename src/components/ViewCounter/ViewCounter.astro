@@ -17,11 +17,11 @@ async function increment() {
     .run();
 }
 
-const { results } = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
+const data = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
   .bind(slug)
-  .all();
+  .first();
 
-const count = results[0]?.count ?? 0;
+const count = (data && data["view_count"]) || 0;
 
 await increment();
 ---
