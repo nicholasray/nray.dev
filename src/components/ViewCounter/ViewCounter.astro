@@ -10,12 +10,7 @@ const { slug } = Astro.props;
 
 async function increment() {
   return env.DB.prepare(
-    `
-    INSERT INTO posts (slug, view_count)
-    VALUES (${slug}, 1)
-    ON CONFLICT (slug)
-    DO UPDATE SET count = posts.view_count + 1
-  `
+    `INSERT INTO posts (slug, view_count) VALUES (${slug}, 1) ON CONFLICT (slug) DO UPDATE SET count = posts.view_count + 1`
   ).run();
 }
 
