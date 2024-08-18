@@ -22,7 +22,7 @@ const data = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
 
 const count: number = (data && data["view_count"]) || 0;
 
-increment();
+await increment();
 ---
 
 <div>{count.toLocaleString()} {count === 1 ? "view" : "views"}</div>
