@@ -1,18 +1,15 @@
 ---
 import BaseLayout from "@layouts/BaseLayout.astro";
 import Header from "@components/Header.astro";
-import MailingList from "@components/MailingList.astro";
 import Footer from "@components/Footer.astro";
-const FORM_URL = "https://app.convertkit.com/forms/3512386/subscriptions";
 ---
 
 <BaseLayout {...Astro.props}>
+  <div
+    class="h-2 bg-gradient-to-r from-cyan-50 to-purple-100 dark:from-cyan-950 dark:to-purple-950"
+  >
+  </div>
   <Header />
   <slot />
-  <section class="my-20 sm:my-32 md:my-40">
-    <div class="mx-auto mb-16 max-w-8xl items-center px-4 sm:px-6 md:px-8">
-      <MailingList url={FORM_URL} />
-    </div>
-  </section>
   <Footer />
 </BaseLayout>

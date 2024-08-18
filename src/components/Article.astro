@@ -1,7 +1,8 @@
 ---
-import { Image } from "@components/Image/index.astro";
-import ArticleFooter from "./ArticleFooter.astro";
 import type { Post } from "@src/types";
+import { format } from "date-fns";
+import { FaRegClock } from "react-icons/fa6";
+import { FaRegEye } from "react-icons/fa6";
 
 export interface Props {
   post: Post;
@@ -10,33 +11,37 @@ export interface Props {
 const { post } = Astro.props;
 ---
 
-<a href={post.url}>
+<a href={post.url} class="group">
   <article class="flex h-full flex-col">
-    <Image
-      alt={post.data.cover.alt}
-      class="h-80 w-full rounded-3xl object-cover md:h-[32rem] dark:shadow-lg"
-      src={post.data.cover}
-      widths={[400, 800, 1600]}
-      sizes="(min-width: 48rem) 28rem, 100vw"
-      style={post.data.cover.position
-        ? `object-position: ${post.data.cover.position}`
-        : undefined}
-    />
     <h3
-      class="mt-8 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white"
+      class="text-2xl font-bold tracking-tight text-foreground group-hover:underline"
     >
       {post.data.title}
     </h3>
-    <p class="mb-6 mt-4 text-lg text-zinc-600 dark:text-zinc-300">
+    <p class="mb-6 mt-4 text-lg text-muted-foreground">
       {post.data.description}
     </p>
     <footer
-      class="mt-auto space-x-2 text-sm uppercase tracking-wide text-zinc-500 dark:text-zinc-400"
+      class="mt-auto flex items-center gap-x-4 text-sm tracking-wide text-muted-foreground"
     >
-      <ArticleFooter
-        publishedAt={post.data.publishedAt}
-        readingTime={post.readingTime}
-      />
+      {
+        post.data.publishedAt && (
+          <div class="flex items-center gap-x-1.5">
+            <FaRegClock className="w-4 h-4" />
+            <time datetime={post.data.publishedAt.toISOString()}>
+              {format(post.data.publishedAt, "LLL d, yyyy")}
+            </time>
+          </div>
+        )
+      }
+      <div class="flex items-center gap-x-1.5">
+        <FaRegEye className="h-4 w-4" />
+        <span>1,000 views</span>
+      </div>
+      <!-- <div class="flex items-center gap-x-1.5">
+        <FaRegThumbsUp className="h-4 w-4" />
+        <span>11,000 likes</span>
+      </div> -->
     </footer>
   </article>
 </a>

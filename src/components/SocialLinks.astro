@@ -30,7 +30,7 @@ const socialIcon = "h-6 w-6";
       return (
         <li class="flex">
           <a
-            class="flex items-center hover:text-zinc-500 dark:hover:text-zinc-200"
+            class="flex items-center !text-muted-foreground hover:!text-foreground"
             href={data.href}
           >
             <Fragment set:html={data.icon} />

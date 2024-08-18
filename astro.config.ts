@@ -16,7 +16,7 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   site: "https://www.nray.dev",
   output: "hybrid",
-  adapter: cloudflare(),
+  adapter: cloudflare({ platformProxy: { enabled: true } }),
   experimental: {
     serverIslands: true,
   },

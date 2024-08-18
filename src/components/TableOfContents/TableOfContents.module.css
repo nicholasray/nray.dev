@@ -1,7 +1,0 @@
-:global {
-  .table-of-contents-item--highlighted {
-    > .table-of-contents-link {
-      @apply text-zinc-900 dark:text-white;
-    }
-  }
-}

@@ -33,13 +33,7 @@
 }
 
 .prose {
-  @apply text-base 
-		font-normal
-		leading-[1.75]
-		text-zinc-800
-		lg:text-[1.1875rem] 
-		lg:leading-[1.8] 
-		dark:text-zinc-300/80;
+  @apply text-base font-normal leading-[1.75] text-foreground/80 lg:text-[1.1875rem] lg:leading-[1.8];
 
   h1,
   h2,
@@ -144,7 +138,7 @@
   }
 
   table {
-    @apply my-7 w-full table-auto text-left  text-sm leading-[1.7142857] lg:text-base lg:leading-[1.5];
+    @apply my-7 w-full table-auto text-left text-sm leading-[1.7142857] lg:text-base lg:leading-[1.5];
   }
 
   thead {
@@ -209,16 +203,7 @@
   }
 
   [data-rehype-pretty-code-title] {
-    @apply mt-0 
-			flex 
-			min-h-[2.5rem] 
-			items-center 
-			py-1.5 
-			pl-[calc(1rem+4px)] 
-      pr-0.5
-			font-mono 
-    	text-sm
-			text-zinc-300;
+    @apply mt-0 flex min-h-[2.5rem] items-center py-1.5 pl-[calc(1rem+4px)] pr-0.5 font-mono text-sm text-foreground;
   }
 
   [data-rehype-pretty-code-figure] {
@@ -257,7 +242,7 @@
   }
 
   [data-highlighted-line] {
-    @apply border-l-[#3bbae5] bg-slate-500/20  dark:border-l-[#428fa9] dark:bg-[#181c25];
+    @apply border-l-[#3bbae5] bg-slate-500/20 dark:border-l-[#428fa9] dark:bg-[#181c25];
   }
 
   code[data-language="text"] {
@@ -266,9 +251,7 @@
 
   :global {
     .heading-link {
-      @apply absolute
-      -ms-8
-        opacity-0;
+      @apply absolute -ms-8 opacity-0;
       text-decoration-line: none;
 
       &::before {

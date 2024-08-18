@@ -4,7 +4,7 @@
   <a class="text-2xl font-semibold tracking-tight text-white" href="/">
     <span class="sr-only">nray.dev home page</span>
     <svg
-      class="h-8 fill-zinc-900 text-white dark:fill-white"
+      class="h-8 fill-foreground"
       viewBox="0 0 281 85"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -14,46 +14,30 @@
     </svg>
   </a>
   <nav>
-    <ul
-      class="flex items-center space-x-2 font-semibold text-zinc-700 sm:space-x-4 md:space-x-8 dark:text-zinc-300"
-    >
+    <ul class="flex items-center space-x-2 sm:space-x-4 md:space-x-8">
       <li>
         <a
-          class="block rounded-2xl p-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:hover:text-white"
+          class="block rounded-2xl p-3 text-foreground/80 hover:bg-muted hover:text-foreground"
           href="/blog/">Posts</a
         >
       </li>
-      <li>
+      <!-- <li>
         <a
-          class="block rounded-2xl p-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:hover:text-white"
-          href="/about/">About</a
+          class="block rounded-2xl p-3 text-foreground/80 hover:bg-muted hover:text-foreground"
+          href="/consulting/">Consulting</a
         >
       </li>
       <li>
         <a
-          href="/rss.xml"
-          title="RSS"
-          class="block rounded-2xl p-3 hover:bg-zinc-100 dark:hover:bg-zinc-800 dark:hover:text-white"
+          class="block rounded-2xl p-3 text-foreground/80 hover:bg-muted hover:text-foreground"
+          href="/uses/">Uses</a
         >
-          <div>
-            <svg
-              class="h-5 md:h-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M12.75 19.5v-.75a7.5 7.5 0 00-7.5-7.5H4.5m0-6.75h.75c7.87 0 14.25 6.38 14.25 14.25v.75M6 18.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
-              ></path>
-            </svg>
-
-            <span class="sr-only">RSS</span>
-          </div>
-        </a>
+      </li> -->
+      <li>
+        <a
+          class="block rounded-2xl p-3 text-foreground/80 hover:bg-muted hover:text-foreground"
+          href="/about/">About</a
+        >
       </li>
     </ul>
   </nav>

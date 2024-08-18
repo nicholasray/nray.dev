@@ -10,6 +10,8 @@ import Prose from "@components/Prose.astro";
 import { DIMENSIONS } from "./[slug].png";
 import BlogImage from "@src/components/BlogImage.astro";
 import { Aside } from "@src/components/Aside/index.astro";
+import ViewCounter from "@/components/ViewCounter/ViewCounter.astro";
+import { Skeleton } from "@components/Skeleton/Skeleton";
 
 // 1. Generate a new path for every collection entry
 export async function getStaticPaths() {
@@ -29,7 +31,7 @@ interface Props {
 // 2. When it's time to render, you can get the entry directly from the prop
 const post = await getPost(Astro.props.entry);
 const { Content, headings, readingTime, slug } = post;
-const { title, description, cover, publishedAt, updatedAt } = post.data;
+const { title, description, cover, updatedAt } = post.data;
 ---
 
 <Layout
@@ -61,7 +63,7 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
       >
         <div class="col-start-2 lg:col-end-[-1] xl:col-end-3">
           <h1
-            class="text-3xl font-extrabold tracking-tight text-zinc-900 md:max-w-5xl md:text-5xl dark:text-white"
+            class="text-3xl font-extrabold tracking-tight text-foreground md:max-w-5xl md:text-5xl"
           >
             {title}
           </h1>
@@ -69,42 +71,46 @@ const { title, description, cover, publishedAt, updatedAt } = post.data;
         <div
           class="col-start-2 mb-8 mt-4 flex items-center text-sm font-medium md:mx-auto md:mb-10 md:mt-6 md:text-base lg:col-end-[-1] lg:mx-0 lg:mb-14 lg:mt-8 xl:col-end-3"
         >
-          <div class="flex items-center font-medium">
-            <div class="mr-3 h-10 w-10 rounded-full md:h-12 md:w-12">
-              <a href="/about/" class="flex items-center">
-                <Image
-                  loading="eager"
-                  class="rounded-full"
-                  src={avatar}
-                  widths={[48, 96]}
-                  sizes="48px"
-                  alt="Avatar"
-                />
-              </a>
+          <div class="flex w-full items-center justify-between">
+            <div class="flex items-center font-medium">
+              <div class="mr-3 h-10 w-10 rounded-full md:h-12 md:w-12">
+                <a href="/about/" class="flex items-center">
+                  <Image
+                    loading="eager"
+                    class="rounded-full"
+                    src={avatar}
+                    widths={[48, 96]}
+                    sizes="48px"
+                    alt="Avatar"
+                  />
+                </a>
+              </div>
+              <div class="text-muted-foreground">
+                <div>
+                  <a href="/about/" class="flex items-center"> Nicholas Ray</a>
+                </div>
+                <div class="mt-0.5 flex items-center md:mt-0">
+                  {
+                    updatedAt && (
+                      <>
+                        <time datetime={updatedAt && updatedAt.toISOString()}>
+                          {format(updatedAt, "LLL d, yyyy")}
+                        </time>{" "}
+                      </>
+                    )
+                  }
+                </div>
+              </div>
             </div>
-
-            <div class="md:flex md:items-center">
+            <div
+              class="hidden text-muted-foreground sm:flex sm:flex-col sm:items-end"
+            >
               <div>
-                <a href="/about/" class="flex items-center"> Nicholas Ray</a>
+                {readingTime}
               </div>
-              <div class="mt-0.5 flex items-center md:mt-0">
-                <span class="mx-3 hidden font-bold md:block">·</span>
-                <time datetime={publishedAt && publishedAt.toISOString()}>
-                  {publishedAt ? format(publishedAt, "LLL d, yyyy") : ""}
-                </time>
-                {
-                  updatedAt && (
-                    <>
-                      &nbsp;— Updated&nbsp;
-                      <time datetime={updatedAt && updatedAt.toISOString()}>
-                        {format(updatedAt, "LLL d, yyyy")}
-                      </time>{" "}
-                    </>
-                  )
-                }
-                <span class="mx-2 hidden font-bold sm:block md:mx-3">·</span>
-                <div class="hidden sm:block">{readingTime}</div>
-              </div>
+              <ViewCounter slug={slug} server:defer>
+                <Skeleton className="h-5 w-full rounded-lg" slot="fallback" />
+              </ViewCounter>
             </div>
           </div>
         </div>

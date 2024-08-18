@@ -1,0 +1,29 @@
+---
+// Update counter
+const { env } = Astro.locals.runtime;
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+async function increment() {
+  return env.DB.prepare`
+    INSERT INTO posts (slug, view_count)
+    VALUES (${slug}, 1)
+    ON CONFLICT (slug)
+    DO UPDATE SET count = posts.view_count + 1
+  `;
+}
+
+const { results } = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
+  .bind(slug)
+  .all();
+
+const count = results[0]?.count ?? 0;
+
+increment();
+---
+
+<div>{count} {count === 1 ? "view" : "views"}</div>
