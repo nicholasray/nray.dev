@@ -11,7 +11,7 @@ const { slug } = Astro.props;
 async function increment() {
   console.log("slug = ", slug);
   return env.DB.prepare(
-    `INSERT INTO posts (slug, view_count) VALUES (?, 1) ON CONFLICT (slug) DO UPDATE SET count = posts.view_count + 1`
+    `INSERT INTO posts (slug, view_count) VALUES (?1, 1) ON CONFLICT (slug) DO UPDATE SET count = posts.view_count + 1`
   )
     .bind(slug)
     .run();
