@@ -1,0 +1,7 @@
+:global {
+  .table-of-contents-item--highlighted {
+    > .table-of-contents-link {
+      @apply text-foreground;
+    }
+  }
+}

@@ -1,6 +1,7 @@
 ---
 import type { MarkdownHeading } from "astro";
 import TableOfContentsList from "./TableOfContentsList.astro";
+import "./TableOfContents.module.css";
 
 interface Props {
   headings: MarkdownHeading[];
@@ -26,7 +27,7 @@ headings.unshift({
 </nray-table-of-contents>
 
 <script>
-  const HIGHLIGHT_CLASS = "text-foreground";
+  const HIGHLIGHT_CLASS = "table-of-contents-item--highlighted";
 
   class TableOfContents extends HTMLElement {
     highlighted: undefined | HTMLElement;
