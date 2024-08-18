@@ -9,7 +9,6 @@ interface Props {
 const { slug } = Astro.props;
 
 async function increment() {
-  console.log("slug = ", slug);
   return env.DB.prepare(
     `INSERT INTO posts (slug, view_count) VALUES (?1, 1) ON CONFLICT (slug) DO UPDATE SET view_count = posts.view_count + 1`
   )
@@ -23,7 +22,7 @@ const data = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
 
 const count = (data && data["view_count"]) || 0;
 
-await increment();
+increment();
 ---
 
 <div>{count} {count === 1 ? "view" : "views"}</div>
