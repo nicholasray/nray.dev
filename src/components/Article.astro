@@ -3,6 +3,8 @@ import type { Post } from "@src/types";
 import { format } from "date-fns";
 import { FaRegClock } from "react-icons/fa6";
 import { FaRegEye } from "react-icons/fa6";
+import ViewCounter from "./ViewCounter/ViewCounter.astro";
+import { Skeleton } from "./Skeleton/Skeleton";
 
 export interface Props {
   post: Post;
@@ -35,8 +37,12 @@ const { post } = Astro.props;
         )
       }
       <div class="flex items-center gap-x-1.5">
-        <FaRegEye className="h-4 w-4" />
-        <span>1,000 views</span>
+        <FaRegEye className="h-4 w-4 flex-shrink-0" />
+        <ViewCounter slug={post.slug} shouldIncrement={false} server:defer>
+          <div class="flex h-5 w-full items-center" slot="fallback">
+            <Skeleton className="h-4 w-12 rounded-lg" />
+          </div>
+        </ViewCounter>
       </div>
       <!-- <div class="flex items-center gap-x-1.5">
         <FaRegThumbsUp className="h-4 w-4" />

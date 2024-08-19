@@ -1,5 +1,11 @@
 import type { D1Database } from "@cloudflare/workers-types";
 
+export interface Post {
+  id: number;
+  slug: string;
+  view_count: number;
+}
+
 export async function incrementViews(DB: D1Database, slug: string) {
   return DB.prepare(
     `INSERT INTO posts (slug, view_count) VALUES (?1, 1) ON CONFLICT (slug) DO UPDATE SET view_count = posts.view_count + 1`,
@@ -8,6 +14,10 @@ export async function incrementViews(DB: D1Database, slug: string) {
     .run();
 }
 
-export async function getViews(DB: D1Database, slug: string) {
-  return DB.prepare("SELECT * FROM posts WHERE slug = ?").bind(slug).first();
+export async function getBlogViewsIn(DB: D1Database, slugs: readonly string[]) {
+  return DB.prepare(
+    `SELECT * FROM posts WHERE slug IN (${Array(slugs.length).fill("?")})`,
+  )
+    .bind(...slugs)
+    .run<Post>();
 }

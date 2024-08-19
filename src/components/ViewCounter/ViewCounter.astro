@@ -1,20 +1,20 @@
 ---
-import { incrementViews, getViews } from "@/db/client";
-
-// Update counter
-const { env } = Astro.locals.runtime;
+import { incrementViews } from "@/db/client";
 
 interface Props {
   slug: string;
+  shouldIncrement?: boolean;
 }
 
-const { slug } = Astro.props;
+const { env } = Astro.locals.runtime;
+const { slug, shouldIncrement = false } = Astro.props;
 
-const data = await getViews(env.DB, slug);
-
+const data = await Astro.locals.loaders.blogViews.load(slug);
 const count: number = ((data && data["view_count"]) || 0) as number;
 
-await incrementViews(env.DB, slug);
+if (shouldIncrement) {
+  await incrementViews(env.DB, slug);
+}
 ---
 
-<div>{count.toLocaleString()} {count === 1 ? "view" : "views"}</div>
+{count.toLocaleString()}{" "}{count === 1 ? "view" : "views"}

@@ -30,6 +30,7 @@
     "astro-seo": "0.8.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dataloader": "^2.2.2",
     "date-fns": "3.6.0",
     "dotenv": "16.4.5",
     "heroicons": "2.1.5",

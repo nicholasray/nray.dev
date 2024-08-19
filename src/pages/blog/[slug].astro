@@ -108,7 +108,7 @@ const { title, description, cover, updatedAt } = post.data;
               <div>
                 {readingTime}
               </div>
-              <ViewCounter slug={slug} server:defer>
+              <ViewCounter slug={slug} shouldIncrement={true} server:defer>
                 <div class="flex h-6 w-full items-center" slot="fallback">
                   <Skeleton className="h-4 w-full rounded-lg" />
                 </div>
