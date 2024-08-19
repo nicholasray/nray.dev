@@ -1,4 +1,6 @@
 ---
+import { incrementViews, getViews } from "@/db/client";
+
 // Update counter
 const { env } = Astro.locals.runtime;
 
@@ -8,21 +10,11 @@ interface Props {
 
 const { slug } = Astro.props;
 
-async function increment() {
-  return env.DB.prepare(
-    `INSERT INTO posts (slug, view_count) VALUES (?1, 1) ON CONFLICT (slug) DO UPDATE SET view_count = posts.view_count + 1`
-  )
-    .bind(slug)
-    .run();
-}
+const data = await getViews(env.DB, slug);
 
-const data = await env.DB.prepare("SELECT * FROM posts WHERE slug = ?")
-  .bind(slug)
-  .first();
+const count: number = ((data && data["view_count"]) || 0) as number;
 
-const count: number = (data && data["view_count"]) || 0;
-
-await increment();
+await incrementViews(env.DB, slug);
 ---
 
 <div>{count.toLocaleString()} {count === 1 ? "view" : "views"}</div>
