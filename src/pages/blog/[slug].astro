@@ -130,6 +130,7 @@ const { title, description, cover, updatedAt } = post.data;
 </Layout>
 
 <script>
+  import type { TableOfContents } from "@/components/TableOfContents/TableOfContents.astro.0.mjs";
   import sectionObserver from "@components/TableOfContents/sectionObserver";
 
   const selectors = ["h2", "h3", "h4", "h5", "h6"].map(
@@ -137,7 +138,9 @@ const { title, description, cover, updatedAt } = post.data;
   );
   selectors.unshift("h1");
 
-  const toc = document.querySelector("nray-table-of-contents");
+  const toc = document.querySelector(
+    "nray-table-of-contents"
+  ) as TableOfContents;
   const observer = sectionObserver({
     elements: document.querySelectorAll(selectors.join(", ")),
     topMargin: 40,
@@ -153,7 +156,6 @@ const { title, description, cover, updatedAt } = post.data;
         return;
       }
 
-      // @ts-ignore
       toc.highlight(tocItem);
     },
   });

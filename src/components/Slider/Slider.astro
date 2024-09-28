@@ -3,7 +3,7 @@ import type { HTMLAttributes } from "astro/types";
 import styles from "./Slider.module.css";
 const { slider } = styles;
 
-interface Props extends HTMLAttributes<"input"> {}
+type Props = HTMLAttributes<"input">;
 
 const { class: className, ...rest } = Astro.props;
 ---

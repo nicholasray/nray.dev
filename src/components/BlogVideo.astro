@@ -47,7 +47,7 @@ const descId = `video-${src[0].split("/").pop()!.split(".").shift()}`;
           }
 
           const video = entry.target as HTMLVideoElement;
-          for (let source of video.children) {
+          for (const source of video.children) {
             if (source instanceof HTMLSourceElement && source.dataset.src) {
               source.src = source.dataset.src;
             }
@@ -63,7 +63,7 @@ const descId = `video-${src[0].split("/").pop()!.split(".").shift()}`;
     );
 
     const videos = document.querySelectorAll("video.lazy-load");
-    for (let video of videos) {
+    for (const video of videos) {
       observer.observe(video);
     }
   }

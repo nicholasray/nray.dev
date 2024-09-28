@@ -45,8 +45,9 @@ import { Input } from "@src/components/Input/index.astro";
 </figure>
 
 <script>
+  import type { WebVitalScale } from "@/components/WebVitalScale/WebVitalScale.astro.0.mjs";
   import { onINP } from "web-vitals";
-  const scale = document.querySelector(".web-vital-scale")! as HTMLElement;
+  const scale = document.querySelector(".web-vital-scale")! as WebVitalScale;
   const latencyRange = document.querySelector(
     "#inp-slider"
   )! as HTMLInputElement;
@@ -74,7 +75,6 @@ import { Input } from "@src/components/Input/index.astro";
   } else {
     onINP(
       (interaction) => {
-        // @ts-ignore
         scale.value = interaction.value;
       },
       {

@@ -9,16 +9,18 @@ type Props = {
 
 const props = Astro.props as Props;
 
-/* eslint-disable no-unused-vars */
 const {
   class: className,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   src: _,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   dark: __,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   widths: ___,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   sizes: ____,
   ...attrs
 } = props;
-/* eslint-enable no-unused-vars */
 
 interface Variant {
   src: ImageMetadata;
