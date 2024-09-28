@@ -12,6 +12,8 @@ import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 import cloudflare from "@astrojs/cloudflare";
 
+import db from "@astrojs/db";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.nray.dev",
@@ -70,20 +72,15 @@ export default defineConfig({
       ],
     ],
   },
-  integrations: [
-    react(),
-    tailwind({
-      // Example: Disable injecting a basic `base.css` import on every page.
-      // Useful if you need to define and/or import your own custom `base.css`.
-      applyBaseStyles: false,
-    }),
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    mdx({
-      smartypants: false,
-    }),
-    sitemap({
-      filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
-    }),
-  ],
+  integrations: [react(), tailwind({
+    // Example: Disable injecting a basic `base.css` import on every page.
+    // Useful if you need to define and/or import your own custom `base.css`.
+    applyBaseStyles: false,
+  }), // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  mdx({
+    smartypants: false,
+  }), sitemap({
+    filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
+  }), db()],
 });

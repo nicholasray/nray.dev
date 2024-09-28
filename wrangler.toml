@@ -1,4 +1,0 @@
-[[d1_databases]]
-binding = "DB" # i.e. available in your Worker on env.DB
-database_name = "prod-db-nray"
-database_id = "cdf635f5-e0eb-4680-bc97-9800e7aaa262"

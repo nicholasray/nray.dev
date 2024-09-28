@@ -56,7 +56,7 @@ const { title, description, cover, updatedAt } = post.data;
     card: "summary_large_image",
   }}
 >
-  <main class="mt-8">
+  <main class="mt-8" data-slug={slug}>
     <article>
       <section
         class="mx-auto mt-8 px-4 sm:px-6 md:mt-12 md:max-w-2xl md:gap-x-10 md:px-8 lg:mt-14 lg:grid lg:max-w-5xl lg:grid-cols-[245px_minmax(0,1fr)_245px] lg:gap-x-14 xl:max-w-8xl"
@@ -108,8 +108,8 @@ const { title, description, cover, updatedAt } = post.data;
               <div>
                 {readingTime}
               </div>
-              <ViewCounter slug={slug} shouldIncrement={true} server:defer>
-                <div class="flex h-6 w-full items-center" slot="fallback">
+              <ViewCounter slug={slug}>
+                <div class="flex h-6 w-full items-center">
                   <Skeleton className="h-4 w-full rounded-lg" />
                 </div>
               </ViewCounter>
@@ -132,6 +132,11 @@ const { title, description, cover, updatedAt } = post.data;
 <script>
   import type { TableOfContents } from "@/components/TableOfContents/TableOfContents.astro.0.mjs";
   import sectionObserver from "@components/TableOfContents/sectionObserver";
+  import { actions } from "astro:actions";
+
+  actions.views.increment({
+    slug: document.querySelector("main")!.dataset.slug!,
+  });
 
   const selectors = ["h2", "h3", "h4", "h5", "h6"].map(
     (selector) => `.prose > ${selector}`

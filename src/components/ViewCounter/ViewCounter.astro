@@ -1,20 +1,42 @@
 ---
-import { incrementViews } from "@/db/client";
-
 interface Props {
   slug: string;
-  shouldIncrement?: boolean;
 }
 
-const { env } = Astro.locals.runtime;
-const { slug, shouldIncrement = false } = Astro.props;
-
-const data = await Astro.locals.loaders.blogViews.load(slug);
-const count: number = ((data && data["view_count"]) || 0) as number;
-
-if (shouldIncrement) {
-  await incrementViews(env.DB, slug);
-}
+const { slug } = Astro.props;
 ---
 
-{count.toLocaleString()}{" "}{count === 1 ? "view" : "views"}
+<span class="view-counter" data-slug={slug} data-increment>
+  <slot />
+</span>
+
+<script>
+  import { actions } from "astro:actions";
+
+  async function showViews() {
+    const counters = Array.from(
+      document.querySelectorAll(".view-counter") as NodeListOf<HTMLSpanElement>
+    );
+    const countersBySlug = counters.reduce<
+      Record<string, (typeof counters)[0]>
+    >((data, counter) => {
+      data[counter.dataset.slug!] = counter;
+      return data;
+    }, {});
+    const slugs = counters.map((counter) => counter.dataset.slug!);
+
+    const { data: posts, error } = await actions.views.getBySlugs({ slugs });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    return posts.forEach((post) => {
+      countersBySlug[post.slug].innerText =
+        `${post.viewCount.toLocaleString()} ${post.viewCount === 1 ? "view" : "views"}`;
+    });
+  }
+
+  await showViews();
+</script>
