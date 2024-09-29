@@ -37,6 +37,11 @@ const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
       type="font/woff2"
     />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    <script
+      is:inline
+      defer
+      data-domain="nray.dev"
+      src="https://plausible.io/js/script.js"></script>
   </head>
   <body>
     <slot />
