@@ -2,6 +2,9 @@
   "name": "nray",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": "20.15.1"
+  },
   "private": true,
   "scripts": {
     "dev": "wrangler types && astro dev",
