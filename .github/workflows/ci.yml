@@ -1,0 +1,32 @@
+name: Run Tests
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+# Automatically cancel previous ongoing jobs on the same branch
+concurrency:
+  group:
+    ${{ github.workflow }}-${{ github.event_name == 'pull_request_target' &&
+    github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: "package.json"
+          cache: "npm"
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npm test
