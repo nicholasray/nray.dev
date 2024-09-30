@@ -12,7 +12,7 @@
     "build": "npm run optimize-svg && astro build",
     "build-prod": "npm run optimize-svg && astro build --remote",
     "preview": "astro preview",
-    "test": "npm run -s lint && astro check && tsc --noEmit",
+    "test": "npm run -s lint && astro check && tsc --noEmit && vitest run",
     "lint": "eslint --max-warnings=0 \"src/**/*.{js,astro}\"",
     "astro": "astro",
     "optimize-svg": "svgo --recursive --config=.svgo.config.cjs src/content/blog/"
@@ -62,12 +62,16 @@
     "@types/react": "18.3.10",
     "@types/react-dom": "18.3.0",
     "@types/sharp": "0.31.1",
+    "@vitejs/plugin-react": "^4.3.2",
+    "@vitest/browser": "^2.1.1",
+    "@vitest/coverage-v8": "^2.1.1",
     "autoprefixer": "10.4.20",
     "eslint": "9.11.1",
     "eslint-plugin-astro": "1.2.4",
     "eslint-plugin-jsx-a11y": "6.10.0",
     "eslint-plugin-react-hooks": "5.1.0-beta-26f2496093-20240514",
     "globals": "^15.9.0",
+    "playwright": "^1.47.2",
     "pre-commit": "1.2.2",
     "prettier": "3.3.3",
     "prettier-plugin-astro": "0.14.1",
@@ -78,6 +82,8 @@
     "typescript": "5.6.2",
     "typescript-eslint": "^8.7.0",
     "typescript-plugin-css-modules": "5.1.0",
+    "vitest": "^2.1.1",
+    "vitest-browser-react": "^0.0.1",
     "wrangler": "3.78.12"
   }
 }
