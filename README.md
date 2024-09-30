@@ -1,3 +1,3 @@
-[![Node.js CI](https://github.com/nicholasray/nray.dev/actions/workflows/node.js.yml/badge.svg)](https://github.com/nicholasray/nray.dev/actions/workflows/node.js.yml)
+[![Run Tests](https://github.com/nicholasray/nray.dev/actions/workflows/ci.yml/badge.svg)](https://github.com/nicholasray/nray.dev/actions/workflows/ci.yml)
 
 # Welcome to [nray.dev](https://www.nray.dev)
