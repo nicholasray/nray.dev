@@ -1,4 +1,5 @@
-const defaultTheme = require("tailwindcss/defaultTheme");
+import defaultTheme from "tailwindcss/defaultTheme";
+import tailwindAnimate from "tailwindcss-animate";
 const screens = {
   sm: `${640 / 16}rem`,
   md: `${768 / 16}rem`,
@@ -7,8 +8,7 @@ const screens = {
   "2xl": `${1536 / 16}rem`,
 };
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   future: {
     hoverOnlyWhenSupported: true,
   },
@@ -85,5 +85,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindAnimate],
 };

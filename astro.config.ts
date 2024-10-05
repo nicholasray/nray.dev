@@ -1,18 +1,19 @@
 import { defineConfig, sharpImageService } from "astro/config";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
-import ayu from "./ayu.theme.json";
 import mdx from "@astrojs/mdx";
 import { remarkReadingTime } from "./remark/remarkReadingTime";
-import rehypePrettyCode from "rehype-pretty-code";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import sitemap from "@astrojs/sitemap";
+import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 
 // https://astro.build/config
 import cloudflare from "@astrojs/cloudflare";
 
 import db from "@astrojs/db";
+
+import expressiveCode from "astro-expressive-code";
 
 // https://astro.build/config
 export default defineConfig({
@@ -36,26 +37,6 @@ export default defineConfig({
     syntaxHighlight: false,
     remarkPlugins: [remarkReadingTime],
     rehypePlugins: [
-      [
-        rehypePrettyCode,
-        {
-          keepBackground: false,
-          theme: ayu,
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onVisitLine(node: any) {
-            // Prevent lines from collapsing in `display: grid` mode, and
-            // allow empty lines to be copy/pasted
-            if (node.children.length === 0) {
-              node.children = [
-                {
-                  type: "text",
-                  value: " ",
-                },
-              ];
-            }
-          },
-        },
-      ],
       rehypeHeadingIds,
       [
         rehypeAutolinkHeadings,
@@ -72,15 +53,32 @@ export default defineConfig({
       ],
     ],
   },
-  integrations: [react(), tailwind({
-    // Example: Disable injecting a basic `base.css` import on every page.
-    // Useful if you need to define and/or import your own custom `base.css`.
-    applyBaseStyles: false,
-  }), // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  mdx({
-    smartypants: false,
-  }), sitemap({
-    filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
-  }), db()],
+  integrations: [
+    react(),
+    tailwind({
+      // Example: Disable injecting a basic `base.css` import on every page.
+      // Useful if you need to define and/or import your own custom `base.css`.
+      applyBaseStyles: false,
+    }),
+    expressiveCode({
+      themes: ["ayu-dark"],
+      styleOverrides: {
+        borderRadius: "0",
+        codeFontSize: "1rem",
+      },
+      defaultProps: {
+        showLineNumbers: false,
+      },
+      plugins: [
+        pluginLineNumbers(),
+      ],
+    }),
+    mdx({
+      smartypants: false,
+    }),
+    sitemap({
+      filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
+    }),
+    db(),
+  ],
 });
