@@ -139,7 +139,7 @@ const { title, description, cover, updatedAt } = post.data;
     actions.views.increment({
       slug: document.querySelector("main")!.dataset.slug!,
     });
-  }, 3000);
+  }, 2000);
 
   const selectors = ["h2", "h3", "h4", "h5", "h6"].map(
     (selector) => `.prose > ${selector}`
