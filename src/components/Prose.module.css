@@ -19,17 +19,15 @@
   --tw-prose-invert-td-borders: #3f3f46;
 }
 
-@media (prefers-color-scheme: dark) {
-  .prose {
-    --tw-prose-headings: var(--tw-prose-invert-headings);
-    --tw-prose-links: var(--tw-prose-invert-links);
-    --tw-prose-bold: var(--tw-prose-invert-bold);
-    --tw-prose-counters: var(--tw-prose-invert-counters);
-    --tw-prose-bullets: var(--tw-prose-invert-bullets);
-    --tw-prose-code: var(--tw-prose-invert-code);
-    --tw-prose-th-borders: var(--tw-prose-invert-th-borders);
-    --tw-prose-td-borders: var(--tw-prose-invert-td-borders);
-  }
+:global(:root.dark) .prose {
+  --tw-prose-headings: var(--tw-prose-invert-headings);
+  --tw-prose-links: var(--tw-prose-invert-links);
+  --tw-prose-bold: var(--tw-prose-invert-bold);
+  --tw-prose-counters: var(--tw-prose-invert-counters);
+  --tw-prose-bullets: var(--tw-prose-invert-bullets);
+  --tw-prose-code: var(--tw-prose-invert-code);
+  --tw-prose-th-borders: var(--tw-prose-invert-th-borders);
+  --tw-prose-td-borders: var(--tw-prose-invert-td-borders);
 }
 
 .prose {
