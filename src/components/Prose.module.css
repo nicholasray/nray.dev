@@ -211,6 +211,7 @@
     --ec-brdRad: 0;
     --ec-frm-edTabBrdRad: 0;
     --ec-frm-frameBoxShdCssVal: none;
+    --ec-frm-tooltipSuccessBg: theme(colors.green.600);
 
     @media screen(md) {
       --ec-brdRad: 0.5rem;
