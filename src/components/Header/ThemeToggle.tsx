@@ -121,6 +121,7 @@ function ThemeToggle() {
       >
         <RxMoon className="hidden dark:block" />
         <RxSun className="dark:hidden" />
+        <span className="sr-only">Toggle theme</span>
       </SelectTrigger>
       <SelectContent position="popper" align="end">
         <SelectItem value="light">Light</SelectItem>
