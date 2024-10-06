@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import styles from "./Ball.module.css";
+import { Button } from "@/components/Button/Button";
 
 interface BallProps {
   className: string;
@@ -26,8 +27,7 @@ function JankAnimation({ duration = 1 }: JankAnimationProps) {
         <Ball className={clsx(styles.ballEfficient, "relative")} />
       </div>
       <div className="relative flex justify-center">
-        <button
-          className="rounded-md bg-zinc-200 px-3 py-2 text-base font-semibold text-zinc-900 hover:bg-zinc-400 dark:hover:bg-white"
+        <Button
           onClick={() => {
             const t0 = performance.now();
 
@@ -36,7 +36,7 @@ function JankAnimation({ duration = 1 }: JankAnimationProps) {
         >
           Block main thread for {duration}{" "}
           {duration === 1 ? "second" : "seconds"}
-        </button>
+        </Button>
       </div>
     </div>
   );
