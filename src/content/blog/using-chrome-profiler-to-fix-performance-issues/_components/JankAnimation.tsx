@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import styles from "./Ball.module.css";
 
 interface BallProps {
   className: string;
@@ -7,7 +8,7 @@ interface BallProps {
 function Ball({ className }: BallProps) {
   return (
     <div
-      className={clsx("h-16 w-16 rounded-full bg-gray-500", className)}
+      className={clsx("h-16 w-16 rounded-full bg-slate-500", className)}
     ></div>
   );
 }
@@ -21,10 +22,10 @@ function JankAnimation({ duration = 1 }: JankAnimationProps) {
   return (
     <div className="relative">
       <div className="m-auto flex h-[350px] max-w-xs justify-between">
-        <Ball className="relative animate-[vertical-bounce-inefficient_6s_linear_infinite]" />
-        <Ball className="animate-[vertical-bounce-efficient_6s_linear_infinite]" />
+        <Ball className={clsx(styles.ballInefficient, "relative")} />
+        <Ball className={clsx(styles.ballEfficient, "relative")} />
       </div>
-      <div className="relative flex  justify-center">
+      <div className="relative flex justify-center">
         <button
           className="rounded-md bg-zinc-200 px-3 py-2 text-base font-semibold text-zinc-900 hover:bg-zinc-400 dark:hover:bg-white"
           onClick={() => {

@@ -202,6 +202,10 @@
     @apply md:-mx-6;
   }
 
+  astro-island > div:first-child {
+    @apply my-8;
+  }
+
   :global(.expressive-code) {
     @apply -mx-4 my-8 md:-mx-6;
 

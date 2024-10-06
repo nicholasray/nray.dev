@@ -1,0 +1,27 @@
+@keyframes efficient {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(285px);
+  }
+}
+
+@keyframes inefficient {
+  0%,
+  100% {
+    top: 0px;
+  }
+  50% {
+    top: 285px;
+  }
+}
+
+.ballEfficient {
+  animation: efficient 6s linear infinite;
+}
+
+.ballInefficient {
+  animation: inefficient 6s linear infinite;
+}
