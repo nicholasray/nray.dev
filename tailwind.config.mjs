@@ -13,7 +13,7 @@ export default {
     hoverOnlyWhenSupported: true,
   },
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
-  darkMode: "media",
+  darkMode: "selector",
   theme: {
     extend: {
       maxWidth: {

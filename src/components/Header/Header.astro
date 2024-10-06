@@ -1,3 +1,7 @@
+---
+import ThemeToggle from "./ThemeToggle";
+---
+
 <header
   class="mx-auto flex h-24 max-w-8xl items-center justify-between px-4 sm:px-6 md:px-8"
 >
@@ -21,23 +25,14 @@
           href="/blog/">Posts</a
         >
       </li>
-      <!-- <li>
-        <a
-          class="block rounded-2xl p-3 text-foreground/80 hover:bg-muted hover:text-foreground"
-          href="/consulting/">Consulting</a
-        >
-      </li>
-      <li>
-        <a
-          class="block rounded-2xl p-3 text-foreground/80 hover:bg-muted hover:text-foreground"
-          href="/uses/">Uses</a
-        >
-      </li> -->
       <li>
         <a
           class="block rounded-2xl p-3 text-foreground/80 hover:bg-muted hover:text-foreground"
           href="/about/">About</a
         >
+      </li>
+      <li>
+        <ThemeToggle client:load />
       </li>
     </ul>
   </nav>
