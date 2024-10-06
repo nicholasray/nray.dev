@@ -216,6 +216,10 @@
       --ec-brdRad: 0.5rem;
       --ec-frm-edTabBrdRad: 0.5rem;
     }
+
+    pre {
+      @apply shadow-[inset_0_0_0_1px_#ffffff1a];
+    }
   }
 
   :global {
