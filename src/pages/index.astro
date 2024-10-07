@@ -4,12 +4,9 @@ import avatar from "@assets/images/avatar.jpg";
 import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
 import { Image } from "@components/Image/index.astro";
-import { Input } from "@components/InputBox";
-import { Button } from "@components/Button/Button";
-import { Card, CardHeader, CardContent } from "@components/Card";
+import MailingList from "@components/MailingList.astro";
 const posts = await getPosts();
 const title = "Nicholas Ray";
-const FORM_URL = "https://app.convertkit.com/forms/3512386/subscriptions";
 ---
 
 <Layout
@@ -54,31 +51,9 @@ const FORM_URL = "https://app.convertkit.com/forms/3512386/subscriptions";
           />
         </div>
       </div>
-      <Card className="mt-10 md:mt-12">
-        <CardHeader>
-          <p class="text-lg text-muted-foreground">
-            Get new articles delivered to your email. No spam, unsubscribe
-            anytime.
-          </p>
-        </CardHeader>
-        <CardContent>
-          <form
-            method="post"
-            action={FORM_URL}
-            method="post"
-            class="flex gap-x-3"
-          >
-            <Input
-              type="email"
-              name="email_address"
-              required
-              aria-label="Email Address"
-              placeholder="Enter email…"
-            />
-            <Button type="submit">Subscribe</Button>
-          </form>
-        </CardContent>
-      </Card>
+      <div class="mt-10 md:mt-12">
+        <MailingList />
+      </div>
     </section>
     <section>
       <h2 class="relative text-3xl font-bold tracking-tight text-foreground">
