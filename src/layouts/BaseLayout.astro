@@ -10,10 +10,22 @@ export interface Props extends SeoProps {
 const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
 ---
 
-<html lang="en" class={htmlClass}>
+<html lang="en" class:list={["dark", htmlClass]}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      class="meta-theme"
+      name="theme-color"
+      content="#020617"
+      data-other="#f8fafc"
+    />
+    <meta
+      class="meta-theme"
+      name="color-scheme"
+      content="dark"
+      data-other="light"
+    />
     <title>{title}</title>
     <SEO {...rest} />
     <link rel="icon" type="image/png" href="/favicon.png" />
@@ -27,18 +39,32 @@ const { title = "Nicholas Ray", htmlClass, ...rest } = Astro.props;
     />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <script is:inline>
-      if (localStorage.theme === "dark" || !("theme" in localStorage)) {
-        document.documentElement.classList.add("dark");
-      } else if (localStorage.theme === "light") {
+      function toggleMeta() {
+        // Iterate through the relevant meta tags and change to value for dark mode.
+        const metaTags = document.head.querySelectorAll(".meta-theme");
+        for (let i = 0; i < metaTags.length; i++) {
+          const meta = metaTags[i];
+          const other = meta.dataset.other;
+          meta.dataset.other = meta.content;
+          meta.content = other;
+        }
+
         document.documentElement.classList.remove("dark");
-      } else {
-        const mediaQueryList = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        );
-        if (mediaQueryList.matches) {
-          document.documentElement.classList.add("dark");
+      }
+
+      function toggleTheme() {
+        if (localStorage.theme === "dark" || !("theme" in localStorage)) {
+          return;
+        } else if (localStorage.theme === "light") {
+          toggleMeta();
+        } else {
+          const mediaQueryList = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          );
+          if (!mediaQueryList.matches) toggleMeta();
         }
       }
+      toggleTheme();
     </script>
     <script
       is:inline

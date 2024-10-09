@@ -9,12 +9,30 @@ import { RxMoon, RxSun } from "react-icons/rx";
 
 type Theme = "light" | "dark" | "system";
 
+function toggleMetaTags() {
+  // Iterate through the relevant meta tags and change to value for dark mode.
+  const metaTags =
+    document.head.querySelectorAll<HTMLMetaElement>(".meta-theme");
+  for (let i = 0; i < metaTags.length; i++) {
+    const meta = metaTags[i];
+    const other = meta.dataset.other as string;
+    meta.dataset.other = meta.content;
+    meta.content = other;
+  }
+}
+
 function enableDarkMode() {
-  document.documentElement.classList.add("dark");
+  if (!document.documentElement.classList.contains("dark")) {
+    toggleMetaTags();
+    document.documentElement.classList.add("dark");
+  }
 }
 
 function enableLightMode() {
-  document.documentElement.classList.remove("dark");
+  if (document.documentElement.classList.contains("dark")) {
+    toggleMetaTags();
+    document.documentElement.classList.remove("dark");
+  }
 }
 
 function getTheme() {
