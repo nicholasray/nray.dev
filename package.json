@@ -24,16 +24,16 @@
     "@astrojs/check": "0.9.4",
     "@astrojs/cloudflare": "11.1.0",
     "@astrojs/db": "^0.14.2",
-    "@astrojs/mdx": "3.1.7",
+    "@astrojs/mdx": "3.1.8",
     "@astrojs/react": "3.6.2",
-    "@astrojs/rss": "4.0.7",
+    "@astrojs/rss": "4.0.8",
     "@astrojs/sitemap": "3.2.0",
-    "@astrojs/tailwind": "5.1.1",
+    "@astrojs/tailwind": "5.1.2",
     "@expressive-code/plugin-line-numbers": "^0.37.0",
     "@radix-ui/react-icons": "1.3.0",
     "@radix-ui/react-select": "^2.1.2",
     "@radix-ui/react-slot": "1.1.0",
-    "astro": "4.15.12",
+    "astro": "4.16.2",
     "astro-expressive-code": "^0.37.0",
     "astro-seo": "0.8.4",
     "class-variance-authority": "0.7.0",
@@ -56,13 +56,13 @@
     "web-vitals": "4.2.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20241004.0",
+    "@cloudflare/workers-types": "4.20241011.0",
     "@eslint/compat": "^1.2.0",
     "@eslint/eslintrc": "^3.1.0",
     "@eslint/js": "^9.12.0",
     "@types/eslint__js": "^8.42.3",
     "@types/react": "18.3.11",
-    "@types/react-dom": "18.3.0",
+    "@types/react-dom": "18.3.1",
     "@types/sharp": "0.31.1",
     "@vitejs/plugin-react": "^4.3.2",
     "@vitest/browser": "^2.1.2",
@@ -72,7 +72,7 @@
     "eslint-plugin-astro": "1.2.4",
     "eslint-plugin-jsx-a11y": "6.10.0",
     "eslint-plugin-react-hooks": "5.1.0-beta-26f2496093-20240514",
-    "globals": "^15.10.0",
+    "globals": "^15.11.0",
     "playwright": "^1.48.0",
     "pre-commit": "1.2.2",
     "prettier": "3.3.3",
@@ -86,6 +86,6 @@
     "typescript-plugin-css-modules": "5.1.0",
     "vitest": "^2.1.2",
     "vitest-browser-react": "^0.0.1",
-    "wrangler": "3.80.2"
+    "wrangler": "3.80.4"
   }
 }
