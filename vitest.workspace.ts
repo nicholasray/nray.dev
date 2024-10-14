@@ -44,6 +44,7 @@ export default defineWorkspace([
       ],
       name: "browser",
       browser: {
+        screenshotFailures: false,
         enabled: true,
         headless: true,
         name: "chromium",

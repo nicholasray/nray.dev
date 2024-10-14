@@ -12,13 +12,14 @@
     "build": "npm run optimize-svg && astro build",
     "build-prod": "npm run optimize-svg && astro build --remote",
     "preview": "astro preview",
-    "test": "npm run -s lint && astro check && tsc --noEmit && vitest run",
+    "test": "npm run -s lint && astro check && tsc --noEmit && vitest",
+    "pre-commit": "npm run test -- --run",
     "lint": "eslint --max-warnings=0 \"src/**/*.{js,astro}\"",
     "astro": "astro",
     "optimize-svg": "svgo --recursive --config=.svgo.config.cjs src/content/blog/"
   },
   "pre-commit": [
-    "test"
+    "pre-commit"
   ],
   "dependencies": {
     "@astrojs/check": "0.9.4",

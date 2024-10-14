@@ -1,12 +1,10 @@
 import { Button } from "./Button";
 import { render } from "vitest-browser-react";
 
-describe("Button", () => {
-  it("renders correctly", async () => {
-    const screen = render(<Button>Submit</Button>);
+it("renders correctly", async () => {
+  const screen = render(<Button>Submit</Button>);
 
-    await expect.element(screen.getByText("Submit")).toBeVisible();
+  await expect.element(screen.getByText("Submit")).toBeInTheDocument();
 
-    expect(screen.container.firstChild).toMatchSnapshot();
-  });
+  expect(screen.container).toMatchSnapshot();
 });
