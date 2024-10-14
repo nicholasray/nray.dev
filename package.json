@@ -10,7 +10,6 @@
     "dev": "wrangler types && astro dev",
     "start": "astro dev",
     "build": "npm run optimize-svg && astro build",
-    "build-prod": "npm run optimize-svg && astro build --remote",
     "preview": "astro preview",
     "test": "npm run -s lint && astro check && tsc --noEmit && vitest",
     "pre-commit": "npm run test -- --run",
