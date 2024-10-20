@@ -25,7 +25,7 @@ pnpm-debug.log*
 
 coverage
 __screenshots__
-.e2e/test-results/
-.e2e/playwright-report/
-.e2e/blob-report/
-.e2e/playwright/.cache/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
