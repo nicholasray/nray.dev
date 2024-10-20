@@ -2,7 +2,7 @@ import { defineConfig, sharpImageService } from "astro/config";
 import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
-import { remarkReadingTime } from "./remark/remarkReadingTime";
+import { remarkReadingTime } from "./src/remark/remarkReadingTime";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import sitemap from "@astrojs/sitemap";
