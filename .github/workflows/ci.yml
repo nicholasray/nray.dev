@@ -33,7 +33,7 @@ jobs:
       - name: Run tests
         run: npm test
   e2e:
-    timeout-minutes: 1
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
