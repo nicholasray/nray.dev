@@ -53,3 +53,11 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+  deploy:
+    needs: [test, e2e]
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST to Cloudflare
+        env:
+          CLOUDFLARE_DEPLOY_HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+        run: curl -X POST "$CLOUDFLARE_DEPLOY_HOOK"
