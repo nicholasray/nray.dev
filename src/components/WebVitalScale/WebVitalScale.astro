@@ -41,8 +41,8 @@ const { range, class: className } = Astro.props;
 </nray-web-vital-scale>
 
 <script>
-  import type { EasingGenerator } from "motion";
-  import { animate, spring } from "motion";
+  import { animate } from "motion/mini";
+  import { spring } from "motion";
 
   function getRelativeBox(parent: HTMLElement, child: HTMLElement) {
     const parentBox = parent.getBoundingClientRect();
@@ -59,14 +59,12 @@ const { range, class: className } = Astro.props;
   export class WebVitalScale extends HTMLElement {
     #value?: number;
     #score: HTMLElement;
-    #easing: EasingGenerator;
     #range: number;
 
     constructor() {
       super();
 
       this.#score = this.querySelector(".web-vital-scale__score")!;
-      this.#easing = spring({ damping: 28, stiffness: 600 });
       this.#range = Number.parseInt(this.dataset.range!);
     }
 
@@ -125,9 +123,9 @@ const { range, class: className } = Astro.props;
       animate(
         this.#score,
         {
-          x: [invert, 0],
+          transform: [`translateX(${invert}px)`, `translateX(0)`],
         },
-        { easing: this.#easing }
+        { type: spring }
       );
     }
 
@@ -140,7 +138,7 @@ const { range, class: className } = Astro.props;
           opacity: [0, 1],
           scale: [0.7, 1],
         },
-        { easing: this.#easing }
+        { type: spring }
       );
     }
   }
