@@ -14,7 +14,7 @@
     "pre-commit": "npm run test -- --run",
     "lint": "eslint --max-warnings=0 \"src/**/*.{js,astro}\"",
     "astro": "astro",
-    "optimize-svg": "svgo --recursive --config=.svgo.config.cjs src/content/blog/"
+    "optimize-svg": "svgo --recursive --config=.svgo.config.cjs src/blog/"
   },
   "pre-commit": [
     "pre-commit"

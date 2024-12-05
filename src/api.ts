@@ -1,15 +1,15 @@
 import { compareDesc } from "date-fns";
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, type CollectionEntry, render } from "astro:content";
 
 export async function getPost(entry: CollectionEntry<"blog">) {
-  const { Content, headings, remarkPluginFrontmatter } = await entry.render();
+  const { Content, headings, remarkPluginFrontmatter } = await render(entry);
 
   return {
     ...entry,
     Content,
     headings,
     readingTime: remarkPluginFrontmatter.readingTime,
-    url: `/blog/${entry.slug}/`,
+    url: `/blog/${entry.id}/`,
     data: {
       ...entry.data,
       cover: {

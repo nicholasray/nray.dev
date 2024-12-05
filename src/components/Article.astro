@@ -38,7 +38,7 @@ const { post } = Astro.props;
       }
       <div class="flex items-center gap-x-1.5">
         <FaRegEye className="h-4 w-4 flex-shrink-0" />
-        <ViewCounter slug={post.slug}>
+        <ViewCounter slug={post.id}>
           <div class="flex h-5 w-full items-center">
             <Skeleton className="h-4 w-12 rounded-lg" />
           </div>

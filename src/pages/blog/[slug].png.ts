@@ -37,7 +37,7 @@ export async function getStaticPaths() {
     return !(!data.publishedAt && import.meta.env.PROD);
   });
   return blogEntries.map((entry) => ({
-    params: { slug: entry.slug },
+    params: { slug: entry.id },
     props: { entry },
   }));
 }
