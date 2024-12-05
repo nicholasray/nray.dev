@@ -18,11 +18,8 @@ import expressiveCode from "astro-expressive-code";
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.nray.dev",
-  output: "hybrid",
+  output: "static",
   adapter: cloudflare({ platformProxy: { enabled: true } }),
-  experimental: {
-    serverIslands: true,
-  },
   trailingSlash: "always",
   prefetch: {
     prefetchAll: true,
