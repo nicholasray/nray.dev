@@ -1,0 +1,42 @@
+---
+title: How to Fix package-lock.json Merge Conflicts
+cover:
+  src: ./_assets/package-lock-merge-conflicts.png
+  alt: "3d illustration of a mouse and keyboard"
+description: A guide to fixing package-lock.json merge conflicts
+publishedAt: 2024-12-26
+---
+
+When working on a project with multiple team members, you may
+encounter merge conflicts in the project's `package-lock.json` file
+after adding dependencies.
+
+It may be tempting to resolve these conflicts manually by reviewing
+each conflict in the lock file. But it's often easier and less
+error-prone to let the package manager resolve the conflicts for you.
+
+## Example
+
+Here's an example of how to fix merge conflicts in a
+`package-lock.json` file when merging the `main` branch into another
+branch:
+
+1. Fetch the latest changes from origin:
+
+```bash
+git fetch origin
+```
+
+2. Replace package-lock.json file with the one from the `origin/main`
+   branch:
+
+```bash
+git checkout origin/main -- package-lock.json
+```
+
+3. Let npm generate the correct package-lock.json file without merge
+   conflicts
+
+```bash
+npm install
+```
