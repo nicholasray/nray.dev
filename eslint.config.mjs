@@ -4,7 +4,6 @@ import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import globals from "globals";
 import eslintPluginAstro from "eslint-plugin-astro";
-// @ts-expect-error react-hooks
 import hooksPlugin from "eslint-plugin-react-hooks";
 
 export default [
