@@ -7,18 +7,16 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import sitemap from "@astrojs/sitemap";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
-
-// https://astro.build/config
-import cloudflare from "@astrojs/cloudflare";
-
 import db from "@astrojs/db";
 
 import expressiveCode from "astro-expressive-code";
 
+import netlify from "@astrojs/netlify";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.nray.dev",
-  adapter: cloudflare({ platformProxy: { enabled: true } }),
+  adapter: netlify(),
   trailingSlash: "always",
   prefetch: {
     prefetchAll: true,
