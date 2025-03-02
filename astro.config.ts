@@ -16,7 +16,9 @@ import netlify from "@astrojs/netlify";
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.nray.dev",
-  adapter: netlify(),
+  adapter: netlify({
+    imageCDN: false,
+  }),
   trailingSlash: "always",
   prefetch: {
     prefetchAll: true,
