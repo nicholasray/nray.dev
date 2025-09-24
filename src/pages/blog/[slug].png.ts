@@ -29,7 +29,7 @@ export const GET: APIRoute = async function get({ props }) {
     .png()
     .toBuffer();
 
-  return new Response(buffer);
+  return new Response(new Uint8Array(buffer));
 };
 
 export async function getStaticPaths() {

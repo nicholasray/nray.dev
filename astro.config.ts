@@ -1,6 +1,5 @@
 import { defineConfig, sharpImageService } from "astro/config";
 import react from "@astrojs/react";
-import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import { remarkReadingTime } from "./src/remark/remarkReadingTime";
 import { rehypeHeadingIds } from "@astrojs/markdown-remark";
@@ -11,24 +10,27 @@ import db from "@astrojs/db";
 
 import expressiveCode from "astro-expressive-code";
 
-import netlify from "@astrojs/netlify";
+import tailwindcss from "@tailwindcss/vite";
+
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.nray.dev",
-  adapter: netlify({
-    imageCDN: false,
-  }),
   trailingSlash: "always",
+
   prefetch: {
     prefetchAll: true,
   },
+
   devToolbar: {
     enabled: false,
   },
+
   image: {
     service: sharpImageService(),
   },
+
   markdown: {
     syntaxHighlight: false,
     remarkPlugins: [remarkReadingTime],
@@ -49,13 +51,9 @@ export default defineConfig({
       ],
     ],
   },
+
   integrations: [
     react(),
-    tailwind({
-      // Example: Disable injecting a basic `base.css` import on every page.
-      // Useful if you need to define and/or import your own custom `base.css`.
-      applyBaseStyles: false,
-    }),
     expressiveCode({
       themes: ["ayu-dark"],
       styleOverrides: {
@@ -77,4 +75,12 @@ export default defineConfig({
     }),
     db(),
   ],
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
+
+  adapter: cloudflare({
+    imageService: "compile",
+  }),
 });

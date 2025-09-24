@@ -1,7 +1,6 @@
-:global {
-  .table-of-contents-item--highlighted {
-    > .table-of-contents-link {
-      @apply text-foreground;
-    }
-  }
+@reference "../../styles/global.css";
+
+:global(.table-of-contents-item--highlighted)
+  > :global(.table-of-contents-link) {
+  @apply text-foreground;
 }

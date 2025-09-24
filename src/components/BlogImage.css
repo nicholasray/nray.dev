@@ -1,6 +1,7 @@
+@reference "../styles/global.css";
+
 .blog-image--centered {
-  @apply mx-auto 
-    mt-0;
+  @apply mx-auto mt-0;
 }
 
 .blog-image--full-width {

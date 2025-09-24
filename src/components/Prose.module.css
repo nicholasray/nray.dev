@@ -1,3 +1,5 @@
+@reference "../styles/global.css";
+
 .prose {
   --tw-prose-headings: #18181b;
   --tw-prose-links: #18181b;
@@ -31,7 +33,7 @@
 }
 
 .prose {
-  @apply text-base font-normal leading-[1.75] text-foreground/80 lg:text-[1.1875rem] lg:leading-[1.8];
+  @apply text-foreground/80 text-base leading-[1.75] font-normal lg:text-[1.1875rem] lg:leading-[1.8];
 
   h1,
   h2,
@@ -67,19 +69,19 @@
   }
 
   h1 {
-    @apply mb-8 mt-0 text-4xl leading-[1.1111111] lg:mb-10 lg:text-5xl lg:leading-none;
+    @apply mt-0 mb-8 text-4xl leading-[1.1111111] lg:mb-10 lg:text-5xl lg:leading-none;
   }
 
   h2 {
-    @apply mb-6 mt-12 text-2xl leading-[1.3333333] lg:mb-8 lg:mt-14 lg:text-3xl lg:leading-[1.3333333];
+    @apply mt-12 mb-6 text-2xl leading-[1.3333333] lg:mt-14 lg:mb-8 lg:text-3xl lg:leading-[1.3333333];
   }
 
   h3 {
-    @apply mb-3 text-xl leading-[1.6] lg:mb-4 lg:mt-10 lg:text-2xl lg:leading-normal;
+    @apply mb-3 text-xl leading-[1.6] lg:mt-10 lg:mb-4 lg:text-2xl lg:leading-normal;
   }
 
   h4 {
-    @apply mb-2 mt-6 leading-normal lg:mb-2 lg:mt-8 lg:leading-[1.5555556];
+    @apply mt-6 mb-2 leading-normal lg:mt-8 lg:mb-2 lg:leading-[1.5555556];
   }
 
   figure {
@@ -115,7 +117,7 @@
   }
 
   code {
-    @apply text-sm font-semibold leading-[inherit] text-[var(--tw-prose-code)] lg:text-base lg:leading-[1.5];
+    @apply text-sm leading-[inherit] font-semibold text-[var(--tw-prose-code)] lg:text-base lg:leading-[1.5];
 
     &:before {
       content: "`";
@@ -188,7 +190,7 @@
   }
 
   > :last-child {
-    @apply mb-0 !important;
+    @apply !mb-0;
   }
 
   .figure-item {
@@ -207,32 +209,27 @@
   :global(.expressive-code) {
     @apply -mx-4 my-8 md:-mx-6;
 
-    --ec-frm-edBg: theme(colors.slate.900);
-    --ec-frm-trmBg: theme(colors.slate.900);
-    --ec-frm-edActTabBg: theme(colors.slate.900);
+    --ec-frm-edBg: var(--color-slate-900);
+    --ec-frm-trmBg: var(--color-slate-900);
+    --ec-frm-edActTabBg: var(--color-slate-900);
     --ec-brdRad: 0;
     --ec-frm-edTabBrdRad: 0;
     --ec-frm-frameBoxShdCssVal: none;
-    --ec-frm-tooltipSuccessBg: theme(colors.green.600);
+    --ec-frm-tooltipSuccessBg: var(--color-green-600);
 
-    @media screen(md) {
-      --ec-brdRad: 0.5rem;
-      --ec-frm-edTabBrdRad: 0.5rem;
-    }
+    @apply md:[--ec-brdRad:0.5rem] md:[--ec-frm-edTabBrdRad:0.5rem];
 
     pre {
       @apply shadow-[inset_0_0_0_1px_#ffffff1a];
     }
   }
 
-  :global {
-    .heading-link {
-      @apply absolute -ms-8 opacity-0;
-      text-decoration-line: none;
+  :global(.heading-link) {
+    @apply absolute -ms-8 opacity-0;
+    text-decoration-line: none;
 
-      &::before {
-        content: "#";
-      }
+    &::before {
+      content: "#";
     }
   }
 }

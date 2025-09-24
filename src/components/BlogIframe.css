@@ -1,3 +1,5 @@
+@reference "../styles/global.css";
+
 .blog-iframe {
   @apply h-40 w-72;
 }

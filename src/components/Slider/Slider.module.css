@@ -1,51 +1,27 @@
+@reference "../../styles/global.css";
+
 .slider {
   --handle-size: 1.5rem;
   --track-size: 8px;
 
-  @apply cursor-pointer
-		appearance-none 
-		bg-transparent;
+  @apply cursor-pointer appearance-none bg-transparent;
   -webkit-tap-highlight-color: transparent;
 
   &::-webkit-slider-runnable-track {
-    @apply my-[calc(var(--handle-size)/2)]
-			h-[var(--track-size)]
-			w-[calc(100%-var(--handle-size))]
-			rounded-lg
-			bg-zinc-200
-			dark:bg-zinc-700/75;
+    @apply my-[calc(var(--handle-size)/2)] h-[var(--track-size)] w-[calc(100%-var(--handle-size))] rounded-lg bg-zinc-200 dark:bg-zinc-700/75;
   }
 
   &::-webkit-slider-thumb {
-    @apply h-[var(--handle-size)]
-			w-[var(--handle-size)]
-			appearance-none
-			rounded-full
-		bg-zinc-600 
-		shadow-md
-		dark:bg-zinc-200
-			dark:focus-visible:bg-zinc-500;
+    @apply h-[var(--handle-size)] w-[var(--handle-size)] appearance-none rounded-full bg-zinc-600 shadow-md dark:bg-zinc-200 dark:focus-visible:bg-zinc-500;
     -webkit-appearance: none;
     transform: translateY(calc((var(--track-size) / 2) - 50%));
   }
 
   &::-moz-range-track {
-    @apply my-[calc(var(--handle-size)/2)]
-			h-[var(--track-size)]
-			w-[calc(100%-var(--handle-size))]
-			rounded-full
-			bg-zinc-200
-			dark:bg-zinc-700;
+    @apply my-[calc(var(--handle-size)/2)] h-[var(--track-size)] w-[calc(100%-var(--handle-size))] rounded-full bg-zinc-200 dark:bg-zinc-700;
   }
 
   &::-moz-range-thumb {
-    @apply h-[var(--handle-size)]
-			w-[var(--handle-size)]
-			rounded
-			border-none
-			bg-zinc-600
-			shadow-md
-			dark:bg-zinc-200
-			dark:focus-visible:bg-zinc-500;
+    @apply h-[var(--handle-size)] w-[var(--handle-size)] rounded border-none bg-zinc-600 shadow-md dark:bg-zinc-200 dark:focus-visible:bg-zinc-500;
   }
 }
