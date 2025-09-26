@@ -73,7 +73,7 @@ export default defineConfig({
     sitemap({
       filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
     }),
-    db(),
+    db({ mode: "web" }),
   ],
 
   vite: {
