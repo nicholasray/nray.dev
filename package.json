@@ -32,7 +32,7 @@
     "@radix-ui/react-select": "2.2.6",
     "@radix-ui/react-slot": "1.2.3",
     "@tailwindcss/vite": "4.1.13",
-    "astro": "5.14.0",
+    "astro": "5.14.1",
     "astro-expressive-code": "0.41.3",
     "astro-seo": "0.8.4",
     "class-variance-authority": "0.7.1",
@@ -61,10 +61,10 @@
     "@playwright/test": "1.55.1",
     "@types/eslint__js": "9.14.0",
     "@types/node": "24.5.2",
-    "@types/react": "19.1.13",
+    "@types/react": "19.1.14",
     "@types/react-dom": "19.1.9",
     "@types/sharp": "0.32.0",
-    "@vitejs/plugin-react": "5.0.3",
+    "@vitejs/plugin-react": "5.0.4",
     "@vitest/browser": "^3.2.4",
     "@vitest/coverage-v8": "3.2.4",
     "eslint": "9.36.0",
@@ -85,7 +85,7 @@
     "typescript-plugin-css-modules": "5.2.0",
     "vitest": "3.2.4",
     "vitest-browser-react": "1.0.1",
-    "wrangler": "4.40.1"
+    "wrangler": "4.40.2"
   },
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
