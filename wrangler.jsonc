@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "my-astro-app",
+  "name": "nray-dev",
   "main": "./dist/_worker.js/index.js",
   // Update to today's date
   "compatibility_date": "2025-03-25",
@@ -12,4 +12,5 @@
   "observability": {
     "enabled": true,
   },
+  "workers_dev": true,
 }
