@@ -59,17 +59,17 @@ const { title, description, cover, updatedAt } = post.data;
   <main class="mt-8" data-slug={id}>
     <article>
       <section
-        class="mx-auto mt-8 px-4 sm:px-6 md:mt-12 md:max-w-2xl md:gap-x-10 md:px-8 lg:mt-14 lg:grid lg:max-w-5xl lg:grid-cols-[245px_minmax(0,1fr)_245px] lg:gap-x-14 xl:max-w-8xl"
+        class="xl:max-w-8xl mx-auto mt-8 px-4 sm:px-6 md:mt-12 md:max-w-2xl md:gap-x-10 md:px-8 lg:mt-14 lg:grid lg:max-w-5xl lg:grid-cols-[245px_minmax(0,1fr)_245px] lg:gap-x-14"
       >
         <div class="col-start-2 lg:col-end-[-1] xl:col-end-3">
           <h1
-            class="text-3xl font-extrabold tracking-tight text-foreground md:max-w-5xl md:text-5xl"
+            class="text-foreground text-3xl font-extrabold tracking-tight md:max-w-5xl md:text-5xl"
           >
             {title}
           </h1>
         </div>
         <div
-          class="col-start-2 mb-8 mt-4 flex items-center text-sm font-medium md:mx-auto md:mb-10 md:mt-6 md:text-base lg:col-end-[-1] lg:mx-0 lg:mb-14 lg:mt-8 xl:col-end-3"
+          class="col-start-2 mt-4 mb-8 flex items-center text-sm font-medium md:mx-auto md:mt-6 md:mb-10 md:text-base lg:col-end-[-1] lg:mx-0 lg:mt-8 lg:mb-14 xl:col-end-3"
         >
           <div class="flex w-full items-center justify-between">
             <div class="flex items-center font-medium">
@@ -103,7 +103,7 @@ const { title, description, cover, updatedAt } = post.data;
               </div>
             </div>
             <div
-              class="hidden text-muted-foreground sm:flex sm:flex-col sm:items-end"
+              class="text-muted-foreground hidden sm:flex sm:flex-col sm:items-end"
             >
               <div>
                 {readingTime}
@@ -134,7 +134,7 @@ const { title, description, cover, updatedAt } = post.data;
   import sectionObserver from "@components/TableOfContents/sectionObserver";
   import { actions } from "astro:actions";
 
-  // Wait 3 seconds before counting visit as a "view".
+  // Wait 2 seconds before counting visit as a "view".
   setTimeout(() => {
     actions.views.increment({
       slug: document.querySelector("main")!.dataset.slug!,

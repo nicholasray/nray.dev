@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import sharp from "sharp";
+import path from "node:path";
 
 export const DIMENSIONS = {
   width: 1200,
@@ -12,13 +13,16 @@ export const DIMENSIONS = {
 export const GET: APIRoute = async function get({ props }) {
   const post = props.entry;
   const input = import.meta.env.PROD
-    ? post.data.cover.src.fsPath
+    ? path.join(
+        path.resolve("dist"),
+        "_worker.js",
+        `${post.data.cover.src.src}`,
+      )
     : new URL(
         post.data.cover.src.src.slice("/@fs".length),
         "https://www.example.com",
       ).pathname;
 
-  // TODO: Don't hardcode `dist`
   const buffer = await sharp(input)
     .resize({
       width: DIMENSIONS.width,

@@ -1,5 +1,5 @@
+import { db } from "@/db/database";
 import { defineAction } from "astro:actions";
-import { db, inArray, Post, sql } from "astro:db";
 import { z } from "astro:schema";
 
 export const views = {
@@ -7,9 +7,10 @@ export const views = {
     input: z.object({ slugs: z.string().array() }),
     handler: async ({ slugs }) => {
       const data = await db
-        .select()
-        .from(Post)
-        .where(inArray(Post.slug, slugs));
+        .selectFrom("Post")
+        .selectAll()
+        .where("slug", "in", slugs)
+        .execute();
 
       const dataMap = data.reduce<Record<string, (typeof data)[0]>>(
         (data, post) => {
@@ -35,13 +36,17 @@ export const views = {
     input: z.object({ slug: z.string() }),
     handler: async ({ slug }) => {
       return db
-        .insert(Post)
+        .insertInto("Post")
         .values({ slug, viewCount: 1 })
-        .onConflictDoUpdate({
-          target: Post.slug,
-          set: { viewCount: sql`${Post.viewCount} + 1` },
-        })
-        .returning({ id: Post.id });
+        .onConflict((oc) =>
+          oc
+            .column("slug") // unique column that triggers conflict
+            .doUpdateSet((eb) => ({
+              viewCount: eb(eb.ref("viewCount"), "+", 1),
+            })),
+        )
+        .returning(["id", "viewCount"])
+        .executeTakeFirstOrThrow();
     },
   }),
 };

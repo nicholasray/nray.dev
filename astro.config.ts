@@ -6,7 +6,6 @@ import { rehypeHeadingIds } from "@astrojs/markdown-remark";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import sitemap from "@astrojs/sitemap";
 import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
-import db from "@astrojs/db";
 
 import expressiveCode from "astro-expressive-code";
 
@@ -73,7 +72,6 @@ export default defineConfig({
     sitemap({
       filter: (page) => !page.startsWith("https://www.nray.dev/rss.xml"),
     }),
-    db({ mode: "web" }),
   ],
 
   vite: {
