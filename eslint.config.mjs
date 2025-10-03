@@ -4,7 +4,7 @@ import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
 import globals from "globals";
 import eslintPluginAstro from "eslint-plugin-astro";
-import hooksPlugin from "eslint-plugin-react-hooks";
+import reactHooks from "eslint-plugin-react-hooks";
 
 export default [
   eslint.configs.recommended,
@@ -19,7 +19,7 @@ export default [
       "public/assets/js",
     ],
     plugins: {
-      "react-hooks": hooksPlugin,
+      "react-hooks": reactHooks,
     },
     languageOptions: {
       globals: {
@@ -33,7 +33,6 @@ export default [
     },
 
     rules: {
-      ...hooksPlugin.configs.recommended.rules,
       "react-hooks/rules-of-hooks": "error",
       "react-hooks/exhaustive-deps": "error",
       "no-undef": 0,
