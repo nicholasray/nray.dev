@@ -13,4 +13,10 @@
     "enabled": true,
   },
   "workers_dev": true,
+  "routes": [
+    {
+      "pattern": "www.nray.dev",
+      "custom_domain": true,
+    },
+  ],
 }
