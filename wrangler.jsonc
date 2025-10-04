@@ -19,7 +19,4 @@
       "custom_domain": true,
     },
   ],
-  "vars": {
-    "DATABASE_URL": "libsql://nraydev-nray.turso.io",
-  },
 }
