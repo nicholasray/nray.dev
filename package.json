@@ -7,7 +7,7 @@
     "dev": "wrangler types && concurrently --names \"DB,SERVER\" --prefix-colors \"blue,green\" \"turso dev\" \"sleep 1 && npx kysely migrate up && npx astro dev\"",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "wrangler pages dev ./dist",
+    "preview": "wrangler dev ./dist",
     "test": "npm run -s lint && astro check && tsc --noEmit && vitest run",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
