@@ -86,7 +86,6 @@ export default defineConfig({
         : undefined,
     },
   },
-
   adapter: cloudflare({
     imageService: "compile",
   }),
