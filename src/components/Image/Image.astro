@@ -24,7 +24,7 @@ const {
 
 interface Variant {
   src: ImageMetadata;
-  media?: string;
+  class?: string;
 }
 
 if (props.src.format === "svg") {
@@ -33,17 +33,19 @@ if (props.src.format === "svg") {
   props.sizes = undefined;
 }
 
-const variants: Variant[] = [{ src: props.src }];
+const variants: Variant[] = [{ src: props.src, class: className ?? undefined }];
 if (props.dark) {
-  variants[0].media = "(prefers-color-scheme: light)";
-  variants.push({ src: props.dark, media: "(prefers-color-scheme: dark)" });
+  variants[0] = { ...variants[0], class: [className, "dark:hidden"].join(" ") };
+  variants.push({
+    src: props.dark,
+    class: [className, "hidden", "dark:block"].join(" "),
+  });
 }
 
 const images = (
   await Promise.all(
     variants.flatMap(async (variant) => {
-      const formats =
-        props.src.format === "svg" ? ["svg"] : ["webp", props.src.format];
+      const formats = props.src.format === "svg" ? ["svg"] : ["avif"];
 
       return Promise.all(
         formats.map(async (format) => {
@@ -73,40 +75,29 @@ const imgAttrs = {
 
 {
   images.length > 1 ? (
-    <picture>
+    <>
       {images.map((image) => {
         return (
-          <source
+          <img
+            sizes={props.sizes}
             srcset={
               props.src.format === "svg"
                 ? image.src.src
                 : image.widths.srcSet.attribute
             }
-            media={image.media}
-            sizes={props.sizes}
-            type={
+            src={
               props.src.format === "svg"
-                ? undefined
-                : `image/${image.widths.options.format}`.replace(
-                    "image/jpg",
-                    "image/jpeg"
-                  )
+                ? images[0].src.src
+                : images[0].widths.srcSet.values[
+                    images[0].widths.srcSet.values.length - 1
+                  ].url
             }
+            class={image.class}
+            {...imgAttrs}
           />
         );
       })}
-      <img
-        class={className}
-        src={
-          props.src.format === "svg"
-            ? images[0].src.src
-            : images[images.length - 1].widths.srcSet.values[
-                images[0].widths.srcSet.values.length - 1
-              ].url
-        }
-        {...imgAttrs}
-      />
-    </picture>
+    </>
   ) : (
     <img
       src={
