@@ -9,3 +9,12 @@ declare namespace App {
     loaders: ReturnType<typeof import("./loaders/loaders").createLoaders>;
   }
 }
+
+interface ImportMetaEnv {
+  readonly DATABASE_URL: string;
+  readonly DATABASE_TOKEN: string;
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv;
+}
