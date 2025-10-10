@@ -1,0 +1,92 @@
+---
+title: "How to Automatically Switch Images for Dark Mode"
+cover:
+  src: ./_assets/dark-mode-image-switching-cover.png
+  alt: Image switching to a dark mode version
+description: Learn how to switch images based on the theme selected
+---
+
+import Image from "@components/BlogImage.astro";
+import changeImageToChangeTheme from "./_assets/change-theme-to-change-image.svg";
+import changeImageToChangeThemeDark from "./_assets/change-theme-to-change-image-dark.svg";
+
+If your images have separate light and dark mode versions, you can
+display the correct one automatically based on the website's current
+theme.
+
+<Image
+  src={changeImageToChangeTheme}
+  dark={changeImageToChangeThemeDark}
+  alt={`Rectangle with "change theme to see different image" text`}
+  caption={`Try changing this website's theme to dark mode or light mode to see a different image displayed here.`}
+/>
+
+There are two common ways to handle theme-based image switching on
+websites:
+
+## 1. Switch image based on system theme
+
+If your website only supports the system's theme setting, you can use
+the `prefers-color-scheme` CSS media feature to switch images entirely
+in HTML:
+
+```html
+<picture>
+  <!-- Light mode image -->
+  <source srcset="/light.png" media="(prefers-color-scheme: light)" />
+
+  <!-- Dark mode image -->
+  <source srcset="/dark.png" media="(prefers-color-scheme: dark)" />
+
+  <!-- Fallback (if prefers-color-scheme isn't supported) -->
+  <img src="/light.png" alt="Description of image" />
+</picture>
+```
+
+## 2. Switch image based on selector
+
+If your website allows users to toggle themes manually, for example by
+adding a dark class to the `<html>` tag, you'll need CSS rules to show
+or hide images based on the theme. Tailwind CSS provides convenient
+utility classes for this:
+
+```html
+<!-- Show image when light mode is selected, hide image when dark mode is selected. -->
+<img src="/light.png" class="dark:hidden" loading="lazy" />
+
+<!-- Show image when dark mode is selected, hide image when light mode is selected. -->
+<img src="/dark.png" class="hidden dark:block" loading="lazy" />
+```
+
+```css
+.hidden {
+  display: none;
+}
+
+/*
+ * Assumes "dark" is a class added to your <html> or <body> tag
+ * when dark mode is active.
+ */
+.dark .dark\:hidden {
+  display: none;
+}
+
+.dark .dark\:block {
+  display: block;
+}
+```
+
+We add the `loading="lazy"` attribute to each image to enable
+[lazy loading](/blog/how-to-defer-offscreen-images/). Without it, the
+browser may download every image during page load, even if it isn't
+visible. Lazy loading defers this until the image enters the viewport.
+
+<Aside heading="Lazy load images carefully">
+  Only lazy load images that are initially outside the viewport. If a
+  theme-specific image is visible "above the fold," consider eager
+  loading it. This ensures the image appears promptly and avoids
+  negatively affecting your [Largest Contentful
+  Paint](https://web.dev/articles/lcp) score. In some cases, eager
+  loading both light and dark images may be a better tradeoff than
+  delaying image rendering due to CSS loading.
+</Aside>
