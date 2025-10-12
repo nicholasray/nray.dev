@@ -73,3 +73,8 @@ const title = "Nicholas Ray";
     </section>
   </main>
 </Layout>
+
+<script>
+  // @ts-expect-error number
+  localStorage.setItem("umami.disabled", 1);
+</script>
