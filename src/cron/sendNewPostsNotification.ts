@@ -26,6 +26,12 @@ export async function sendNewPostsNotification() {
   }, new Map<string, Selectable<Notification>>());
 
   console.log("notificationMap", [...notificationMap]);
+  console.log(
+    await getEntry(
+      "blog",
+      "how-to-automatically-switch-images-for-dark-and-light-mode",
+    ),
+  );
 
   const parser = new Parser();
   const posts = (await parser.parseURL("https://www.nray.dev/rss.xml")).items
