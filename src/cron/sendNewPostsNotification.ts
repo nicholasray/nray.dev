@@ -30,7 +30,6 @@ export async function sendNewPostsNotification(env: Env) {
   const rssString = await (
     await env.ASSETS.fetch("https://www.nray.dev/rss.xml")
   ).text();
-  console.log(rssString);
   const posts = (await parser.parseString(rssString)).items
     .filter((item) => {
       console.log(item);
