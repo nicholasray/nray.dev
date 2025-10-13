@@ -14,7 +14,7 @@ export async function up(db: Kysely<DB>): Promise<void> {
     .addColumn("id", "integer", (col) => col.primaryKey().notNull())
     .addColumn("slug", "text", (col) => col.notNull().unique())
     .addColumn("created_at", "varchar(255)", (col) =>
-      col.notNull().defaultTo(`datetime('now')`),
+      col.notNull().defaultTo(`strftime('%Y-%m-%dT%H:%M:%SZ', 'now')`),
     )
     .execute();
 }

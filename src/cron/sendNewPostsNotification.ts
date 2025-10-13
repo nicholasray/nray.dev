@@ -16,7 +16,7 @@ function linkToSlug(link: string) {
   );
 }
 
-export async function sendNewPostsNotification() {
+export async function sendNewPostsNotification(env: Env) {
   console.log("beginning cron job...");
   const notificationMap = (
     await db.selectFrom("notifications").selectAll().execute()
@@ -26,7 +26,10 @@ export async function sendNewPostsNotification() {
   }, new Map<string, Selectable<Notification>>());
 
   const parser = new Parser();
-  const rssString = await (await fetch("https://www.nray.dev/rss.xml")).text();
+
+  const rssString = await (
+    await env.ASSETS.fetch("https://www.nray.dev/rss.xml")
+  ).text();
   console.log(rssString);
   const posts = (await parser.parseString(rssString)).items
     .filter((item) => {

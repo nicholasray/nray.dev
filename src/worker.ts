@@ -11,8 +11,8 @@ export function createExports(manifest: SSRManifest) {
         // @ts-expect-error known error
         return handle(manifest, app, request, env, ctx);
       },
-      async scheduled(_controller, _env, ctx) {
-        ctx.waitUntil(sendNewPostsNotification());
+      async scheduled(_controller, env, ctx) {
+        ctx.waitUntil(sendNewPostsNotification(env));
       },
     } satisfies ExportedHandler<Env>,
   };
