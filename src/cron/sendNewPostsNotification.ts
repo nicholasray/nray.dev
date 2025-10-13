@@ -17,7 +17,6 @@ function linkToSlug(link: string) {
 }
 
 export async function sendNewPostsNotification(env: Env) {
-  console.log("beginning cron job...");
   const notificationMap = (
     await db.selectFrom("notifications").selectAll().execute()
   ).reduce((notificationMap, notification) => {
@@ -32,7 +31,6 @@ export async function sendNewPostsNotification(env: Env) {
   ).text();
   const posts = (await parser.parseString(rssString)).items
     .filter((item) => {
-      console.log(item);
       return (
         new Date(item.pubDate!) > IGNORE_BEFORE_DATE &&
         !notificationMap.has(linkToSlug(item.link!))
