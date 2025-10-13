@@ -17,6 +17,7 @@ function linkToSlug(link: string) {
 }
 
 export async function sendNewPostsNotification() {
+  console.log("beginning cron job...");
   const parser = new Parser();
   const notificationMap = (
     await db.selectFrom("notifications").selectAll().execute()
@@ -24,6 +25,8 @@ export async function sendNewPostsNotification() {
     notificationMap.set(notification.slug, notification);
     return notificationMap;
   }, new Map<string, Selectable<Notification>>());
+
+  console.log(notificationMap);
 
   const posts = (await parser.parseURL("https://www.nray.dev/rss.xml")).items
     .filter((item) => {
