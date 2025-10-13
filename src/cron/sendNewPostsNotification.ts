@@ -25,17 +25,12 @@ export async function sendNewPostsNotification() {
     return notificationMap;
   }, new Map<string, Selectable<Notification>>());
 
-  console.log("notificationMap", [...notificationMap]);
-  console.log(
-    await getEntry(
-      "blog",
-      "how-to-automatically-switch-images-for-dark-and-light-mode",
-    ),
-  );
+  console.log("notification map = ", [...notificationMap]);
 
   const parser = new Parser();
   const posts = (await parser.parseURL("https://www.nray.dev/rss.xml")).items
     .filter((item) => {
+      console.log(item);
       return (
         new Date(item.pubDate!) > IGNORE_BEFORE_DATE &&
         !notificationMap.has(linkToSlug(item.link!))
