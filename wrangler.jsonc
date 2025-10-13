@@ -22,4 +22,5 @@
   "vars": {
     "DATABASE_URL": "libsql://nraydev-nray.turso.io",
   },
+  "triggers": { "crons": ["* * * * *"] },
 }
