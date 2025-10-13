@@ -6,7 +6,7 @@ import Parser from "rss-parser";
 /**
  * Ignore all posts created before this date.
  */
-const START_DATE = new Date("2025-10-08T00:00:00.000Z");
+const IGNORE_BEFORE_DATE = new Date("2025-10-08T00:00:00.000Z");
 
 function linkToSlug(link: string) {
   return link.substring(
@@ -28,7 +28,7 @@ export async function sendNewPostsNotification() {
     await parser.parseURL("https://www.nray.dev/rss.xml")
   ).items.filter((item) => {
     return (
-      new Date(item.pubDate!) > START_DATE &&
+      new Date(item.pubDate!) > IGNORE_BEFORE_DATE &&
       !notificationMap.has(linkToSlug(item.link!))
     );
   });
