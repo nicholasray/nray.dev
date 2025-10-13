@@ -25,14 +25,9 @@ export async function sendNewPostsNotification() {
     return notificationMap;
   }, new Map<string, Selectable<Notification>>());
 
-  console.log(
-    "notification map = ",
-    [...notificationMap],
-    notificationMap.size,
-  );
-
   const parser = new Parser();
-  const posts = (await parser.parseURL("https://www.nray.dev/rss.xml")).items
+  const rssString = await (await fetch("https://www.nray.dev/rss.xml")).text();
+  const posts = (await parser.parseString(rssString)).items
     .filter((item) => {
       console.log(item);
       return (
