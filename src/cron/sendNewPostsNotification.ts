@@ -35,6 +35,7 @@ export async function sendNewPostsNotification() {
     .map((feedItem) => getEntry("blog", linkToSlug(feedItem.link!)));
 
   console.log(posts);
+  return posts;
 
   // Update notifiations table with notifications that have been sent
   // await db
