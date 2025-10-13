@@ -27,6 +27,7 @@ export async function sendNewPostsNotification() {
 
   const parser = new Parser();
   const rssString = await (await fetch("https://www.nray.dev/rss.xml")).text();
+  console.log(rssString);
   const posts = (await parser.parseString(rssString)).items
     .filter((item) => {
       console.log(item);
@@ -40,7 +41,6 @@ export async function sendNewPostsNotification() {
   console.log(posts);
 
   await db.destroy();
-  return posts;
 
   // Update notifiations table with notifications that have been sent
   // await db
