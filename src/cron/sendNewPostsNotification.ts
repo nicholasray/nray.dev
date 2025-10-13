@@ -1,5 +1,6 @@
 import { db } from "@/db/database";
 import type { Notification } from "@/db/types";
+import { getEntry } from "astro:content";
 import type { Selectable } from "kysely";
 import Parser from "rss-parser";
 
@@ -24,16 +25,16 @@ export async function sendNewPostsNotification() {
     return notificationMap;
   }, new Map<string, Selectable<Notification>>());
 
-  const feedItems = (
-    await parser.parseURL("https://www.nray.dev/rss.xml")
-  ).items.filter((item) => {
-    return (
-      new Date(item.pubDate!) > IGNORE_BEFORE_DATE &&
-      !notificationMap.has(linkToSlug(item.link!))
-    );
-  });
+  const posts = (await parser.parseURL("https://www.nray.dev/rss.xml")).items
+    .filter((item) => {
+      return (
+        new Date(item.pubDate!) > IGNORE_BEFORE_DATE &&
+        !notificationMap.has(linkToSlug(item.link!))
+      );
+    })
+    .map((feedItem) => getEntry("blog", linkToSlug(feedItem.link!)));
 
-  console.log(feedItems);
+  console.log(posts);
 
   // Update notifiations table with notifications that have been sent
   // await db
