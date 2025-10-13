@@ -7,7 +7,7 @@ export const views = {
     input: z.object({ slugs: z.string().array() }),
     handler: async ({ slugs }) => {
       const data = await db
-        .selectFrom("Post")
+        .selectFrom("posts")
         .selectAll()
         .where("slug", "in", slugs)
         .execute();
@@ -36,7 +36,7 @@ export const views = {
     input: z.object({ slug: z.string() }),
     handler: async ({ slug }) => {
       return db
-        .insertInto("Post")
+        .insertInto("posts")
         .values({ slug, viewCount: 1 })
         .onConflict((oc) =>
           oc

@@ -5,17 +5,23 @@
 
 import type { ColumnType } from "kysely";
 
-export type Generated<T> =
-  T extends ColumnType<infer S, infer I, infer U>
-    ? ColumnType<S, I | undefined, U>
-    : ColumnType<T, T | undefined, T>;
+export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
+  ? ColumnType<S, I | undefined, U>
+  : ColumnType<T, T | undefined, T>;
 
-export interface Post {
-  id: Generated<number | null>;
+export interface Notifications {
+  createdAt: Generated<string>;
+  id: Generated<number>;
+  slug: string;
+}
+
+export interface Posts {
+  id: Generated<number>;
   slug: string;
   viewCount: number;
 }
 
 export interface DB {
-  Post: Post;
+  notifications: Notifications;
+  posts: Posts;
 }

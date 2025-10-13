@@ -3,13 +3,23 @@ import type { DB } from "../types";
 
 export async function up(db: Kysely<DB>): Promise<void> {
   await db.schema
-    .createTable("Post")
-    .addColumn("id", "integer", (col) => col.primaryKey())
+    .createTable("posts")
+    .addColumn("id", "integer", (col) => col.primaryKey().notNull())
     .addColumn("slug", "text", (col) => col.notNull().unique())
-    .addColumn("viewCount", "integer", (col) => col.notNull())
+    .addColumn("view_count", "integer", (col) => col.notNull())
+    .execute();
+
+  await db.schema
+    .createTable("notifications")
+    .addColumn("id", "integer", (col) => col.primaryKey().notNull())
+    .addColumn("slug", "text", (col) => col.notNull().unique())
+    .addColumn("created_at", "varchar(255)", (col) =>
+      col.notNull().defaultTo(`datetime('now')`),
+    )
     .execute();
 }
 
 export async function down(db: Kysely<DB>): Promise<void> {
-  await db.schema.dropTable("Post").execute();
+  await db.schema.dropTable("posts").execute();
+  await db.schema.dropTable("notifications").execute();
 }
