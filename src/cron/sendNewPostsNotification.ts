@@ -25,7 +25,7 @@ export async function sendNewPostsNotification() {
     return notificationMap;
   }, new Map<string, Selectable<Notification>>());
 
-  console.log(notificationMap);
+  console.log("notificationMap", [...notificationMap]);
 
   const parser = new Parser();
   const posts = (await parser.parseURL("https://www.nray.dev/rss.xml")).items
