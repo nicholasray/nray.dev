@@ -42,8 +42,6 @@ export async function sendNewPostsNotification(env: Env) {
 
   console.log(posts);
 
-  await db.destroy();
-
   // Update notifiations table with notifications that have been sent
   // await db
   //   .insertInto("notifications")
