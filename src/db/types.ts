@@ -9,19 +9,19 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
 
-export interface Notifications {
+export interface Notification {
   createdAt: Generated<string>;
   id: Generated<number>;
   slug: string;
 }
 
-export interface Posts {
+export interface Post {
   id: Generated<number>;
   slug: string;
   viewCount: number;
 }
 
 export interface DB {
-  notifications: Notifications;
-  posts: Posts;
+  notifications: Notification;
+  posts: Post;
 }

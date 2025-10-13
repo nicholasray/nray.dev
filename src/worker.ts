@@ -1,6 +1,7 @@
 import type { SSRManifest } from "astro";
 import { App } from "astro/app";
 import { handle } from "@astrojs/cloudflare/handler";
+import { sendNewPostsNotification } from "./cron/sendNewPostsNotification";
 
 export function createExports(manifest: SSRManifest) {
   const app = new App(manifest);
@@ -11,14 +12,7 @@ export function createExports(manifest: SSRManifest) {
         return handle(manifest, app, request, env, ctx);
       },
       async scheduled(_controller, _env, ctx) {
-        ctx.waitUntil(
-          new Promise<void>((resolve) => {
-            setTimeout(() => {
-              console.log("Testing cron...it works!");
-              resolve();
-            }, 5000);
-          }),
-        );
+        ctx.waitUntil(sendNewPostsNotification());
       },
     } satisfies ExportedHandler<Env>,
   };

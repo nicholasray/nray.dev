@@ -9,7 +9,7 @@
     "build": "astro build",
     "migrate": "kysely migrate:up",
     "migrate:list": "kysely migrate:list ",
-    "migrate:types": "kysely-codegen --camel-case --out-file ./src/db/types.ts",
+    "migrate:types": "kysely-codegen --camel-case --singularize --out-file ./src/db/types.ts",
     "preview": "wrangler dev",
     "test": "npm run -s lint && astro check && tsc --noEmit && vitest run",
     "test:e2e": "playwright test",
