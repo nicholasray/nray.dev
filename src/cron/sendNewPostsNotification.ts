@@ -29,14 +29,16 @@ export async function sendNewPostsNotification(env: Env) {
   const rssString = await (
     await env.ASSETS.fetch("https://www.nray.dev/rss.xml")
   ).text();
-  const posts = (await parser.parseString(rssString)).items
-    .filter((item) => {
-      return (
-        new Date(item.pubDate!) > IGNORE_BEFORE_DATE &&
-        !notificationMap.has(linkToSlug(item.link!))
-      );
-    })
-    .map((feedItem) => getEntry("blog", linkToSlug(feedItem.link!)));
+  const posts = await Promise.all(
+    (await parser.parseString(rssString)).items
+      .filter((item) => {
+        return (
+          new Date(item.pubDate!) > IGNORE_BEFORE_DATE &&
+          !notificationMap.has(linkToSlug(item.link!))
+        );
+      })
+      .map((feedItem) => getEntry("blog", linkToSlug(feedItem.link!))),
+  );
 
   console.log(posts);
 
