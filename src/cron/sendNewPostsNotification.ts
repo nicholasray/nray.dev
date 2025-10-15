@@ -47,7 +47,7 @@ export async function sendNewPostsNotification(env: Env) {
     postEntries.map((postEntry) => getPost(postEntry!)),
   );
 
-  console.log(posts);
+  console.log("posts = ", posts);
 
   // await resend.broadcasts.create({
   //   audienceId: "10bcf5f2-2907-4050-9623-673724f0a5cd",
