@@ -13,6 +13,7 @@ declare namespace App {
 interface ImportMetaEnv {
   readonly DATABASE_URL: string;
   readonly DATABASE_TOKEN: string;
+  readonly RESEND_API_KEY: string;
 }
 
 interface ImportMeta {

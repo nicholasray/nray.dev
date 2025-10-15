@@ -3,6 +3,8 @@ import type { Notification } from "@/db/types";
 import { getEntry } from "astro:content";
 import type { Selectable } from "kysely";
 import Parser from "rss-parser";
+import { Resend } from "resend";
+import { getPost } from "@/api";
 
 /**
  * Ignore all posts created before this date.
@@ -29,7 +31,7 @@ export async function sendNewPostsNotification(env: Env) {
   const rssString = await (
     await env.ASSETS.fetch("https://www.nray.dev/rss.xml")
   ).text();
-  const posts = await Promise.all(
+  const postEntries = await Promise.all(
     (await parser.parseString(rssString)).items
       .filter((item) => {
         return (
@@ -40,7 +42,20 @@ export async function sendNewPostsNotification(env: Env) {
       .map((feedItem) => getEntry("blog", linkToSlug(feedItem.link!))),
   );
 
+  new Resend(import.meta.env.RESEND_API_KEY);
+  const posts = await Promise.all(
+    postEntries.map((postEntry) => getPost(postEntry!)),
+  );
+
   console.log(posts);
+
+  // await resend.broadcasts.create({
+  //   audienceId: "10bcf5f2-2907-4050-9623-673724f0a5cd",
+  //   from: "noreply@notifications.nray.dev",
+  //   replyTo: "nray@nray.dev",
+  //   subject: `New post: ${post.data.title}`,
+  //   react: createElement(NewPost, post),
+  // });
 
   // Update notifiations table with notifications that have been sent
   // await db
