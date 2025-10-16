@@ -3,7 +3,6 @@ import type { Notification } from "@/db/types";
 import { getEntry } from "astro:content";
 import type { Selectable } from "kysely";
 import Parser from "rss-parser";
-import { Resend } from "resend";
 import { getPost } from "@/api";
 
 /**
@@ -42,20 +41,15 @@ export async function sendNewPostsNotification(env: Env) {
       .map((feedItem) => getEntry("blog", linkToSlug(feedItem.link!))),
   );
 
-  new Resend(import.meta.env.RESEND_API_KEY);
-  const posts = await Promise.all(
-    postEntries.map((postEntry) => getPost(postEntry!)),
-  );
+  if (!postEntries.length) return;
 
-  console.log("posts = ", posts);
+  const oldestPost = (
+    await Promise.all(postEntries.map((postEntry) => getPost(postEntry!)))
+  ).sort(
+    (a, b) => a.data.publishedAt!.getTime() - b.data.publishedAt!.getTime(),
+  )[0];
 
-  // await resend.broadcasts.create({
-  //   audienceId: "10bcf5f2-2907-4050-9623-673724f0a5cd",
-  //   from: "noreply@notifications.nray.dev",
-  //   replyTo: "nray@nray.dev",
-  //   subject: `New post: ${post.data.title}`,
-  //   react: createElement(NewPost, post),
-  // });
+  console.log("oldest post = ", oldestPost);
 
   // Update notifiations table with notifications that have been sent
   // await db

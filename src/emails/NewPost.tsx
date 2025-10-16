@@ -60,7 +60,7 @@ export const NewPost = ({ id, url, data }: Post) => {
               {data.description}
             </Text>
             <Button
-              className="bg-primary mt-[16px] rounded-[8px] px-[40px] py-[12px] font-semibold text-white"
+              className="bg-primary mt-[16px] rounded-[8px] px-[40px] py-[12px] font-medium text-white"
               href={url}
             >
               Read more
