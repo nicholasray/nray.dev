@@ -41,13 +41,13 @@ export async function sendNewPostsNotification(env: Env) {
       .map((feedItem) => getEntry("blog", linkToSlug(feedItem.link!))),
   );
 
-  if (!postEntries.length) return;
-
   const oldestPost = (
     await Promise.all(postEntries.map((postEntry) => getPost(postEntry!)))
   ).sort(
     (a, b) => a.data.publishedAt!.getTime() - b.data.publishedAt!.getTime(),
   )[0];
+
+  if (!oldestPost) return;
 
   console.log("oldest post = ", oldestPost);
 
