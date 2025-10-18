@@ -54,12 +54,8 @@ export async function sendNewPostsNotification(env: Env) {
   // Update notifiations table with notifications that have been sent
   // await db
   //   .insertInto("notifications")
-  //   .values(
-  //     feedItems.map((item) => {
-  //       return {
-  //         slug: linkToSlug(item.link!),
-  //       };
-  //     }),
-  //   )
+  //   .values({
+  //     slug: oldestPost.id,
+  //   })
   //   .execute();
 }

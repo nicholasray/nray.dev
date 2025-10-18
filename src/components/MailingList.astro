@@ -3,12 +3,13 @@ import { Card, CardHeader, CardContent } from "@components/Card";
 import { Button } from "@components/Button/Button";
 import { Input } from "@components/InputBox";
 
-const FORM_URL = "https://app.convertkit.com/forms/3512386/subscriptions";
+const FORM_URL =
+  "https://432deb42.sibforms.com/serve/MUIFAB2hneEABicvJsMHhoAkhWKfn9Lz-CtjiMDBOjpDAJ266WV2kzAv30d52kkhj_B0UfrfpQaGmELPxem0r9l-aS8oHrMw1nJ9dqOfSPEgmu7cwVghfQDCrIZTJJPxtjsimi7Z7iWccmjeXDb9eImmTiC-mpH0NcU5dC-Yy7o5Jqi99X0TcPr9j9cqLYCpSqKwj3tvkJLmCf4jhA==";
 ---
 
 <Card className="mt-10 md:mt-12">
   <CardHeader>
-    <p class="text-lg text-muted-foreground">
+    <p class="text-muted-foreground text-lg">
       Get new articles delivered to your email. No spam, unsubscribe anytime.
     </p>
   </CardHeader>
@@ -16,11 +17,14 @@ const FORM_URL = "https://app.convertkit.com/forms/3512386/subscriptions";
     <form method="post" action={FORM_URL} method="post" class="flex gap-x-3">
       <Input
         type="email"
-        name="email_address"
+        name="EMAIL"
         required
         aria-label="Email Address"
         placeholder="Enter email…"
       />
+      <input type="text" name="email_address_check" value="" class="hidden" />
+      <input type="hidden" name="locale" value="en" />
+      <input type="hidden" name="html_type" value="simple" />
       <Button type="submit">Subscribe</Button>
     </form>
   </CardContent>
