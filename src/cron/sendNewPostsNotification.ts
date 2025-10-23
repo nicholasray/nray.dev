@@ -47,7 +47,7 @@ async function createCampaign(post: Post) {
   const response = await fetch(url, options);
   if (!response.ok) {
     throw new Error(
-      `Response status: ${response.status}: ${await response.json()}`,
+      `Response status: ${response.status}: ${JSON.stringify(await response.json(), null, 2)}`,
     );
   }
 
@@ -66,7 +66,7 @@ async function sendCampaign(campaignId: number) {
   const response = await fetch(url, options);
   if (!response.ok) {
     throw new Error(
-      `Response status: ${response.status}: ${await response.json()}`,
+      `Response status: ${response.status}: ${JSON.stringify(await response.json(), null, 2)}`,
     );
   }
 
@@ -86,7 +86,7 @@ async function deleteCampaign(campaignId: number) {
   const response = await fetch(url, options);
   if (!response.ok) {
     throw new Error(
-      `Response status: ${response.status}: ${await response.json()}`,
+      `Response status: ${response.status}: ${JSON.stringify(await response.json(), null, 2)}`,
     );
   }
 
