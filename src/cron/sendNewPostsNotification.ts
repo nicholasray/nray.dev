@@ -44,9 +44,14 @@ async function createCampaign(post: Post) {
     }),
   };
 
-  return fetch(url, options).then((res) => res.json()) as Promise<{
-    id: number;
-  }>;
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(
+      `Response status: ${response.status}: ${await response.json()}`,
+    );
+  }
+
+  return response.json<{ id: number }>();
 }
 
 async function sendCampaign(campaignId: number) {
@@ -58,8 +63,14 @@ async function sendCampaign(campaignId: number) {
       "api-key": import.meta.env.BREVO_API_KEY,
     },
   };
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(
+      `Response status: ${response.status}: ${await response.json()}`,
+    );
+  }
 
-  return fetch(url, options).then((res) => res.json());
+  return response;
 }
 
 async function deleteCampaign(campaignId: number) {
@@ -72,7 +83,14 @@ async function deleteCampaign(campaignId: number) {
     },
   };
 
-  return fetch(url, options).then((res) => res.json());
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(
+      `Response status: ${response.status}: ${await response.json()}`,
+    );
+  }
+
+  return response;
 }
 
 export async function sendNewPostsNotification(env: Env) {
