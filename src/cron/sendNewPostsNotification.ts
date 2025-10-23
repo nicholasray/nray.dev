@@ -4,6 +4,12 @@ import { getEntry } from "astro:content";
 import type { Selectable } from "kysely";
 import Parser from "rss-parser";
 import { getPost } from "@/api";
+import { render } from "@react-email/render";
+import { createElement } from "react";
+import NewPost from "@/emails/NewPost";
+import type { Post } from "@/types";
+
+const LIST_ID = 7;
 
 /**
  * Ignore all posts created before this date.
@@ -15,6 +21,58 @@ function linkToSlug(link: string) {
     link.indexOf("/blog/") + "/blog/".length,
     link.lastIndexOf("/"),
   );
+}
+
+async function createCampaign(post: Post) {
+  const url = "https://api.brevo.com/v3/emailCampaigns";
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "content-type": "application/json",
+      "api-key": import.meta.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      name: `${new Date().toISOString()} newsletter`,
+      sender: { email: "hello@news.nray.dev" },
+      listIds: [LIST_ID],
+      htmlContent: await render(createElement(NewPost, post)),
+      inlineImageActivation: false,
+      sendAtBestTime: false,
+      abTesting: false,
+      ipWarmupEnable: false,
+    }),
+  };
+
+  return fetch(url, options).then((res) => res.json()) as Promise<{
+    id: number;
+  }>;
+}
+
+async function sendCampaign(campaignId: number) {
+  const url = `https://api.brevo.com/v3/emailCampaigns/${campaignId}/sendNow`;
+  const options = {
+    method: "POST",
+    headers: {
+      accept: "application/json",
+      "api-key": import.meta.env.BREVO_API_KEY,
+    },
+  };
+
+  return fetch(url, options).then((res) => res.json());
+}
+
+async function deleteCampaign(campaignId: number) {
+  const url = `https://api.brevo.com/v3/emailCampaigns/${campaignId}`;
+  const options = {
+    method: "DELETE",
+    headers: {
+      accept: "application/json",
+      "api-key": import.meta.env.BREVO_API_KEY,
+    },
+  };
+
+  return fetch(url, options).then((res) => res.json());
 }
 
 export async function sendNewPostsNotification(env: Env) {
@@ -49,7 +107,11 @@ export async function sendNewPostsNotification(env: Env) {
 
   if (!oldestPost) return;
 
-  console.log("oldest post = ", oldestPost);
+  const { id } = await createCampaign(oldestPost);
+  await sendCampaign(id);
+  await deleteCampaign(id);
+
+  console.log(`campaign ${id} sent`);
 
   // Update notifiations table with notifications that have been sent
   // await db
