@@ -35,6 +35,7 @@ async function createCampaign(post: Post) {
     body: JSON.stringify({
       name: `${new Date().toISOString()} newsletter`,
       sender: { email: "hello@news.nray.dev" },
+      subject: `New article: ${post.data.title}`,
       listIds: [LIST_ID],
       htmlContent: await render(createElement(NewPost, post)),
       inlineImageActivation: false,
