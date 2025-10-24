@@ -17,7 +17,6 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   site: "https://www.nray.dev",
   trailingSlash: "always",
-
   prefetch: {
     prefetchAll: true,
   },
@@ -84,6 +83,9 @@ export default defineConfig({
             "react-dom/server": "react-dom/server.edge",
           }
         : undefined,
+    },
+    build: {
+      sourcemap: true,
     },
   },
   adapter: cloudflare({
