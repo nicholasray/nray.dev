@@ -27,7 +27,7 @@ function linkToSlug(link: string) {
 async function updateCampaign(post: Post) {
   const url = `https://api.brevo.com/v3/emailCampaigns/${CAMPAIGN_ID}`;
   const options = {
-    method: "POST",
+    method: "PUT",
     headers: {
       accept: "application/json",
       "content-type": "application/json",
