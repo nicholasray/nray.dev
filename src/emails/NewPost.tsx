@@ -66,7 +66,7 @@ export const NewPost = ({ id, url, data }: Post) => {
               Read more
             </Button>
             <Button
-              className="mt-[16px] rounded-[8px] bg-indigo-600 px-[40px] py-[12px] font-semibold text-white"
+              className="bg-primary mt-[16px] rounded-[8px] px-[40px] py-[12px] font-semibold text-white"
               href={url}
             >
               Read more
