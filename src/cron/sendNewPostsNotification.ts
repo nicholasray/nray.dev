@@ -9,7 +9,6 @@ import { createElement } from "react";
 import NewPost from "@/emails/NewPost";
 import type { Post } from "@/types";
 
-const CAMPAIGN_ID = 8;
 const LIST_ID = 7;
 
 /**
@@ -24,10 +23,10 @@ function linkToSlug(link: string) {
   );
 }
 
-async function updateCampaign(post: Post) {
-  const url = `https://api.brevo.com/v3/emailCampaigns/${CAMPAIGN_ID}`;
+async function createCampaign(post: Post) {
+  const url = `https://api.brevo.com/v3/emailCampaigns`;
   const options = {
-    method: "PUT",
+    method: "POST",
     headers: {
       accept: "application/json",
       "content-type": "application/json",
@@ -52,6 +51,8 @@ async function updateCampaign(post: Post) {
       `Response status: ${response.status}: ${JSON.stringify(await response.json(), null, 2)}`,
     );
   }
+
+  return response.json<{ id: number }>();
 }
 
 async function sendCampaign(campaignId: number) {
@@ -62,6 +63,28 @@ async function sendCampaign(campaignId: number) {
       accept: "application/json",
       "api-key": import.meta.env.BREVO_API_KEY,
     },
+  };
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(
+      `Response status: ${response.status}: ${JSON.stringify(await response.json(), null, 2)}`,
+    );
+  }
+
+  return response;
+}
+
+async function archiveCampaign(campaignId: number) {
+  const url = `https://api.brevo.com/v3/emailCampaigns/${campaignId}/status`;
+  const options = {
+    method: "PUT",
+    headers: {
+      accept: "application/json",
+      "api-key": import.meta.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      status: "archive",
+    }),
   };
   const response = await fetch(url, options);
   if (!response.ok) {
@@ -105,12 +128,15 @@ export async function sendNewPostsNotification(env: Env) {
 
   if (!oldestPost) return;
 
-  console.log("updating campaign");
-  await updateCampaign(oldestPost);
-  console.log("campaign updated. sending...");
-  await sendCampaign(CAMPAIGN_ID);
+  console.log("Creating campaign");
+  const { id } = await createCampaign(oldestPost);
+  console.log("Campaign created. Sending");
+  await sendCampaign(id);
+  console.log("Campaign sent. Archiving");
+  await archiveCampaign(id);
+  console.log("Campaign archived");
 
-  console.log(`campaign ${CAMPAIGN_ID} sent`);
+  console.log(`campaign ${id} sent`);
 
   // Update notifiations table with notifications that have been sent
   // await db
