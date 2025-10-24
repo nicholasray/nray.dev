@@ -52,8 +52,6 @@ async function updateCampaign(post: Post) {
       `Response status: ${response.status}: ${JSON.stringify(await response.json(), null, 2)}`,
     );
   }
-
-  return response.json<{ id: number }>();
 }
 
 async function sendCampaign(campaignId: number) {
@@ -107,7 +105,9 @@ export async function sendNewPostsNotification(env: Env) {
 
   if (!oldestPost) return;
 
+  console.log("updating campaign");
   await updateCampaign(oldestPost);
+  console.log("campaign updated. sending...");
   await sendCampaign(CAMPAIGN_ID);
 
   console.log(`campaign ${CAMPAIGN_ID} sent`);
