@@ -107,10 +107,10 @@ export async function sendNewPostsNotification(env: Env) {
 
   if (!oldestPost) return;
 
-  const { id } = await updateCampaign(oldestPost);
-  await sendCampaign(id);
+  await updateCampaign(oldestPost);
+  await sendCampaign(CAMPAIGN_ID);
 
-  console.log(`campaign ${id} sent`);
+  console.log(`campaign ${CAMPAIGN_ID} sent`);
 
   // Update notifiations table with notifications that have been sent
   // await db
