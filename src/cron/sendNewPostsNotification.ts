@@ -9,6 +9,7 @@ import { createElement } from "react";
 import NewPost from "@/emails/NewPost";
 import type { Post } from "@/types";
 
+const CAMPAIGN_ID = 8;
 const LIST_ID = 7;
 
 /**
@@ -23,8 +24,8 @@ function linkToSlug(link: string) {
   );
 }
 
-async function createCampaign(post: Post) {
-  const url = "https://api.brevo.com/v3/emailCampaigns";
+async function updateCampaign(post: Post) {
+  const url = `https://api.brevo.com/v3/emailCampaigns/${CAMPAIGN_ID}`;
   const options = {
     method: "POST",
     headers: {
@@ -74,26 +75,6 @@ async function sendCampaign(campaignId: number) {
   return response;
 }
 
-async function deleteCampaign(campaignId: number) {
-  const url = `https://api.brevo.com/v3/emailCampaigns/${campaignId}`;
-  const options = {
-    method: "DELETE",
-    headers: {
-      accept: "application/json",
-      "api-key": import.meta.env.BREVO_API_KEY,
-    },
-  };
-
-  const response = await fetch(url, options);
-  if (!response.ok) {
-    throw new Error(
-      `Response status: ${response.status}: ${JSON.stringify(await response.json(), null, 2)}`,
-    );
-  }
-
-  return response;
-}
-
 export async function sendNewPostsNotification(env: Env) {
   const notificationMap = (
     await db.selectFrom("notifications").selectAll().execute()
@@ -126,9 +107,8 @@ export async function sendNewPostsNotification(env: Env) {
 
   if (!oldestPost) return;
 
-  const { id } = await createCampaign(oldestPost);
+  const { id } = await updateCampaign(oldestPost);
   await sendCampaign(id);
-  await deleteCampaign(id);
 
   console.log(`campaign ${id} sent`);
 
