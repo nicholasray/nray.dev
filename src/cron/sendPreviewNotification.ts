@@ -29,10 +29,11 @@ export async function job(env: Env) {
 
   for (const postEntry of postEntries) {
     const post = await getPost(postEntry);
-    console.log("Creating campaign");
+    console.log(`Creating campaign: ${post.id}`);
     const { id } = await createCampaign(post, LIST_ID);
-    console.log("Campaign created. Sending to test list");
+    console.log(`Campaign '${post.id}' created. Sending to test list`);
     await sendCampaignToTestList(id);
+    console.log(`Campaign '${post.id}' Sent to test list`);
 
     // Update notifications table with notifications that have been sent
     await db
