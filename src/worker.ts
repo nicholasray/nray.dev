@@ -2,6 +2,7 @@ import type { SSRManifest } from "astro";
 import { App } from "astro/app";
 import { handle } from "@astrojs/cloudflare/handler";
 import * as sendNewPostNotification from "./cron/sendNewPostsNotification";
+import * as sendPreviewNotification from "./cron/sendPreviewNotification";
 
 interface Job {
   cron: string;
@@ -11,6 +12,7 @@ interface Job {
 function getJobs(): Job[] {
   return [
     sendNewPostNotification,
+    sendPreviewNotification,
   ];
 }
 
