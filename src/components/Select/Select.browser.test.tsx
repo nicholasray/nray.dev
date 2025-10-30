@@ -23,7 +23,7 @@ function ThemeSelect() {
 }
 
 it("renders correctly", async () => {
-  const screen = render(<ThemeSelect />);
+  const screen = await render(<ThemeSelect />);
 
   await expect.element(screen.getByRole("combobox")).toBeInTheDocument();
 

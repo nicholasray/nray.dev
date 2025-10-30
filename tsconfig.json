@@ -23,7 +23,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "plugins": [{ "name": "typescript-plugin-css-modules" }],
-    "types": ["@vitest/browser/providers/playwright", "vitest/globals"],
+    "types": ["vitest/globals"],
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true

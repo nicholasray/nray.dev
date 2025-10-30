@@ -10,8 +10,10 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 
 export interface Notification {
+  approvedAt: string | null;
   createdAt: Generated<string>;
   id: Generated<number>;
+  sentAt: string | null;
   slug: string;
 }
 

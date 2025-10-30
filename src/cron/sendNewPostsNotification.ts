@@ -1,148 +1,48 @@
 import { db } from "@/db/database";
 import type { Notification } from "@/db/types";
-import { getEntry } from "astro:content";
 import type { Selectable } from "kysely";
-import Parser from "rss-parser";
-import { getPost } from "@/api";
-import { render } from "@react-email/render";
-import { createElement } from "react";
-import NewPost from "@/emails/NewPost";
-import type { Post } from "@/types";
+import { archiveCampaign, getCampaign, sendCampaign } from "@/lib/brevoClient";
+import { getEntry } from "astro:content";
 
-const LIST_ID = 7;
+export const cron = "*/15 * * * *";
 
-/**
- * Ignore all posts created before this date.
- */
-const IGNORE_BEFORE_DATE = new Date("2025-10-08T00:00:00.000Z");
-
-function linkToSlug(link: string) {
-  return link.substring(
-    link.indexOf("/blog/") + "/blog/".length,
-    link.lastIndexOf("/"),
-  );
-}
-
-async function createCampaign(post: Post) {
-  const url = `https://api.brevo.com/v3/emailCampaigns`;
-  const options = {
-    method: "POST",
-    headers: {
-      accept: "application/json",
-      "content-type": "application/json",
-      "api-key": import.meta.env.BREVO_API_KEY,
-    },
-    body: JSON.stringify({
-      name: `${new Date().toISOString()} newsletter`,
-      sender: { email: "hello@news.nray.dev" },
-      subject: `New article: ${post.data.title}`,
-      recipients: { listIds: [LIST_ID] },
-      htmlContent: await render(createElement(NewPost, post)),
-      inlineImageActivation: false,
-      sendAtBestTime: false,
-      abTesting: false,
-      ipWarmupEnable: false,
-    }),
-  };
-
-  const response = await fetch(url, options);
-  if (!response.ok) {
-    throw new Error(
-      `Response status: ${response.status}: ${JSON.stringify(await response.json(), null, 2)}`,
-    );
-  }
-
-  return response.json<{ id: number }>();
-}
-
-async function sendCampaign(campaignId: number) {
-  const url = `https://api.brevo.com/v3/emailCampaigns/${campaignId}/sendNow`;
-  const options = {
-    method: "POST",
-    headers: {
-      accept: "application/json",
-      "api-key": import.meta.env.BREVO_API_KEY,
-    },
-  };
-  const response = await fetch(url, options);
-  if (!response.ok) {
-    throw new Error(
-      `Response status: ${response.status}: ${JSON.stringify(await response.json(), null, 2)}`,
-    );
-  }
-
-  return response;
-}
-
-async function archiveCampaign(campaignId: number) {
-  const url = `https://api.brevo.com/v3/emailCampaigns/${campaignId}/status`;
-  const options = {
-    method: "PUT",
-    headers: {
-      accept: "application/json",
-      "api-key": import.meta.env.BREVO_API_KEY,
-    },
-    body: JSON.stringify({
-      status: "archive",
-    }),
-  };
-  const response = await fetch(url, options);
-  if (!response.ok) {
-    throw new Error(
-      `Response status: ${response.status}: ${JSON.stringify(await response.json(), null, 2)}`,
-    );
-  }
-
-  return response;
-}
-
-export async function sendNewPostsNotification(env: Env) {
+export async function job() {
   const notificationMap = (
-    await db.selectFrom("notifications").selectAll().execute()
+    await db
+      .selectFrom("notifications")
+      .selectAll()
+      .where((eb) => eb("sentAt", "is", null).and("approvedAt", "is not", null))
+      .execute()
   ).reduce((notificationMap, notification) => {
     notificationMap.set(notification.slug, notification);
     return notificationMap;
   }, new Map<string, Selectable<Notification>>());
 
-  const parser = new Parser();
-
-  const rssString = await (
-    await env.ASSETS.fetch("https://www.nray.dev/rss.xml")
-  ).text();
-  const postEntries = await Promise.all(
-    (await parser.parseString(rssString)).items
-      .filter((item) => {
-        return (
-          new Date(item.pubDate!) > IGNORE_BEFORE_DATE &&
-          !notificationMap.has(linkToSlug(item.link!))
-        );
-      })
-      .map((feedItem) => getEntry("blog", linkToSlug(feedItem.link!))),
-  );
-
   const oldestPost = (
-    await Promise.all(postEntries.map((postEntry) => getPost(postEntry!)))
-  ).sort(
-    (a, b) => a.data.publishedAt!.getTime() - b.data.publishedAt!.getTime(),
-  )[0];
+    await Promise.all(
+      notificationMap.entries().map(([slug]) => getEntry("blog", slug)),
+    )
+  )
+    .filter((entry) => !!entry)
+    .sort(
+      (a, b) => a.data.publishedAt!.getTime() - b.data.publishedAt!.getTime(),
+    )[0];
 
   if (!oldestPost) return;
 
-  console.log("Creating campaign");
-  const { id } = await createCampaign(oldestPost);
-  console.log("Campaign created. Sending");
-  await sendCampaign(id);
+  const campaign = await getCampaign(oldestPost.id);
+
+  if (!campaign) return;
+
+  await sendCampaign(campaign.id);
   console.log("Campaign sent. Archiving");
-  await archiveCampaign(id);
+  await archiveCampaign(campaign.id);
   console.log("Campaign archived");
 
-  console.log(`campaign ${id} sent`);
-
-  // Update notifiations table with notifications that have been sent
-  // await db
-  //   .insertInto("notifications")
-  //   .values({
-  //     slug: oldestPost.id,
-  //   })
-  //   .execute();
+  // Update notifications table with notifications that have been sent
+  await db
+    .updateTable("notifications")
+    .set({ sentAt: new Date().toISOString() })
+    .where("slug", "=", oldestPost.id)
+    .execute();
 }

@@ -2,6 +2,7 @@
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 import { URL } from "node:url";
+import { playwright } from "@vitest/browser-playwright";
 
 export default defineConfig({
   test: {
@@ -55,7 +56,7 @@ export default defineConfig({
             instances: [
               { browser: "chromium" },
             ],
-            provider: "playwright",
+            provider: playwright(),
           },
         },
       },

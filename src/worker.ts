@@ -1,7 +1,18 @@
 import type { SSRManifest } from "astro";
 import { App } from "astro/app";
 import { handle } from "@astrojs/cloudflare/handler";
-import { sendNewPostsNotification } from "./cron/sendNewPostsNotification";
+import * as sendNewPostNotification from "./cron/sendNewPostsNotification";
+
+interface Job {
+  cron: string;
+  job: (env: Env) => Promise<void>;
+}
+
+function getJobs(): Job[] {
+  return [
+    sendNewPostNotification,
+  ];
+}
 
 export function createExports(manifest: SSRManifest) {
   const app = new App(manifest);
@@ -11,8 +22,10 @@ export function createExports(manifest: SSRManifest) {
         // @ts-expect-error known error
         return handle(manifest, app, request, env, ctx);
       },
-      async scheduled(_controller, env, ctx) {
-        ctx.waitUntil(sendNewPostsNotification(env));
+      async scheduled(controller, env, _ctx) {
+        for (const job of getJobs()) {
+          if (job.cron === controller.cron) await job.job(env);
+        }
       },
     } satisfies ExportedHandler<Env>,
   };
