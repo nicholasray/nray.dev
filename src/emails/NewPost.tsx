@@ -45,7 +45,7 @@ export const NewPost = ({ id, url, data }: Post) => {
             alt="Cover image for blog"
             className="w-full rounded-[12px] object-cover"
             height="320"
-            src={`${ORIGIN_URL}/blog/${id}.png/`}
+            src={`${ORIGIN_URL}/blog/${id}.png${ORIGIN_URL?.includes("localhost") ? "/" : ""}`}
           />
           <Section className="mt-[32px] text-center">
             <Text className="text-primary my-[16px] text-[18px] leading-[28px] font-semibold">
