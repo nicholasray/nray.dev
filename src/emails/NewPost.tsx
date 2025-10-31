@@ -31,13 +31,6 @@ export const NewPost = ({ id, url, data }: Post) => {
       <Tailwind
         config={{
           presets: [pixelBasedPreset],
-          theme: {
-            extend: {
-              colors: {
-                primary: "hsl(222.2 47.4% 11.2%) ",
-              },
-            },
-          },
         }}
       >
         <Section className="my-[16px] p-8">
@@ -48,7 +41,7 @@ export const NewPost = ({ id, url, data }: Post) => {
             src={`${ORIGIN_URL}/blog/${id}.png${ORIGIN_URL?.includes("localhost") ? "/" : ""}`}
           />
           <Section className="mt-[32px] text-center">
-            <Text className="text-primary my-[16px] text-[18px] leading-[28px] font-semibold">
+            <Text className="my-[16px] text-[16px] leading-[28px] font-semibold text-slate-700">
               New article
             </Text>
             <Heading
