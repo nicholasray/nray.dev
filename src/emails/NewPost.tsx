@@ -1,3 +1,4 @@
+import { ORIGIN_URL } from "@/config/config";
 import type { Post } from "@/types";
 import {
   Section,
@@ -44,7 +45,7 @@ export const NewPost = ({ id, url, data }: Post) => {
             alt="Cover image for blog"
             className="w-full rounded-[12px] object-cover"
             height="320"
-            src={`https://www.nray.dev/blog/${id}.png`}
+            src={`${ORIGIN_URL}/blog/${id}.png/`}
           />
           <Section className="mt-[32px] text-center">
             <Text className="text-primary my-[16px] text-[18px] leading-[28px] font-semibold">
@@ -61,7 +62,7 @@ export const NewPost = ({ id, url, data }: Post) => {
             </Text>
             <Button
               className="mt-[16px] rounded-[8px] bg-slate-900 px-[40px] py-[12px] font-medium text-white"
-              href={url}
+              href={`${ORIGIN_URL}${url}`}
             >
               Read more
             </Button>
@@ -74,7 +75,7 @@ export const NewPost = ({ id, url, data }: Post) => {
 
 NewPost.PreviewProps = {
   id: "how-to-automatically-switch-images-for-dark-and-light-mode",
-  url: "https://www.nray.dev/blog/how-to-automatically-switch-images-for-dark-and-light-mode/",
+  url: "/blog/how-to-automatically-switch-images-for-dark-and-light-mode/",
   data: {
     title: "How to Automatically Switch Images for Dark and Light Mode",
     description:
