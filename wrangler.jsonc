@@ -23,5 +23,5 @@
     "DATABASE_URL": "libsql://nraydev-nray.turso.io",
     "ORIGIN_URL": "https://www.nray.dev",
   },
-  "triggers": { "crons": ["29 4 24 * *", "*/15 * * * *"] },
+  "triggers": { "crons": ["28 5 6 * *", "*/15 * * * *"] },
 }
