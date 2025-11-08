@@ -32,6 +32,7 @@ export async function job() {
 
   const campaign = await getCampaign(oldestPost.id);
 
+  console.log("capaign = ", campaign);
   if (!campaign) return;
 
   await sendCampaign(campaign.id);
