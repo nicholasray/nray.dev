@@ -68,7 +68,7 @@ export async function sendCampaignToTestList(id: number) {
       "api-key": import.meta.env.BREVO_API_KEY,
     },
     body: JSON.stringify({
-      emailTo: ["nray@nray.dev"],
+      emailTo: ["nrayemail@gmail.com"],
     }),
   };
 
