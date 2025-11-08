@@ -1,7 +1,7 @@
 import { db } from "@/db/database";
 import type { Notification } from "@/db/types";
 import type { Selectable } from "kysely";
-import { archiveCampaign, getCampaign, sendCampaign } from "@/lib/brevoClient";
+import { getCampaign, sendCampaign } from "@/lib/brevoClient";
 import { getEntry } from "astro:content";
 
 export const cron = "*/15 * * * *";
@@ -32,13 +32,11 @@ export async function job() {
 
   const campaign = await getCampaign(oldestPost.id);
 
-  console.log("capaign = ", campaign);
   if (!campaign) return;
 
+  console.log(`Sending campaign "${campaign.name}"`);
   await sendCampaign(campaign.id);
-  console.log("Campaign sent. Archiving");
-  await archiveCampaign(campaign.id);
-  console.log("Campaign archived");
+  console.log("Campaign sent");
 
   // Update notifications table with notifications that have been sent
   await db

@@ -98,25 +98,3 @@ export async function sendCampaign(campaignId: number) {
 
   return response;
 }
-
-export async function archiveCampaign(campaignId: number) {
-  const url = `https://api.brevo.com/v3/emailCampaigns/${campaignId}/status`;
-  const options = {
-    method: "PUT",
-    headers: {
-      accept: "application/json",
-      "api-key": import.meta.env.BREVO_API_KEY,
-    },
-    body: JSON.stringify({
-      status: "archive",
-    }),
-  };
-  const response = await fetch(url, options);
-  if (!response.ok) {
-    throw new Error(
-      `Response status: ${response.status}: ${JSON.stringify(await response.json(), null, 2)}`,
-    );
-  }
-
-  return response;
-}
