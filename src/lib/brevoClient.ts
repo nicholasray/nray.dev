@@ -20,7 +20,9 @@ export async function getCampaign(slug: string) {
     );
   }
 
-  const campaigns = await response.json<{ id: number; name: string }[]>();
+  const { campaigns } = await response.json<{
+    campaigns: { id: number; name: string }[];
+  }>();
   return campaigns.find((campaign) => campaign.name === slug);
 }
 
