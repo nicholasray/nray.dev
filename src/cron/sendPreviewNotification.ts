@@ -5,7 +5,7 @@ import { createCampaign, sendCampaignToTestList } from "@/lib/brevoClient";
 import { getEntriesFromFeed } from "@/lib/rssClient";
 import type { Selectable } from "kysely";
 
-const LIST_ID = 7;
+const LIST_ID = 6;
 /**
  * Ignore all posts created before this date.
  */

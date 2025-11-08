@@ -4,7 +4,7 @@ import type { Selectable } from "kysely";
 import { getCampaign, sendCampaign } from "@/lib/brevoClient";
 import { getEntry } from "astro:content";
 
-export const cron = "*/15 * * * *";
+export const cron = "0 17 * * 3";
 
 export async function job() {
   const notificationMap = (
