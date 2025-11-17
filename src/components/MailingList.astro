@@ -3,8 +3,7 @@ import { Card, CardHeader, CardContent } from "@components/Card";
 import { Button } from "@components/Button/Button";
 import { Input } from "@components/InputBox";
 
-const FORM_URL =
-  "https://432deb42.sibforms.com/serve/MUIFAB2hneEABicvJsMHhoAkhWKfn9Lz-CtjiMDBOjpDAJ266WV2kzAv30d52kkhj_B0UfrfpQaGmELPxem0r9l-aS8oHrMw1nJ9dqOfSPEgmu7cwVghfQDCrIZTJJPxtjsimi7Z7iWccmjeXDb9eImmTiC-mpH0NcU5dC-Yy7o5Jqi99X0TcPr9j9cqLYCpSqKwj3tvkJLmCf4jhA==";
+const FORM_URL = "https://app.kit.com/forms/8781313/subscriptions";
 ---
 
 <Card className="mt-10 md:mt-12">
@@ -17,14 +16,11 @@ const FORM_URL =
     <form method="post" action={FORM_URL} method="post" class="flex gap-x-3">
       <Input
         type="email"
-        name="EMAIL"
+        name="email_address"
         required
         aria-label="Email Address"
         placeholder="Enter email…"
       />
-      <input type="text" name="email_address_check" value="" class="hidden" />
-      <input type="hidden" name="locale" value="en" />
-      <input type="hidden" name="html_type" value="simple" />
       <Button type="submit">Subscribe</Button>
     </form>
   </CardContent>
