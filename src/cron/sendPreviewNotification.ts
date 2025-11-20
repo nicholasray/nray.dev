@@ -1,11 +1,10 @@
 import { getPost } from "@/api";
 import { db } from "@/db/database";
 import type { Notification } from "@/db/types";
-import { createCampaign, sendCampaignToTestList } from "@/lib/brevoClient";
+import { createBroadcast } from "@/lib/kitClient";
 import { getEntriesFromFeed } from "@/lib/rssClient";
 import type { Selectable } from "kysely";
 
-const LIST_ID = 6;
 /**
  * Ignore all posts created before this date.
  */
@@ -29,11 +28,8 @@ export async function job(env: Env) {
 
   for (const postEntry of postEntries) {
     const post = await getPost(postEntry);
-    console.log(`Creating campaign: ${post.id}`);
-    const { id } = await createCampaign(post, LIST_ID);
-    console.log(`Campaign '${post.id}' created. Sending to test list`);
-    await sendCampaignToTestList(id);
-    console.log(`Campaign '${post.id}' Sent to test list`);
+    console.log(`Sending broadcast to test list: ${post.id}`);
+    await createBroadcast(post);
 
     // Update notifications table with notifications that have been sent
     await db

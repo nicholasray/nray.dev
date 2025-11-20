@@ -3,6 +3,8 @@ import { render } from "@react-email/render";
 import { createElement } from "react";
 import NewPost from "@/emails/NewPost";
 
+const TEST_TAG = "12712764";
+
 export async function getCampaign(slug: string) {
   const url = `https://api.brevo.com/v3/emailCampaigns`;
   const options = {
@@ -26,25 +28,27 @@ export async function getCampaign(slug: string) {
   return campaigns.find((campaign) => campaign.name === slug);
 }
 
-export async function createCampaign(post: Post, listId: number) {
+export async function createBroadcast(post: Post) {
   const url = `https://api.brevo.com/v3/emailCampaigns`;
   const options = {
     method: "POST",
     headers: {
       accept: "application/json",
       "content-type": "application/json",
-      "api-key": import.meta.env.BREVO_API_KEY,
+      "X-Kit-Api-Key": import.meta.env.KIT_API_KEY,
     },
     body: JSON.stringify({
-      name: `${post.id}`,
-      sender: { email: "hello@news.nray.dev" },
+      content: await render(createElement(NewPost, post)),
+      description: post.id,
+      public: false,
+      email_address: null,
+      send_at: new Date().toISOString(),
       subject: `New article: ${post.data.title}`,
-      recipients: { listIds: [listId] },
-      htmlContent: await render(createElement(NewPost, post)),
-      inlineImageActivation: false,
-      sendAtBestTime: false,
-      abTesting: false,
-      ipWarmupEnable: false,
+      subscriber_filter: [
+        { all: [{ type: "segment", ids: [TEST_TAG] }], any: null, none: null },
+      ],
+      preview_text: "",
+      published_at: null,
     }),
   };
 

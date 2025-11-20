@@ -13,7 +13,7 @@ declare namespace App {
 interface ImportMetaEnv {
   readonly DATABASE_URL: string;
   readonly DATABASE_TOKEN: string;
-  readonly BREVO_API_KEY: string;
+  readonly KIT_API_KEY: string;
 }
 
 interface ImportMeta {
