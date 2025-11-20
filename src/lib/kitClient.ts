@@ -45,7 +45,7 @@ export async function createBroadcast(post: Post) {
       send_at: new Date().toISOString(),
       subject: `New article: ${post.data.title}`,
       subscriber_filter: [
-        { all: [{ type: "segment", ids: [TEST_TAG] }], any: null, none: null },
+        { all: [{ type: "tag", ids: [TEST_TAG] }], any: null, none: null },
       ],
       preview_text: "",
       published_at: null,
