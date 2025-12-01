@@ -30,6 +30,11 @@ export async function getCampaign(slug: string) {
 
 export async function createBroadcast(post: Post) {
   const url = `https://api.kit.com/v4/broadcasts`;
+
+  const content = await render(createElement(NewPost, post));
+
+  console.log(content);
+
   const options = {
     method: "POST",
     headers: {
@@ -38,7 +43,7 @@ export async function createBroadcast(post: Post) {
       "X-Kit-Api-Key": import.meta.env.KIT_API_KEY,
     },
     body: JSON.stringify({
-      content: await render(createElement(NewPost, post)),
+      content,
       description: post.id,
       public: false,
       email_address: null,
