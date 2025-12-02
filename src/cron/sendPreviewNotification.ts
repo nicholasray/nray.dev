@@ -30,7 +30,6 @@ export async function job(env: Env) {
     const post = await getPost(postEntry);
     console.log(`Sending broadcast to test list: ${post.id}`);
     await createBroadcast(post);
-
     // Update notifications table with notifications that have been sent
     await db
       .insertInto("notifications")
@@ -38,5 +37,6 @@ export async function job(env: Env) {
         slug: post.id,
       })
       .execute();
+    console.log(`Broadcast sent`);
   }
 }
