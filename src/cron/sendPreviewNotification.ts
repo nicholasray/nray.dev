@@ -29,7 +29,7 @@ export async function job(env: Env) {
   for (const postEntry of postEntries) {
     const post = await getPost(postEntry);
     console.log(`Sending broadcast to test list: ${post.id}`);
-    await createBroadcast(post);
+    await createBroadcast(post, true);
     // Update notifications table with notifications that have been sent
     await db
       .insertInto("notifications")
