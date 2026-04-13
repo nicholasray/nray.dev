@@ -135,7 +135,7 @@ function ThemeToggle() {
     >
       <SelectTrigger
         showIcon={false}
-        className="border-none text-foreground/80 hover:bg-muted hover:text-foreground"
+        className="text-foreground/80 hover:bg-muted hover:text-foreground border-none"
       >
         <RxMoon className="hidden h-5 w-5 dark:block" />
         <RxSun className="h-5 w-5 dark:hidden" />

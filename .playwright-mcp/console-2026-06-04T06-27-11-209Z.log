@@ -1,0 +1,12 @@
+[    5847ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:4321/Users/nray/Development/nray.dev/src/components/Header/ThemeToggle:0
+[    5900ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=c505be98:20102
+[    6337ms] TypeError: Failed to fetch
+    at handleAction (http://127.0.0.1:4321/node_modules/.vite/deps/astro_actions_runtime_entrypoints_client__js.js?v=4a0958ce:515:29)
+    at Proxy.action (http://127.0.0.1:4321/node_modules/.vite/deps/astro_actions_runtime_entrypoints_client__js.js?v=4a0958ce:443:16)
+    at showViews (http://127.0.0.1:4321/Users/nray/Development/nray.dev/src/components/ViewCounter/ViewCounter.astro?astro&type=script&index=0&lang.ts:11:54)
+    at http://127.0.0.1:4321/Users/nray/Development/nray.dev/src/components/ViewCounter/ViewCounter.astro?astro&type=script&index=0&lang.ts:20:7
+[    6447ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:4321/Users/nray/Development/nray.dev/src/components/Header/ThemeToggle:0
+[    6494ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=c534c26a:20102
+[    7453ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:4321/Users/nray/Development/nray.dev/src/components/Header/ThemeToggle#astro-retry=1780554438658:0
+[    7453ms] [ERROR] [astro-island] Error hydrating /Users/nray/Development/nray.dev/src/components/Header/ThemeToggle TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:4321/Users/nray/Development/nray.dev/src/components/Header/ThemeToggle#astro-retry=1780554438658 @ http://127.0.0.1:4321/:2513
+[   81353ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://127.0.0.1:4321/Users/nray/Development/nray.dev/src/components/Header/ThemeToggle:0

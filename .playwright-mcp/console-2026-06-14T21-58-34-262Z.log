@@ -1,0 +1,36 @@
+[    1563ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:20102
+[    1907ms] TypeError: Failed to fetch
+    at handleAction (http://127.0.0.1:4321/node_modules/.vite/deps/astro_actions_runtime_entrypoints_client__js.js?v=6bc24ec5:515:29)
+    at Proxy.action (http://127.0.0.1:4321/node_modules/.vite/deps/astro_actions_runtime_entrypoints_client__js.js?v=6bc24ec5:443:16)
+    at showViews (http://127.0.0.1:4321/src/components/ViewCounter/ViewCounter.astro?astro&type=script&index=0&lang.ts:11:54)
+    at http://127.0.0.1:4321/src/components/ViewCounter/ViewCounter.astro?astro&type=script&index=0&lang.ts:20:7
+[    1965ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:20102
+[    2048ms] [ERROR] Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem. @ http://127.0.0.1:4321/node_modules/.vite/deps/chunk-42LCURWG.js?v=75d14b1d:391
+[    2049ms] [ERROR] Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
+1. You might have mismatching versions of React and the renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the same app
+See https://react.dev/link/invalid-hook-call for tips about how to debug and fix this problem. @ http://127.0.0.1:4321/node_modules/.vite/deps/chunk-42LCURWG.js?v=75d14b1d:391
+[    2050ms] TypeError: Cannot read properties of null (reading 'useState')
+    at exports.useState (http://127.0.0.1:4321/node_modules/.vite/deps/chunk-42LCURWG.js?v=75d14b1d:959:35)
+    at ThemeToggle (http://127.0.0.1:4321/src/components/Header/ThemeToggle.tsx:43:29)
+    at Object.react_stack_bottom_frame (http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:18509:20)
+    at renderWithHooks (http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:5654:24)
+    at updateFunctionComponent (http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:7475:21)
+    at beginWork (http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:8525:20)
+    at runWithFiberInDEV (http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:997:72)
+    at performUnitOfWork (http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:12561:98)
+    at workLoopSync (http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:12424:43)
+    at renderRootSync (http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:12408:13)
+[    2050ms] [WARNING] %s
+
+%s
+ An error occurred in the <ThemeToggle> component. Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://react.dev/link/error-boundaries to learn more about error boundaries. @ http://127.0.0.1:4321/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:6965
+[    2362ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://127.0.0.1:4321/_actions/views.getBySlugs/:0
+[    2362ms] [ERROR] _ActionError: Network connection lost. @ http://127.0.0.1:4321/src/components/ViewCounter/ViewCounter.astro?astro&type=script&index=0&lang.ts:12
+[    4083ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://127.0.0.1:4321/_actions/views.increment/:0

@@ -1,0 +1,17 @@
+- banner [ref=e3]:
+  - link "nray.dev home page" [ref=e4] [cursor=pointer]:
+    - /url: /
+    - generic [ref=e5]: nray.dev home page
+    - img [ref=e6]
+  - navigation [ref=e8]:
+    - list [ref=e9]:
+      - listitem [ref=e10]:
+        - link "Posts" [ref=e11] [cursor=pointer]:
+          - /url: /blog/
+      - listitem [ref=e12]:
+        - link "Review" [ref=e13] [cursor=pointer]:
+          - /url: /launch-sanity-check/
+      - listitem [ref=e14]:
+        - link "About" [ref=e15] [cursor=pointer]:
+          - /url: /about/
+      - listitem
