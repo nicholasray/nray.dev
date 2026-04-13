@@ -1,0 +1,217 @@
+---
+title: How DataLoader Simplifies Deep JSON Hydration
+cover:
+  src: "./_assets/how-dataloader-simplifies-deep-json-hydration.png"
+  alt: "Illustration of DataLoader batching"
+description:
+  "Stop N+1 queries in deep JSON. Use DataLoader to batch id lookups,
+  even without GraphQL "
+publishedAt: 2026-04-12
+---
+
+[DataLoader](https://github.com/graphql/dataloader), a utility that
+batches data requests to avoid the
+[N + 1 problem](https://medium.com/databases-in-simple-words/the-n-1-database-query-problem-a-simple-explanation-and-solutions-ef11751aef8a),
+is often used in with GraphQL. But it can be useful even when you're
+not using GraphQL. Let's see how.
+
+## The problem and the naive solution
+
+Imagine you have a large JSON document like the following:
+
+```json
+[
+  {
+    "id": "post-1",
+    "title": "Getting Started with DataLoader",
+    "authorId": "user-123",
+    "comments": [
+      {
+        "id": "comment-1",
+        "text": "Great article!",
+        "authorId": "user-456"
+      },
+      {
+        "id": "comment-2",
+        "text": "Thanks for sharing",
+        "authorId": "user-789"
+      }
+    ]
+  },
+  {
+    "id": "post-2",
+    "title": "Advanced Batching Techniques",
+    "authorId": "user-456",
+    "comments": [
+      {
+        "id": "comment-3",
+        "text": "Helpful!",
+        "authorId": "user-123"
+      }
+    ]
+  }
+]
+```
+
+To fully hydrate this JSON, you need to transform the `authorId`s into
+full User objects, which are stored in a database. You might call a
+function to fetch a user by their id:
+
+```ts
+getUserById(id: string): Promise<User>
+```
+
+which might execute the following SQL:
+
+```sql
+SELECT * FROM users WHERE id = $1;
+```
+
+You may be tempted to use this function in the following way:
+
+```ts
+const hydratedPosts = await Promise.all(
+  posts.map(async (post) => {
+    const authorPromise = getUserById(post.authorId);
+    const commentAuthorPromises = post.comments.map((c) =>
+      getUserById(c.authorId),
+    );
+    const [postAuthor, commentAuthors] = await Promise.all([
+      authorPromise,
+      Promise.all(commentAuthorPromises),
+    ]);
+
+    return {
+      ...post,
+      author: postAuthor,
+      comments: post.comments.map((comment, idx) => ({
+        ...comment,
+        author: commentAuthors[idx],
+      })),
+    };
+  }),
+);
+```
+
+Unfortunately, this approach doesn't scale. While the queries can run
+in parallel, you're still making a separate database call for each
+`authorId` in the JSON, which can overload the database :
+
+{/* prettier-ignore */}
+```sql
+SELECT * FROM users WHERE id = 'user-123';
+SELECT * FROM users WHERE id = 'user-456';
+SELECT * FROM users WHERE id = 'user-789';
+SELECT * FROM users WHERE id = 'user-456'; -- Note this also makes duplicate queries
+SELECT * FROM users WHERE id = 'user-123';
+```
+
+{/* prettier-ignore-end */}
+
+With 100 posts and 10 comments per post, you'd make 1,100 separate
+database calls. That's the N+1 problem in action — far too many
+queries.
+
+## The solution
+
+Instead of calling `getUserById` for each id, batch requests with a
+function that accepts multiple ids:
+
+```ts
+getUsersByIds(ids: string[]): Promise<User[]>
+```
+
+and executes only _one_ SQL statement:
+
+{/* prettier-ignore */}
+```sql
+SELECT * FROM users WHERE ID IN (123, 456, 789);
+```
+
+{/* prettier-ignore-end */}
+
+You _can_ batch the ids together _without_ DataLoader easily enough to
+prevent this problem:
+
+```ts
+const userIds = new Set<string>();
+
+for (const post of posts) {
+  userIds.add(post.authorId);
+  for (const c of post.comments) userIds.add(c.authorId);
+}
+
+const users = await getUsersByIds(userIds);
+const userMap = new Map(users.map((u) => [u.id, u]));
+
+const hydratedPosts = posts.map((post) => ({
+  ...post,
+  author: userMap.get(post.authorId),
+  comments: post.comments.map((c) => ({
+    ...c,
+    author: userMap.get(c.authorId),
+  })),
+}));
+```
+
+But sometimes I find that iterating through a large JSON structure to
+collect all the ids upfront can be **too cumbersome**. I _want_ to
+write code that stays close to the naive, straightforward approach,
+but without introducing the N+1 problem.
+
+With DataLoader, this is possible. You just need to write a batch
+loading function first:
+
+```ts
+// First, create your batch loading function:
+const userLoader = new DataLoader(async (ids) =>
+  getUsersByIds(userIds),
+);
+
+// Now you can write code very similar to the naive approach.
+const hydratedPosts = await Promise.all(
+  posts.map(async (post) => {
+    const authorPromise = userLoader.load(post.authorId);
+    const commentAuthorPromises = post.comments.map((c) =>
+      userLoader.load(c.authorId),
+    );
+    const [postAuthor, commentAuthors] = await Promise.all([
+      authorPromise,
+      Promise.all(commentAuthorPromises),
+    ]);
+
+    return {
+      ...post,
+      author: postAuthor,
+      comments: post.comments.map((comment, idx) => ({
+        ...comment,
+        author: commentAuthors[idx],
+      })),
+    };
+  }),
+);
+```
+
+DataLoader collects all the `userLoader.load()` calls that occur
+within the same event loop tick and batches them together. It then
+passes the entire batch of ids to your batch loading function, which
+makes a _single_ database query via `getUsersByIds()`. This gives you
+the performance benefits of batching while keeping your code simple
+and readable.
+
+Although in this example we used DataLoader for a single code block,
+DataLoader also shines when multiple parts of your application need
+the same data. As long as `.load()` calls occur within the same event
+loop tick, DataLoader batches them together automatically — giving you
+efficient queries without coordinating between different modules.
+
+## Conclusion
+
+DataLoader is a simple way to solve the N+1 problem, and you don't
+need GraphQL to use it. By batching requests automatically within a
+single event loop tick, it lets you write clean, straightforward code
+without manually collecting IDs or coordinating queries.
+
+It works just as well for deeply nested JSON, relational data, or any
+data-heavy workflow. The next time you reach for getUserById() in a
+loop, consider using DataLoader instead.
