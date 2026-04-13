@@ -183,8 +183,8 @@ const hydratedPosts = await Promise.all(
     return {
       ...post,
       author: postAuthor,
-      comments: post.comments.map((comment, idx) => ({
-        ...comment,
+      comments: post.comments.map((c, idx) => ({
+        ...c,
         author: commentAuthors[idx],
       })),
     };
