@@ -1,10 +1,10 @@
 /// <reference types="vitest/config" />
+import { getViteConfig } from "astro/config";
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
 import { URL } from "node:url";
 import { playwright } from "@vitest/browser-playwright";
 
-export default defineConfig({
+export default getViteConfig({
   test: {
     clearMocks: true,
     projects: [
@@ -13,9 +13,7 @@ export default defineConfig({
           globals: true,
           // an example of file based convention,
           // you don't have to follow it
-          include: [
-            "src/**/*.test.ts",
-          ],
+          include: ["src/**/*.test.ts"],
           exclude: [
             "**/node_modules/**",
             "**/dist/**",
@@ -45,17 +43,13 @@ export default defineConfig({
           globals: true,
           // an example of file based convention,
           // you don't have to follow it
-          include: [
-            "src/**/*.browser.test.ts(x)",
-          ],
+          include: ["src/**/*.browser.test.ts(x)"],
           name: "browser",
           browser: {
             screenshotFailures: false,
             enabled: true,
             headless: true,
-            instances: [
-              { browser: "chromium" },
-            ],
+            instances: [{ browser: "chromium" }],
             provider: playwright(),
           },
         },
