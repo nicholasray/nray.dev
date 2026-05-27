@@ -3,7 +3,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-} from "@/components/Select/Select";
+} from "@components/Select/Select";
 import { useEffect, useState } from "react";
 import { RxMoon, RxSun } from "react-icons/rx";
 
