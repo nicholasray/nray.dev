@@ -1,14 +1,31 @@
 /// <reference types="vitest/config" />
-import { getViteConfig } from "astro/config";
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
 import { URL } from "node:url";
 import { playwright } from "@vitest/browser-playwright";
 
-export default getViteConfig({
+const aliases = {
+  "@/": new URL("./src/", import.meta.url).pathname,
+  "@src/": new URL("./src/", import.meta.url).pathname,
+  "@components/": new URL("./src/components/", import.meta.url).pathname,
+  "@pages/": new URL("./src/pages/", import.meta.url).pathname,
+  "@blog/": new URL("./src/blog/", import.meta.url).pathname,
+  "@layouts/": new URL("./src/layouts/", import.meta.url).pathname,
+  "@assets/": new URL("./src/assets/", import.meta.url).pathname,
+  "@styles/": new URL("./src/styles/", import.meta.url).pathname,
+};
+
+export default defineConfig({
+  resolve: {
+    alias: aliases,
+  },
   test: {
     clearMocks: true,
     projects: [
       {
+        resolve: {
+          alias: aliases,
+        },
         test: {
           globals: true,
           // an example of file based convention,
@@ -27,19 +44,11 @@ export default getViteConfig({
         },
       },
       {
+        resolve: {
+          alias: aliases,
+        },
         plugins: [react()],
         test: {
-          alias: {
-            "@/": new URL("./src/", import.meta.url).pathname,
-            "@src/": new URL("./src/", import.meta.url).pathname,
-            "@components/": new URL("./src/components/", import.meta.url)
-              .pathname,
-            "@pages/": new URL("./src/pages/", import.meta.url).pathname,
-            "@blog/": new URL("./src/blog/", import.meta.url).pathname,
-            "@layouts/": new URL("./src/layouts/", import.meta.url).pathname,
-            "@assets/": new URL("./src/assets/", import.meta.url).pathname,
-            "@styles/": new URL("./src/styles/", import.meta.url).pathname,
-          },
           globals: true,
           // an example of file based convention,
           // you don't have to follow it
