@@ -5,7 +5,7 @@ import avatar from "@assets/images/avatar.jpg";
 import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
 import { Image } from "@components/Image/index.astro";
-import MailingList from "@components/MailingList.astro";
+import LaunchReadinessCta from "@components/LaunchReadinessCta.astro";
 const posts = await getPosts();
 const title = "Nicholas Ray";
 ---
@@ -39,7 +39,7 @@ const title = "Nicholas Ray";
             Hi, I'm Nick Ray
           </h1>
           <p class="text-muted-foreground mt-6 text-lg lg:text-2xl">
-            I help people build fast, accessible, and engaging web apps.
+            I help founders launch fast, accessible, and reliable web apps.
           </p>
         </div>
         <div class="flex shrink-0 items-center">
@@ -52,9 +52,7 @@ const title = "Nicholas Ray";
           />
         </div>
       </div>
-      <div class="mt-10 md:mt-12">
-        <MailingList />
-      </div>
+      <LaunchReadinessCta class="mt-10" />
     </section>
     <section>
       <h2 class="text-foreground relative text-3xl font-bold tracking-tight">

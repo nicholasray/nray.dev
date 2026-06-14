@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Sample AI App Launch Readiness Review</title>
+    <style>
+      @page {
+        margin: 0.6in;
+        size: letter;
+      }
+
+      :root {
+        color: #172033;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      body {
+        margin: 0;
+        background: #ffffff;
+        font-size: 12px;
+        line-height: 1.55;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        max-width: 6.3in;
+        font-size: 33px;
+        line-height: 1.05;
+        letter-spacing: -0.01em;
+      }
+
+      h2 {
+        margin-top: 34px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #d9dee8;
+        font-size: 18px;
+      }
+
+      h3 {
+        margin-top: 18px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      ul {
+        margin: 8px 0 0;
+        padding-left: 18px;
+      }
+
+      li + li {
+        margin-top: 5px;
+      }
+
+      table {
+        width: 100%;
+        margin-top: 12px;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 8px 9px;
+        border: 1px solid #d9dee8;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #f3f6fa;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+      }
+
+      .eyebrow {
+        margin-bottom: 10px;
+        color: #596275;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .lede {
+        max-width: 6.5in;
+        margin-top: 16px;
+        color: #455166;
+        font-size: 14px;
+      }
+
+      .meta {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-top: 28px;
+      }
+
+      .meta-item {
+        min-height: 56px;
+        padding: 12px;
+        border: 1px solid #d9dee8;
+        border-radius: 8px;
+        background: #f8fafc;
+      }
+
+      .meta-label {
+        color: #596275;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+      }
+
+      .meta-value {
+        margin-top: 4px;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .verdict {
+        display: inline-flex;
+        margin-top: 22px;
+        padding: 7px 10px;
+        border-radius: 6px;
+        background: #fff3d6;
+        color: #7a4a00;
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .summary {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        margin-top: 14px;
+      }
+
+      .panel {
+        padding: 14px;
+        border: 1px solid #d9dee8;
+        border-radius: 8px;
+      }
+
+      .finding {
+        break-inside: avoid;
+        margin-top: 14px;
+        padding: 14px;
+        border: 1px solid #d9dee8;
+        border-left-width: 4px;
+        border-radius: 8px;
+      }
+
+      .blocker {
+        border-left-color: #d04437;
+      }
+
+      .high {
+        border-left-color: #d98300;
+      }
+
+      .medium {
+        border-left-color: #246bfe;
+      }
+
+      .tag {
+        display: inline-block;
+        margin-bottom: 6px;
+        padding: 3px 7px;
+        border-radius: 999px;
+        background: #edf2ff;
+        color: #234b9a;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+      }
+
+      .small {
+        color: #596275;
+        font-size: 11px;
+      }
+
+      .page-break {
+        break-before: page;
+      }
+
+      .footer {
+        margin-top: 34px;
+        padding-top: 12px;
+        border-top: 1px solid #d9dee8;
+        color: #596275;
+        font-size: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <p class="eyebrow">Sample PDF report</p>
+    <h1>AI App Launch Readiness Review</h1>
+    <p class="lede">
+      This sample shows the shape of the PDF report I send after reviewing an
+      AI-built app. The goal is to identify what could damage user trust before
+      launch and put the fixes in a practical order.
+    </p>
+
+    <div class="meta">
+      <div class="meta-item">
+        <p class="meta-label">Project</p>
+        <p class="meta-value">Customer onboarding flow</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">Scope</p>
+        <p class="meta-value">3 flows, 5 pages</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">Reviewed</p>
+        <p class="meta-value">Prototype + repo</p>
+      </div>
+      <div class="meta-item">
+        <p class="meta-label">Verdict</p>
+        <p class="meta-value">Fix before launch</p>
+      </div>
+    </div>
+
+    <p class="verdict">Verdict: Fix before launch</p>
+
+    <h2>Executive Summary</h2>
+    <div class="summary">
+      <div class="panel">
+        <h3>What is working</h3>
+        <ul>
+          <li>The core onboarding path is understandable and close to shippable.</li>
+          <li>The UI handles the happy path clearly on desktop and mobile.</li>
+          <li>The product has enough structure to fix the main risks quickly.</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>What should change first</h3>
+        <ul>
+          <li>Fix silent failures in password reset and invite acceptance.</li>
+          <li>Prevent duplicate billing confirmation requests.</li>
+          <li>Defer dashboard chart code until after the first useful screen.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>Top Findings</h2>
+    <div class="finding blocker">
+      <span class="tag">Launch blocker</span>
+      <h3>Password reset fails silently after invalid input</h3>
+      <p>
+        The form accepts invalid email input and then shows no useful error
+        after submit. A user who mistypes their email will not know whether the
+        product is broken, the account does not exist, or the reset email is
+        delayed.
+      </p>
+      <p><strong>Recommended fix:</strong> validate the input before submit,
+      show a clear error state, and include a successful submitted state that
+      does not reveal whether the account exists.</p>
+    </div>
+
+    <div class="finding blocker">
+      <span class="tag">Launch blocker</span>
+      <h3>Billing confirmation can create duplicate requests</h3>
+      <p>
+        Refreshing the confirmation page retries the billing confirmation
+        request. This is risky before launch because it can create duplicate
+        support tickets, inconsistent account state, or duplicate payment
+        provider calls.
+      </p>
+      <p><strong>Recommended fix:</strong> make the confirmation action
+      idempotent, disable repeat submits, and render a stable success page after
+      the first confirmed response.</p>
+    </div>
+
+    <div class="finding high">
+      <span class="tag">High priority</span>
+      <h3>Invite acceptance has no loading or failed state</h3>
+      <p>
+        The invite acceptance screen looks inactive while the request is in
+        flight. On slower connections, this invites double clicks and makes the
+        first-use experience feel unreliable.
+      </p>
+      <p><strong>Recommended fix:</strong> add a pending state, disable the
+      primary action while submitting, and show a retryable error when the
+      request fails.</p>
+    </div>
+
+    <div class="page-break"></div>
+
+    <h2>Performance Pass</h2>
+    <p>
+      This is not a full lab or field performance audit, but it covers the most
+      obvious launch risks: slow first load, excessive JavaScript, layout shifts,
+      sluggish interactions, and asset handling that could hurt Core Web Vitals.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Area</th>
+          <th>Observed risk</th>
+          <th>Suggested action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>JavaScript</td>
+          <td>
+            The authenticated dashboard ships the charting bundle before the
+            user sees their first task.
+          </td>
+          <td>
+            Lazy-load the chart module and render the task list first.
+          </td>
+        </tr>
+        <tr>
+          <td>Images</td>
+          <td>
+            Marketing and onboarding hero images do not reserve stable
+            dimensions, which can cause layout shifts on mobile.
+          </td>
+          <td>
+            Set explicit image dimensions or an aspect-ratio container.
+          </td>
+        </tr>
+        <tr>
+          <td>Interaction</td>
+          <td>
+            The settings page performs validation and save work on the main
+            thread after every field change.
+          </td>
+          <td>
+            Debounce validation and move expensive work out of immediate input
+            handlers.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Suggested Fix Order</h2>
+    <ol>
+      <li>Fix password reset feedback and invite acceptance error states.</li>
+      <li>Make billing confirmation idempotent.</li>
+      <li>Defer the dashboard chart bundle.</li>
+      <li>Reserve image dimensions in onboarding and marketing views.</li>
+      <li>Clean up duplicated auth checks before adding more account features.</li>
+    </ol>
+
+    <h2>Final Verdict</h2>
+    <p>
+      The app is close, but I would not launch the onboarding and billing flows
+      to real users until the two launch blockers are fixed. The remaining items
+      can be handled immediately after launch if the deadline is tight, though
+      the dashboard performance issue is worth fixing before a public demo.
+    </p>
+
+    <p class="footer">
+      Sample report by Nicholas Ray. This is illustrative only and is not a
+      security audit, compliance review, or guarantee of production readiness.
+    </p>
+  </body>
+</html>

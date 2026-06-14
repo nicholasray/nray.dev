@@ -1,0 +1,372 @@
+---
+import Layout from "@layouts/Layout.astro";
+
+const title = "AI-Built App Launch Readiness Review";
+const description =
+  "Senior launch readiness review for founders building apps with AI. Get a PDF report with prioritized fixes before launch.";
+const intakeHref = `mailto:nray@nray.dev?subject=${encodeURIComponent(
+  "AI-built app launch readiness review"
+)}&body=${encodeURIComponent(`Hi Nick,
+
+I'd like an async launch readiness review.
+
+App URL:
+Repo access option:
+What I built it with:
+What I am launching soon:
+The flows I am most worried about:
+Timeline:
+
+Thanks!`)}`;
+
+const deliverables = [
+  "A polished PDF report with prioritized findings.",
+  "Screenshots, URLs, and code references where useful.",
+  "A performance pass covering loading speed, responsiveness, and obvious Core Web Vitals risks.",
+  "A launch-readiness verdict in plain English.",
+  "Optional async follow-up by PR comments or recorded walkthrough.",
+];
+
+const packages = [
+  {
+    name: "One-Flow Review",
+    price: "$500",
+    description:
+      "Best when one specific flow makes you nervous before a demo or launch.",
+    features: [
+      "One flow or page",
+      "Lightweight performance pass",
+      "Short PDF report with fix-first recommendations",
+    ],
+    featured: false,
+  },
+  {
+    name: "Full Launch Review",
+    price: "$1,250",
+    description:
+      "Best when you want a senior pass across the main paths real users will touch.",
+    features: [
+      "Three to five flows or pages",
+      "Performance, accessibility, UX, and launch-risk review",
+      "Prioritized PDF report with a launch-readiness verdict",
+      "Email follow-up for clarification questions",
+    ],
+    featured: true,
+  },
+  {
+    name: "Review + Fix Check",
+    price: "$2,000+",
+    description:
+      "Best when you plan to fix the findings yourself and want a second senior review before launch.",
+    features: [
+      "Everything in Full Launch Review",
+      "Async review of your follow-up PR or fix branch",
+      "Comments on whether the risky issues were actually resolved",
+      "Final ship, fix-first, or pause recommendation",
+    ],
+    featured: false,
+  },
+];
+---
+
+<Layout
+  title={title}
+  description={description}
+  openGraph={{
+    basic: {
+      title,
+      type: "website",
+      image: new URL("/avatar.jpg", Astro.url),
+    },
+    image: {
+      alt: "Profile picture of Nicholas Ray",
+      height: null,
+    },
+  }}
+  twitter={{
+    card: "summary_large_image",
+  }}
+>
+  <main class="mx-auto max-w-5xl px-4 pt-12 sm:px-6 md:px-8 lg:pt-16">
+    <section class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-16">
+      <div>
+        <p class="text-muted-foreground text-sm font-semibold">
+          AI-built app launch readiness review
+        </p>
+        <h1
+          class="text-foreground mt-4 max-w-3xl text-4xl font-extrabold tracking-tight md:text-6xl"
+        >
+          Before you launch your AI-built app, I'll review the risky parts.
+        </h1>
+        <p
+          class="text-muted-foreground mt-6 max-w-2xl text-lg leading-8 md:text-xl"
+        >
+          I help solo founders and small teams building with Cursor, Claude
+          Code, Codex, and similar tools find the issues that could break trust
+          before you launch.
+        </p>
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <a
+            class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-10 items-center justify-center rounded-md px-5 text-sm font-medium shadow transition-colors"
+            href={intakeHref}
+          >
+            Start by email
+          </a>
+          <a
+            class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-10 items-center justify-center rounded-md border px-5 text-sm font-medium shadow-sm transition-colors"
+            href="#packages"
+          >
+            View packages
+          </a>
+          <a
+            class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-10 items-center justify-center rounded-md border px-5 text-sm font-medium shadow-sm transition-colors"
+            href="/sample-launch-readiness-report.pdf"
+          >
+            View sample PDF
+          </a>
+        </div>
+      </div>
+      <aside
+        class="border-border bg-muted/40 h-fit rounded-lg border p-6 lg:mt-10"
+      >
+        <h2 class="text-foreground text-lg font-bold tracking-tight">
+          What you get
+        </h2>
+        <ul class="text-muted-foreground mt-4 space-y-3 text-sm leading-6">
+          {
+            deliverables.map((deliverable) => (
+              <li class="flex gap-3">
+                <svg
+                  class="mt-0.5 h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M16.704 5.29a1 1 0 0 1 .006 1.414l-7.25 7.31a1 1 0 0 1-1.42 0L3.29 9.22a1 1 0 1 1 1.42-1.408l4.04 4.076 6.54-6.592a1 1 0 0 1 1.414-.006Z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span>{deliverable}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </aside>
+    </section>
+
+    <section class="mt-20 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+      <div>
+        <h2 class="text-foreground text-xl font-bold tracking-tight">
+          Product confidence
+        </h2>
+        <p class="text-muted-foreground mt-3 leading-7">
+          I check critical user flows, empty states, loading states, broken
+          links, confusing UX, responsive layout, and accessibility basics.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-foreground text-xl font-bold tracking-tight">
+          Web performance
+        </h2>
+        <p class="text-muted-foreground mt-3 leading-7">
+          I look for slow page loads, heavy JavaScript, poor image handling,
+          layout shifts, sluggish interactions, and obvious Core Web Vitals
+          risks before they reach real users.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-foreground text-xl font-bold tracking-tight">
+          Launch risks
+        </h2>
+        <p class="text-muted-foreground mt-3 leading-7">
+          I look for obvious problems like exposed secrets, fragile auth, unsafe
+          form handling, missing validation, dependency red flags, and broken
+          payment or account flows.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-foreground text-xl font-bold tracking-tight">
+          Maintainability
+        </h2>
+        <p class="text-muted-foreground mt-3 leading-7">
+          I call out tangled generated code, duplicated logic, brittle state,
+          unclear data flow, and places where a small cleanup would make future
+          AI-assisted changes safer.
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-20 grid gap-8 lg:grid-cols-[320px_minmax(0,1fr)]">
+      <div>
+        <p class="text-muted-foreground text-sm font-semibold">
+          Sample PDF excerpt
+        </p>
+        <h2 class="text-foreground mt-3 text-3xl font-bold tracking-tight">
+          A report you can act on.
+        </h2>
+        <p class="text-muted-foreground mt-4 leading-7">
+          The PDF separates launch blockers from everything else, so you know
+          what to fix first and what can wait.
+        </p>
+        <a
+          class="border-input bg-background hover:bg-accent hover:text-accent-foreground mt-5 inline-flex h-9 items-center justify-center rounded-md border px-4 text-sm font-medium shadow-sm transition-colors"
+          href="/sample-launch-readiness-report.pdf"
+        >
+          Open sample PDF
+        </a>
+      </div>
+      <article class="border-border rounded-lg border p-6">
+        <div
+          class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between"
+        >
+          <div>
+            <h3 class="text-foreground text-xl font-bold tracking-tight">
+              Example review summary
+            </h3>
+            <p class="text-muted-foreground mt-1 text-sm">
+              AI-built customer onboarding flow
+            </p>
+          </div>
+          <div
+            class="w-fit rounded-md bg-amber-100 px-3 py-1 text-sm font-semibold text-amber-900 dark:bg-amber-300/15 dark:text-amber-200"
+          >
+            Fix before launch
+          </div>
+        </div>
+        <div class="mt-6 space-y-5">
+          <section>
+            <h4 class="text-foreground text-sm font-bold uppercase">
+              Launch blockers
+            </h4>
+            <ul class="text-muted-foreground mt-2 space-y-2 leading-7">
+              <li>
+                Password reset accepts invalid email input and fails silently
+                after submit.
+              </li>
+              <li>
+                Billing confirmation can be refreshed and create duplicate
+                requests.
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4 class="text-foreground text-sm font-bold uppercase">
+              Performance notes
+            </h4>
+            <ul class="text-muted-foreground mt-2 space-y-2 leading-7">
+              <li>
+                The dashboard ships a large charting bundle before the user sees
+                their first task.
+              </li>
+              <li>
+                Hero images are not sized consistently, creating layout shifts
+                on slower mobile connections.
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h4 class="text-foreground text-sm font-bold uppercase">
+              High-priority fixes
+            </h4>
+            <ul class="text-muted-foreground mt-2 space-y-2 leading-7">
+              <li>
+                Add loading and error states to the invite acceptance flow.
+              </li>
+              <li>
+                Move duplicated auth checks into one server-side helper before
+                adding more account features.
+              </li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </section>
+
+    <section id="packages" class="mt-20">
+      <div class="max-w-2xl">
+        <p class="text-muted-foreground text-sm font-semibold">Packages</p>
+        <h2 class="text-foreground mt-3 text-3xl font-bold tracking-tight">
+          Fixed-scope reviews
+        </h2>
+      </div>
+      <div class="mt-8 grid gap-5 lg:grid-cols-3">
+        {
+          packages.map((packageOption) => (
+            <article
+              class:list={[
+                "rounded-lg border p-6",
+                packageOption.featured
+                  ? "border-foreground border-2"
+                  : "border-border",
+              ]}
+            >
+              <h3 class="text-foreground text-xl font-bold">
+                {packageOption.name}
+              </h3>
+              <p class="text-foreground mt-3 text-3xl font-extrabold">
+                {packageOption.price}
+              </p>
+              <p class="text-muted-foreground mt-3 leading-7">
+                {packageOption.description}
+              </p>
+              <ul class="text-muted-foreground mt-5 space-y-3 leading-7">
+                {packageOption.features.map((feature) => (
+                  <li class="flex gap-3">
+                    <svg
+                      class="mt-1 h-5 w-5 shrink-0 text-emerald-600 dark:text-emerald-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M16.704 5.29a1 1 0 0 1 .006 1.414l-7.25 7.31a1 1 0 0 1-1.42 0L3.29 9.22a1 1 0 1 1 1.42-1.408l4.04 4.076 6.54-6.592a1 1 0 0 1 1.414-.006Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="mt-20 grid gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+      <div>
+        <h2 class="text-foreground text-3xl font-bold tracking-tight">
+          This is a senior engineering review, not a formal security audit.
+        </h2>
+        <p class="text-muted-foreground mt-4 leading-7">
+          The goal is to catch practical launch risks before they become
+          customer trust problems. I will be direct about what looks risky, what
+          can wait, and what I would fix first if it were my product.
+        </p>
+        <p class="text-muted-foreground mt-4 leading-7">
+          I have 10+ years of software engineering experience, including five
+          years at Wikipedia, where I was a senior software engineer developing
+          the mobile and desktop sites used by millions of people every day.
+        </p>
+      </div>
+      <aside class="border-border bg-muted/40 h-fit rounded-lg border p-6">
+        <h2 class="text-foreground text-lg font-bold tracking-tight">
+          Start by email
+        </h2>
+        <p class="text-muted-foreground mt-3 text-sm leading-6">
+          Send the app URL, repo access option, what you built it with, the
+          flows you are worried about, and your timeline. I will reply by email.
+        </p>
+        <a
+          class="bg-primary text-primary-foreground hover:bg-primary/90 mt-5 inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium shadow transition-colors"
+          href={intakeHref}
+        >
+          Email Nick
+        </a>
+      </aside>
+    </section>
+  </main>
+</Layout>

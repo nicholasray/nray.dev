@@ -1,0 +1,34 @@
+---
+const {
+  class: className = "",
+  compact = false,
+}: {
+  class?: string;
+  compact?: boolean;
+} = Astro.props;
+---
+
+<aside
+  class:list={[
+    "border-border bg-muted/40 rounded-lg border p-6",
+    compact ? "mt-16" : "",
+    className,
+  ]}
+>
+  <p class="text-muted-foreground text-sm font-semibold">
+    AI app launch readiness review
+  </p>
+  <h2 class="text-foreground mt-3 text-2xl font-bold tracking-tight">
+    Building with AI and not sure if it is launch-ready?
+  </h2>
+  <p class="text-muted-foreground mt-3 text-base leading-7">
+    I review apps for risky launch issues and send back a prioritized PDF report
+    by email. No sales call required.
+  </p>
+  <a
+    class="bg-primary text-primary-foreground hover:bg-primary/90 mt-5 inline-flex h-9 items-center justify-center rounded-md px-4 text-sm font-medium shadow transition-colors"
+    href="/launch-readiness-review/"
+  >
+    Get a launch readiness review
+  </a>
+</aside>
