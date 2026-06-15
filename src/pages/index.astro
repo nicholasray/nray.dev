@@ -1,10 +1,11 @@
 ---
+export const prerender = false;
 import Layout from "@layouts/Layout.astro";
 import avatar from "@assets/images/avatar.jpg";
 import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
 import { Image } from "@components/Image/index.astro";
-import MailingList from "@components/MailingList.astro";
+import LaunchAuditCta from "@components/LaunchAuditCta.astro";
 const posts = await getPosts();
 const title = "Nicholas Ray";
 ---
@@ -38,10 +39,10 @@ const title = "Nicholas Ray";
             Hi, I'm Nick Ray
           </h1>
           <p class="text-muted-foreground mt-6 text-lg lg:text-2xl">
-            I help people build fast, accessible, and engaging web apps.
+            I help founders launch fast, accessible, and reliable web apps.
           </p>
         </div>
-        <div class="flex flex-shrink-0 items-center">
+        <div class="flex shrink-0 items-center">
           <Image
             class="w-[80px] rounded-full md:w-[100px]"
             src={avatar}
@@ -51,9 +52,7 @@ const title = "Nicholas Ray";
           />
         </div>
       </div>
-      <div class="mt-10 md:mt-12">
-        <MailingList />
-      </div>
+      <LaunchAuditCta class="mt-10" />
     </section>
     <section>
       <h2 class="text-foreground relative text-3xl font-bold tracking-tight">

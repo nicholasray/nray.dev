@@ -43,10 +43,16 @@ jobs:
           cache: "npm"
       - name: Install dependencies
         run: npm ci
+      - name: Install Turso CLI
+        run: |
+          curl -sSfL https://get.tur.so/install.sh | bash
+          echo "$HOME/.turso" >> "$GITHUB_PATH"
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: npm run test:e2e
+        env:
+          DATABASE_URL: http://127.0.0.1:8080
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:

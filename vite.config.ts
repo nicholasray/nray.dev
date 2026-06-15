@@ -1,21 +1,36 @@
 /// <reference types="vitest/config" />
+import { defineConfig } from "vitest/config";
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
 import { URL } from "node:url";
 import { playwright } from "@vitest/browser-playwright";
 
+const aliases = {
+  "@/": new URL("./src/", import.meta.url).pathname,
+  "@src/": new URL("./src/", import.meta.url).pathname,
+  "@components/": new URL("./src/components/", import.meta.url).pathname,
+  "@pages/": new URL("./src/pages/", import.meta.url).pathname,
+  "@blog/": new URL("./src/blog/", import.meta.url).pathname,
+  "@layouts/": new URL("./src/layouts/", import.meta.url).pathname,
+  "@assets/": new URL("./src/assets/", import.meta.url).pathname,
+  "@styles/": new URL("./src/styles/", import.meta.url).pathname,
+};
+
 export default defineConfig({
+  resolve: {
+    alias: aliases,
+  },
   test: {
     clearMocks: true,
     projects: [
       {
+        resolve: {
+          alias: aliases,
+        },
         test: {
           globals: true,
           // an example of file based convention,
           // you don't have to follow it
-          include: [
-            "src/**/*.test.ts",
-          ],
+          include: ["src/**/*.test.ts"],
           exclude: [
             "**/node_modules/**",
             "**/dist/**",
@@ -29,33 +44,21 @@ export default defineConfig({
         },
       },
       {
+        resolve: {
+          alias: aliases,
+        },
         plugins: [react()],
         test: {
-          alias: {
-            "@/": new URL("./src/", import.meta.url).pathname,
-            "@src/": new URL("./src/", import.meta.url).pathname,
-            "@components/": new URL("./src/components/", import.meta.url)
-              .pathname,
-            "@pages/": new URL("./src/pages/", import.meta.url).pathname,
-            "@blog/": new URL("./src/blog/", import.meta.url).pathname,
-            "@layouts/": new URL("./src/layouts/", import.meta.url).pathname,
-            "@assets/": new URL("./src/assets/", import.meta.url).pathname,
-            "@styles/": new URL("./src/styles/", import.meta.url).pathname,
-          },
           globals: true,
           // an example of file based convention,
           // you don't have to follow it
-          include: [
-            "src/**/*.browser.test.ts(x)",
-          ],
+          include: ["src/**/*.browser.test.ts(x)"],
           name: "browser",
           browser: {
             screenshotFailures: false,
             enabled: true,
             headless: true,
-            instances: [
-              { browser: "chromium" },
-            ],
+            instances: [{ browser: "chromium" }],
             provider: playwright(),
           },
         },
