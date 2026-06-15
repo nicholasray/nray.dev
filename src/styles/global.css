@@ -109,6 +109,12 @@
   }
 }
 
+@layer components {
+  .table-of-contents-item--highlighted > .table-of-contents-link {
+    color: var(--foreground);
+  }
+}
+
 @font-face {
   font-family: "Inter var";
   font-style: normal;
