@@ -7,6 +7,8 @@ import Article from "@components/Article.astro";
 import { Image } from "@components/Image/index.astro";
 import LaunchAuditCta from "@components/LaunchAuditCta.astro";
 const posts = await getPosts();
+const initialPostCount = 12;
+const remainingPostCount = Math.max(posts.length - initialPostCount, 0);
 const title = "Nicholas Ray";
 ---
 
@@ -30,7 +32,7 @@ const title = "Nicholas Ray";
   }}
 >
   <main
-    class="mx-auto max-w-2xl space-y-20 overflow-hidden px-4 pt-16 sm:space-y-32 sm:px-6 md:space-y-30 md:px-8 lg:pt-20"
+    class="mx-auto max-w-2xl space-y-16 overflow-hidden px-4 pt-16 sm:space-y-24 sm:px-6 md:space-y-24 md:px-8 lg:pt-20"
   >
     <section>
       <div class="flex items-center gap-x-4">
@@ -62,13 +64,46 @@ const title = "Nicholas Ray";
         class="mt-8 space-y-14 md:grid md:grid-cols-[repeat(auto-fill,minmax(350px,1fr))] md:space-y-0 md:gap-x-9 md:gap-y-16"
       >
         {
-          posts.map((post) => (
-            <li>
+          posts.map((post, index) => (
+            <li
+              hidden={index >= initialPostCount}
+              data-home-post-extra={
+                index >= initialPostCount ? "true" : undefined
+              }
+            >
               <Article post={post} />
             </li>
           ))
         }
       </ul>
+      {
+        remainingPostCount > 0 && (
+          <button
+            type="button"
+            class="border-border text-foreground hover:bg-muted mt-10 inline-flex h-9 items-center justify-center rounded-md border px-4 text-sm font-medium transition-colors"
+            data-home-posts-show-more
+          >
+            Show {remainingPostCount} more posts
+          </button>
+        )
+      }
     </section>
   </main>
 </Layout>
+
+<script>
+  const showMorePostsButton = document.querySelector<HTMLButtonElement>(
+    "[data-home-posts-show-more]",
+  );
+  const extraPosts = document.querySelectorAll<HTMLElement>(
+    "[data-home-post-extra]",
+  );
+
+  showMorePostsButton?.addEventListener("click", () => {
+    extraPosts.forEach((post) => {
+      post.hidden = false;
+    });
+
+    showMorePostsButton.hidden = true;
+  });
+</script>
