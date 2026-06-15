@@ -3,11 +3,18 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
-} from "@components/Select/Select";
+  SelectValue,
+} from "@/components/ui/select";
 import { useEffect, useState } from "react";
 import { RxMoon, RxSun } from "react-icons/rx";
 
 type Theme = "light" | "dark" | "system";
+
+const themeItems = [
+  { label: "Light", value: "light" },
+  { label: "Dark", value: "dark" },
+  { label: "System", value: "system" },
+] satisfies Array<{ label: string; value: Theme }>;
 
 function toggleMetaTags() {
   // Iterate through the relevant meta tags and change to value for dark mode.
@@ -116,35 +123,32 @@ function ThemeToggle() {
 
   return (
     <Select
+      items={themeItems}
       value={theme}
-      onValueChange={(value: Theme) => {
-        const actions = {
-          light: () => {
-            setTheme("light");
-          },
-          dark: () => {
-            setTheme("dark");
-          },
-          system: () => {
-            setTheme("system");
-          },
-        };
+      onValueChange={(value) => {
+        if (value === null || Array.isArray(value)) {
+          return;
+        }
 
-        actions[value]();
+        setTheme(value);
       }}
     >
       <SelectTrigger
+        aria-label="Toggle theme"
         showIcon={false}
         className="text-foreground/80 hover:bg-muted hover:text-foreground border-none"
       >
         <RxMoon className="hidden h-5 w-5 dark:block" />
         <RxSun className="h-5 w-5 dark:hidden" />
+        <SelectValue className="sr-only" />
         <span className="sr-only">Toggle theme</span>
       </SelectTrigger>
-      <SelectContent position="popper" align="end">
-        <SelectItem value="light">Light</SelectItem>
-        <SelectItem value="dark">Dark</SelectItem>
-        <SelectItem value="system">System</SelectItem>
+      <SelectContent alignItemWithTrigger={false} align="end" sideOffset={4}>
+        {themeItems.map((item) => (
+          <SelectItem key={item.value} value={item.value}>
+            {item.label}
+          </SelectItem>
+        ))}
       </SelectContent>
     </Select>
   );

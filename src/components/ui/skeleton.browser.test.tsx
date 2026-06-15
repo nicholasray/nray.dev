@@ -1,5 +1,6 @@
 import { render } from "vitest-browser-react";
-import { Skeleton } from "./Skeleton";
+
+import { Skeleton } from "./skeleton";
 
 it("renders correctly", async () => {
   const screen = await render(<Skeleton data-testid="skeleton" />);

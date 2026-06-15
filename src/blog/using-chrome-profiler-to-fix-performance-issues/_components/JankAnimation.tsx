@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import styles from "./Ball.module.css";
-import { Button } from "@/components/Button/Button";
+import { Button } from "@/components/ui/button";
 
 interface BallProps {
   className: string;
