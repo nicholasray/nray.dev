@@ -5,7 +5,7 @@ import avatar from "@assets/images/avatar.jpg";
 import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
 import { Image } from "@components/Image/index.astro";
-import LaunchReadinessCta from "@components/LaunchReadinessCta.astro";
+import LaunchAuditCta from "@components/LaunchAuditCta.astro";
 const posts = await getPosts();
 const title = "Nicholas Ray";
 ---
@@ -52,7 +52,7 @@ const title = "Nicholas Ray";
           />
         </div>
       </div>
-      <LaunchReadinessCta class="mt-10" />
+      <LaunchAuditCta class="mt-10" />
     </section>
     <section>
       <h2 class="text-foreground relative text-3xl font-bold tracking-tight">
