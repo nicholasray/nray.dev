@@ -7,7 +7,7 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "wrangler types && concurrently --names \"DB,SERVER\" --prefix-colors \"blue,green\" \"turso dev\" \"sleep 1 && npm run migrate && npx astro dev\"",
+    "dev": "wrangler types && concurrently --names \"DB,SERVER\" --prefix-colors \"blue,green\" \"turso dev --port 8080\" \"node scripts/wait-for-port.mjs 127.0.0.1 8080 && npm run migrate && npx astro dev\"",
     "start": "astro dev",
     "build": "astro build",
     "email": "email dev --dir ./src/emails",
