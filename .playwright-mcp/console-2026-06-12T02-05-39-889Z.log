@@ -1,8 +1,0 @@
-[     519ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:4322/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:20102
-[   33275ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:4322/Users/nray/Development/nray.dev/src/components/Header/ThemeToggle:0
-[   33276ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:4322/node_modules/.vite/deps/chunk-YY7KLOQE.js?v=6bc24ec5:20102
-[   33409ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4322/_actions/views.getBySlugs/:0
-[   33409ms] [ERROR] _ActionError: Network connection lost. @ http://localhost:4322/Users/nray/Development/nray.dev/src/components/ViewCounter/ViewCounter.astro?astro&type=script&index=0&lang.ts:12
-[   34279ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:4322/Users/nray/Development/nray.dev/src/components/Header/ThemeToggle#astro-retry=1781229974165:0
-[   34279ms] [ERROR] [astro-island] Error hydrating /Users/nray/Development/nray.dev/src/components/Header/ThemeToggle TypeError: Failed to fetch dynamically imported module: http://localhost:4322/Users/nray/Development/nray.dev/src/components/Header/ThemeToggle#astro-retry=1781229974165 @ http://localhost:4322/:2514
-[ 5892093ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:4322/@vite/client:1598
