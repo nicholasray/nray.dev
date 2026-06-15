@@ -1,31 +1,99 @@
 ---
-import Article from "@components/Article.astro";
 import Layout from "@layouts/Layout.astro";
 import { getPosts } from "@src/api";
+import { format } from "date-fns";
+
 const posts = await getPosts();
+const timelineYears = Array.from(
+  posts
+    .reduce<Map<string, typeof posts>>((groups, post) => {
+      const year = post.data.publishedAt
+        ? format(post.data.publishedAt, "yyyy")
+        : "Drafts";
+      const postsForYear = groups.get(year) ?? [];
+
+      postsForYear.push(post);
+      groups.set(year, postsForYear);
+
+      return groups;
+    }, new Map())
+    .entries(),
+).map(([year, posts]) => ({ year, posts }));
 ---
 
 <Layout title="Blog — Nicholas Ray">
-  <main>
-    <section class="mt-16">
-      <div class="mx-auto max-w-8xl px-4 sm:px-6 md:px-8">
-        <h1
-          class="text-4xl font-bold tracking-tight text-zinc-900 lg:text-5xl dark:text-white"
-        >
-          {posts.length} Posts
-        </h1>
-        <ul
-          class="mt-8 space-y-14 md:mt-12 md:grid md:grid-cols-[repeat(auto-fill,minmax(350px,1fr))] md:gap-x-9 md:gap-y-14 md:space-y-0"
-        >
-          {
-            posts.map((post) => (
-              <li>
-                <Article post={post} />
-              </li>
-            ))
-          }
-        </ul>
-      </div>
-    </section>
+  <main class="max-w-8xl mx-auto px-4 pt-16 sm:px-6 md:px-8 lg:pt-20">
+    <header class="max-w-2xl">
+      <p
+        class="text-muted-foreground text-sm font-medium tracking-wide uppercase"
+      >
+        {posts.length} Posts
+      </p>
+      <h1
+        class="text-foreground mt-3 text-4xl font-extrabold tracking-tight lg:text-5xl"
+      >
+        Blog
+      </h1>
+      <p class="text-muted-foreground mt-5 text-lg">
+        Writings about web development, web performance, frontend architecture,
+        and the details that make sites faster, more accessible, and easier to
+        maintain.
+      </p>
+    </header>
+
+    {
+      timelineYears.length > 0 && (
+        <section class="mt-12" aria-labelledby="timeline-heading">
+          <h2
+            id="timeline-heading"
+            class="text-foreground text-2xl font-bold tracking-tight"
+          >
+            Timeline
+          </h2>
+          <div class="mt-7 space-y-10">
+            {timelineYears.map(({ year, posts }) => (
+              <section
+                class="border-border grid gap-5 border-t pt-6 md:grid-cols-[120px_minmax(0,1fr)]"
+                aria-labelledby={`timeline-${year}`}
+              >
+                <h3
+                  id={`timeline-${year}`}
+                  class="text-muted-foreground text-lg font-semibold"
+                >
+                  {year}
+                </h3>
+                <ul class="divide-border divide-y">
+                  {posts.map((post) => (
+                    <li>
+                      <a
+                        href={post.url}
+                        class="group grid gap-3 py-5 sm:grid-cols-[minmax(0,1fr)_auto]"
+                      >
+                        <div>
+                          <h4 class="text-foreground text-lg font-semibold tracking-tight group-hover:underline">
+                            {post.data.title}
+                          </h4>
+                          <p class="text-muted-foreground mt-2 max-w-3xl">
+                            {post.data.description}
+                          </p>
+                        </div>
+                        {post.data.publishedAt && (
+                          <time
+                            class="text-muted-foreground text-sm whitespace-nowrap sm:pt-1"
+                            datetime={post.data.publishedAt.toISOString()}
+                          >
+                            {format(post.data.publishedAt, "LLL d")}
+                          </time>
+                        )}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+          </div>
+        </section>
+      )
+    }
   </main>
 </Layout>
