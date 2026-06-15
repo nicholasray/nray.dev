@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "shadcn/tailwind.css";
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
@@ -105,6 +106,12 @@
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
+  }
+}
+
+@layer components {
+  .table-of-contents-item--highlighted > .table-of-contents-link {
+    color: var(--foreground);
   }
 }
 

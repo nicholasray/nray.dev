@@ -11,7 +11,7 @@ import { DIMENSIONS } from "./[slug].png";
 import BlogImage from "@src/components/BlogImage.astro";
 import { Aside } from "@src/components/Aside/index.astro";
 import ViewCounter from "@/components/ViewCounter/ViewCounter.astro";
-import { Skeleton } from "@components/Skeleton/Skeleton";
+import { Skeleton } from "@/components/ui/skeleton";
 import LaunchAuditCta from "@components/LaunchAuditCta.astro";
 
 // 1. Generate a new path for every collection entry
@@ -146,12 +146,12 @@ const { title, description, cover, updatedAt } = post.data;
   }, 2000);
 
   const selectors = ["h2", "h3", "h4", "h5", "h6"].map(
-    (selector) => `.prose > ${selector}`
+    (selector) => `.prose > ${selector}`,
   );
   selectors.unshift("h1");
 
   const toc = document.querySelector(
-    "nray-table-of-contents"
+    "nray-table-of-contents",
   ) as TableOfContents;
   const observer = sectionObserver({
     elements: document.querySelectorAll(selectors.join(", ")),

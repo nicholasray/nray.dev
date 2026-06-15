@@ -3,7 +3,8 @@
 exports[`renders correctly 1`] = `
 <div>
   <div
-    class="animate-pulse rounded-md bg-primary/10"
+    class="bg-muted animate-pulse rounded-md"
+    data-slot="skeleton"
     data-testid="skeleton"
   />
 </div>
