@@ -17,7 +17,7 @@ const timelineYears = Array.from(
 
       return groups;
     }, new Map())
-    .entries(),
+    .entries()
 ).map(([year, posts]) => ({ year, posts }));
 ---
 
@@ -35,9 +35,7 @@ const timelineYears = Array.from(
         Blog
       </h1>
       <p class="text-muted-foreground mt-5 text-lg">
-        Writings about web development, web performance, frontend architecture,
-        and the details that make sites faster, more accessible, and easier to
-        maintain.
+        Writings about web development.
       </p>
     </header>
 
