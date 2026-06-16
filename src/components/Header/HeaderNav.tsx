@@ -128,39 +128,45 @@ function HeaderNav() {
         </button>
       </div>
       {isOpen ? (
-        <div
-          aria-modal="true"
-          className="bg-background text-foreground fixed inset-0 z-50 md:hidden"
-          id={mobileMenuId}
-          role="dialog"
-        >
-          <div className="box-content flex h-24 items-center justify-between px-3 pt-2 sm:px-6">
-            <MobileMenuLogo onClick={closeMenu} />
-            <button
-              ref={closeButtonRef}
-              aria-label="Close navigation menu"
-              className="text-foreground hover:bg-muted hover:text-foreground inline-flex h-12 w-12 items-center justify-center rounded-full"
-              type="button"
-              onClick={() => {
-                closeMenu();
-                menuButtonRef.current?.focus();
-              }}
-            >
-              <X aria-hidden="true" className="h-7 w-7" strokeWidth={2.5} />
-            </button>
+        <>
+          <div
+            aria-hidden="true"
+            className="bg-background/90 fixed inset-0 z-50 backdrop-blur-sm md:hidden"
+          />
+          <div
+            aria-modal="true"
+            className="text-foreground fixed inset-0 z-50 md:hidden"
+            id={mobileMenuId}
+            role="dialog"
+          >
+            <div className="box-content flex h-24 items-center justify-between px-3 pt-2 sm:px-6">
+              <MobileMenuLogo onClick={closeMenu} />
+              <button
+                ref={closeButtonRef}
+                aria-label="Close navigation menu"
+                className="text-foreground hover:bg-muted hover:text-foreground inline-flex h-12 w-12 items-center justify-center rounded-full"
+                type="button"
+                onClick={() => {
+                  closeMenu();
+                  menuButtonRef.current?.focus();
+                }}
+              >
+                <X aria-hidden="true" className="h-7 w-7" strokeWidth={2.5} />
+              </button>
+            </div>
+            <nav aria-label="Mobile navigation" className="px-3 pt-8 sm:px-6">
+              <ul className="space-y-6">
+                {navLinks.map((link) => (
+                  <MobileNavLink
+                    key={link.href}
+                    link={link}
+                    onClick={closeMenu}
+                  />
+                ))}
+              </ul>
+            </nav>
           </div>
-          <nav aria-label="Mobile navigation" className="px-3 pt-8 sm:px-6">
-            <ul className="space-y-6">
-              {navLinks.map((link) => (
-                <MobileNavLink
-                  key={link.href}
-                  link={link}
-                  onClick={closeMenu}
-                />
-              ))}
-            </ul>
-          </nav>
-        </div>
+        </>
       ) : null}
     </>
   );
