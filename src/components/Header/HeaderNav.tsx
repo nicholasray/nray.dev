@@ -101,23 +101,26 @@ function HeaderNav() {
 
   return (
     <>
-      <button
-        ref={menuButtonRef}
-        aria-controls={mobileMenuId}
-        aria-expanded={isOpen}
-        aria-label="Open navigation menu"
-        className="inline-flex h-12 w-12 items-center justify-center rounded-full text-foreground hover:bg-muted hover:text-foreground md:hidden"
-        type="button"
-        onClick={() => {
-          setIsOpen(true);
-        }}
-      >
-        <EllipsisVertical
-          aria-hidden="true"
-          className="h-5 w-5"
-          strokeWidth={2.5}
-        />
-      </button>
+      <div className="inline-flex items-center gap-1 md:hidden">
+        <ThemeToggle />
+        <button
+          ref={menuButtonRef}
+          aria-controls={mobileMenuId}
+          aria-expanded={isOpen}
+          aria-label="Open navigation menu"
+          className="inline-flex h-12 w-12 items-center justify-center rounded-full text-foreground hover:bg-muted hover:text-foreground"
+          type="button"
+          onClick={() => {
+            setIsOpen(true);
+          }}
+        >
+          <EllipsisVertical
+            aria-hidden="true"
+            className="h-5 w-5"
+            strokeWidth={2.5}
+          />
+        </button>
+      </div>
       {isOpen ? (
         <div
           aria-modal="true"
@@ -145,9 +148,6 @@ function HeaderNav() {
               {navLinks.map((link) => (
                 <MobileNavLink key={link.href} link={link} onClick={closeMenu} />
               ))}
-              <li className="pt-2">
-                <ThemeToggle />
-              </li>
             </ul>
           </nav>
         </div>

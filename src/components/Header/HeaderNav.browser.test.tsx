@@ -8,8 +8,10 @@ it("opens and closes the mobile navigation menu", async () => {
   const menuButton = screen.getByRole("button", {
     name: "Open navigation menu",
   });
+  const themeToggle = screen.getByRole("combobox", { name: "Toggle theme" });
 
   await expect.element(menuButton).toHaveAttribute("aria-expanded", "false");
+  await expect.element(themeToggle).toBeInTheDocument();
 
   await menuButton.click();
 
@@ -30,6 +32,9 @@ it("opens and closes the mobile navigation menu", async () => {
   await expect
     .element(mobileNavigation.getByRole("link", { name: "About" }))
     .toBeInTheDocument();
+  await expect
+    .element(mobileNavigation.getByRole("combobox", { name: "Toggle theme" }))
+    .not.toBeInTheDocument();
 
   await screen.getByRole("button", { name: "Close navigation menu" }).click();
 
