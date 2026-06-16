@@ -1,5 +1,6 @@
 ---
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "./ThemeToggle.tsx";
+import HeaderNav from "./HeaderNav.tsx";
 ---
 
 <header
@@ -17,8 +18,8 @@ import ThemeToggle from "./ThemeToggle";
       ></path>
     </svg>
   </a>
-  <nav>
-    <ul class="flex items-center gap-1 sm:gap-4 md:gap-8">
+  <nav aria-label="Primary navigation" class="hidden md:block">
+    <ul class="flex items-center gap-8">
       <li>
         <a
           class="text-foreground/80 hover:bg-muted hover:text-foreground block rounded-2xl px-2 py-3 sm:p-3"
@@ -42,4 +43,5 @@ import ThemeToggle from "./ThemeToggle";
       </li>
     </ul>
   </nav>
+  <HeaderNav client:load />
 </header>
