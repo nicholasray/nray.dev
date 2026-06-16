@@ -25,7 +25,7 @@ function MobileMenuLogo({ onClick }: { onClick: () => void }) {
     >
       <span className="sr-only">nray.dev home page</span>
       <svg
-        className="h-8 fill-foreground"
+        className="fill-foreground h-8"
         viewBox="0 0 281 85"
         xmlns="http://www.w3.org/2000/svg"
       >
@@ -35,11 +35,17 @@ function MobileMenuLogo({ onClick }: { onClick: () => void }) {
   );
 }
 
-function MobileNavLink({ link, onClick }: { link: NavLink; onClick: () => void }) {
+function MobileNavLink({
+  link,
+  onClick,
+}: {
+  link: NavLink;
+  onClick: () => void;
+}) {
   return (
     <li>
       <a
-        className="block py-2 text-2xl font-medium tracking-tight text-foreground hover:text-foreground/70"
+        className="text-foreground hover:text-foreground/70 block py-2 text-2xl font-medium tracking-tight"
         href={link.href}
         onClick={onClick}
       >
@@ -101,14 +107,14 @@ function HeaderNav() {
 
   return (
     <>
-      <div className="inline-flex items-center gap-1 md:hidden">
+      <div className="inline-flex items-center gap-2 md:hidden">
         <ThemeToggle />
         <button
           ref={menuButtonRef}
           aria-controls={mobileMenuId}
           aria-expanded={isOpen}
           aria-label="Open navigation menu"
-          className="inline-flex h-12 w-12 items-center justify-center rounded-full text-foreground hover:bg-muted hover:text-foreground"
+          className="text-foreground hover:bg-muted hover:text-foreground inline-flex h-12 w-12 items-center justify-center rounded-full"
           type="button"
           onClick={() => {
             setIsOpen(true);
@@ -124,7 +130,7 @@ function HeaderNav() {
       {isOpen ? (
         <div
           aria-modal="true"
-          className="fixed inset-0 z-50 bg-background text-foreground md:hidden"
+          className="bg-background text-foreground fixed inset-0 z-50 md:hidden"
           id={mobileMenuId}
           role="dialog"
         >
@@ -133,7 +139,7 @@ function HeaderNav() {
             <button
               ref={closeButtonRef}
               aria-label="Close navigation menu"
-              className="inline-flex h-12 w-12 items-center justify-center rounded-full text-foreground hover:bg-muted hover:text-foreground"
+              className="text-foreground hover:bg-muted hover:text-foreground inline-flex h-12 w-12 items-center justify-center rounded-full"
               type="button"
               onClick={() => {
                 closeMenu();
@@ -146,7 +152,11 @@ function HeaderNav() {
           <nav aria-label="Mobile navigation" className="px-3 pt-10 sm:px-6">
             <ul className="space-y-6">
               {navLinks.map((link) => (
-                <MobileNavLink key={link.href} link={link} onClick={closeMenu} />
+                <MobileNavLink
+                  key={link.href}
+                  link={link}
+                  onClick={closeMenu}
+                />
               ))}
             </ul>
           </nav>
