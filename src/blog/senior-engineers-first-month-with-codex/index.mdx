@@ -1,0 +1,98 @@
+---
+title: A Senior Engineer's First Month With Codex
+cover:
+  src: "./_assets/chat-gpt.jpg"
+  alt: "Laptop with Chat GPT dashboard"
+  credit:
+    "Photo by
+    [almoya](https://unsplash.com/photos/cookies-on-white-and-red-textile-KdStCuPnH2U)"
+description:
+  "I spent a month using Codex to ship production software. Here's
+  what I learned."
+publishedAt: 2026-05-16
+---
+
+The company I work for recently encouraged its developers to make
+greater use of AI for coding. Prior to this, my own use of AI had been
+fairly limited. I mostly used ChatGPT as an enhanced search engine, a
+Stack Overflow replacement, and for
+[rubber ducking](https://en.wikipedia.org/wiki/Rubber_duck_debugging)
+, but I hadn't used an agent directly in my IDE to write code.
+
+That changed about a month ago. Since then, I've spent a significant
+amount of time working with Codex. Here are my main takeaways.
+
+## AI agents can produce damn good code, incredibly fast
+
+Last year, I experimented with GitHub Copilot and came away largely
+unimpressed. As a result, I was skeptical of the hype surrounding AI
+coding agents.
+
+But the first time I watched Codex turn a vague request into a working
+implementation in seconds, I realized these tools had become far more
+capable than I had expected.
+
+It still feels magical. You describe what you want in plain English,
+and more often than not, the generated code _just works_.
+
+## Human judgment is still required
+
+Codex is fully capable of producing high-quality code, but it doesn't
+always make the decisions an experienced engineer would make.
+
+I've seen it introduce unnecessary abstractions to solve a simple
+problem. Other times, it optimized for the wrong thing entirely
+because it lacked the broader context around the problem, the
+codebase, or the business constraints.
+
+In those situations, the role of the engineer is to recognize when the
+agent is heading in the wrong direction and steer it toward a better
+solution. The challenge is that doing this well still requires
+experience. You need to understand the tradeoffs, identify subtle
+problems, and know what "good" looks like. The agent can accelerate
+implementation, but human judgment is still what determines whether
+you're building the right thing in the right way.
+
+## Writing less code means reviewing more code
+
+The time I used to spend writing code has increasingly been replaced
+by reviewing code that agents produce.
+
+So far, I suspect this is still a net savings in time. The agent can
+often implement a well-defined task faster than I could myself, even
+after accounting for the time spent reviewing its output.
+
+That said, I don't enjoy reviewing code as much as I enjoy writing it.
+There's a different kind of satisfaction that comes from building
+something yourself, and reading through hundreds of generated lines to
+verify they're correct can feel more tedious.
+
+At the same time, AI has improved the code review process itself.
+
+Tools like GitHub Copilot and Codex have been useful reviewers on pull
+requests from other developers on my team. I still review every change
+myself and regularly catch issues that the agents miss. But more often
+than not, the agents also spot something I overlooked: an edge case,
+an incorrect assumption, or an opportunity to simplify the
+implementation.
+
+## Most advice on improving agent performance is still anecdotal
+
+Using agentic coding tools has also led me to spend time trying to
+optimize their performance.
+
+There is no shortage of advice on the internet. Many articles and
+videos recommend adding files such as `AGENTS.md` or `SKILL.md` to
+provide additional instructions and context to the agent. The problem
+is that it's difficult to measure whether these actions _actually
+help_. Agent performance is influenced by many variables, making it
+hard to isolate the impact of any single change.
+
+As a result, much of the current guidance is based on personal
+experience rather than rigorous evidence. In fact, the
+[one study](https://arxiv.org/html/2601.20404v2) I found examining the
+effect of an `AGENTS.md` file suggested that it may even reduce
+performance in some cases.
+
+Until more rigorous research exists, many best practices for agentic
+coding should be treated as hypotheses rather than established facts.
