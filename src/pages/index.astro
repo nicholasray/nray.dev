@@ -79,13 +79,15 @@ const title = "Nicholas Ray";
       </ul>
       {
         remainingPostCount > 0 && (
-          <button
-            type="button"
-            class="border-border text-foreground hover:bg-muted mt-10 inline-flex h-9 items-center justify-center rounded-md border px-4 text-sm font-medium transition-colors"
-            data-home-posts-show-more
-          >
-            Show {remainingPostCount} more posts
-          </button>
+          <div class="mt-10 flex justify-center">
+            <button
+              type="button"
+              class="border-border text-foreground hover:bg-muted inline-flex h-9 items-center justify-center rounded-md border px-4 text-sm font-medium transition-colors"
+              data-home-posts-show-more
+            >
+              Show {remainingPostCount} more posts
+            </button>
+          </div>
         )
       }
     </section>
