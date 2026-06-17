@@ -151,7 +151,7 @@ function HeaderNav() {
                   menuButtonRef.current?.focus();
                 }}
               >
-                <X aria-hidden="true" className="h-7 w-7" strokeWidth={2.5} />
+                <X aria-hidden="true" className="h-5 w-5" strokeWidth={2.5} />
               </button>
             </div>
             <nav aria-label="Mobile navigation" className="px-3 pt-8 sm:px-6">
