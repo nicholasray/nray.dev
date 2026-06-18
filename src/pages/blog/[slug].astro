@@ -32,20 +32,54 @@ interface Props {
 // 2. When it's time to render, you can get the entry directly from the prop
 const post = await getPost(Astro.props.entry);
 const { Content, headings, readingTime, id } = post;
-const { title, description, cover, updatedAt } = post.data;
+const { title, description, cover, publishedAt, updatedAt } = post.data;
+const seoTitle = post.data.seoTitle ?? title;
+const seoDescription = post.data.seoDescription ?? description;
+const siteUrl = Astro.site ?? Astro.url;
+const canonicalUrl = new URL(`/blog/${id}/`, siteUrl).href;
+const imageUrl = new URL(`/blog/${id}.png`, siteUrl).href;
+const authorUrl = new URL("/about/", siteUrl).href;
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": canonicalUrl,
+  },
+  headline: title,
+  description: seoDescription,
+  image: imageUrl,
+  author: {
+    "@type": "Person",
+    name: "Nicholas Ray",
+    url: authorUrl,
+  },
+  datePublished: publishedAt?.toISOString(),
+  dateModified: updatedAt?.toISOString(),
+  url: canonicalUrl,
+};
 ---
 
 <Layout
-  title={title}
-  description={description}
+  title={seoTitle}
+  description={seoDescription}
+  canonical={canonicalUrl}
   openGraph={{
     basic: {
-      title,
+      title: seoTitle,
       type: "article",
-      image: new URL(`/blog/${id}.png`, Astro.url),
+      image: imageUrl,
+      url: canonicalUrl,
+    },
+    optional: {
+      description: seoDescription,
+      siteName: "nray.dev",
     },
     article: {
+      publishedTime: publishedAt?.toISOString(),
+      modifiedTime: updatedAt?.toISOString(),
       authors: ["Nicholas Ray"],
+      tags: post.data.tags,
     },
     image: {
       width: DIMENSIONS.width,
@@ -55,8 +89,18 @@ const { title, description, cover, updatedAt } = post.data;
   }}
   twitter={{
     card: "summary_large_image",
+    title: seoTitle,
+    description: seoDescription,
+    image: imageUrl,
+    imageAlt: cover.alt,
   }}
 >
+  <script
+    is:inline
+    slot="before-styles"
+    type="application/ld+json"
+    set:html={JSON.stringify(structuredData)}
+  />
   <main class="mt-8" data-slug={id}>
     <article>
       <section

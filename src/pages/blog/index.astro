@@ -4,6 +4,9 @@ import { getPosts } from "@src/api";
 import { format } from "date-fns";
 
 const posts = await getPosts();
+const title = "Blog — Nicholas Ray";
+const description =
+  "Technical articles about web performance, frontend engineering, Astro, React, and practical software development.";
 const timelineYears = Array.from(
   posts
     .reduce<Map<string, typeof posts>>((groups, post) => {
@@ -21,7 +24,32 @@ const timelineYears = Array.from(
 ).map(([year, posts]) => ({ year, posts }));
 ---
 
-<Layout title="Blog — Nicholas Ray">
+<Layout
+  title={title}
+  description={description}
+  openGraph={{
+    basic: {
+      title,
+      type: "website",
+      image: new URL("/avatar.jpg", Astro.url),
+    },
+    optional: {
+      description,
+      siteName: "nray.dev",
+    },
+    image: {
+      alt: "Profile picture of Nicholas Ray",
+      height: null,
+    },
+  }}
+  twitter={{
+    card: "summary_large_image",
+    title,
+    description,
+    image: new URL("/avatar.jpg", Astro.url),
+    imageAlt: "Profile picture of Nicholas Ray",
+  }}
+>
   <main class="max-w-8xl mx-auto px-4 pt-16 sm:px-6 md:px-8 lg:pt-20">
     <header class="max-w-2xl">
       <p

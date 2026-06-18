@@ -12,6 +12,8 @@ const blog = defineCollection({
       .object({
         title: z.string(),
         description: z.string().max(160),
+        seoTitle: z.string().optional(),
+        seoDescription: z.string().max(160).optional(),
         tags: z.array(z.string()).optional(),
         cover: z.object({
           src: image(),
