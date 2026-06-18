@@ -40,9 +40,9 @@
     "@getbrevo/brevo": "^5.0.4",
     "@libsql/kysely-libsql": "0.4.1",
     "@react-email/components": "1.0.12",
-    "@react-email/render": "2.0.8",
+    "@react-email/render": "2.0.9",
     "@tailwindcss/vite": "4.3.1",
-    "astro": "6.4.7",
+    "astro": "6.4.8",
     "astro-expressive-code": "0.43.1",
     "astro-seo": "1.1.0",
     "class-variance-authority": "^0.7.1",
@@ -51,7 +51,7 @@
     "heroicons": "2.2.0",
     "kysely": "0.29.2",
     "kysely-ctl": "0.21.0",
-    "lucide-react": "^1.18.0",
+    "lucide-react": "^1.20.0",
     "mdast-util-to-string": "4.0.0",
     "motion": "12.40.0",
     "react": "19.2.7",
@@ -93,7 +93,7 @@
     "prettier-plugin-astro": "0.14.1",
     "prettier-plugin-sql": "0.20.0",
     "prettier-plugin-tailwindcss": "0.8.0",
-    "react-email": "6.6.0",
+    "react-email": "6.6.3",
     "shadcn": "^4.11.0",
     "svgo": "4.0.1",
     "typescript": "6.0.3",
@@ -101,7 +101,7 @@
     "typescript-plugin-css-modules": "5.2.0",
     "vitest": "4.1.8",
     "vitest-browser-react": "2.2.0",
-    "wrangler": "4.100.0"
+    "wrangler": "4.101.0"
   },
   "overrides": {
     "vite": "^7.3.1"
