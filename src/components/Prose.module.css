@@ -8,6 +8,8 @@
   --tw-prose-bullets: #d4d4d8;
   --tw-prose-captions: #71717a;
   --tw-prose-code: #18181b;
+  --tw-prose-code-bg: #f6f8fa;
+  --tw-prose-code-border: #d0d7de;
   --tw-prose-th-borders: #d4d4d8;
   --tw-prose-td-borders: #e4e4e7;
   --tw-prose-invert-headings: #fff;
@@ -28,6 +30,8 @@
   --tw-prose-counters: var(--tw-prose-invert-counters);
   --tw-prose-bullets: var(--tw-prose-invert-bullets);
   --tw-prose-code: var(--tw-prose-invert-code);
+  --tw-prose-code-bg: #30363d;
+  --tw-prose-code-border: #3f3f46;
   --tw-prose-th-borders: var(--tw-prose-invert-th-borders);
   --tw-prose-td-borders: var(--tw-prose-invert-td-borders);
 }
@@ -117,18 +121,21 @@
   }
 
   code {
-    @apply text-sm leading-[inherit] font-semibold text-[var(--tw-prose-code)] lg:text-base lg:leading-[1.5];
+    @apply rounded-md px-1.5 py-0.5 font-mono text-[0.875em] leading-[inherit] font-medium text-[var(--tw-prose-code)];
 
-    &:before {
-      content: "`";
-    }
-
-    &:after {
-      content: "`";
-    }
+    background-color: var(--tw-prose-code-bg);
+    box-decoration-break: clone;
+    box-shadow: inset 0 0 0 1px var(--tw-prose-code-border);
   }
 
   pre code {
+    padding: 0;
+    border-radius: 0;
+    background-color: transparent;
+    box-shadow: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
     font-weight: inherit;
 
     &:before,
