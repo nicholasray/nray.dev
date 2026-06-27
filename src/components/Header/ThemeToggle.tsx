@@ -60,11 +60,19 @@ function getTheme() {
 }
 
 function ThemeToggle() {
-  const [theme, setTheme] = useState<Theme>(() => {
-    return getTheme();
-  });
+  const [theme, setTheme] = useState<Theme>("dark");
+  const [hasHydrated, setHasHydrated] = useState(false);
 
   useEffect(() => {
+    setTheme(getTheme());
+    setHasHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasHydrated) {
+      return;
+    }
+
     const actions = {
       light: () => {
         localStorage.setItem("theme", "light");
@@ -80,7 +88,7 @@ function ThemeToggle() {
     };
 
     actions[theme]();
-  }, [theme]);
+  }, [hasHydrated, theme]);
 
   useEffect(() => {
     const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
