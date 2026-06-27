@@ -32,8 +32,6 @@ function getProdImagePath(src: string) {
   return path.join(path.resolve("dist"), "_worker.js", assetPath);
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 export const GET: APIRoute = async function get({ props }) {
   const post = props.entry;
   const input = import.meta.env.PROD

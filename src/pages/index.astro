@@ -4,7 +4,7 @@ import Layout from "@layouts/Layout.astro";
 import avatar from "@assets/images/avatar.jpg";
 import { getPosts } from "@src/api";
 import Article from "@components/Article.astro";
-import { Image } from "@components/Image/index.astro";
+import { Image } from "@components/Image";
 import LaunchAuditCta from "@components/LaunchAuditCta.astro";
 const posts = await getPosts();
 const initialPostCount = 12;

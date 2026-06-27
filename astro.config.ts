@@ -72,9 +72,6 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
-    optimizeDeps: {
-      include: ["@astrojs/internal-helpers > picomatch"],
-    },
     build: {
       sourcemap: true,
     },

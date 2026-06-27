@@ -2,14 +2,14 @@
 import Layout from "@layouts/Layout.astro";
 import { getPost } from "@src/api";
 import { type CollectionEntry, getCollection } from "astro:content";
-import { Image } from "@components/Image/index.astro";
+import { Image } from "@components/Image";
 import avatar from "@assets/images/avatar.jpg";
 import { format } from "date-fns";
-import { TableOfContents } from "@components/TableOfContents/index.astro";
+import { TableOfContents } from "@components/TableOfContents";
 import Prose from "@components/Prose.astro";
 import { DIMENSIONS } from "./[slug].png";
 import BlogImage from "@src/components/BlogImage.astro";
-import { Aside } from "@src/components/Aside/index.astro";
+import { Aside } from "@src/components/Aside";
 import ViewCounter from "@/components/ViewCounter/ViewCounter.astro";
 import { Skeleton } from "@/components/ui/skeleton";
 import LaunchAuditCta from "@components/LaunchAuditCta.astro";
